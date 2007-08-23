@@ -300,28 +300,24 @@ URL.
 ###### Example 
 In this example, the Consumer is requesting a Single-Use Token and Secret from 
 the Service Provider's Authorization Endpoint URL 
-`https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91`. 
+`https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91` and
+Single-Use Token `37bb49b4`.
 
-    https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91 
+    https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91&oauth_token=37bb49b4
 
 ##### Service Provider Obtains User Consent 
 The Service Provider Obtains User Consent in the same manner and with the same 
 requirements as for Web-based Consumers.
  
 ###### Response 
-Assuming permission is granted, the Service Provider will create a Single-Use 
-Token and Single-Use Secret for delivery to the Consumer. The Service Provider 
-will present the Token and Secret to the User and instruct the User to enter 
-them into the appropriate prompts within the Consumer application. 
-
-The delivery mechanism may vary depending on the use cases, application 
-requirements, etc. Single-Use Tokens and Secrets can be returned via HTTP, SMS,
-email, IM, Postal Mail, etc. The Single-Use Token may be exchanged for a 
-Multi-Use Token. 
+Assuming permission is granted, the Service Provider will the Service Provider 
+will present the Token and Secret to the User and instruct the User to inform
+the Consumer that authorization has completed at the appropriate prompt within 
+the Consumer application. 
 
 ##### Obtaining a Multi-Use Token 
-Once the Consumer has a Single-Use Token and Secret, it can exchange them for a
-Multi-Use Token and Secret 
+Once the Single-Use Token and Secret have been authorized, the Consumer can 
+exchange them for a Multi-Use Token and Secret.
 
 ###### Request 
 To request a Multi-Use Token, the Consumer makes an HTTP request to an Endpoint
