@@ -106,15 +106,16 @@ application developers and the users of those applications.
 2. The User authenticates with the Service Provider. 
 3. The User grants or declines permission for the Service Provider to give the
    Consumer a Multi-Use Token. 
-4. The Service Provider provides a Multi-Use Token and Multi-Use Token Secret
-   or indicates that the User declined to authorize the Consumer's request.
-   * For Web-based Consumers, the Service Provider redirects to a 
-     pre-established Callback Endpoint URL with the Single Use Token and 
-     Single-Use Authentication Secret as arguments. 
-   * Mobile and Set Top box clients wait for the User to enter their Single-Use
-     Token and Single-Use Secret. 
-   * Desktop-based Consumers wait for the User to assert that Authorization has
-     completed.
+4. The Service Provider authorizes the Single-Use Token and Secret to be 
+   exchanged for a Multi-Use Token and Secret
+    * For web-based Consumers the Service Provider redirects to a
+      pre-established Callback Endpoint URL with the Single-Use Token
+      and Secret it has created and authorized.
+    * For Mobile and Set Top box Consumers the Service Provider displays
+      the Single-Use Token and Secret to the User and the Consumer waits
+      for the User to manually enter them within the Consumer application.
+    * For Desktop-based Consumers the Service Provider instructs the User
+      to inform the Consumer that authorization has completed.
 5. The Consumer exchanges the Single-Use Token and Secret for a Multi-User
    Token and Secret.
 6. The Consumer uses the Multi-Use Token, Multi-Use Secret, Consumer Key, and
