@@ -77,7 +77,7 @@ application developers and the users of those applications.
   authorization from the User for access to the Service Provider.
 * API Endpoint URL
 : A URL provided by the Service Provider that Consumers use to make API
-  request, including obtaining Tokens.
+  requests, including obtaining Tokens.
 * Callback Endpoint URL
 : A URL provided by the Consumer which the Service Provider uses to return a
   Single-Use Token and Secret.
@@ -97,12 +97,12 @@ application developers and the users of those applications.
    the end user. 
    * Web-based Consumers redirect the User to the Authorization Endpoint URL. 
    * Desktop-based Consumers first obtain a Single-Use Token by making a
-     request to the API Endpoint URL then direct the User to the Authorization
-     Endpoint URL. 
-   * If a Service Provider is expecting Consumer that run on mobile devices or
-     set top boxes, the Service Provider should ensure that the Authorization
-     Endpoint URL and the Single Use Token are short and simple enough to
-     remember for entry into a web browser.
+     request to the appropriate API Endpoint URL then direct the User to the 
+     Authorization Endpoint URL. 
+   * UI Note: If a Service Provider is expecting a Consumer running on a mobile
+     device or set top box, the Service Provider should ensure that the 
+     Authorization Endpoint URL and the Single Use Token are short and simple 
+     enough to remember for entry into a web browser.
 2. The User authenticates with the Service Provider. 
 3. The User grants or declines permission for the Service Provider to give the
    Consumer a Multi-Use Token. 
@@ -126,7 +126,7 @@ OAuth includes a Consumer Key and matching Consumer Secret allowing the Service
 Provider to authenticate the Consumer (as opposed to authenticate the User).
 This allows the Service Provider to provide different access levels to
 Consumers (such as disabling API throttling or allowing access to more
-resources).The Service Provider must allow Consumer Developers to obtain a
+resources). The Service Provider must allow Consumer Developers to obtain a
 Consumer Key and corresponding Consumer Secret. The provisioning of these is
 entirely up to the Service Provider. The Consumer Key must be a string
 suitable for transmission in HTTP request parameters. The Consumer Secret may
@@ -139,11 +139,11 @@ The Service Provider must also provide documentation detailing the following:
 
 1. The Endpoint URLs that the Consumer will use when making OAuth requests; 
    * Authorization Endpoint URL 
-   * API Endpoint URL 
+   * API Endpoint URLs
 2. The Signature Algorithms supported by the Service Provider. See "Recommended
    Signature Algorithms" for a summary of best practices. 
 3. Any additional request parameters that the Service Provider requires in
-   order to obtain an Token.
+   order to obtain a Token.
  
 
 When registering for a Consumer Key, the Service Provider asks the Consumer
@@ -261,7 +261,8 @@ to provide.
  
 In this example, the Consumer has a Consumer Key `1b20acc6` and a 
 Consumer Secret `427a5979d9df7722`. The Service Provider's API Endpoint URL 
-is `http://sp.example.com/oauth/get_su_token`, and the request is using the 
+for requesting a Single-Use Token is 
+`http://sp.example.com/oauth/get_su_token`, and the request is using the 
 HTTP GET method. The nonce is `17907867114999140772853922434221488511` and 
 the timestamp of `1186953553`. Using SHA1 as the signing algorithm, the 
 signature is then `26287279e66f7f183af02653e823625871167d16`, and the request 
@@ -302,7 +303,7 @@ URL.
  
 ###### Example 
 In this example, the Consumer is requesting a Single-Use Token and Secret from 
-the Service Provider's API Endpoint URL 
+the Service Provider's Authorization Endpoint URL 
 `https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91`. 
 
     https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91 
