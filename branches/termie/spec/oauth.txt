@@ -310,10 +310,9 @@ The Service Provider Obtains User Consent in the same manner and with the same
 requirements as for Web-based Consumers.
  
 ###### Response 
-Assuming permission is granted, the Service Provider will the Service Provider 
-will present the Token and Secret to the User and instruct the User to inform
-the Consumer that authorization has completed at the appropriate prompt within 
-the Consumer application. 
+Assuming permission is granted, the Service Provider will instruct the User 
+to inform the Consumer that authorization has completed at the appropriate 
+prompt within the Consumer application. 
 
 ##### Obtaining a Multi-Use Token 
 Once the Single-Use Token and Secret have been authorized, the Consumer can 
