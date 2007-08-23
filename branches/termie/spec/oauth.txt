@@ -156,13 +156,9 @@ URLs.
 
 #### Obtaining a Single-Use Token 
 
-The Service Provider's API documentation will describe the uses of a Single-Use
-Token, though generally it will be used by a Consumer wishing to obtain a
-Multi-Use Token for future OAuth requests. There are however valid cases
-where a Consumer may want an Token to use for only one OAuth request. It
-should be noted that if the User will be entering the Single-Use Token
-manually, such as on a mobile device, you should create a shorter "simplified"
-token.
+UI Note: It should be noted that if the User will be entering the Single-Use Token
+manually, such as on a mobile device, Service Providers should provide a shorter, 
+"simplified" token.
  
 #### Web-based Consumers 
 
@@ -191,9 +187,9 @@ Redirect to the Service Provider using that URL.
  
 ###### Example 
 
-In this example, the Consumer is requesting a Single-Use Token from the API
-Endpoint URL `https://sp.example.com/oauth/authorize` with the Consumer Key
-`0685bd91`. 
+In this example, the Consumer is requesting a Single-Use Token from the
+Authorization Endpoint URL `https://sp.example.com/oauth/authorize` 
+with the Consumer Key `0685bd91`. 
 
     https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91
 
