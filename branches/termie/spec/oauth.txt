@@ -346,7 +346,9 @@ wasn't authorized.
 All OAuth API requests MUST be signed by the Consumer and the signature verified
 by the Service Provider. The following steps describe the signature process:
  
-##### Required Request Parameters
+##### Request Parameters
+
+All are required except where stated.
  
 * `oauth_consumer_key`
 : An API key. This is an arbitrary Consumer application specific identifier. 
@@ -366,6 +368,8 @@ by the Service Provider. The following steps describe the signature process:
 : The hashing algorithm that the Consumer used to sign the request. 
 * `oauth_sig`
 : The signature. 
+* `oauth_version` (Optional)
+: An optional version attribute, if not present '1.0' must be assumed.
 
 ##### Format of Request Parameters 
 
