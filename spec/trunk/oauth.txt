@@ -14,7 +14,7 @@
 * David Recordon (drecordon@sixapart.com)\
 * Eran Sandler (eran.sandler@gmail.com)
 * Jonathan Sergent (sergent@google.com)
-* Andy Smith (andyster@gmail.com)
+* Andy Smith (andy@jaiku.com)
 
 
 ## Description 
