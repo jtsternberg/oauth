@@ -30,7 +30,8 @@ with a User, recommendations and emerging best practices are described
 below. OAuth does not specify how the Service Provider should authenticate
 the User which makes the protocol ideal in cases where authentication
 credentials are not available to the Consumer, such as with OpenID. 
-Background
+
+## Background
  
 OAuth aims to unify the experience and implementation of delegated web service
 authentication into a single community driven protocol. OAuth builds on top of
