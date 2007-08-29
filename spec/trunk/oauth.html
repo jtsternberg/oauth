@@ -3,16 +3,19 @@
 <h2 id="authors">Authors</h2>
 
 <ul>
-<li>Blaine Cook</li>
-<li>Kellan Elliott-McCrea </li>
-<li>David Recordon</li>
-<li>Mark Atwood</li>
-<li>Ben Laurie</li>
-<li>Eran Sandler</li>
-<li>Chris Messina</li>
-<li>Leah Culver </li>
-<li>Eran Hammer-Lahav </li>
-<li>Larry Halff</li>
+<li>Mark Atwood (me@mark.atwood.name)</li>
+<li>Blaine Cook (blaine@twitter.com)</li>
+<li>Leah Culver (leah@pownce.com)</li>
+<li>Kellan Elliott-McCrea (kellan@flickr.com)</li>
+<li>Larry Halff (larry@mag.nolia.com)</li>
+<li>Eran Hammer-Lahav (hammerlahav@gmail.com)</li>
+<li>Ben Laurie (benl@google.com) </li>
+<li>Chris Messina (chris@citizenagency.com)</li>
+<li>John Panzer (jpanzer@acm.org)</li>
+<li>David Recordon (drecordon@sixapart.com)\</li>
+<li>Eran Sandler (eran.sandler@gmail.com)</li>
+<li>Jonathan Sergent (sergent@google.com)</li>
+<li>Andy Smith (andyster@gmail.com)</li>
 </ul>
 
 <h2 id="description">Description</h2>
@@ -31,8 +34,9 @@ interact with various Service Providers.</p>
 with a User, recommendations and emerging best practices are described
 below. OAuth does not specify how the Service Provider should authenticate
 the User which makes the protocol ideal in cases where authentication
-credentials are not available to the Consumer, such as with OpenID. 
-Background</p>
+credentials are not available to the Consumer, such as with OpenID. </p>
+
+<h2 id="background">Background</h2>
 
 <p>OAuth aims to unify the experience and implementation of delegated web service
 authentication into a single community driven protocol. OAuth builds on top of
@@ -66,14 +70,11 @@ through authentication.</li>
 Consumer in order to identify the User during the authentication process. The
 Consumer will typically exchange this for a Multi-Use Token after the User
 authenticates and grants permission to the Consumer.</li>
-<li>Single-Use Token Secret
-: A secret, specific to the Single-Use Token, which the Consumer uses when
-signing OAuth requests to the Service Provider when using a Single-Use Token.</li>
 <li>Multi-Use Token
 : An OAuth token which the Service Provider generates and provides to the
 Consumer in order to identify the User. </li>
-<li>Multi-Use Token Secret
-: A secret, specific to the Multi-Use Token, which the Consumer uses when
+<li>Token Secret
+: A secret, specific to a Token, which the Consumer uses when
 signing OAuth requests to the Service Provider on behalf of a User.</li>
 <li>Authorization Endpoint URL
 : A URL provided by the Service Provider that Consumers use to obtain
@@ -237,7 +238,7 @@ mock-ups. - Rich Conlan, 08/14/07 8:27 AM
 <h5 id="service_provider_responds_with_authorized_single_use_token_and_secret">Service Provider Responds With Authorized Single-Use Token and Secret</h5>
 
 <p>Assuming permission is granted, the Service Provider will create a Single-Use
-Token and Single-Use Token Secret and deliver it to the Consumer via an HTTP
+Token and Token Secret and deliver it to the Consumer via an HTTP
 Redirect.</p>
 
 <h6 id="response">Response</h6>
@@ -247,7 +248,7 @@ Redirect.</p>
 
 <ul>
 <li><code>oauth_token</code> - The Single-Use Token. </li>
-<li><code>oauth_secret</code> - The Single-Use Token Secret. </li>
+<li><code>oauth_secret</code> - The Token Secret. </li>
 <li><code>oauth_state</code> (if provided in request) - The unmodified content provided by
 the Consumer during the Request step.</li>
 </ul>
