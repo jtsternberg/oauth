@@ -64,14 +64,11 @@ application developers and the users of those applications.
   Consumer in order to identify the User during the authentication process. The
   Consumer will typically exchange this for a Multi-Use Token after the User
   authenticates and grants permission to the Consumer.
-* Single-Use Token Secret
-: A secret, specific to the Single-Use Token, which the Consumer uses when
-  signing OAuth requests to the Service Provider when using a Single-Use Token.
 * Multi-Use Token
 : An OAuth token which the Service Provider generates and provides to the
   Consumer in order to identify the User. 
-* Multi-Use Token Secret
-: A secret, specific to the Multi-Use Token, which the Consumer uses when
+* Token Secret
+: A secret, specific to a Token, which the Consumer uses when
   signing OAuth requests to the Service Provider on behalf of a User.
 * Authorization Endpoint URL
 : A URL provided by the Service Provider that Consumers use to obtain
@@ -220,7 +217,7 @@ Protected Resources to the Client.
 ##### Service Provider Responds With Authorized Single-Use Token and Secret
 
 Assuming permission is granted, the Service Provider will create a Single-Use
-Token and Single-Use Token Secret and deliver it to the Consumer via an HTTP
+Token and Token Secret and deliver it to the Consumer via an HTTP
 Redirect.
 
 ###### Response
@@ -229,7 +226,7 @@ The response for a Web-based Consumer includes the following
 `application/x-www-form-urlencoded` GET parameters: 
 
 * `oauth_token` - The Single-Use Token. 
-* `oauth_secret` - The Single-Use Token Secret. 
+* `oauth_secret` - The Token Secret. 
 * `oauth_state` (if provided in request) - The unmodified content provided by
   the Consumer during the Request step.
 
