@@ -1,17 +1,21 @@
 # OAuth 0.9
 
 ## Authors
- 
-* Blaine Cook
-* Kellan Elliott-McCrea 
-* David Recordon
-* Mark Atwood
-* Ben Laurie
-* Eran Sandler
-* Chris Messina
-* Leah Culver 
-* Eran Hammer-Lahav 
-* Larry Halff
+
+* Mark Atwood (me@mark.atwood.name)
+* Blaine Cook (blaine@twitter.com)
+* Leah Culver (leah@pownce.com)
+* Kellan Elliott-McCrea (kellan@flickr.com)
+* Larry Halff (larry@mag.nolia.com)
+* Eran Hammer-Lahav (hammerlahav@gmail.com)
+* Ben Laurie (benl@google.com) 
+* Chris Messina (chris@citizenagency.com)
+* John Panzer (jpanzer@acm.org)
+* David Recordon (drecordon@sixapart.com)\
+* Eran Sandler (eran.sandler@gmail.com)
+* Jonathan Sergent (sergent@google.com)
+* Andy Smith (andyster@gmail.com)
+
 
 ## Description 
 
