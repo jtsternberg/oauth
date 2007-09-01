@@ -7,7 +7,7 @@
 <li>Blaine Cook (blaine@twitter.com)</li>
 <li>Leah Culver (leah@pownce.com)</li>
 <li>Kellan Elliott-McCrea (kellan@flickr.com)</li>
-<li>Larry Halff (larry@mag.nolia.com)</li>
+<li>Larry Halff (larry@ma.gnolia.com)</li>
 <li>Eran Hammer-Lahav (eran@hueniverse.com)</li>
 <li>Ben Laurie (benl@google.com) </li>
 <li>Chris Messina (chris@citizenagency.com)</li>
@@ -15,6 +15,7 @@
 <li>David Recordon (drecordon@sixapart.com)</li>
 <li>Eran Sandler (eran.sandler@gmail.com)</li>
 <li>Jonathan Sergent (sergent@google.com)</li>
+<li>Todd Sieling (todd@ma.gnolia.com)</li>
 <li>Andy Smith (andy@jaiku.com)</li>
 </ul>
 
@@ -85,29 +86,30 @@ Single-Use Token and Token Secret.</li>
 
 <h2 id="setting_up_to_use_oauth">Setting Up to Use OAuth</h2>
 
-<h3 id="for_consumers_consumer_authentication">For Consumers: Consumer Authentication</h3>
-
 <p>OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Customer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources). </p>
 
-<p>Consumer Authentication is done once per Consumer Application. The Consumer Developer must obtain a Consumer Key and a Consumer Secret from the Service Provider.</p>
+<h3 id="service_providers">Service Providers</h3>
 
-<h3 id="for_service_providers">For Service Providers</h3>
-
-<p>The Service Provider must enable Consumer Developers to obtain a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Provider, except that:</p>
+<p>Service Providers MUST enable Consumer Developers to obtain a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers, except that:</p>
 
 <ul>
-<li>The Consumer Key must be a string suitable for transmission in HTTP request parameters.</li>
-<li>The Consumer Secret may be either a randomized string or a Public/Private Key Pair. In the case that the Consumer Secret is a Public/Private Key Pair, the Service Provider only requires the Public Key, and should verify that the Consumer Developer is, in fact, the owner of the Private Key.</li>
+<li>The Consumer Key MUST be a string suitable for transmission in HTTP request parameters.</li>
+<li>The Consumer Secret may be either a randomized string or a public/private key pair. In the case that the Consumer Secret is a public/private key pair, the Service Provider only requires the public key, and SHOULD verify that the Consumer Developer is, in fact, the owner of the private key.</li>
 </ul>
 
-<p>The Service Provider must also provide documentation to specify:</p>
+<p>The Service Provider MUST also provide documentation to specify:</p>
 
 <ol>
 <li>The Authorization Endpoint URL and the API Endpoint URLs that the Consumer will use when making OAuth requests.</li>
-<li>Signature Algorithms supported by the Service Provider. See &#8220;Recommended Signature Algorithms&#8221; for a summary of best practices.</li>
-<li>Any additional request parameters that the Service Provider requires in order to obtain a Token.
-When registering for a Consumer Key, the Consumer Developer must identify the nature of the Consumer Application (web, desktop, mobile, etc&#8230;). If the Consumer is a web application, the Consumer Developer must provide the Callback URL where the Service Provider will send OAuth Tokens. For this reason, libraries implementing OAuth for the convenience of Consumer applications must support configurable API Endpoint URLs.</li>
+<li>Signature algorithms supported by the Service Provider. See &#8220;Recommended Signature Algorithms&#8221; for a summary of best practices.</li>
+<li>Any additional request parameters that the Service Provider requires in order to obtain a Token.</li>
 </ol>
+
+<h3 id="consumers">Consumers</h3>
+
+<p>The Consumer Developer MUST obtain a Consumer Key and a Consumer Secret from the Service Provider.</p>
+
+<p>When registering for a Consumer Key, the Consumer Developer MUST identify the nature of the Consumer Application (web, desktop, mobile, etc&#8230;). If the Consumer is a web application, the Consumer Developer MUST provide the Callback URL where the Service Provider will send OAuth Tokens. For this reason, libraries implementing OAuth for the convenience of Consumer applications MUST support configurable API Endpoint URLs.</p>
 
 <h2 id="authenticating_with_oauth">Authenticating with OAuth</h2>
 
@@ -161,11 +163,11 @@ c. Obtaining a Single Use Token for Direct to Service Provider Consumer Applicat
 
 <h3 id="2_the_service_provider_authenticates_user">2. The Service Provider Authenticates User</h3>
 
-<p>The User must first sign in to the Service Provider, if they have not done so already.</p>
+<p>The User MUST first sign in to the Service Provider, if they have not done so already.</p>
 
 <h3 id="3_the_service_provider_obtains_user_consent">3. The Service Provider Obtains User Consent</h3>
 
-<p>The User grants or declines permission for the Service Provider to give the Consumer access to the Provider&#8217;s API on behalf of the User. Permission must be granted for this flow to continue. If the User denies the Client access, the Service Provider will not provide the Protected Resources to the Client.</p>
+<p>The User grants or declines permission for the Service Provider to give the Consumer access to the Provider&#8217;s API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.</p>
 
 <h3 id="4_the_service_provider_issues_a_single_use_token">4. The Service Provider issues a Single Use Token</h3>
 
@@ -186,7 +188,7 @@ c. Obtaining a Single Use Token for Direct to Service Provider Consumer Applicat
 
 <h2 id="obtaining_a_single_use_token_for_desktop_consumer_applications">Obtaining a Single Use Token for Desktop Consumer Applications</h2>
 
-<p>Desktop Consumers must first obtain a Single-Use Token, since they aren&#8217;t able to provide a Callback URL to which the Service Provider redirects the User.</p>
+<p>Desktop Consumers MUST first obtain a Single-Use Token, since they aren&#8217;t able to provide a Callback URL to which the Service Provider redirects the User.</p>
 
 <ol>
 <li>The Consumer Requests a Single-Use Token</li>
@@ -241,11 +243,11 @@ c. Obtaining a Single Use Token for Direct to Service Provider Consumer Applicat
 
 <h3 id="4_the_service_provider_authenticates_user">4. The Service Provider Authenticates User</h3>
 
-<p>The User must first sign in to the Service Provider, if they have not done so already.</p>
+<p>The User MUST first sign in to the Service Provider, if they have not done so already.</p>
 
 <h3 id="5_the_service_provider_obtains_user_consent">5. The Service Provider Obtains User Consent</h3>
 
-<p>The User grants or declines permission for the Service Provider to give the Consumer access to the Provider&#8217;s API on behalf of the User. Permission must be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.</p>
+<p>The User grants or declines permission for the Service Provider to give the Consumer access to the Provider&#8217;s API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.</p>
 
 <h3 id="6_the_service_provider_directs_the_user_back_to_the_consumer_application">6. The Service Provider Directs the User back to the Consumer Application</h3>
 
@@ -255,7 +257,7 @@ c. Obtaining a Single Use Token for Direct to Service Provider Consumer Applicat
 
 <p>A Single-Use Token and Token Secret will be generated by the Service Provider and presented to the User and the Consumer waits for the User to manually submit them through the Consumer application.</p>
 
-<p>Note: If a Service Provider expects a Consumer to be running on a Mobile device or Set-Top box, the Service Provider should ensure that the Authorization Endpoint URL and the Single Use Token are short and simple.</p>
+<p>Note: If a Service Provider expects a Consumer to be running on a Mobile device or Set-Top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL and the Single Use Token are short and simple.</p>
 
 <ol>
 <li>The Consumer directs the User to request authorization</li>
@@ -278,11 +280,11 @@ c. Obtaining a Single Use Token for Direct to Service Provider Consumer Applicat
 
 <h3 id="2_the_service_provider_authenticates_user">2. The Service Provider Authenticates User</h3>
 
-<p>The User must first sign in to the Service Provider, if they have not done so already.</p>
+<p>The User MUST first sign in to the Service Provider, if they have not done so already.</p>
 
 <h3 id="3_the_service_provider_obtains_user_consent">3. The Service Provider Obtains User Consent</h3>
 
-<p>The User grants or declines permission for the Service Provider to give the Consumer access to the Provider&#8217;s API on behalf of the User. Permission must be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.</p>
+<p>The User grants or declines permission for the Service Provider to give the Consumer access to the Provider&#8217;s API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.</p>
 
 <h3 id="4_the_service_provider_presents_a_single_use_token_and_token_secret_to_the_user">4. The Service Provider presents a Single Use Token and Token Secret to the User</h3>
 
@@ -350,12 +352,12 @@ c. Obtaining a Single Use Token for Direct to Service Provider Consumer Applicat
 
 <h3 id="user_interaction_notes_for_all_scenarios">User Interaction Notes for All Scenarios</h3>
 
-<p>Once the Service Provider has authenticated the User, the Service Provider must present the User with the option to grant access to the Consumer and specify:
+<p>Once the Service Provider has authenticated the User, the Service Provider MUST present the User with the option to grant access to the Consumer and specify:
 * which Protected Resources the Consumer is requesting,
 * for how long the Consumer will have access to the resources,
 * any other service-specific information about the authorization that will be granted to the Consumer.</p>
 
-<p>If the User grants permission, the Service Provider should retain information about the transaction, including the Token, associated User, Consumer data, and the Requested Resources.</p>
+<p>If the User grants permission, the Service Provider SHOULD retain information about the transaction, including the Token, associated User, Consumer data, and the Requested Resources.</p>
 
 <h4 id="signing_an_api_request">Signing an API Request</h4>
 
