@@ -18,7 +18,7 @@
 
 ## Description 
 
-The OAuth protocol enables websites or applications (Consumers) to access protected resources from a web service (Service Provider) via an API, without requiring the User to provide their Service Provider credentials to the Consumer. An example use case is allowing printing service Moo.com (the Consumer), to access private photos stored on Flickr.com (the Service Provider) without requiring the User to provide their Flickr.com credentials to Moo.com.
+The OAuth protocol enables websites or applications (Consumers) to access protected resources from a web service (Service Provider) via an API, without requiring the User to provide their Service Provider credentials to the Consumer. An example use case is allowing printing service print.example.com (the Consumer), to access private photos stored on photos.example.com (the Service Provider) without requiring the User to provide their photos.example.com credentials to print.example.com.
 
 More generally, OAuth creates a freely-implementable and generic methodology for API
 authentication, benefitting developers who want their Consumer product to
@@ -60,7 +60,7 @@ application developers and the users of those applications.
 * Token
 : A string used by the Consumer to gain access to the Protected Resource(s)
   on behalf of the User (instead of using the User's Service Provider credentials).
-  There are two types of Tokens, Single-Use and Multi-Use.
+  There are two types of Tokens: Single-Use and Multi-Use.
 * Token Secret
 : A secret, specific to a Token, which the Consumer uses to
   sign its OAuth requests to the Service Provider on behalf of a User.
@@ -81,7 +81,7 @@ application developers and the users of those applications.
 : A URL provided by the a web Consumer, which the Service Provider uses to return a
   Single-Use Token and Secret.
 
-## Protocol 
+## Protocol
 
 ### Overview 
 
@@ -106,18 +106,19 @@ application developers and the users of those applications.
    * For web-based Consumers the Service Provider redirects to a
      pre-established Callback Endpoint URL with the Single-Use Token
      and Secret it has created and authorized.
+   * For Desktop-based Consumers the Service Provider instructs the User
+     to inform the Consumer that authorization has completed. The Single-User
+     Token obtained in step 1 is authorized instead of generating a new Token.
    * For Mobile and Set-Top box Consumers the Service Provider displays
      the Single-Use Token and Secret to the User and the Consumer waits
      for the User to manually submit them through the Consumer application.
-   * For Desktop-based Consumers the Service Provider instructs the User
-     to inform the Consumer that authorization has completed. The Single-User Token obtained in step 1 is authorized instead of generating a new Token.
 5. The Consumer exchanges the Single-Use Token and Secret for a Multi-Use
    Token and Secret.
 6. The Consumer uses the Multi-Use Token, Multi-Use Secret, Consumer Key, and
    Consumer Secret to make authenticated requests to the Service Provider. 
 
 #### Obtaining a Consumer Key
- 
+
 OAuth includes a Consumer Key and matching Consumer Secret allowing the Service
 Provider to authenticate the Consumer (as opposed to authenticate the User).
 This allows the Service Provider to provide different access levels to
@@ -156,13 +157,13 @@ User Interface Note: If a Service Provider expects a Consumer to be running on a
      device or Set-Top box, the Service Provider should ensure that the
      Authorization Endpoint URL, the Single-Use Token, and Secret are short and simple
      enough to remember for entry into a web browser.
- 
-#### Web-based Consumers 
+
+#### Web-based Consumers
 
 Web-based Consumers obtain the Single-Use Token by way of an HTTP Redirect from
 the Service Provider to the Consumer's Callback Endpoint URL. The
 request/response cycle is as follows:
- 
+
 ##### Consumer Requests An Authorized Single-Use Token
  
 To request a Single-Use Token, the Consumer constructs an
@@ -172,14 +173,14 @@ Authorization Endpoint URL which will be sent via the end user's user-agent
 
 ###### Request
 
-This request contains the following parameters:
+The request contains the following parameters:
 
 * `oauth_consumer_key` - The Consumer Key 
 * `oauth_state` (optional) - An `application/x-www-form-urlencoded` string that
   will be passed through unmodified to the Consumer (this parameter should only
   be used in the case of stateless web-based Consumers) 
 * any additional parameters, as required by the Service Provider.
- 
+
 Once the request URL has been generated the Consumer issues an HTTP 302
 Redirect to the Service Provider using that URL.
  
