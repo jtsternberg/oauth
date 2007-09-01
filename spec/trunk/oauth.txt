@@ -74,8 +74,8 @@ application developers and the users of those applications.
 * Authorization Endpoint URL
 : A URL, provided by the Service Provider, that the Consumer uses to obtain
   authorization from the User for access to the Service Provider.
-* API Endpoint URL
-: A URL provided by the Service Provider, which the Consumer uses to make API
+* API Endpoint URL(s)
+: URL's provided by the Service Provider, which the Consumer uses to make API
   requests, including obtaining Tokens.
 * Callback Endpoint URL
 : A URL provided by the a web Consumer, which the Service Provider uses to return a
@@ -96,7 +96,7 @@ application developers and the users of those applications.
    the User. 
    * Web-based Consumers redirect the User to the Authorization Endpoint URL. 
    * Desktop-based Consumers first obtain an unauthorized Single-Use Token by making a
-     request to the API Endpoint URL then direct the User to the Authorization
+     request to an API Endpoint URL then direct the User to the Authorization
      Endpoint URL.
 2. The User authenticates with the Service Provider. 
 3. The User grants or declines permission for the Service Provider to give the
@@ -145,7 +145,7 @@ The Service Provider MUST also provide documentation detailing the following:
 When registering for a Consumer Key, the Service Provider asks the Consumer
 Developer for information regarding the nature of the Consumer (web
 application, desktop application, mobile application etc). If the Consumer is a
-web application, the Consumer Developer MUST provide the Callback URL Endpoint where the
+web application, the Consumer Developer MUST provide the Callback Endpoint URL where the
 Service Provider will send the Single-Use Tokens.
 
 Libraries implementing OAuth for the convenience of Consumer applications MUST
@@ -231,11 +231,11 @@ the Service Provider will redirect the User to the following URL:
  
 #### Desktop Consumers 
 
-Desktop Consumers MUST first obtain a Single-Use Token, since they aren't
-able to provide a Callback URL to which the Service Provider redirects the
+Desktop Consumers MUST first obtain an unauthorized Single-Use Token, since they aren't
+able to provide a Callback Endpoint URL to which the Service Provider redirects the
 User. This is done by making a request to the appropriate Service Provider's
-API Endpoint URL.
- 
+API Endpoint URL. Later, when the User grants the Consumer access, the pre-obtained Single-Use Token is authorized and can be exchanged for a Multi-Use Token.
+
 ##### Request Single-Use Token 
 
 To request a Single-Use Token, the Consumer constructs a request to the
@@ -244,9 +244,8 @@ Service Provider's API Endpoint URL. The request is signed as described in
 Token Secret, these fields are left empty.
  
 If the request is properly signed (using the Consumer Secret) and accepted by the Service Provider,
-the Service Provider returns a unauthorized Single-Use Token and a Token Secret in the body of the response as newline separated
-name-value pairs, followed by any additional data the Service Provider wishes
-to provide.
+the Service Provider returns a unauthorized Single-Use Token and a Token Secret in the body of the response as newline separated name-value pairs, followed by any additional data as defined by the Service Provider's
+API documentation.
  
 ###### Example
  
@@ -262,7 +261,7 @@ is as follows:
     https://sp.example.com/oauth/get_su_token?oauth_consumer_key=1b20acc6&oauth_nonce=17907867114999140772853922434221488511&oauth_ts=1186953553&oauth_sigalg=sha1&oauth_sig=26287279e66f7f183af02653e823625871167d16
  
 The Service Provider generates a Single-Use Token `37bb49b4` and a
-corresponding secret `d0e46c19`, and returns the following as the body of the
+corresponding Token Secret `d0e46c19`, and returns the following as the body of the
 response:
  
     token=37bb49b4
@@ -270,9 +269,7 @@ response:
  
 ##### Direct User to Service Provider 
 
-To exchange a Single-Use Token for a Multi-Use Token and Token Secret, the Consumer
-MUST obtain approval from the User by directing the User to the Service
-Provider. The Consumer constructs an `application/x-www-form-urlencoded`
+In order for the Consumer to be able to exchange the pre-obtained Single-Use Token for a Multi-Use Token, the Consumer MUST obtain approval from the User by directing the User to the Service Provider. The Consumer constructs an `application/x-www-form-urlencoded`
 HTTP GET request to the Service Provider's Authorization Endpoint URL which
 will be sent via the User's user-agent (i.e., web browser).
 
@@ -284,10 +281,9 @@ This request contains the following parameters:
 : The Consumer Key 
 * `oauth_token`
 : The Single-Use Token obtained in the previous step.
-* `oauth_state` (OPTIONAL)
-: An `application/x-www-form-urlencoded` string that will be passed through
-  unmodified to the Consumer (this parameter SHOULD only be used in the case of
-  stateless web-based Consumers) 
+* `oauth_state` (OPTIONAL) - An `application/x-www-form-urlencoded` string that
+  will be passed through unmodified to the Consumer (this parameter SHOULD only
+  be used in the case of stateless web-based Consumers) 
 * any additional parameters, as defined by the Service Provider.
 
 Once the request URL has been generated the Consumer directs the User to the
@@ -295,10 +291,10 @@ URL.
  
 ###### Example 
 
-In this example, the Consumer is requesting a Single-Use Token and Token Secret from
+In this example, the Consumer is requesting the User to authorise a Single-Use Token at
 the Service Provider's Authorization Endpoint URL
 `https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91` and
-Single-Use Token `37bb49b4`.
+pre-obtained Single-Use Token `37bb49b4`.
 
     https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91&oauth_token=37bb49b4
 
@@ -306,7 +302,7 @@ Single-Use Token `37bb49b4`.
 
 The Service Provider obtains User consent in the same manner and with the same
 requirements as for web-based Consumers.
- 
+
 ###### Response 
 
 Assuming permission is granted, the Service Provider will instruct the User
@@ -315,29 +311,29 @@ prompt within the Consumer application.
 
 ##### Obtaining a Multi-Use Token
 
-Once the Single-Use Token and Token Secret have been authorized, the Consumer can
-exchange them for a Multi-Use Token and Token Secret.
+Once the Single-Use Token and Token Secret have been generated and authorized, the Consumer MUST exchange them for a Multi-Use Token and Token Secret.
 
 ###### Request
 
-To request a Multi-Use Token, the Consumer makes an HTTP request to an endpoint
+To request a Multi-Use Token, the Consumer makes an HTTP request to an API Endpoint URL
 for token exchange as specified by the Service Provider's documentation. The Service
 Provider documentation MUST specifies the HTTP verb (GET or POST) for this endpoint and it is RECOMMENDED that this be a POST request. The request MUST be signed
-with the Single-Use Token and Token Secret per the signing instructions below.
+with the Single-Use Token and Token Secret per "Signing an API Request".
 
 ###### Response
 
-If the request is valid, the Service Provider SHALL respond with text like so: 
+If the request is properly signed and accepted by the Service Provider,
+the Service Provider returns a Multi-Use Token and a Token Secret in the body of the response as newline separated name-value pairs, followed by any additional data as defined by the Service Provider's API documentation. 
+
+For example: 
 
     token=37bb49b4
     secret=d0e46c19
 
-Where the Token and Token Secret are encoded like `application/x-www-form-urlencoded`,
-followed by Service Provider specific data, as defined by the Service Provider's
-API documentation. The Multi-Use Token and Token Secret are stored by the Consumer to
-use when signing future requests. 
+The Multi-Use Token and Token Secret are stored by the Consumer to
+use when signing future API requests.
 
-If the request is not successful, the Service Provider MUST respond with a HTTP
+If the request is unsuccessful, the Service Provider MUST respond with a HTTP
 401 Not Authorized, and MAY include some further details about why the request
 wasn't authorized.
 
