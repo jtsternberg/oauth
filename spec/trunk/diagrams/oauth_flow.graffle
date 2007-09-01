@@ -110,7 +110,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 5}</string>
+\f0\b\fs24 \cf1 E}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -475,7 +475,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{187.576, 2745.07}, {23.8173, 18}}</string>
+					<string>{{189.662, 2745.07}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -505,7 +505,7 @@
 						<key>ID</key>
 						<integer>11570</integer>
 						<key>Position</key>
-						<real>0.84174764156341553</real>
+						<real>0.83247923851013184</real>
 						<key>RotationType</key>
 						<integer>0</integer>
 					</dict>
@@ -547,11 +547,11 @@
 					<dict>
 						<key>Text</key>
 						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
-{\fonttbl\f0\fswiss\fcharset77 Helvetica;}
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\fs24 \cf1 4}</string>
+\f0\b\fs24 \cf1 D}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -640,7 +640,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 3}</string>
+\f0\b\fs24 \cf1 C}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -729,7 +729,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 2}</string>
+\f0\b\fs24 \cf1 B}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -818,7 +818,7 @@
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 1}</string>
+\f0\b\fs24 \cf1 A}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -949,7 +949,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 5}</string>
+\f0\b\fs26 \cf1 E}</string>
 							</dict>
 						</dict>
 					</array>
@@ -1016,9 +1016,8 @@ Signed with oauth_secret and oath_token_secret.}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Provider Grants Multi-Use Token\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Response includes oauth_token, oath_token_secret}</string>
 							</dict>
 							<key>TextPlacement</key>
@@ -1075,7 +1074,7 @@ Response includes oauth_token, oath_token_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 4}</string>
+\f0\b\fs26 \cf1 D}</string>
 							</dict>
 						</dict>
 					</array>
@@ -1142,9 +1141,8 @@ Response includes oauth_token, oath_token_secret}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Consumer Requests Multi-Use Token\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Request includes oauth_consumer_key, oauth_token, oauth_nonce, oauth_ts. \
 \
 Signed with oauth_secret and oath_token_secret.}</string>
@@ -1203,7 +1201,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 3}</string>
+\f0\b\fs26 \cf1 C}</string>
 							</dict>
 						</dict>
 					</array>
@@ -1270,9 +1268,8 @@ Signed with oauth_secret and oath_token_secret.}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 User Enters Token and Secret in Consumer Application\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Includes oauth_token and oauth_secret}</string>
 							</dict>
 							<key>TextPlacement</key>
@@ -1329,7 +1326,7 @@ Includes oauth_token and oauth_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 2}</string>
+\f0\b\fs26 \cf1 B}</string>
 							</dict>
 						</dict>
 					</array>
@@ -1451,7 +1448,7 @@ Includes oauth_token and oauth_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 1}</string>
+\f0\b\fs26 \cf1 A}</string>
 							</dict>
 						</dict>
 					</array>
@@ -1460,7 +1457,7 @@ Includes oauth_token and oauth_secret}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 2361.06}, {124, 19}}</string>
+					<string>{{28.3465, 2361.06}, {220, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -1505,7 +1502,7 @@ Includes oauth_token and oauth_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
 
-\f0\fs32 \cf0 Out of Band Flow}</string>
+\f0\fs32 \cf0 Direct to Service Provider Flow}</string>
 					</dict>
 					<key>TextPlacement</key>
 					<integer>0</integer>
@@ -2153,7 +2150,7 @@ Authorization}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 6}</string>
+\f0\b\fs24 \cf1 F}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -2480,7 +2477,7 @@ Authorization}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 5}</string>
+\f0\b\fs24 \cf1 E}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -2569,7 +2566,7 @@ Authorization}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 4}</string>
+\f0\b\fs24 \cf1 D}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -2658,7 +2655,7 @@ Authorization}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 3}</string>
+\f0\b\fs24 \cf1 C}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -2747,7 +2744,7 @@ Authorization}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 2}</string>
+\f0\b\fs24 \cf1 B}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -2836,7 +2833,7 @@ Authorization}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 1}</string>
+\f0\b\fs24 \cf1 A}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -2967,7 +2964,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 6}</string>
+\f0\b\fs26 \cf1 F}</string>
 							</dict>
 						</dict>
 					</array>
@@ -3034,9 +3031,8 @@ Signed with oauth_secret and oath_token_secret.}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Provider Grants Multi-Use Token\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Response includes oauth_token, oath_token_secret}</string>
 							</dict>
 							<key>TextPlacement</key>
@@ -3093,7 +3089,7 @@ Response includes oauth_token, oath_token_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 5}</string>
+\f0\b\fs26 \cf1 E}</string>
 							</dict>
 						</dict>
 					</array>
@@ -3220,7 +3216,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 4}</string>
+\f0\b\fs26 \cf1 D}</string>
 							</dict>
 						</dict>
 					</array>
@@ -3347,7 +3343,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 3}</string>
+\f0\b\fs26 \cf1 C}</string>
 							</dict>
 						</dict>
 					</array>
@@ -3472,7 +3468,7 @@ Redirect includes oauth_token, oauth_token_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 2}</string>
+\f0\b\fs26 \cf1 B}</string>
 							</dict>
 						</dict>
 					</array>
@@ -3539,10 +3535,9 @@ Redirect includes oauth_token, oauth_token_secret}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Consumer Requests Single Use Token\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
-Request includes oauth_consumer_key, oauth_nonce, oauth_ts, oauth_sigalg. \
+\f1\b0 \
+Request includes oauth_consumer_key, oauth_nonce, oauth_ts, oauth_sigalg\
 \
 Signed with oauth_secret.}</string>
 							</dict>
@@ -3600,7 +3595,7 @@ Signed with oauth_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 1}</string>
+\f0\b\fs26 \cf1 A}</string>
 							</dict>
 						</dict>
 					</array>
@@ -3619,8 +3614,8 @@ Signed with oauth_secret.}</string>
 					<integer>11422</integer>
 					<key>Points</key>
 					<array>
-						<string>{265.772, 1456.17}</string>
-						<string>{265.984, 1482.51}</string>
+						<string>{265.776, 1456.67}</string>
+						<string>{265.985, 1482.51}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3708,7 +3703,7 @@ Signed with oauth_secret.}</string>
 					<key>Points</key>
 					<array>
 						<string>{252.638, 1359.96}</string>
-						<string>{118.346, 1398.65}</string>
+						<string>{118.347, 1398.65}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3863,7 +3858,7 @@ Signed with oauth_secret.}</string>
 					<key>Points</key>
 					<array>
 						<string>{266.811, 1668.77}</string>
-						<string>{118.346, 1699.29}</string>
+						<string>{118.347, 1699.29}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3999,7 +3994,7 @@ Signed with oauth_secret.}</string>
 					<integer>11431</integer>
 					<key>Points</key>
 					<array>
-						<string>{265.996, 1519.01}</string>
+						<string>{265.985, 1518.51}</string>
 						<string>{266.598, 1545.73}</string>
 					</array>
 					<key>Style</key>
@@ -4038,7 +4033,7 @@ Signed with oauth_secret.}</string>
 					<integer>11432</integer>
 					<key>Points</key>
 					<array>
-						<string>{118.346, 1341.96}</string>
+						<string>{118.347, 1341.96}</string>
 						<string>{207.638, 1341.96}</string>
 					</array>
 					<key>Style</key>
@@ -4441,11 +4436,11 @@ Signed with oauth_secret.}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11586</integer>
+					<integer>11630</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11587</integer>
+						<integer>11631</integer>
 						<key>Position</key>
 						<real>0.66050755977630615</real>
 						<key>RotationType</key>
@@ -4493,7 +4488,7 @@ Signed with oauth_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 5}</string>
+\f0\b\fs24 \cf1 E}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -4508,7 +4503,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11587</integer>
+					<integer>11631</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -4541,7 +4536,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11618</integer>
+						<integer>11662</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -4550,11 +4545,11 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11588</integer>
+					<integer>11632</integer>
 					<key>Points</key>
 					<array>
-						<string>{184.252, 70.8661}</string>
-						<string>{269.281, 70.8661}</string>
+						<string>{184.252, 70.8658}</string>
+						<string>{269.281, 70.8658}</string>
 					</array>
 					<key>Rotation</key>
 					<real>269.25</real>
@@ -4588,7 +4583,7 @@ Signed with oauth_secret.}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11590</integer>
+							<integer>11634</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -4637,9 +4632,8 @@ Signed with oauth_secret.}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Consumer Accesses API\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Request includes oauth_consumer_key, oauth_token, oauth_nonce, oauth_ts, oauth_sigalg. \
 \
 Signed with oauth_secret, oath_token_secret.}</string>
@@ -4660,7 +4654,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11591</integer>
+							<integer>11635</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -4698,16 +4692,16 @@ Signed with oauth_secret, oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 5}</string>
+\f0\b\fs26 \cf1 E}</string>
 							</dict>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11589</integer>
+					<integer>11633</integer>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{167.425, 418.677}, {23.8173, 18}}</string>
+					<string>{{165.339, 418.677}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -4733,7 +4727,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11592</integer>
+					<integer>11636</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -4776,7 +4770,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 4}</string>
+\f0\b\fs24 \cf1 D}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -4792,11 +4786,11 @@ Signed with oauth_secret, oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{274.177, 760.701}, {136.846, 33}}</string>
+							<string>{{274.177, 761.744}, {136.846, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11594</integer>
+							<integer>11638</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -4845,9 +4839,8 @@ Signed with oauth_secret, oath_token_secret.}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Provider Grants Multi-Use Token\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Response includes oauth_token, oath_token_secret}</string>
 							</dict>
 							<key>TextPlacement</key>
@@ -4855,7 +4848,7 @@ Response includes oauth_token, oath_token_secret}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{250.186, 759.482}, {21, 21}}</string>
+							<string>{{250.186, 760.525}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -4866,7 +4859,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11595</integer>
+							<integer>11639</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -4904,12 +4897,12 @@ Response includes oauth_token, oath_token_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 4}</string>
+\f0\b\fs26 \cf1 D}</string>
 							</dict>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11593</integer>
+					<integer>11637</integer>
 				</dict>
 				<dict>
 					<key>Bounds</key>
@@ -4937,11 +4930,11 @@ Response includes oauth_token, oath_token_secret}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11596</integer>
+					<integer>11640</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11613</integer>
+						<integer>11657</integer>
 						<key>Position</key>
 						<real>0.56851822137832642</real>
 						<key>RotationType</key>
@@ -4989,7 +4982,7 @@ Response includes oauth_token, oath_token_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 3}</string>
+\f0\b\fs24 \cf1 C}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -5026,11 +5019,11 @@ Response includes oauth_token, oath_token_secret}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11597</integer>
+					<integer>11641</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11614</integer>
+						<integer>11658</integer>
 						<key>Position</key>
 						<real>0.68311107158660889</real>
 						<key>RotationType</key>
@@ -5078,7 +5071,7 @@ Response includes oauth_token, oath_token_secret}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 2}</string>
+\f0\b\fs24 \cf1 B}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -5100,7 +5093,7 @@ Response includes oauth_token, oath_token_secret}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11599</integer>
+							<integer>11643</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -5149,9 +5142,8 @@ Response includes oauth_token, oath_token_secret}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Consumer Requests Multi-Use Token\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Request includes oauth_consumer_key, oauth_token, oauth_nonce, oauth_ts. \
 \
 Signed with oauth_secret and oath_token_secret.}</string>
@@ -5172,7 +5164,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11600</integer>
+							<integer>11644</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -5210,12 +5202,12 @@ Signed with oauth_secret and oath_token_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 3}</string>
+\f0\b\fs26 \cf1 C}</string>
 							</dict>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11598</integer>
+					<integer>11642</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -5224,11 +5216,11 @@ Signed with oauth_secret and oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{274.177, 568.148}, {146.088, 33}}</string>
+							<string>{{274.177, 569.191}, {146.088, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11602</integer>
+							<integer>11646</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -5277,9 +5269,8 @@ Signed with oauth_secret and oath_token_secret.}</string>
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Provider Grants Single-Use Token\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</string>
 							</dict>
 							<key>TextPlacement</key>
@@ -5287,7 +5278,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{250.186, 566.929}, {21, 21}}</string>
+							<string>{{250.186, 567.972}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -5298,7 +5289,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11603</integer>
+							<integer>11647</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -5336,12 +5327,12 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 2}</string>
+\f0\b\fs26 \cf1 B}</string>
 							</dict>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11601</integer>
+					<integer>11645</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -5354,7 +5345,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11605</integer>
+							<integer>11649</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -5403,9 +5394,8 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
 \f0\b\fs24 \cf0 Consumer Requests Permission\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
 
-\f1\b0 \cf0 \
+\f1\b0 \
 Request includes oauth_consumer_key, oauth_nonce, oauth_ts, oauth_sigalg, oauth_state (optional). \
 \
 Signed with oauth_secret.}</string>
@@ -5426,7 +5416,7 @@ Signed with oauth_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11606</integer>
+							<integer>11650</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -5464,12 +5454,12 @@ Signed with oauth_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
 
-\f0\b\fs26 \cf1 1}</string>
+\f0\b\fs26 \cf1 A}</string>
 							</dict>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11604</integer>
+					<integer>11648</integer>
 				</dict>
 				<dict>
 					<key>Bounds</key>
@@ -5497,11 +5487,11 @@ Signed with oauth_secret.}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11607</integer>
+					<integer>11651</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11617</integer>
+						<integer>11661</integer>
 						<key>Position</key>
 						<real>0.4783165454864502</real>
 						<key>RotationType</key>
@@ -5549,7 +5539,7 @@ Signed with oauth_secret.}</string>
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
 
-\f0\b\fs24 \cf1 1}</string>
+\f0\b\fs24 \cf1 A}</string>
 						<key>VerticalPad</key>
 						<integer>2</integer>
 					</dict>
@@ -5562,7 +5552,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{210.971, 50.7638}, {30, 14}}</string>
+					<string>{{210.971, 50.7635}, {30, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -5570,7 +5560,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11608</integer>
+					<integer>11652</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -5606,7 +5596,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{44.102, 50.1929}, {82, 14}}</string>
+					<string>{{44.102, 50.1927}, {82, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -5614,7 +5604,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11609</integer>
+					<integer>11653</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -5652,11 +5642,11 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11610</integer>
+					<integer>11654</integer>
 					<key>Points</key>
 					<array>
-						<string>{42.5298, 72.8661}</string>
-						<string>{127.559, 72.8661}</string>
+						<string>{42.5298, 72.8658}</string>
+						<string>{127.559, 72.8658}</string>
 					</array>
 					<key>Rotation</key>
 					<real>269.25</real>
@@ -5679,7 +5669,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{42.5197, 14.1732}, {71, 19}}</string>
+					<string>{{42.5197, 14.1729}, {71, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -5687,7 +5677,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11611</integer>
+					<integer>11655</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -5737,10 +5727,10 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11618</integer>
+						<integer>11662</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11612</integer>
+					<integer>11656</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -5773,7 +5763,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11619</integer>
+						<integer>11663</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5784,12 +5774,12 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11619</integer>
+						<integer>11663</integer>
 						<key>Info</key>
 						<integer>4</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11613</integer>
+					<integer>11657</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -5822,7 +5812,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11620</integer>
+						<integer>11664</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5833,10 +5823,10 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11620</integer>
+						<integer>11664</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11614</integer>
+					<integer>11658</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -5844,7 +5834,7 @@ Signed with oauth_secret.}</string>
 					<key>Points</key>
 					<array>
 						<string>{285.945, 310.464}</string>
-						<string>{118.346, 328.464}</string>
+						<string>{118.347, 328.464}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5867,7 +5857,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11621</integer>
+						<integer>11665</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5878,15 +5868,15 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11621</integer>
+						<integer>11665</integer>
 						<key>Info</key>
 						<integer>2</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11615</integer>
+					<integer>11659</integer>
 					<key>Points</key>
 					<array>
-						<string>{285.965, 240.945}</string>
+						<string>{285.965, 241.445}</string>
 						<string>{285.945, 274.464}</string>
 					</array>
 					<key>Style</key>
@@ -5908,7 +5898,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11622</integer>
+						<integer>11666</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5919,10 +5909,10 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11622</integer>
+						<integer>11666</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11616</integer>
+					<integer>11660</integer>
 					<key>Points</key>
 					<array>
 						<string>{285.945, 173.559}</string>
@@ -5947,7 +5937,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11623</integer>
+						<integer>11667</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5958,13 +5948,13 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11623</integer>
+						<integer>11667</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11617</integer>
+					<integer>11661</integer>
 					<key>Points</key>
 					<array>
-						<string>{118.346, 155.559}</string>
+						<string>{118.347, 155.559}</string>
 						<string>{240.945, 155.559}</string>
 					</array>
 					<key>Style</key>
@@ -5986,7 +5976,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11624</integer>
+						<integer>11668</integer>
 					</dict>
 				</dict>
 				<dict>
@@ -5995,7 +5985,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11618</integer>
+					<integer>11662</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6024,7 +6014,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11619</integer>
+					<integer>11663</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6051,7 +6041,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11620</integer>
+					<integer>11664</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6078,7 +6068,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11621</integer>
+					<integer>11665</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6105,7 +6095,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11622</integer>
+					<integer>11666</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6132,7 +6122,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11623</integer>
+					<integer>11667</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6159,7 +6149,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11624</integer>
+					<integer>11668</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6182,7 +6172,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{255.118, 95.0394}, {60, 19}}</string>
+					<string>{{255.118, 95.0392}, {60, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -6190,7 +6180,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11625</integer>
+					<integer>11669</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -6238,7 +6228,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11626</integer>
+					<integer>11670</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -6278,7 +6268,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{42.5197, 95.0394}, {74, 19}}</string>
+					<string>{{42.5197, 95.0392}, {74, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -6286,7 +6276,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11627</integer>
+					<integer>11671</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -6332,11 +6322,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 42.5197}, {269.291, 45}}</string>
+					<string>{{28.3465, 42.5194}, {269.291, 45}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11628</integer>
+					<integer>11672</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -6382,7 +6372,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 			</array>
 			<key>ID</key>
-			<integer>11585</integer>
+			<integer>11629</integer>
 		</dict>
 	</array>
 	<key>GridInfo</key>
@@ -6500,7 +6490,7 @@ Signed with oauth_secret.}</string>
 		</dict>
 	</array>
 	<key>ModificationDate</key>
-	<string>2007-08-29 21:41:31 -0700</string>
+	<string>2007-08-31 18:41:30 -0700</string>
 	<key>Modifier</key>
 	<string>Todd Sieling</string>
 	<key>NotesVisible</key>
@@ -6573,11 +6563,11 @@ Signed with oauth_secret.}</string>
 		<key>DrawerWidth</key>
 		<real>209</real>
 		<key>Frame</key>
-		<string>{{81, 36}, {1226, 810}}</string>
+		<string>{{849, 65}, {743, 801}}</string>
 		<key>VisibleRegion</key>
-		<string>{{-906, 1922.28}, {2390.02, 1373.62}}</string>
+		<string>{{-91, 0}, {759.318, 716.554}}</string>
 		<key>Zoom</key>
-		<real>0.50669121742248535</real>
+		<real>0.9587554931640625</real>
 	</dict>
 </dict>
 </plist>
