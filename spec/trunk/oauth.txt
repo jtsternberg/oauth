@@ -6,7 +6,7 @@
 * Blaine Cook (blaine@twitter.com)
 * Leah Culver (leah@pownce.com)
 * Kellan Elliott-McCrea (kellan@flickr.com)
-* Larry Halff (larry@mag.nolia.com)
+* Larry Halff (larry@ma.gnolia.com)
 * Eran Hammer-Lahav (eran@hueniverse.com)
 * Ben Laurie (benl@google.com) 
 * Chris Messina (chris@citizenagency.com)
@@ -14,6 +14,7 @@
 * David Recordon (drecordon@sixapart.com)
 * Eran Sandler (eran.sandler@gmail.com)
 * Jonathan Sergent (sergent@google.com)
+* Todd Sieling (todd@ma.gnolia.com)
 * Andy Smith (andy@jaiku.com)
 
 ## Description
@@ -98,7 +99,7 @@ The Service Provider MUST also provide documentation to specify:
 
 ### Consumers
 
-Consumer Authentication is done once per Consumer Application. The Consumer Developer MUST obtain a Consumer Key and a Consumer Secret from the Service Provider.
+The Consumer Developer MUST obtain a Consumer Key and a Consumer Secret from the Service Provider.
 
 When registering for a Consumer Key, the Consumer Developer MUST identify the nature of the Consumer Application (web, desktop, mobile, etc...). If the Consumer is a web application, the Consumer Developer MUST provide the Callback URL where the Service Provider will send OAuth Tokens. For this reason, libraries implementing OAuth for the convenience of Consumer applications MUST support configurable API Endpoint URLs.
 
