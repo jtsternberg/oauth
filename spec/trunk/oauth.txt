@@ -321,49 +321,72 @@ Obtaining a Multi-Use Token follows the same process for all Consumer types.
 
 The Single-Use Token and Token Secret will be exchanged for a Multi-Use Token and Token Secret.
 
-#### Request
+To request a Multi-Use Token, the Consumer makes an HTTP request to an API Endpoint URL
+for Token exchange as specified by the Service Provider's documentation. The Service
+Provider documentation MUST specifies the HTTP verb (GET or POST) for this endpoint. It is RECOMMENDED that this be a POST request. The request MUST be signed
+with the Single-Use Token Secret per "Signing an API Request".
 
-This request contains the following parameters:
+The request contains the following parameters:
+
 * `oauth_consumer_key`
+: The Consumer Key.
 * `oauth_token`
+: The Single-Use Token obtained previously.
 * `oauth_nonce`
+: A one-time use value to verify the request has not been made before. See the
+  "Generating Nonces" section. 
 * `oauth_ts`
+: An integer representing the time of request, expressed in number of
+  seconds after January 1, 1970 00:00:00 GMT.
 * `oauth_sigalg`
+: The hashing algorithm that the Consumer used to sign the request. 
 * `oauth_sig`
-
-#### Example
+: The signature. 
 
 ### 2. Service Provider Grants Multi-Use Token
 
-The Service Provider exchanges the Consumer's Single-Use Token and Token Secret, generating and sending a Multi-Use Token and Token Secret.
+The Service Provider exchanges the Consumer's Single-Use Token, with new Multi-Use Token and Token Secret. The Service Provider MUST verify that:
 
-#### Response
+* The request is properly signed.
+* The Single-Use Token has not been exchanged before for a Multi-Use Token.
+* The Single-Use Token matches the Consumer Key
 
-The response for a web-based Consumer includes the following `application/x-www-form-urlencoded` GET parameters:
+On successful verification, the Service Provider returns a Multi-Use Token and a Token Secret in the body of the response as newline separated name-value pairs, followed by any additional data as defined by the Service Provider's documentation.
 
-* `oauth_token`
-* `oath_token_secret`
+For example: 
 
-#### Example
+    token=37bb49b4
+    secret=d0e46c19
+
+The Multi-Use Token and Token Secret are stored by the Consumer to
+use when signing future API requests.
+
+If the request is unsuccessful, the Service Provider MUST respond with a HTTP
+401 Not Authorized, and MAY include some further details about why the request
+wasn't authorized.
 
 ### 3. Consumer Accesses Service Provider API Endpoints
 
-After receiving the Multi-Use Token and Token Secret, the Consumer  will use the Multi-Use Token and Token Secret to access Protected Resources on behalf of the User.
+After receiving the Multi-Use Token and Token Secret, the Consumer is able to use the Multi-Use Token and Token Secret to access the Protected Resources on behalf of the User. The Service Provider documentation MAY specify limitations on the Multi-Use Token such as expiration or other constrains.
 
-#### Request
-
-This request contains the following parameters:
+The request contains the following parameters:
 
 * `oauth_consumer_key`
+: The Consumer Key.
 * `oauth_token`
+: The Multi-Use Token.
 * `oauth_nonce`
+: A one-time use value to verify the request has not been made before. See the
+  "Generating Nonces" section. 
 * `oauth_ts`
+: An integer representing the time of request, expressed in number of
+  seconds after January 1, 1970 00:00:00 GMT.
 * `oauth_sigalg`
+: The hashing algorithm that the Consumer used to sign the request. 
 * `oauth_sig`
+: The signature. 
 
-#### Example
-
-### User Interaction Notes for All Scenarios
+### User Interaction Notes
 
 Once the Service Provider has authenticated the User, the Service Provider MUST present the User with the option to grant access to the Consumer and specify:
 * which Protected Resources the Consumer is requesting,
