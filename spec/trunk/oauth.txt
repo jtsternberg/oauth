@@ -193,7 +193,7 @@ Desktop Consumers MUST first obtain a Single-Use Token, since they cannot provid
 
 1. The Consumer requests a Single-Use Token
 2. The Service Provider issues an unauthorized Single-Use Token
-3. The Consumer requests authorization
+3. The Consumer redirects the User to the Service Provider
 4. The Service Provider authenticates User
 5. The Service Provider obtains User consent
 6. The Service Provider directs the User back to the Consumer
@@ -205,16 +205,25 @@ Desktop Consumers MUST first obtain a Single-Use Token, since they cannot provid
 To obtain a Single-Use Token, the Consumer sends a request to the Service Provider's API Endpoint URL. The request contains the following parameters:
 
 * `oauth_consumer_key`
+: The Consumer Key.
 * `oauth_nonce`
+: A one-time use value to verify the request has not been made before. See the
+  "Generating Nonces" section. 
 * `oauth_ts`
+: An integer representing the time of request, expressed in number of
+  seconds after January 1, 1970 00:00:00 GMT.
 * `oauth_sigalg`
+: The hashing algorithm that the Consumer used to sign the request. 
 * `oauth_sig`
+: The signature. 
 
 For example, the Consumer has a Consumer Key `1b20acc6` and a Consumer Secret `427a5979d9df7722`. The Service Provider's API Endpoint URL for requesting a Single-Use Token is `http://sp.example.com/oauth/get_su_token`, and the request is using the HTTP GET method. The nonce is `17907867114999140772853922434221488511` and the timestamp of `1186953553`. Using SHA1 as the signing algorithm, the signature is then `26287279e66f7f183af02653e823625871167d16`, and the request is as follows:
 
       https://sp.example.com/oauth/get_su_token?oauth_consumer_key=1b20acc6&oauth_nonce=17907867114999140772853922434221488511&oauth_ts=1186953553&oauth_sigalg=sha1&oauth_sig=26287279e66f7f183af02653e823625871167d16
 
 ### 2. The Service Provider Issues an Unauthorized Single-Use Token
+
+The Service Provider generates a Single-Use Token and MUST ensure it cannot be exchanged for a Multi-Use Token until the User successfully grants access in step 5 below.
 
 For example, the Service Provider generates a Single-Use Token `37bb49b4` and a corresponding Token Secret `d0e46c19`, and returns the following as the body of the response:
 
@@ -223,16 +232,30 @@ For example, the Service Provider generates a Single-Use Token `37bb49b4` and a 
 
 ### 3. The Consumer Redirects the User to the Service Provider
 
-The Consumer redirects the User to the Provider's Authorization Endpoint URL, requesting permission to access the Provider's API on behalf of the User.
+In order for the Consumer to be able to exchange the pre-obtained Single-Use Token for a Multi-Use Token, the Consumer MUST obtain approval from the User by directing the User to the Service Provider. The Consumer constructs an `application/x-www-form-urlencoded`
+HTTP GET request to the Service Provider's Authorization Endpoint URL which
+will be sent via the User's web browser.
 
-This request contains the following parameters:
+This request contains the following parameters: 
 
 * `oauth_consumer_key`
+: The Consumer Key 
 * `oauth_token`
-* `oauth_nonce`
-* `oauth_ts`
-* `oauth_sigalg`
-* `oauth_sig`
+: The Single-Use Token obtained in the previous step.
+* `oauth_state` (OPTIONAL) - An `application/x-www-form-urlencoded` string that
+  will be passed through unmodified to the Consumer (this parameter SHOULD only
+  be used in the case of stateless web-based Consumers) 
+* any additional parameters, as defined by the Service Provider.
+
+Once the request URL has been generated the Consumer directs the User to the
+URL.
+
+For example, the Consumer requests the User to authorise a Single-Use Token at
+the Service Provider's Authorization Endpoint URL
+`https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91` and
+pre-obtained Single-Use Token `37bb49b4`.
+
+    https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91&oauth_token=37bb49b4
 
 ### 4. The Service Provider Authenticates User
 
@@ -240,7 +263,7 @@ The User MUST first sign in to the Service Provider, if they have not done so al
 
 ### 5. The Service Provider Obtains User Consent
 
-The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.
+The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
 
 ### 6. The Service Provider Directs the User Back to the Consumer
 
