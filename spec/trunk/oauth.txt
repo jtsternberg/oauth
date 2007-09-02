@@ -287,7 +287,7 @@ Note: If a Service Provider knows a Consumer to be running on a mobile device or
 
 ### 1. The Consumer directs the User to request authorization
 
-The Consumer directs the User to the Service Provider's Authorization Endpoint URL
+The Consumer directs the User to the Service Provider's Authorization Endpoint URL.
 
 For example, the Consumer is requesting a Single-Use Token and Token Secret from the Service Provider's Authorization Endpoint URL `https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91`.
 
@@ -299,19 +299,23 @@ The Service Provider MUST verify the User's identity before asking for consent, 
 
 ### 3. The Service Provider Obtains User Consent
 
-The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.
+The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT generate a Single-Use Token and MUST NOT provide Consumer access to the Protected Resources.
 
 ### 4. The Service Provider presents a Single-Use Token and Token Secret to the User
 
-### 5. The User enters the Single-User Token and Token Secret in the Consumer
+The Service Provider present the Single-Use Token and Token Secret to the User by displaying it on the screen or other available methods.
 
-## Obtaining a Multi-Use Token (All Consumer Types)
+### 5. The User Enters the Single-Use Token and Token Secret in the Consumer
 
-The following requests and responses are the same for all scenarios.
+The User manually enters the Single-Use Token and Token Secret in the Consumer. This can be done by manually typing the information or using cut-and-paste.
+
+## Obtaining a Multi-Use Token
+
+Obtaining a Multi-Use Token follows the same process for all Consumer types.
 
 1. Consumer Requests Multi-Use Token
 2. Service Provider Grants Multi-Use Token
-3. Consumer Accesses API
+3. Consumer Accesses Service Provider API Endpoints
 
 ### 1. Consumer Requests Multi-Use Token
 
@@ -342,7 +346,7 @@ The response for a web-based Consumer includes the following `application/x-www-
 
 #### Example
 
-### 3. Consumer Accesses API
+### 3. Consumer Accesses Service Provider API Endpoints
 
 After receiving the Multi-Use Token and Token Secret, the Consumer  will use the Multi-Use Token and Token Secret to access Protected Resources on behalf of the User.
 
