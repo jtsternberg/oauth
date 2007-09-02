@@ -134,6 +134,14 @@ OAuth Authentication is done in two broad steps. First, the Consumer MUST obtain
 
 There are three variations to the first step of obtaining an authorized Single-Use Token. The variations are based on the Consumer type. The second step of exchanging a Single-Use Token for a Multi-Use Token is the same for all Consumer types. The following sections describe the process for obtaining Single-Use Tokens (for each Consumer type), and obtaining a Multi-Use Token. Each of these subsections is accompanied by a diagram showing the complete authentication process for the Consumer type. 
 
+### User Authentication and Consumer Access Grants
+
+OAuth does not specify how the Service Provider authenticates the User. However, it does provide a set of steps to verify User identity and obtain approval to grant the Consumer access to the Protected Resources.
+
+* The Service Provider MUST first verify the User's identity before asking for consent. It MAY prompt the User to sign in if the User hasn't already done so.
+* The Service Provider presents to the User information about the Consumer reqesting access (as registered by the Consumer Developer). The information MUST include the duration of the access and the Protected Resources provided. The information MAY include other details specific to the Service Provider.
+* The User MUST grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for the protocol flow to continue. If the User denies the Consumer access, the Service Provider MUST not provide the Consumer with a Single-Use Token and MUST NOT allow access to the Protected Resources.
+
 ## Obtaining a Single-Use Token for Web-based Consumer
 
 Web-based Consumers obtain a Single-Use Token by way of an HTTP Redirect from
@@ -173,7 +181,7 @@ The Service Provider MUST verify the User's identity before asking for consent, 
 
 ### 3. The Service Provider Obtains User Consent
 
-The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Consumer with a Single-Use Token and will not allow access to the Protected Resources.
+The Service Provider presents to the User information about the Consumer reqesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Consumer with a Single-Use Token and will not allow access to the Protected Resources.
 
 ### 4. The Service Provider issues a Single-Use Token
 
@@ -265,7 +273,7 @@ The Service Provider MUST verify the User's identity before asking for consent, 
 
 ### 5. The Service Provider Obtains User Consent
 
-The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
+The Service Provider presents to the User information about the Consumer reqesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
 
 ### 6. The Service Provider Directs the User Back to the Consumer
 
@@ -299,7 +307,7 @@ The Service Provider MUST verify the User's identity before asking for consent, 
 
 ### 3. The Service Provider Obtains User Consent
 
-The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT generate a Single-Use Token and MUST NOT provide Consumer access to the Protected Resources.
+The Service Provider presents to the User information about the Consumer reqesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT generate a Single-Use Token and MUST NOT provide Consumer access to the Protected Resources.
 
 ### 4. The Service Provider presents a Single-Use Token and Token Secret to the User
 
@@ -385,15 +393,6 @@ The request contains the following parameters:
 : The hashing algorithm that the Consumer used to sign the request. 
 * `oauth_sig`
 : The signature. 
-
-### User Interaction Notes
-
-Once the Service Provider has authenticated the User, the Service Provider MUST present the User with the option to grant access to the Consumer and specify:
-* which Protected Resources the Consumer is requesting,
-* for how long the Consumer will have access to the resources,
-* any other service-specific information about the authorization that will be granted to the Consumer.
-
-If the User grants permission, the Service Provider SHOULD retain information about the transaction, including the Token, associated User, Consumer data, and the Requested Resources.
 
 #### Signing an API Request 
 
