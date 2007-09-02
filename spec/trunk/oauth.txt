@@ -19,7 +19,7 @@
 
 ## Description
 
-The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring the User to provide their Service Provider credentials to the Consumer. An example use case is allowing printing service print.example.com (the Consumer), to access private photos stored on photos.example.com (the Service Provider) without requiring the User to provide their photos.example.com credentials to print.example.com.
+The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring the User to disclose their Service Provider credentials to the Consumer. An example use case is allowing printing service print.example.com (the Consumer), to access private photos stored on photos.example.com (the Service Provider) without requiring the User to provide their photos.example.com credentials to print.example.com.
 
 More generally, OAuth creates a freely-implementable and generic methodology for API
 authentication, benefitting developers who want their Consumer product to
@@ -149,8 +149,8 @@ The request contains the following parameters:
 
 * `oauth_consumer_key`
 : The Consumer Key.
-* `oauth_state` (OPTIONAL)
-: An `application/x-www-form-urlencoded` string that
+* `oauth_state`
+: An OPTIONAL `application/x-www-form-urlencoded` string that
   will be passed through unmodified to the Consumer (this parameter SHOULD only
   be used in the case of stateless web-based Consumers).
 * Any additional parameters, as defined by the Service Provider.
@@ -164,7 +164,7 @@ For example, if the Consumer is requesting a Single-Use Token from the Authoriza
 
 ### 2. The Service Provider Authenticates User
 
-The User MUST first sign in to the Service Provider, if they have not done so already.
+The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
 
 ### 3. The Service Provider Obtains User Consent
 
@@ -180,8 +180,8 @@ The response for a web-based Consumer includes the following `application/x-www-
 : The Single-Use Token.
 * `oauth_token_secret`
 : The Token Secret.
-* `oauth_state` (OPTIONAL)
-: Included if one was provided in the original Consumer request.
+* `oauth_state`
+: REQUIRED if one was provided in the Consumer request.
 
 For example, if the Service Provider has created a Single-Use Token `c3e347b6a5001c16` and Token Secret `678dfge7dghek243` for the Consumer, whose Callback Endpoint URL is `https://Consumer.example.com/validate`, then the Service Provider will redirect the User to the following URL:
 
@@ -242,10 +242,7 @@ This request contains the following parameters:
 : The Consumer Key 
 * `oauth_token`
 : The Single-Use Token obtained in the previous step.
-* `oauth_state` (OPTIONAL) - An `application/x-www-form-urlencoded` string that
-  will be passed through unmodified to the Consumer (this parameter SHOULD only
-  be used in the case of stateless web-based Consumers) 
-* any additional parameters, as defined by the Service Provider.
+* Any additional parameters, as defined by the Service Provider.
 
 Once the request URL has been generated the Consumer directs the User to the
 URL.
@@ -259,7 +256,7 @@ pre-obtained Single-Use Token `37bb49b4`.
 
 ### 4. The Service Provider Authenticates User
 
-The User MUST first sign in to the Service Provider, if they have not done so already.
+The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
 
 ### 5. The Service Provider Obtains User Consent
 
@@ -293,7 +290,7 @@ For example, the Consumer is requesting a Single-Use Token and Token Secret from
 
 ### 2. The Service Provider Authenticates User
 
-The User MUST first sign in to the Service Provider, if they have not done so already.
+The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
 
 ### 3. The Service Provider Obtains User Consent
 
