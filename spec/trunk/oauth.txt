@@ -37,7 +37,16 @@ by various websites. An open standard, supported by large and small providers
 alike, promotes a consistent and trusted experience for both consumer
 application developers and the users of those applications. 
 
-## Definitions 
+## Requirements Notation and Conventions 
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", 
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this 
+document are to be interpreted as described in RFC2119.  Throughout 
+this document, values are quoted to indicate that they are to be taken 
+literally. When using these values in protocol messages, the quotes 
+MUST NOT be used as part of the value.
+
+## Definitions
 
 * Service Provider
 : A web application that allows access via OAuth. 
@@ -82,14 +91,14 @@ application developers and the users of those applications.
 
 ## Setting Up to Use OAuth
 
-OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Customer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources). 
+OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Customer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources). Only web-based Consumers are assumed to be capable of keeping their Consumer Secret private.
 
 ### Service Providers
 
 Service Providers MUST enable Consumer Developers to obtain a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers, except that:
 
 * The Consumer Key MUST be a string suitable for transmission in HTTP request parameters.
-* The Consumer Secret may be either a randomized string or a public/private key pair. In the case that the Consumer Secret is a public/private key pair, the Service Provider only requires the public key, and SHOULD verify that the Consumer Developer is, in fact, the owner of the private key.
+* The Consumer Secret MAY be either a randomized string or a public/private key pair. In the case that the Consumer Secret is a public/private key pair, the Service Provider only requires the public key, and SHOULD verify that the Consumer Developer is, in fact, the owner of the private key.
 
 The Service Provider MUST also provide documentation to specify:
 
@@ -101,7 +110,7 @@ The Service Provider MUST also provide documentation to specify:
 
 The Consumer Developer MUST obtain a Consumer Key and a Consumer Secret from the Service Provider.
 
-When registering for a Consumer Key, the Consumer Developer MUST identify the Consumer type (website, desktop, mobile, set-top box, etc.). If the Consumer a web-based, the Consumer Developer MUST provide the Callback Endpoint URL where the Service Provider will send OAuth Tokens. For this reason, libraries implementing OAuth for the convenience of Consumer applications MUST support configurable API Endpoint URLs.
+When registering for a Consumer Key, the Consumer Developer MUST identify the Consumer type (website, desktop, mobile, set-top box, etc.). If the Consumer a web-based, the Consumer Developer MUST provide the Callback Endpoint URL where the Service Provider will send Tokens. For this reason, libraries implementing OAuth for the convenience of Consumer applications MUST support configurable API Endpoint URLs.
 
 ## Authenticating with OAuth
 
@@ -120,14 +129,14 @@ The second step of exchanging a Single-Use Token for a Multi-Use Token is the sa
 
 The following sections describe the process for obtaining Single-Use Tokens (for each Consumer type), and obtaining a Multi-Use Token. Each of these subsections is accompanied by a diagram showing the complete authentication process for the Consumer type. 
 
-## Obtaining a Single Use Token for Web-based Consumer Applications
+## Obtaining a Single-Use Token for Web-based Consumer Applications
 
-A Web-based consumer follows these steps in order to obtain a valid Single-Use Token:
+A web-based consumer follows these steps in order to obtain a valid Single-Use Token:
 
 1. The Consumer requests authorization
 2. The Service Provider authenticates User
 3. The Service Provider obtains User Consent
-4. The Service Provider issues a Single Use Token
+4. The Service Provider issues a Single-Use Token
 
 ![OAuth Web Flow Diagram](/diagrams/oauth_web_flow.png)
 
@@ -157,26 +166,26 @@ The User MUST first sign in to the Service Provider, if they have not done so al
 
 The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.
 
-### 4. The Service Provider issues a Single Use Token
+### 4. The Service Provider issues a Single-Use Token
 
 After the User has authenticated with the Service Provider, and has granted permission for application access, the Service Provider will create a Single-Use Token and a corresponding Token Secret, and deliver it to the Consumer via an HTTP Redirect.
 
-The response for a Web-based Consumer includes the following 'application/x-www-form-urlencoded' GET parameters:
+The response for a web-based Consumer includes the following 'application/x-www-form-urlencoded' GET parameters:
 
 * `oauth_token`
 * `oauth_secret`
-* `oauth_state` (optional)
+* `oauth_state` (OPTIONAL)
 
-For example, if the Service Provider has created a Single-Use Token `c3e347b6a5001c16` and Token Secret `678dfge7dghek243` for the Consumer, whose Callback URL is `https://Consumer.example.com/validate`, then the Service Provider will redirect the User to the following URL:
+For example, if the Service Provider has created a Single-Use Token `c3e347b6a5001c16` and Token Secret `678dfge7dghek243` for the Consumer, whose Callback Endpoint URL is `https://Consumer.example.com/validate`, then the Service Provider will redirect the User to the following URL:
 
       https://Consumer.example.com/validate?oauth_token=c3e347b6a5001c16&oath_token_secret=678dfge7dghek243
 
-## Obtaining a Single Use Token for Desktop Consumer Applications
+## Obtaining a Single-Use Token for Desktop Consumer Applications
 
-Desktop Consumers MUST first obtain a Single-Use Token, since they aren't able to provide a Callback URL to which the Service Provider redirects the User.
+Desktop Consumers MUST first obtain a Single-Use Token, since they aren't able to provide a Callback Endpoint URL to which the Service Provider redirects the User.
 
 1. The Consumer Requests a Single-Use Token
-2. The Service Provider issues a Single Use Token
+2. The Service Provider issues a Single-Use Token
 3. The Consumer requests authorization
 4. The Service Provider authenticates User
 5. The Service Provider obtains User consent
@@ -198,9 +207,9 @@ For example, the Consumer has a Consumer Key `1b20acc6` and a Consumer Secret `4
 
       https://sp.example.com/oauth/get_su_token?oauth_consumer_key=1b20acc6&oauth_nonce=17907867114999140772853922434221488511&oauth_ts=1186953553&oauth_sigalg=sha1&oauth_sig=26287279e66f7f183af02653e823625871167d16
 
-### 2. The Service Provider issues a Single Use Token
+### 2. The Service Provider issues a Single-Use Token
 
-For example, the Service Provider generates a Single-Use Token `37bb49b4` and a corresponding secret `d0e46c19`, and returns the following as the body of the response:
+For example, the Service Provider generates a Single-Use Token `37bb49b4` and a corresponding Token Secret `d0e46c19`, and returns the following as the body of the response:
 
       token=37bb49b4
       secret=d0e46c19
@@ -230,17 +239,17 @@ The User grants or declines permission for the Service Provider to give the Cons
 
 The Service Provider instructs the User to inform the Consumer that authorization has completed.
 
-## Obtaining a Single Use Token for Direct User to Service Provider Consumer Applications
+## Obtaining a Single-Use Token for Direct User to Service Provider Consumer Applications
 
 A Single-Use Token and Token Secret will be generated by the Service Provider and presented to the User and the Consumer waits for the User to manually submit them through the Consumer application.
 
-Note: If a Service Provider expects a Consumer to be running on a Mobile device or Set-Top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL and the Single Use Token are short and simple.
+Note: If a Service Provider expects a Consumer to be running on a Mobile device or Set-Top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL and the Single-Use Token are short and simple.
 
 1. The Consumer directs the User to request authorization
 2. The Service Provider authenticates User
 3. The Service Provider obtains User Consent
-4. The Service Provider presents a Single Use Token and Token Secret to the User
-5. The User enters the Token and Token Secret in the Consumer Application
+4. The Service Provider presents a Single-Use Token and Token Secret to the User
+5. The User enters the Single-Use Token and Token Secret in the Consumer Application
 
 ![Direct to Provider Flow Diagram](/diagrams/oauth_oob_flow.png)
 
@@ -260,9 +269,9 @@ The User MUST first sign in to the Service Provider, if they have not done so al
 
 The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.
 
-### 4. The Service Provider presents a Single Use Token and Token Secret to the User
+### 4. The Service Provider presents a Single-Use Token and Token Secret to the User
 
-### 5. The User enters the Token and Token Secret in the Consumer Application
+### 5. The User enters the Single-User Token and Token Secret in the Consumer Application
 
 ## Obtaining a Multi-Use Token (All Consumer Application Types)
 
@@ -294,7 +303,7 @@ The Service Provider exchanges the Consumer's Single-Use Token and Token Secret,
 
 #### Response
 
-The response for a Web-based Consumer includes the following 'application/x-www-form-urlencoded' GET parameters:
+The response for a web-based Consumer includes the following 'application/x-www-form-urlencoded' GET parameters:
 
 * 'oauth_token'
 * 'oath_token_secret'
