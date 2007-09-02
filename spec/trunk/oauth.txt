@@ -168,17 +168,20 @@ The User MUST first sign in to the Service Provider, if they have not done so al
 
 ### 3. The Service Provider Obtains User Consent
 
-The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.
+The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Consumer with a Single-Use Token and will not allow access to the Protected Resources.
 
 ### 4. The Service Provider issues a Single-Use Token
 
-After the User has authenticated with the Service Provider, and has granted permission for application access, the Service Provider will create a Single-Use Token and a corresponding Token Secret, and deliver it to the Consumer via an HTTP Redirect.
+After the User has authenticated with the Service Provider and has granted permission for Consumer access, the Service Provider will create a Single-Use Token and a corresponding Token Secret, and deliver it to the Consumer via an HTTP Redirect.
 
 The response for a web-based Consumer includes the following `application/x-www-form-urlencoded` GET parameters:
 
 * `oauth_token`
-* `oauth_secret`
+: The Single-Use Token.
+* `oauth_token_secret`
+: The Token Secret.
 * `oauth_state` (OPTIONAL)
+: Included if one was provided in the original Consumer request.
 
 For example, if the Service Provider has created a Single-Use Token `c3e347b6a5001c16` and Token Secret `678dfge7dghek243` for the Consumer, whose Callback Endpoint URL is `https://Consumer.example.com/validate`, then the Service Provider will redirect the User to the following URL:
 
@@ -186,20 +189,20 @@ For example, if the Service Provider has created a Single-Use Token `c3e347b6a50
 
 ## Obtaining a Single-Use Token for Desktop Consumers
 
-Desktop Consumers MUST first obtain a Single-Use Token, since they aren't able to provide a Callback Endpoint URL to which the Service Provider redirects the User.
+Desktop Consumers MUST first obtain a Single-Use Token, since they cannot provide a Callback Endpoint URL to which the Service Provider redirects the User.
 
-1. The Consumer Requests a Single-Use Token
-2. The Service Provider issues a Single-Use Token
+1. The Consumer requests a Single-Use Token
+2. The Service Provider issues an unauthorized Single-Use Token
 3. The Consumer requests authorization
 4. The Service Provider authenticates User
 5. The Service Provider obtains User consent
-6. The Service Provider Directs the User back to the Consumer
+6. The Service Provider directs the User back to the Consumer
 
 ![Desktop Flow Diagram](/diagrams/oauth_desktop_flow.png)
 
 ### 1. The Consumer Requests a Single-Use Token
 
-To obtain a Single-Use Token, the Consumer sends a request to the Service Provider's API Endpoint URL. This request contains the following parameters:
+To obtain a Single-Use Token, the Consumer sends a request to the Service Provider's API Endpoint URL. The request contains the following parameters:
 
 * `oauth_consumer_key`
 * `oauth_nonce`
@@ -211,7 +214,7 @@ For example, the Consumer has a Consumer Key `1b20acc6` and a Consumer Secret `4
 
       https://sp.example.com/oauth/get_su_token?oauth_consumer_key=1b20acc6&oauth_nonce=17907867114999140772853922434221488511&oauth_ts=1186953553&oauth_sigalg=sha1&oauth_sig=26287279e66f7f183af02653e823625871167d16
 
-### 2. The Service Provider issues a Single-Use Token
+### 2. The Service Provider Issues an Unauthorized Single-Use Token
 
 For example, the Service Provider generates a Single-Use Token `37bb49b4` and a corresponding Token Secret `d0e46c19`, and returns the following as the body of the response:
 
@@ -239,7 +242,7 @@ The User MUST first sign in to the Service Provider, if they have not done so al
 
 The User grants or declines permission for the Service Provider to give the Consumer access to the Provider's API on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Protected Resources to the Consumer.
 
-### 6. The Service Provider Directs the User back to the Consumer
+### 6. The Service Provider Directs the User Back to the Consumer
 
 The Service Provider instructs the User to inform the Consumer that authorization has completed.
 
