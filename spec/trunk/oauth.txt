@@ -131,30 +131,34 @@ The following sections describe the process for obtaining Single-Use Tokens (for
 
 ## Obtaining a Single-Use Token for Web-based Consumer
 
-A web-based consumer follows these steps in order to obtain a valid Single-Use Token:
+Web-based Consumers obtain a Single-Use Token by way of an HTTP Redirect from
+the Consumer to the Service Provider (Authorization Endpoint URL) and back to the Consumer (Callback Endpoint URL), following these steps:
 
-1. The Consumer requests authorization
+1. The Consumer requests User authorization
 2. The Service Provider authenticates User
-3. The Service Provider obtains User Consent
+3. The Service Provider obtains User consent
 4. The Service Provider issues a Single-Use Token
 
 ![OAuth Web Flow Diagram](/diagrams/oauth_web_flow.png)
 
-### 1. The Consumer Requests Authorization
+### 1. The Consumer Requests User Authorization
 
-To request a Single-Use Token and Token Secret, the Consumer constructs an 'application/x-www-form-urlencoded' HTTP GET request to the Service Provider's Authorization Endpoint URL, to be sent via the User's User-agent (i.e., web browser). Once the request URL has been generated, the Consumer issues an HTTP 302 Redirect to the Service Provider using that URL.
+To request a Single-Use Token and Token Secret, the Consumer constructs an `application/x-www-form-urlencoded` HTTP GET request to the Service Provider's Authorization Endpoint URL, to be sent via the User's web browser.
 
 The request contains the following parameters:
 
 * `oauth_consumer_key`
-* `oauth_nonce`
-* `oauth_ts`
-* `oauth_sigalg`
-* `oauth_state`
-* `oauth_sig`
-* any additional parameters, as defined by the Service Provider
+: The Consumer Key.
+* `oauth_state` (OPTIONAL)
+: An `application/x-www-form-urlencoded` string that
+  will be passed through unmodified to the Consumer (this parameter SHOULD only
+  be used in the case of stateless web-based Consumers).
+* Any additional parameters, as defined by the Service Provider.
 
-For example, if the Consumer is requesting a Single-Use Token from the Authorization Endpoint URL 'https://sp.example.com/oauth/authorize' with the Consumer Key `0685bd91` the request would be:
+Once the request URL has been constructed the Consumer issues an HTTP 302
+Redirect to the User's web-browser using that URL.
+
+For example, if the Consumer is requesting a Single-Use Token from the Authorization Endpoint URL `https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91` the request would be:
 
       https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91
 
@@ -170,7 +174,7 @@ The User grants or declines permission for the Service Provider to give the Cons
 
 After the User has authenticated with the Service Provider, and has granted permission for application access, the Service Provider will create a Single-Use Token and a corresponding Token Secret, and deliver it to the Consumer via an HTTP Redirect.
 
-The response for a web-based Consumer includes the following 'application/x-www-form-urlencoded' GET parameters:
+The response for a web-based Consumer includes the following `application/x-www-form-urlencoded` GET parameters:
 
 * `oauth_token`
 * `oauth_secret`
@@ -288,10 +292,10 @@ The Single-Use Token and Token Secret will be exchanged for a Multi-Use Token an
 #### Request
 
 This request contains the following parameters:
-* 'oauth_consumer_key'
-* 'oauth_token'
-* 'oauth_nonce'
-* 'oauth_ts'
+* `oauth_consumer_key`
+* `oauth_token`
+* `oauth_nonce`
+* `oauth_ts`
 * `oauth_sigalg`
 * `oauth_sig`
 
@@ -303,10 +307,10 @@ The Service Provider exchanges the Consumer's Single-Use Token and Token Secret,
 
 #### Response
 
-The response for a web-based Consumer includes the following 'application/x-www-form-urlencoded' GET parameters:
+The response for a web-based Consumer includes the following `application/x-www-form-urlencoded` GET parameters:
 
-* 'oauth_token'
-* 'oath_token_secret'
+* `oauth_token`
+* `oath_token_secret`
 
 #### Example
 
@@ -381,10 +385,10 @@ following signing algorithm SHALL be used to generate the value of the
 2. normalize OAuth Request Parameters
    1. Escape the request parameter values using the percent-encoding (%xx) mechanism described in RFC3986.
    2. Concatenate the parameters resulting in name-value pairs separated by the
-      ASCII '=' symbol.
+      ASCII `=` symbol.
       e.g., "oauth_secret=elephant" and "oauth_consumer_key=foo"
 
-3. Concatenate the resulting name-value pairs into one string separated by the ASCII '&'
+3. Concatenate the resulting name-value pairs into one string separated by the ASCII `&`
    symbol in the following order: 
 
     oauth_secret, oauth_consumer_key, oauth_token, http_request_method,
@@ -445,9 +449,9 @@ for a request.
    e.g., "count=50", "page=3"
    e.g., "count=3", "count=50", "page=3"
 2. Concatenate the parameters resulting in name-value pairs separated by the
-   ASCII '=' symbol.
+   ASCII `=` symbol.
    e.g., "count=50" and "page=3"
-3. Concatenate the name-value pairs into one string separated by the ASCII '&'
+3. Concatenate the name-value pairs into one string separated by the ASCII `&`
    symbol.
    e.g., count=50&page=3
 
