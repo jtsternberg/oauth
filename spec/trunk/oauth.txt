@@ -101,21 +101,24 @@ The Service Provider MUST also provide documentation to specify:
 
 The Consumer Developer MUST obtain a Consumer Key and a Consumer Secret from the Service Provider.
 
-When registering for a Consumer Key, the Consumer Developer MUST identify the nature of the Consumer Application (web, desktop, mobile, etc...). If the Consumer is a web application, the Consumer Developer MUST provide the Callback URL where the Service Provider will send OAuth Tokens. For this reason, libraries implementing OAuth for the convenience of Consumer applications MUST support configurable API Endpoint URLs.
+When registering for a Consumer Key, the Consumer Developer MUST identify the Consumer type (website, desktop, mobile, set-top box, etc.). If the Consumer a web-based, the Consumer Developer MUST provide the Callback Endpoint URL where the Service Provider will send OAuth Tokens. For this reason, libraries implementing OAuth for the convenience of Consumer applications MUST support configurable API Endpoint URLs.
 
 ## Authenticating with OAuth
 
-Authentication with OAuth has two broad steps that are detailed further in the document:
+OAuth Authentication is done in two broad steps. First, the Consumer MUST obtain a Single-Use Token from the Service Provider by having the the User successfully sign into the Service Provider and grant access. Second, exchange the Single-Use Token for a Multi-Use Token which can be used to make API calls to Service Provider.
 
-1. Obtain a valid Single-Use Token. There are three variations of this step:
- 	a. Obtaining a Single Use Token for Web-Based Consumer Applications
- 	b. Obtaining a Single Use Token for Desktop Consumer Applications
- 	c. Obtaining a Single Use Token for Direct to Service Provider Consumer Applications. 
-2. Obtain a Multi-Use Token. This step is the same for all Consumer Application types.
+There are three variations to the first step of obtaining an authorized Single-Use Token. The variations are based on the Consumer's ability to accept incoming HTTP(S) requests and redirect the User (via web browser) to the Service Provider Authorization Endpoint URL. The three Consumer types are:
 
-The following sections describe the process for obtaining Single-Use Tokens by Consumer Application type, and obtaining a Multi-Use Token. Each of these subsections is accompanied by a diagram showing the complete authentication process for the application type. 
+* Web-Based Consumer
+: A website or other web-based application capable of accepting incoming HTTP(S) requests and User redirection.
+* Desktop Consumer
+: An application running on a User computer capable of making HTTP(S) requests and User redirection (directly or via a web browser installed on the User computer) but not accepting incoming HTTP(S) requests.
+* Direct to Service Provider Consumer
+: A Consumer incapable of making HTTP(S) redirections and incapable of accepting incoming HTTP(S) requests.
 
-Subsequent sections discuss important details such as API Signing, Parameters, Format and so forth.
+The second step of exchanging a Single-Use Token for a Multi-Use Token is the same for all Consumer types.
+
+The following sections describe the process for obtaining Single-Use Tokens (for each Consumer type), and obtaining a Multi-Use Token. Each of these subsections is accompanied by a diagram showing the complete authentication process for the Consumer type. 
 
 ## Obtaining a Single Use Token for Web-based Consumer Applications
 
