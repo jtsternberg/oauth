@@ -536,10 +536,6 @@ To reject a request that lacks appropriate credentials, the Service Provider MUS
 
 A Consumer MAY also include an empty, token-less OAuth Authorization header on any HTTP request to inform a Service Provider that it supports OAuth. The Service Provider MUST then respond with the appropriate WWW-Authenticate header for the requested resource in the response. For example, a Consumer could inquire using HEAD and then adjust its UI if the Service Provider supports OAuth.
 
-### Implementation Suggestions
-
-Timestamps SHOULD be good for 5 minutes, this gives sufficient time to deal with network latency, without becoming a security hole, or placing an unbearable burden on the server for tracking and storing nonces. Ideally, servers would provide a method for retrieving what they think the current time is.
-
 ## Error Messages
 
 * HTTP 400 Bad Request
@@ -551,14 +547,11 @@ Timestamps SHOULD be good for 5 minutes, this gives sufficient time to deal with
   * Invalid Signature
   * Nonce Spent
 
+### Implementation Suggestions
+
+Timestamps SHOULD be good for 5 minutes, this gives sufficient time to deal with network latency, without becoming a security hole, or placing an unbearable burden on the server for tracking and storing nonces. Ideally, servers would provide a method for retrieving what they think the current time is.
+
 ## Security Considerations
 
 * Credentials as GET params can get logged in various places
 
-## Open Questions
-
-* Proposed UI for User authentication with the Service Provider? Too many protocols just leave user authentication interaction as a hand-wavy step. It would be great to at least provide best practices and/or sample mock-ups. - Rich Conlan, 08/14/07 8:27 AM 
-
-* HTTP Headers
-  * Not mandated, but having a standard for including OAuth in the
-    HTTP_AUTHORIZATION header would be nice.
