@@ -396,70 +396,70 @@ The request contains the following parameters:
 
 #### Signing an API Request 
 
-All OAuth API requests MUST be signed by the Consumer and the signature verified
-by the Service Provider. The following steps describe the signature process: 
+All API Endpoint URL requests MUST be signed by the Consumer and the signature verified
+by the Service Provider. Both the Consumer and Service Provider follow the same process to generate the request signature. The Consumer generates a signature and includes it with the request (using the 'oauth_sig' parameter) while the Service Provider generates a signature and compares it to the signature provided by the Consumer. The signature process includes the following steps:
 
-##### OAuth Request Parameters
+1. Normalize Service Provider request parameters
+2. Generate nonce
+3. Concatenate parameters into a string
+4. Sign or hash the concatenated parameters string
 
-All are REQUIRED except where stated.
- 
-* `oauth_consumer_key`
+The signature process MUST NOT change the request parameter names or values. It is a read-only process on the request.
+
+##### 1. Normalize Service Provider Request Parameters
+
+All Service Provider request parameters (parameters starting with something other than `oauth_`) SHALL be normalized as follows into a single string:
+
+a. Request parameter names and values are escaped using the RFC3986 percent-encoding
+   (%xx) mechanism. For example value `hi there` is encoded `hi%20there`.
+b. Parameters are sorted alphabetically by name. If two or more parameters share the same name, they are sorted by their value. For example: `a=1`, `c=hi%20there`, `f=25`, `f=50`, `z=10`.
+c. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated by an `=` character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`
+
+##### 2. Generate Nonce
+
+A nonce is a random string, uniquely generated for each request. The nonce
+allows the Service Provider to verify that a request has never been made
+before and helps prevent against replay attacks. More information about nonces
+can be found on Wikipedia (http://en.wikipedia.org/wiki/Cryptographic_nonce).
+
+##### 3. Concatenate Parameters Into a String
+
+The OAuth request parameters, custom request parameters, and other request properties are concatenated into a single string used as input to the signing algorithm. The request parameters MUST be concatenated in the following order:
+
+a. `oauth_secret`
+: The Consumer Secret.
+b. `oauth_consumer_key`
 : The Consumer Key.
-* `oauth_secret`
-: The Consumer Secret that corresponds to the Consumer key. 
-* `oauth_token`
-: A Token. See the "Obtaining a Token" sections. 
-* `oauth_token_secret`
-: A  Token Secret. See the "Obtaining a Token" sections.
-* `oauth_nonce`
-: A one-time use value to verify the request has not been made before. See the
-  "Generating Nonces" section. 
-* `oauth_ts`
+c. `oauth_token`
+: The Single-Use or Multi-Use Token.
+d. `oath_token_secret`
+: The Token Secret.
+e. `http_request_method`
+: The HTTP request method used to send the request. Value is case-sensitive and MUST be one of: `HEAD`,`GET`, `POST`, `PUT`, `DELETE`, `TRACE`, `OPTIONS`, and `CONNECT`.
+f. `http_request_uri`
+: The API Endpoint URL and Service Provider specific parameters excluding any OAuth parameters (those starting with 'oauth_').
+g. `normalized_request_parameters`
+: The string result from step 1.
+h. `oauth_nonce`
+: The string result from step 2.
+i. `oauth_ts`
 : An integer representing the time of request, expressed in number of
   seconds after January 1, 1970 00:00:00 GMT.
-* `oauth_sigalg`
-: The hashing algorithm that the Consumer used to sign the request. 
-* `oauth_sig`
-: The signature. 
 
-##### Format of Request Parameters 
+The above request parameter names and values are escaped using the RFC3986 percent-encoding (%xx) mechanism. They are then concatenated in order into a single string. For each parameter, the name is separated by an `=` character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38).
 
-The request parameters MUST be concatenated in the following order:
- 
-    oauth_secret, oauth_consumer_key, oauth_token, oath_token_secret,
-    http_request_method, http_request_uri, normalized_request_parameters,
-    oauth_nonce, oauth_ts 
+##### 4. Sign or Hash the Concatenated String
 
-After the Consumer has normalized the request parameters (see below), the
-following signing algorithm SHALL be used to generate the value of the
-`oauth_sig`: 
+The concatenated string from step 3 (`concatenated_string`) is signed or hashed according to the chosen signature algorithm (indicated with the `oauth_sigalg` parameter):
 
-1. generate an oauth_nonce (see Generating Nonces) 
-
-2. normalize OAuth Request Parameters
-   1. Escape the request parameter values using the percent-encoding (%xx) mechanism described in RFC3986.
-   2. Concatenate the parameters resulting in name-value pairs separated by the
-      ASCII `=` symbol.
-      e.g., "oauth_secret=elephant" and "oauth_consumer_key=foo"
-
-3. Concatenate the resulting name-value pairs into one string separated by the ASCII `&`
-   symbol in the following order: 
-
-    oauth_secret, oauth_consumer_key, oauth_token, http_request_method,
-    http_request_uri, normalized_request_parameters, oauth_nonce, oauth_ts
-
-4. sign or hash the concatenated string according to the chosen value of oauth_sigalg: 
-
-    oauth_sig = md5(concatenated_string) 
-
-    oauth_sig = sha1(concatenated_string) 
-
-    oauth_sig = hmac_sha256(oauth_secret, concatenated_string)
-
-    oauth_sig = openssl_x509_sign(private_certificate, concatenated_string)
-    (in the case of using x509 certs, the Service Provider would have the
-    Consumer's public key and therefore would provide an empty string as
-    the secret)
+* `oauth_sig=md5`
+: md5(concatenated_string)
+* `oauth_sig=sha1`
+: sha1(concatenated_string)
+* `oauth_sig=hmac_sha256`
+: hmac_sha256(oauth_secret, concatenated_string)
+* `oauth_sig=openssl_x509_sign`
+: openssl_x509_sign(private_certificate, concatenated_string). In the case of using x509 certs, the Service Provider would have the Consumer's public key and therefore would provide an empty string as the secret.
 
 ##### Example
 
@@ -487,38 +487,6 @@ following signing algorithm SHALL be used to generate the value of the
 5. The full signed request is then:
 
     GET http://twitter.com/statuses/friends/123456.json?page=3&count=50&oauth_key=0685bd91&oauth_token=540ad18&oauth_nonce=MTgzNTYxODk4Mw&oauth_ts=1181537927&oauth_sigalg=sha1&oauth_sig=2d047740b53ae16f670750bef5bb5c2a0f398f30
-
-### Normalizing Request Parameters
-
-The Consumer MUST first normalize request parameters by following the steps
-below. OAuth Request Parameters (see above) MUST NOT be included in this
-process. The normalized string MUST then be used when generating the signature
-for a request.
-
-1. Escape the request parameter names and values using the percent-encoding
-   (%xx) mechanism described in RFC3986.
-1. Sort the request parameters alphabetically by parameter name. If two or
-   more parameters share the same name, then sort those parameters by their
-   values.
-   e.g., "count=50", "page=3"
-   e.g., "count=3", "count=50", "page=3"
-2. Concatenate the parameters resulting in name-value pairs separated by the
-   ASCII `=` symbol.
-   e.g., "count=50" and "page=3"
-3. Concatenate the name-value pairs into one string separated by the ASCII `&`
-   symbol.
-   e.g., count=50&page=3
-
-The encoding and format of the parameter names and their values MUST NOT be changed
-during this process.  The Service Provider will perform this same set of steps
-when verifying the signature.
-
-### Generating Nonces
-
-A nonce is a random string, uniquely generated for each request. The nonce
-allows the Service Provider to verify that this request has never been made
-before and helps prevent against replay attacks. More information about nonces
-can be found on Wikipedia (http://en.wikipedia.org/wiki/Cryptographic_nonce).
 
 ### Using HTTP-Authorization Headers
 
