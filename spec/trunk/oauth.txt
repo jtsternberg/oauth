@@ -101,7 +101,7 @@ OAuth defines three Consumer types:
 * Web-Based Consumer
 : A website or other web-based application capable of accepting incoming HTTP(S) requests and User redirection.
 * Desktop Consumer
-: An application running on a User computer capable of making HTTP(S) requests and User redirection (directly or via a web browser installed on the User computer) but not accepting incoming HTTP(S) requests.
+: An application running on a User computer capable of User redirection (directly or via a web browser installed on the User computer) but not accepting incoming HTTP(S) requests.
 * Manual-Token-Entry Consumer
 : A Consumer incapable of making HTTP(S) redirections and incapable of accepting incoming HTTP(S) requests. Mobile devices and set-top boxes usually fall under this category.
 
@@ -126,7 +126,7 @@ The Service Provider MUST also provide documentation to specify:
 
 The Consumer Developer MUST obtain a Consumer Key and a Consumer Secret from the Service Provider.
 
-When registering for a Consumer Key, the Consumer Developer MUST identify the Consumer type (web-based, desktop, or manula token entry). If the Consumer is web-based, the Consumer Developer MUST provide the Callback Endpoint URL where the Service Provider will send Tokens.
+When registering for a Consumer Key, the Consumer Developer MUST identify the Consumer type (web-based, desktop, or manual token entry). If the Consumer is web-based, the Consumer Developer MUST provide the Callback Endpoint URL where the Service Provider will send Tokens.
 
 ## Authenticating with OAuth
 
