@@ -349,9 +349,9 @@ The signature process MUST NOT change the request parameter names or values. It 
 
 All Service Provider request parameters (parameters starting with something other than `oauth_`) SHALL be normalized as follows into a single string:
 
-a. Request parameter names and values are escaped using the RFC3986 percent-encoding (%xx) mechanism. For example value `hi there` is encoded `hi%20there`.
-b. Parameters are sorted alphabetically by name. If two or more parameters share the same name, they are sorted by their value. For example: `a=1`, `c=hi%20there`, `f=25`, `f=50`, `z=10`.
-c. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated by an `=` character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`
+1. Request parameter names and values are escaped using the RFC3986 percent-encoding (%xx) mechanism. For example value `hi there` is encoded `hi%20there`.
+2. Parameters are sorted alphabetically by name. If two or more parameters share the same name, they are sorted by their value. For example: `a=1`, `c=hi%20there`, `f=25`, `f=50`, `z=10`.
+3. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated by an `=` character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`
 
 ### 2. Generate Nonce
 
@@ -361,23 +361,23 @@ A nonce is a random string, uniquely generated for each request. The nonce allow
 
 The OAuth request parameters, custom request parameters, and other request properties are concatenated into a single string used as input to the signing algorithm. The request parameters MUST be concatenated in the following order:
 
-a. `oauth_secret`
+1. `oauth_secret`
 : The Consumer Secret.
-b. `oauth_consumer_key`
+2. `oauth_consumer_key`
 : The Consumer Key.
-c. `oauth_token`
+3. `oauth_token`
 : The Single-Use or Multi-Use Token.
-d. `oath_token_secret`
+4. `oath_token_secret`
 : The Token Secret.
-e. `http_request_method`
+5. `http_request_method`
 : The HTTP request method used to send the request. Value is case-sensitive and MUST be one of: `HEAD`,`GET`, `POST`, `PUT`, `DELETE`, `TRACE`, `OPTIONS`, and `CONNECT`.
-f. `http_request_uri`
+6. `http_request_uri`
 : The API Endpoint URL and Service Provider specific parameters excluding any OAuth parameters (those starting with 'oauth_').
-g. `normalized_request_parameters`
+7. `normalized_request_parameters`
 : The string result from step 1.
-h. `oauth_nonce`
+8. `oauth_nonce`
 : The string result from step 2.
-i. `oauth_ts`
+9. `oauth_ts`
 : An integer representing the time of request, expressed in number of seconds after January 1, 1970 00:00:00 GMT.
 
 The above request parameter names and values are escaped using the RFC3986 percent-encoding (%xx) mechanism. They are then concatenated in order into a single string. For each parameter, the name is separated by an `=` character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38).
