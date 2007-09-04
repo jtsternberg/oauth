@@ -119,7 +119,7 @@ Service Providers MUST enable Consumer Developers to obtain a Consumer Key and C
 The Service Provider MUST also provide documentation to specify:
 
 1. The Authorization Endpoint URL and the API Endpoint URLs that the Consumer will use when making OAuth requests.
-2. Signature algorithms supported by the Service Provider. See "Recommended Signature Algorithms" for a summary of best practices.
+2. Signature algorithms supported by the Service Provider.
 3. Any additional request parameters that the Service Provider requires in order to obtain a Token. Service Provider specific parameters MUST NOT begin with `oauth_`.
 
 ### Consumers
@@ -176,9 +176,7 @@ For example, if the Consumer is requesting a Single-Use Token from the Authoriza
 
 ### 2. The Service Provider Authenticates User and Obtains Consent
 
-The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
-
-The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
+The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Consumer Access Grants" section.
 
 ### 3. The Service Provider issues a Single-Use Token
 
@@ -265,9 +263,7 @@ pre-obtained Single-Use Token `37bb49b4`.
 
 ### 4. The Service Provider Authenticates User and Obtains Consent
 
-The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
-
-The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
+The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Consumer Access Grants" section.
 
 ### 5. The Service Provider Directs the User Back to the Consumer
 
@@ -296,9 +292,7 @@ For example, the Consumer is requesting a Single-Use Token and Token Secret from
 
 ### 2. The Service Provider Authenticates User and Obtains Consent
 
-The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
-
-The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
+The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Consumer Access Grants" section.
 
 ### 3. The Service Provider presents a Single-Use Token and Token Secret to the User
 
