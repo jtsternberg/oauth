@@ -399,9 +399,11 @@ secret=d0e46c19
 
 <p>All Service Provider request parameters (parameters starting with something other than <code>oauth_</code>) SHALL be normalized as follows into a single string:</p>
 
-<p>a. Request parameter names and values are escaped using the RFC3986 percent-encoding (%xx) mechanism. For example value <code>hi there</code> is encoded <code>hi%20there</code>.
-b. Parameters are sorted alphabetically by name. If two or more parameters share the same name, they are sorted by their value. For example: <code>a=1</code>, <code>c=hi%20there</code>, <code>f=25</code>, <code>f=50</code>, <code>z=10</code>.
-c. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated by an <code>=</code> character (ASCII code 61). Each name-value pair is seperated by an <code>&amp;</code> character (ASCII code 38). For example: <code>a=1&amp;c=hi%20there&amp;f=25&amp;f=50&amp;z=10</code></p>
+<ol>
+<li>Request parameter names and values are escaped using the RFC3986 percent-encoding (%xx) mechanism. For example value <code>hi there</code> is encoded <code>hi%20there</code>.</li>
+<li>Parameters are sorted alphabetically by name. If two or more parameters share the same name, they are sorted by their value. For example: <code>a=1</code>, <code>c=hi%20there</code>, <code>f=25</code>, <code>f=50</code>, <code>z=10</code>.</li>
+<li>Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated by an <code>=</code> character (ASCII code 61). Each name-value pair is seperated by an <code>&amp;</code> character (ASCII code 38). For example: <code>a=1&amp;c=hi%20there&amp;f=25&amp;f=50&amp;z=10</code></li>
+</ol>
 
 <h3>2. Generate Nonce</h3>
 
@@ -411,34 +413,26 @@ c. Parameters are concatenated in their sorted order into a single string. For e
 
 <p>The OAuth request parameters, custom request parameters, and other request properties are concatenated into a single string used as input to the signing algorithm. The request parameters MUST be concatenated in the following order:</p>
 
-<dl>
-<dt>a. <code>oauth_secret</code></dt>
-<dd>The Consumer Secret.
-b. <code>oauth_consumer_key</code></dd>
-
-<dd>The Consumer Key.
-c. <code>oauth_token</code></dd>
-
-<dd>The Single-Use or Multi-Use Token.
-d. <code>oath_token_secret</code></dd>
-
-<dd>The Token Secret.
-e. <code>http_request_method</code></dd>
-
-<dd>The HTTP request method used to send the request. Value is case-sensitive and MUST be one of: <code>HEAD</code>,<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>TRACE</code>, <code>OPTIONS</code>, and <code>CONNECT</code>.
-f. <code>http_request_uri</code></dd>
-
-<dd>The API Endpoint URL and Service Provider specific parameters excluding any OAuth parameters (those starting with 'oauth_').
-g. <code>normalized_request_parameters</code></dd>
-
-<dd>The string result from step 1.
-h. <code>oauth_nonce</code></dd>
-
-<dd>The string result from step 2.
-i. <code>oauth_ts</code></dd>
-
-<dd>An integer representing the time of request, expressed in number of seconds after January 1, 1970 00:00:00 GMT.</dd>
-</dl>
+<ol>
+<li><code>oauth_secret</code>
+: The Consumer Secret.</li>
+<li><code>oauth_consumer_key</code>
+: The Consumer Key.</li>
+<li><code>oauth_token</code>
+: The Single-Use or Multi-Use Token.</li>
+<li><code>oath_token_secret</code>
+: The Token Secret.</li>
+<li><code>http_request_method</code>
+: The HTTP request method used to send the request. Value is case-sensitive and MUST be one of: <code>HEAD</code>,<code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>TRACE</code>, <code>OPTIONS</code>, and <code>CONNECT</code>.</li>
+<li><code>http_request_uri</code>
+: The API Endpoint URL and Service Provider specific parameters excluding any OAuth parameters (those starting with 'oauth_').</li>
+<li><code>normalized_request_parameters</code>
+: The string result from step 1.</li>
+<li><code>oauth_nonce</code>
+: The string result from step 2.</li>
+<li><code>oauth_ts</code>
+: An integer representing the time of request, expressed in number of seconds after January 1, 1970 00:00:00 GMT.</li>
+</ol>
 
 <p>The above request parameter names and values are escaped using the RFC3986 percent-encoding (%xx) mechanism. They are then concatenated in order into a single string. For each parameter, the name is separated by an <code>=</code> character (ASCII code 61). Each name-value pair is seperated by an <code>&amp;</code> character (ASCII code 38).</p>
 
