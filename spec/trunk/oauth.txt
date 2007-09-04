@@ -148,11 +148,10 @@ Web-based Consumers obtain a Single-Use Token by way of an HTTP Redirect from
 the Consumer to the Service Provider (Authorization Endpoint URL) and back to the Consumer (Callback Endpoint URL), following these steps:
 
 1. The Consumer requests User authorization
-2. The Service Provider authenticates User
-3. The Service Provider obtains User consent
-4. The Service Provider issues a Single-Use Token
+2. The Service Provider authenticates User and obtains User consent
+3. The Service Provider issues a Single-Use Token
 
-![OAuth Web Flow Diagram](/diagrams/oauth_web_flow.png)
+![OAuth Web Flow Diagram](./diagrams/oauth_web_flow.png)
 
 ### 1. The Consumer Requests User Authorization
 
@@ -175,15 +174,13 @@ For example, if the Consumer is requesting a Single-Use Token from the Authoriza
 
       https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91
 
-### 2. The Service Provider Authenticates User
+### 2. The Service Provider Authenticates User and Obtains Consent
 
 The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
 
-### 3. The Service Provider Obtains User Consent
+The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
 
-The Service Provider presents to the User information about the Consumer reqesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider will not provide the Consumer with a Single-Use Token and will not allow access to the Protected Resources.
-
-### 4. The Service Provider issues a Single-Use Token
+### 3. The Service Provider issues a Single-Use Token
 
 After the User has authenticated with the Service Provider and has granted permission for Consumer access, the Service Provider will create a Single-Use Token and a corresponding Token Secret, and deliver it to the Consumer via an HTTP Redirect.
 
@@ -207,11 +204,10 @@ Desktop Consumers MUST first obtain a Single-Use Token, since they cannot provid
 1. The Consumer requests a Single-Use Token
 2. The Service Provider issues an unauthorized Single-Use Token
 3. The Consumer redirects the User to the Service Provider
-4. The Service Provider authenticates User
-5. The Service Provider obtains User consent
-6. The Service Provider directs the User back to the Consumer
+4. The Service Provider authenticates User and obtains consent
+5. The Service Provider directs the User back to the Consumer
 
-![Desktop Flow Diagram](/diagrams/oauth_desktop_flow.png)
+![Desktop Flow Diagram](./diagrams/oauth_desktop_flow.png)
 
 ### 1. The Consumer Requests a Single-Use Token
 
@@ -267,15 +263,13 @@ pre-obtained Single-Use Token `37bb49b4`.
 
     https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91&oauth_token=37bb49b4
 
-### 4. The Service Provider Authenticates User
+### 4. The Service Provider Authenticates User and Obtains Consent
 
 The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
 
-### 5. The Service Provider Obtains User Consent
+The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
 
-The Service Provider presents to the User information about the Consumer reqesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
-
-### 6. The Service Provider Directs the User Back to the Consumer
+### 5. The Service Provider Directs the User Back to the Consumer
 
 The Service Provider instructs the User to inform the Consumer that authorization has completed.
 
@@ -286,12 +280,11 @@ Manual-token-entry Consumers cannot redirect the User to the Service Provider no
 Note: If a Service Provider knows a Consumer to be running on a mobile device or set-top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL, the Single-Use Token, and Token Secret are short and simple for manual entry.
 
 1. The Consumer directs the User to request authorization
-2. The Service Provider authenticates User
-3. The Service Provider obtains User Consent
-4. The Service Provider presents a Single-Use Token and Token Secret to the User
-5. The User enters the Single-Use Token and Token Secret in the Consumer
+2. The Service Provider authenticates User and obtains consent
+3. The Service Provider presents a Single-Use Token and Token Secret to the User
+4. The User enters the Single-Use Token and Token Secret in the Consumer
 
-![Manual-Token-Entry Provider Flow Diagram](/diagrams/oauth_oob_flow.png)
+![Manual-Token-Entry Provider Flow Diagram](./diagrams/oauth_oob_flow.png)
 
 ### 1. The Consumer directs the User to request authorization
 
@@ -301,19 +294,17 @@ For example, the Consumer is requesting a Single-Use Token and Token Secret from
 
       https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91
 
-### 2. The Service Provider Authenticates User
+### 2. The Service Provider Authenticates User and Obtains Consent
 
 The Service Provider MUST verify the User's identity before asking for consent, and MAY prompt the User to sign in if the User hasn't already done so.
 
-### 3. The Service Provider Obtains User Consent
+The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT authorize the pre-obtained Single-Use Token and MUST NOT provide Consumer access to the Protected Resources. If the User successfully authorizes access, the pre-obtained Single-Use Token is marked as authorized and can be exchanged for a Multi-Use Token.
 
-The Service Provider presents to the User information about the Consumer reqesting access (as registered by the Consumer Developer). The User grants or declines permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for this flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT generate a Single-Use Token and MUST NOT provide Consumer access to the Protected Resources.
-
-### 4. The Service Provider presents a Single-Use Token and Token Secret to the User
+### 3. The Service Provider presents a Single-Use Token and Token Secret to the User
 
 The Service Provider present the Single-Use Token and Token Secret to the User by displaying it on the screen or other available methods.
 
-### 5. The User Enters the Single-Use Token and Token Secret in the Consumer
+### 4. The User Enters the Single-Use Token and Token Secret in the Consumer
 
 The User manually enters the Single-Use Token and Token Secret in the Consumer. This can be done by manually typing the information or using cut-and-paste.
 
