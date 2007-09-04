@@ -1,4 +1,4 @@
-# OAuth 1.0 RC
+# OAuth 1.0 Draft
 
 ## Authors
 
