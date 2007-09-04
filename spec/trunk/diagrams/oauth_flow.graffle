@@ -4,11 +4,6 @@
 <dict>
 	<key>ActiveLayerIndex</key>
 	<integer>0</integer>
-	<key>ApplicationVersion</key>
-	<array>
-		<string>com.omnigroup.OmniGraffle</string>
-		<string>129.15</string>
-	</array>
 	<key>AutoAdjust</key>
 	<true/>
 	<key>CanvasColor</key>
@@ -41,7 +36,7 @@
 			<array>
 				<dict>
 					<key>Bounds</key>
-					<string>{{190.93, 2783.04}, {23.8173, 18}}</string>
+					<string>{{190.93, 2635.44}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -67,7 +62,7 @@
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11540</integer>
+					<integer>11726</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -105,7 +100,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -123,15 +118,15 @@
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11541</integer>
+					<integer>11727</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{97.6064, 2772.07}</string>
-						<string>{255.118, 2792.12}</string>
+						<string>{97.6064, 2624.47}</string>
+						<string>{255.118, 2644.52}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -156,7 +151,7 @@
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11575</integer>
+						<integer>11761</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -167,14 +162,14 @@
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11577</integer>
+						<integer>11763</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11542</integer>
+					<integer>11728</integer>
 					<key>Points</key>
 					<array>
-						<string>{308.503, 2587.48}</string>
-						<string>{308.378, 2622.69}</string>
+						<string>{308.502, 2440.38}</string>
+						<string>{308.378, 2475.09}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -195,7 +190,7 @@
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11578</integer>
+						<integer>11764</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -204,11 +199,11 @@
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11543</integer>
+					<integer>11729</integer>
 					<key>Points</key>
 					<array>
-						<string>{325.984, 2417.76}</string>
-						<string>{411.013, 2417.76}</string>
+						<string>{325.984, 2270.16}</string>
+						<string>{411.013, 2270.16}</string>
 					</array>
 					<key>Rotation</key>
 					<real>269.25</real>
@@ -233,7 +228,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{327.203, 2397.65}, {81, 14}}</string>
+					<string>{{327.203, 2250.05}, {81, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -241,7 +236,7 @@
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11544</integer>
+					<integer>11730</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -265,7 +260,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -279,11 +274,11 @@
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11545</integer>
+					<integer>11731</integer>
 					<key>Points</key>
 					<array>
-						<string>{184.252, 2417.75}</string>
-						<string>{269.281, 2417.75}</string>
+						<string>{184.252, 2270.15}</string>
+						<string>{269.281, 2270.15}</string>
 					</array>
 					<key>Rotation</key>
 					<real>269.25</real>
@@ -308,7 +303,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{210.971, 2397.65}, {30, 14}}</string>
+					<string>{{210.971, 2250.05}, {30, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -316,7 +311,7 @@
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11546</integer>
+					<integer>11732</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -340,7 +335,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -352,7 +347,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{44.102, 2397.08}, {82, 14}}</string>
+					<string>{{44.102, 2249.48}, {82, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -360,7 +355,7 @@
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11547</integer>
+					<integer>11733</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -384,7 +379,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -398,11 +393,11 @@
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11548</integer>
+					<integer>11734</integer>
 					<key>Points</key>
 					<array>
-						<string>{42.5298, 2419.75}</string>
-						<string>{127.559, 2419.75}</string>
+						<string>{42.5298, 2272.15}</string>
+						<string>{127.559, 2272.15}</string>
 					</array>
 					<key>Rotation</key>
 					<real>269.25</real>
@@ -425,11 +420,11 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 2389.4}, {396.85, 45}}</string>
+					<string>{{28.3465, 2241.8}, {396.85, 45}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11549</integer>
+					<integer>11735</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -475,7 +470,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{189.662, 2745.07}, {23.8173, 18}}</string>
+					<string>{{189.662, 2597.47}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -499,11 +494,11 @@
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11550</integer>
+					<integer>11736</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11570</integer>
+						<integer>11756</integer>
 						<key>Position</key>
 						<real>0.83247923851013184</real>
 						<key>RotationType</key>
@@ -546,7 +541,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -564,7 +559,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{189.713, 2702.55}, {23.8173, 18}}</string>
+					<string>{{189.713, 2554.95}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -588,11 +583,11 @@
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11551</integer>
+					<integer>11737</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11571</integer>
+						<integer>11757</integer>
 						<key>Position</key>
 						<real>0.51641714572906494</real>
 						<key>RotationType</key>
@@ -635,7 +630,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -653,7 +648,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{189.181, 2667.69}, {23.8173, 18}}</string>
+					<string>{{189.181, 2520.09}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -677,11 +672,11 @@
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11552</integer>
+					<integer>11738</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11573</integer>
+						<integer>11759</integer>
 						<key>Position</key>
 						<real>0.77095073461532593</real>
 						<key>RotationType</key>
@@ -724,7 +719,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -742,7 +737,7 @@
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{188.529, 2489.96}, {23.8173, 18}}</string>
+					<string>{{188.529, 2342.36}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -766,11 +761,11 @@
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11553</integer>
+					<integer>11739</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11579</integer>
+						<integer>11765</integer>
 						<key>Position</key>
 						<real>0.52237343788146973</real>
 						<key>RotationType</key>
@@ -813,7 +808,7 @@
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -836,11 +831,11 @@
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{47.4055, 3133.5}, {165.193, 33}}</string>
+							<string>{{47.4055, 2985.9}, {165.193, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11555</integer>
+							<integer>11741</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -883,7 +878,7 @@
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -900,7 +895,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{23.4144, 3132.28}, {21, 21}}</string>
+							<string>{{23.4144, 2984.68}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -911,7 +906,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11556</integer>
+							<integer>11742</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -944,7 +939,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -954,7 +949,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11554</integer>
+					<integer>11740</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -963,11 +958,11 @@ Signed with oauth_secret and oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{264.936, 2971.72}, {131.915, 33}}</string>
+							<string>{{264.936, 2824.12}, {131.915, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11558</integer>
+							<integer>11744</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -1010,7 +1005,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -1025,7 +1020,7 @@ Response includes oauth_token, oath_token_secret}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{240.945, 2970.5}, {21, 21}}</string>
+							<string>{{240.945, 2822.9}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -1036,7 +1031,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11559</integer>
+							<integer>11745</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -1069,7 +1064,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1079,7 +1074,7 @@ Response includes oauth_token, oath_token_secret}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11557</integer>
+					<integer>11743</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -1088,11 +1083,11 @@ Response includes oauth_token, oath_token_secret}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{52.3372, 2971.72}, {146.088, 33}}</string>
+							<string>{{52.3372, 2824.12}, {146.088, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11561</integer>
+							<integer>11747</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -1135,7 +1130,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -1152,7 +1147,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{28.3462, 2970.5}, {21, 21}}</string>
+							<string>{{28.3462, 2822.9}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -1163,7 +1158,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11562</integer>
+							<integer>11748</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -1196,7 +1191,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1206,7 +1201,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11560</integer>
+					<integer>11746</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -1215,11 +1210,11 @@ Signed with oauth_secret and oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{264.936, 2866.64}, {159.261, 33}}</string>
+							<string>{{264.936, 2719.04}, {159.261, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11564</integer>
+							<integer>11750</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -1262,7 +1257,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -1277,7 +1272,7 @@ Includes oauth_token and oauth_secret}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{240.945, 2865.42}, {21, 21}}</string>
+							<string>{{240.945, 2717.82}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -1288,7 +1283,7 @@ Includes oauth_token and oauth_secret}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11565</integer>
+							<integer>11751</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -1321,7 +1316,7 @@ Includes oauth_token and oauth_secret}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1331,7 +1326,7 @@ Includes oauth_token and oauth_secret}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11563</integer>
+					<integer>11749</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -1340,11 +1335,11 @@ Includes oauth_token and oauth_secret}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{52.3375, 2866.64}, {146.088, 33}}</string>
+							<string>{{52.3375, 2719.04}, {146.088, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11567</integer>
+							<integer>11753</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -1387,7 +1382,7 @@ Includes oauth_token and oauth_secret}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -1399,7 +1394,7 @@ Includes oauth_token and oauth_secret}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{28.3465, 2865.42}, {21, 21}}</string>
+							<string>{{28.3465, 2717.82}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -1410,7 +1405,7 @@ Includes oauth_token and oauth_secret}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11568</integer>
+							<integer>11754</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -1443,7 +1438,7 @@ Includes oauth_token and oauth_secret}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1453,11 +1448,11 @@ Includes oauth_token and oauth_secret}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11566</integer>
+					<integer>11752</integer>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 2361.06}, {220, 19}}</string>
+					<string>{{28.3465, 2213.46}, {220, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -1465,7 +1460,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11569</integer>
+					<integer>11755</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -1497,7 +1492,7 @@ Includes oauth_token and oauth_secret}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -1515,18 +1510,18 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11575</integer>
+						<integer>11761</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11570</integer>
+					<integer>11756</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{364.417, 2729.55}</string>
-						<string>{163.866, 2754.07}</string>
+						<string>{364.417, 2581.95}</string>
+						<string>{163.866, 2606.47}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -1551,7 +1546,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11572</integer>
+						<integer>11758</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -1562,18 +1557,18 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11572</integer>
+						<integer>11758</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11571</integer>
+					<integer>11757</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{97.6064, 2694.69}</string>
-						<string>{314.811, 2711.55}</string>
+						<string>{97.6064, 2547.09}</string>
+						<string>{314.811, 2563.95}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -1598,18 +1593,18 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11576</integer>
+						<integer>11762</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{314.811, 2693.55}, {99.2126, 36}}</string>
+					<string>{{314.811, 2545.95}, {99.2126, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11572</integer>
+					<integer>11758</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -1622,7 +1617,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1636,20 +1631,20 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11576</integer>
+						<integer>11762</integer>
 						<key>Info</key>
 						<integer>3</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11573</integer>
+					<integer>11759</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{308.378, 2658.69}</string>
-						<string>{163.866, 2676.69}</string>
+						<string>{308.378, 2511.09}</string>
+						<string>{163.866, 2529.09}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -1674,7 +1669,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11577</integer>
+						<integer>11763</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -1685,14 +1680,14 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11578</integer>
+						<integer>11764</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11574</integer>
+					<integer>11760</integer>
 					<key>Points</key>
 					<array>
-						<string>{309.331, 2516.96}</string>
-						<string>{308.503, 2551.48}</string>
+						<string>{309.319, 2369.86}</string>
+						<string>{308.503, 2403.88}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -1713,18 +1708,18 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11580</integer>
+						<integer>11766</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{31.3464, 2736.07}, {132.52, 36}}</string>
+					<string>{{31.3464, 2588.47}, {132.52, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11575</integer>
+					<integer>11761</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -1737,7 +1732,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1747,11 +1742,11 @@ Includes oauth_token and oauth_secret}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{31.3464, 2658.69}, {132.52, 36}}</string>
+					<string>{{31.3464, 2511.09}, {132.52, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11576</integer>
+					<integer>11762</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -1764,7 +1759,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1774,11 +1769,11 @@ Includes oauth_token and oauth_secret}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{242.118, 2622.69}, {132.52, 36}}</string>
+					<string>{{242.118, 2475.09}, {132.52, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11577</integer>
+					<integer>11763</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -1791,7 +1786,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1801,11 +1796,11 @@ Includes oauth_token and oauth_secret}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{235.157, 2551.48}, {146.693, 36}}</string>
+					<string>{{235.157, 2403.88}, {146.693, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11578</integer>
+					<integer>11764</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -1818,7 +1813,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1832,14 +1827,14 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11580</integer>
+						<integer>11766</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11579</integer>
+					<integer>11765</integer>
 					<key>Points</key>
 					<array>
-						<string>{130.559, 2498.96}</string>
-						<string>{264.331, 2498.96}</string>
+						<string>{130.559, 2351.36}</string>
+						<string>{264.331, 2351.36}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -1862,16 +1857,16 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11581</integer>
+						<integer>11767</integer>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{264.331, 2480.96}, {90, 36}}</string>
+					<string>{{264.331, 2333.36}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11580</integer>
+					<integer>11766</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -1884,7 +1879,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1894,11 +1889,11 @@ Includes oauth_token and oauth_secret}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{40.5591, 2480.96}, {90, 36}}</string>
+					<string>{{40.5591, 2333.36}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11581</integer>
+					<integer>11767</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -1911,7 +1906,7 @@ Includes oauth_token and oauth_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -1922,7 +1917,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{300.637, 2446.09}, {60, 19}}</string>
+					<string>{{300.637, 2298.49}, {60, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -1930,7 +1925,7 @@ Authorization}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11582</integer>
+					<integer>11768</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -1962,7 +1957,7 @@ Authorization}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -1976,7 +1971,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{59.693, 2446.09}, {106, 19}}</string>
+					<string>{{59.693, 2298.49}, {106, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -1984,7 +1979,7 @@ Authorization}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11583</integer>
+					<integer>11769</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -2016,7 +2011,7 @@ Authorization}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -2032,15 +2027,15 @@ Authorization}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11584</integer>
+					<integer>11770</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{201.425, 2460.26}</string>
-						<string>{201.425, 2820.47}</string>
+						<string>{201.425, 2312.66}</string>
+						<string>{201.425, 2672.87}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -2072,7 +2067,7 @@ Authorization}</string>
 				</dict>
 			</array>
 			<key>ID</key>
-			<integer>11539</integer>
+			<integer>11725</integer>
 		</dict>
 		<dict>
 			<key>Class</key>
@@ -2081,7 +2076,7 @@ Authorization}</string>
 			<array>
 				<dict>
 					<key>Bounds</key>
-					<string>{{158.589, 1718.63}, {23.8173, 18}}</string>
+					<string>{{158.589, 1580.57}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2107,7 +2102,7 @@ Authorization}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11392</integer>
+					<integer>11674</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -2145,7 +2140,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2163,15 +2158,15 @@ Authorization}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11393</integer>
+					<integer>11675</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{73.3465, 1717.29}</string>
-						<string>{226.772, 1725.46}</string>
+						<string>{73.3465, 1579.23}</string>
+						<string>{226.772, 1587.4}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -2196,7 +2191,7 @@ Authorization}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11434</integer>
+						<integer>11716</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -2205,11 +2200,11 @@ Authorization}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11394</integer>
+					<integer>11676</integer>
 					<key>Points</key>
 					<array>
-						<string>{170.079, 1257.74}</string>
-						<string>{255.108, 1257.74}</string>
+						<string>{170.079, 1119.68}</string>
+						<string>{255.108, 1119.68}</string>
 					</array>
 					<key>Rotation</key>
 					<real>269.25</real>
@@ -2234,7 +2229,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{196.798, 1237.64}, {30, 14}}</string>
+					<string>{{196.798, 1099.58}, {30, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2242,7 +2237,7 @@ Authorization}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11395</integer>
+					<integer>11677</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -2266,7 +2261,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2278,7 +2273,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{29.9287, 1237.07}, {82, 14}}</string>
+					<string>{{29.9287, 1099.01}, {82, 14}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2286,7 +2281,7 @@ Authorization}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11396</integer>
+					<integer>11678</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -2310,7 +2305,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2324,11 +2319,11 @@ Authorization}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11397</integer>
+					<integer>11679</integer>
 					<key>Points</key>
 					<array>
-						<string>{28.3566, 1259.74}</string>
-						<string>{113.386, 1259.74}</string>
+						<string>{28.3566, 1121.68}</string>
+						<string>{113.386, 1121.68}</string>
 					</array>
 					<key>Rotation</key>
 					<real>269.25</real>
@@ -2351,11 +2346,11 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{14.1732, 1229.4}, {269.291, 45}}</string>
+					<string>{{14.1732, 1091.34}, {269.291, 45}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11398</integer>
+					<integer>11680</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -2401,7 +2396,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{158.934, 1690.29}, {23.8173, 18}}</string>
+					<string>{{158.934, 1552.23}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2425,11 +2420,11 @@ Authorization}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11399</integer>
+					<integer>11681</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11428</integer>
+						<integer>11710</integer>
 						<key>Position</key>
 						<real>0.70669740438461304</real>
 						<key>RotationType</key>
@@ -2472,7 +2467,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2490,7 +2485,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{157.024, 1641.77}, {23.8173, 18}}</string>
+					<string>{{157.024, 1503.71}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2514,11 +2509,11 @@ Authorization}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11400</integer>
+					<integer>11682</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11429</integer>
+						<integer>11711</integer>
 						<key>Position</key>
 						<real>0.69780933856964111</real>
 						<key>RotationType</key>
@@ -2561,7 +2556,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2579,7 +2574,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{156.85, 1429.17}, {23.8173, 18}}</string>
+					<string>{{156.85, 1291.11}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2603,11 +2598,11 @@ Authorization}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11401</integer>
+					<integer>11683</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11423</integer>
+						<integer>11705</integer>
 						<key>Position</key>
 						<real>0.69213157892227173</real>
 						<key>RotationType</key>
@@ -2650,7 +2645,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2668,7 +2663,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{156.676, 1389.65}, {23.8173, 18}}</string>
+					<string>{{156.676, 1251.59}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2692,11 +2687,11 @@ Authorization}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11402</integer>
+					<integer>11684</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11424</integer>
+						<integer>11706</integer>
 						<key>Position</key>
 						<real>0.70957314968109131</real>
 						<key>RotationType</key>
@@ -2739,7 +2734,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2757,7 +2752,7 @@ Authorization}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{154.504, 1332.96}, {23.8173, 18}}</string>
+					<string>{{154.504, 1194.9}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -2781,11 +2776,11 @@ Authorization}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11403</integer>
+					<integer>11685</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11432</integer>
+						<integer>11714</integer>
 						<key>Position</key>
 						<real>0.53830540180206299</real>
 						<key>RotationType</key>
@@ -2828,7 +2823,7 @@ Authorization}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -2851,11 +2846,11 @@ Authorization}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{250.763, 2160.18}, {160.261, 33}}</string>
+							<string>{{250.763, 2022.12}, {160.261, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11405</integer>
+							<integer>11687</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -2898,7 +2893,7 @@ Authorization}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -2915,7 +2910,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{226.772, 2158.96}, {21, 21}}</string>
+							<string>{{226.772, 2020.9}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -2926,7 +2921,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11406</integer>
+							<integer>11688</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -2959,7 +2954,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -2969,7 +2964,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11404</integer>
+					<integer>11686</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -2978,11 +2973,11 @@ Signed with oauth_secret and oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{47.4055, 2160.18}, {136.846, 33}}</string>
+							<string>{{47.4055, 2022.12}, {136.846, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11408</integer>
+							<integer>11690</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -3025,7 +3020,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -3040,7 +3035,7 @@ Response includes oauth_token, oath_token_secret}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{23.4146, 2158.96}, {21, 21}}</string>
+							<string>{{23.4146, 2020.9}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -3051,7 +3046,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11409</integer>
+							<integer>11691</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -3084,7 +3079,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -3094,7 +3089,7 @@ Response includes oauth_token, oath_token_secret}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11407</integer>
+					<integer>11689</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -3103,11 +3098,11 @@ Response includes oauth_token, oath_token_secret}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{250.763, 1961.75}, {165.193, 33}}</string>
+							<string>{{250.763, 1823.69}, {165.193, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11411</integer>
+							<integer>11693</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -3150,7 +3145,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -3167,7 +3162,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{226.772, 1960.53}, {21, 21}}</string>
+							<string>{{226.772, 1822.47}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -3178,7 +3173,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11412</integer>
+							<integer>11694</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -3211,7 +3206,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -3221,7 +3216,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11410</integer>
+					<integer>11692</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -3230,11 +3225,11 @@ Signed with oauth_secret and oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{47.4056, 1967.62}, {174.434, 33}}</string>
+							<string>{{47.4056, 1829.56}, {174.434, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11414</integer>
+							<integer>11696</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -3277,7 +3272,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -3285,16 +3280,14 @@ Signed with oauth_secret and oath_token_secret.}</string>
 \f0\b\fs24 \cf0 Consumer Requests Authorization
 \f1\b0 \
 \
-Request includes oauth_consumer_key, oauth_token, oauth_nonce, oauth_ts. \
-\
-Signed with oauth_secret and oath_token_secret.}</string>
+Request includes oauth_consumer_key, oauth_token.}</string>
 							</dict>
 							<key>TextPlacement</key>
 							<integer>0</integer>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{23.4146, 1966.41}, {21, 21}}</string>
+							<string>{{23.4146, 1828.35}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -3305,7 +3298,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11415</integer>
+							<integer>11697</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -3338,7 +3331,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -3348,7 +3341,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11413</integer>
+					<integer>11695</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -3357,11 +3350,11 @@ Signed with oauth_secret and oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{250.763, 1805.85}, {146.088, 33}}</string>
+							<string>{{250.763, 1667.79}, {146.088, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11417</integer>
+							<integer>11699</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -3404,7 +3397,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -3412,14 +3405,14 @@ Signed with oauth_secret and oath_token_secret.}</string>
 \f0\b\fs24 \cf0 Provider Grants Single-Use Token
 \f1\b0 \
 \
-Redirect includes oauth_token, oauth_token_secret}</string>
+Response includes oauth_token, oauth_token_secret}</string>
 							</dict>
 							<key>TextPlacement</key>
 							<integer>0</integer>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{226.772, 1804.63}, {21, 21}}</string>
+							<string>{{226.772, 1666.57}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -3430,7 +3423,7 @@ Redirect includes oauth_token, oauth_token_secret}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11418</integer>
+							<integer>11700</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -3463,7 +3456,7 @@ Redirect includes oauth_token, oauth_token_secret}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -3473,7 +3466,7 @@ Redirect includes oauth_token, oauth_token_secret}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11416</integer>
+					<integer>11698</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -3482,11 +3475,11 @@ Redirect includes oauth_token, oauth_token_secret}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{47.4057, 1805.85}, {151.02, 33}}</string>
+							<string>{{47.4057, 1667.79}, {151.02, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11420</integer>
+							<integer>11702</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -3529,7 +3522,7 @@ Redirect includes oauth_token, oauth_token_secret}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -3546,7 +3539,7 @@ Signed with oauth_secret.}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{23.4146, 1804.63}, {21, 21}}</string>
+							<string>{{23.4146, 1666.57}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -3557,7 +3550,7 @@ Signed with oauth_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11421</integer>
+							<integer>11703</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -3590,7 +3583,7 @@ Signed with oauth_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -3600,7 +3593,7 @@ Signed with oauth_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11419</integer>
+					<integer>11701</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -3608,14 +3601,14 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11436</integer>
+						<integer>11718</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11422</integer>
+					<integer>11704</integer>
 					<key>Points</key>
 					<array>
-						<string>{265.776, 1456.67}</string>
-						<string>{265.985, 1482.51}</string>
+						<string>{265.772, 1318.11}</string>
+						<string>{265.984, 1344.45}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3636,7 +3629,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11438</integer>
+						<integer>11720</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -3647,18 +3640,18 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11438</integer>
+						<integer>11720</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11423</integer>
+					<integer>11705</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{73.3465, 1416.65}</string>
-						<string>{220.772, 1438.17}</string>
+						<string>{73.3465, 1278.59}</string>
+						<string>{220.772, 1300.11}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3681,7 +3674,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11425</integer>
+						<integer>11707</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -3692,18 +3685,18 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11425</integer>
+						<integer>11707</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11424</integer>
+					<integer>11706</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{252.638, 1359.96}</string>
-						<string>{118.347, 1398.65}</string>
+						<string>{252.638, 1221.9}</string>
+						<string>{118.346, 1260.59}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3728,18 +3721,18 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11426</integer>
+						<integer>11708</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 1380.65}, {90, 36}}</string>
+					<string>{{28.3465, 1242.59}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11425</integer>
+					<integer>11707</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -3752,7 +3745,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -3762,11 +3755,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{207.638, 1323.96}, {90, 36}}</string>
+					<string>{{207.638, 1185.9}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11426</integer>
+					<integer>11708</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -3779,7 +3772,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -3789,7 +3782,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{23.1732, 1204.72}, {179, 19}}</string>
+					<string>{{23.1732, 1066.66}, {179, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -3797,7 +3790,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11427</integer>
+					<integer>11709</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -3829,7 +3822,7 @@ Signed with oauth_secret.}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -3847,18 +3840,18 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11434</integer>
+						<integer>11716</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11428</integer>
+					<integer>11710</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{266.811, 1668.77}</string>
-						<string>{118.347, 1699.29}</string>
+						<string>{266.811, 1530.71}</string>
+						<string>{118.346, 1561.23}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3883,7 +3876,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11433</integer>
+						<integer>11715</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -3894,18 +3887,18 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11433</integer>
+						<integer>11715</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11429</integer>
+					<integer>11711</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{65.3465, 1632.25}</string>
-						<string>{221.811, 1650.77}</string>
+						<string>{65.3465, 1494.19}</string>
+						<string>{221.811, 1512.71}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3930,7 +3923,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11437</integer>
+						<integer>11719</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -3941,20 +3934,20 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11437</integer>
+						<integer>11719</integer>
 						<key>Info</key>
 						<integer>3</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11430</integer>
+					<integer>11712</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{266.598, 1581.73}</string>
-						<string>{110.347, 1614.25}</string>
+						<string>{266.598, 1443.67}</string>
+						<string>{110.347, 1476.19}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3977,7 +3970,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11435</integer>
+						<integer>11717</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -3988,14 +3981,14 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11435</integer>
+						<integer>11717</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11431</integer>
+					<integer>11713</integer>
 					<key>Points</key>
 					<array>
-						<string>{265.985, 1518.51}</string>
-						<string>{266.598, 1545.73}</string>
+						<string>{265.996, 1380.95}</string>
+						<string>{266.598, 1407.67}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4016,7 +4009,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11436</integer>
+						<integer>11718</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -4027,14 +4020,14 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11426</integer>
+						<integer>11708</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11432</integer>
+					<integer>11714</integer>
 					<key>Points</key>
 					<array>
-						<string>{118.347, 1341.96}</string>
-						<string>{207.638, 1341.96}</string>
+						<string>{118.346, 1203.9}</string>
+						<string>{207.638, 1203.9}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4057,18 +4050,18 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11439</integer>
+						<integer>11721</integer>
 						<key>Info</key>
 						<integer>3</integer>
 					</dict>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{221.811, 1632.77}, {90, 36}}</string>
+					<string>{{221.811, 1494.71}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11433</integer>
+					<integer>11715</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -4081,7 +4074,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4091,11 +4084,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 1681.29}, {90, 36}}</string>
+					<string>{{28.3465, 1543.23}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11434</integer>
+					<integer>11716</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -4108,7 +4101,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4118,11 +4111,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{221.598, 1545.73}, {90, 36}}</string>
+					<string>{{221.598, 1407.67}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11435</integer>
+					<integer>11717</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -4135,7 +4128,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4145,11 +4138,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{192.638, 1482.51}, {146.693, 36}}</string>
+					<string>{{192.638, 1344.45}, {146.693, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11436</integer>
+					<integer>11718</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -4162,7 +4155,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4172,11 +4165,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{20.3465, 1596.25}, {90, 36}}</string>
+					<string>{{20.3465, 1458.19}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11437</integer>
+					<integer>11719</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -4189,7 +4182,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4199,11 +4192,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{220.772, 1420.17}, {90, 36}}</string>
+					<string>{{220.772, 1282.11}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11438</integer>
+					<integer>11720</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -4216,7 +4209,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4226,11 +4219,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 1323.96}, {90, 36}}</string>
+					<string>{{28.3465, 1185.9}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11439</integer>
+					<integer>11721</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -4243,7 +4236,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4253,7 +4246,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{226.771, 1289.09}, {60, 19}}</string>
+					<string>{{226.771, 1151.03}, {60, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -4261,7 +4254,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11440</integer>
+					<integer>11722</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -4293,7 +4286,7 @@ Signed with oauth_secret.}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -4307,7 +4300,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{28.3465, 1289.09}, {74, 19}}</string>
+					<string>{{28.3465, 1151.03}, {74, 19}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -4315,7 +4308,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11441</integer>
+					<integer>11723</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -4347,7 +4340,7 @@ Signed with oauth_secret.}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -4363,15 +4356,15 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11442</integer>
+					<integer>11724</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{170.079, 1303.26}</string>
-						<string>{170.079, 1753.81}</string>
+						<string>{170.079, 1165.2}</string>
+						<string>{170.079, 1615.75}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -4403,7 +4396,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 			</array>
 			<key>ID</key>
-			<integer>11391</integer>
+			<integer>11673</integer>
 		</dict>
 		<dict>
 			<key>Class</key>
@@ -4436,11 +4429,11 @@ Signed with oauth_secret.}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11630</integer>
+					<integer>11772</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11631</integer>
+						<integer>11773</integer>
 						<key>Position</key>
 						<real>0.66050755977630615</real>
 						<key>RotationType</key>
@@ -4483,7 +4476,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -4503,7 +4496,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11631</integer>
+					<integer>11773</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -4536,7 +4529,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11662</integer>
+						<integer>11804</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -4545,7 +4538,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11632</integer>
+					<integer>11774</integer>
 					<key>Points</key>
 					<array>
 						<string>{184.252, 70.8658}</string>
@@ -4579,11 +4572,11 @@ Signed with oauth_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{52.3373, 944.953}, {160.261, 33}}</string>
+							<string>{{52.3373, 888.26}, {160.261, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11634</integer>
+							<integer>11776</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -4626,7 +4619,7 @@ Signed with oauth_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -4643,7 +4636,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{28.3463, 943.734}, {21, 21}}</string>
+							<string>{{28.3463, 887.041}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -4654,7 +4647,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11635</integer>
+							<integer>11777</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -4687,7 +4680,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4697,7 +4690,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11633</integer>
+					<integer>11775</integer>
 				</dict>
 				<dict>
 					<key>Bounds</key>
@@ -4727,7 +4720,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11636</integer>
+					<integer>11778</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -4765,7 +4758,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -4786,11 +4779,11 @@ Signed with oauth_secret, oath_token_secret.}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{274.177, 761.744}, {136.846, 33}}</string>
+							<string>{{274.177, 705.051}, {136.846, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11638</integer>
+							<integer>11780</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -4833,7 +4826,7 @@ Signed with oauth_secret, oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -4848,7 +4841,7 @@ Response includes oauth_token, oath_token_secret}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{250.186, 760.525}, {21, 21}}</string>
+							<string>{{250.186, 703.832}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -4859,7 +4852,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11639</integer>
+							<integer>11781</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -4892,7 +4885,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -4902,11 +4895,11 @@ Response includes oauth_token, oath_token_secret}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11637</integer>
+					<integer>11779</integer>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{165.598, 368.503}, {23.8173, 18}}</string>
+					<string>{{143.328, 368.503}, {23.8173, 18}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -4930,11 +4923,11 @@ Response includes oauth_token, oath_token_secret}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11640</integer>
+					<integer>11782</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11657</integer>
+						<integer>11799</integer>
 						<key>Position</key>
 						<real>0.56851822137832642</real>
 						<key>RotationType</key>
@@ -4977,7 +4970,7 @@ Response includes oauth_token, oath_token_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -5019,11 +5012,11 @@ Response includes oauth_token, oath_token_secret}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11641</integer>
+					<integer>11783</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11658</integer>
+						<integer>11800</integer>
 						<key>Position</key>
 						<real>0.68311107158660889</real>
 						<key>RotationType</key>
@@ -5066,7 +5059,7 @@ Response includes oauth_token, oath_token_secret}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -5089,11 +5082,11 @@ Response includes oauth_token, oath_token_secret}</string>
 					<array>
 						<dict>
 							<key>Bounds</key>
-							<string>{{52.3373, 763.573}, {165.193, 33}}</string>
+							<string>{{52.3373, 706.88}, {165.193, 33}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11643</integer>
+							<integer>11785</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -5136,7 +5129,7 @@ Response includes oauth_token, oath_token_secret}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -5153,7 +5146,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 						<dict>
 							<key>Bounds</key>
-							<string>{{28.3463, 762.354}, {21, 21}}</string>
+							<string>{{28.3463, 705.661}, {21, 21}}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>FontInfo</key>
@@ -5164,7 +5157,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11644</integer>
+							<integer>11786</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -5197,7 +5190,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -5207,7 +5200,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11642</integer>
+					<integer>11784</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -5220,7 +5213,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11646</integer>
+							<integer>11788</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -5263,7 +5256,7 @@ Signed with oauth_secret and oath_token_secret.}</string>
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -5289,7 +5282,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11647</integer>
+							<integer>11789</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -5322,7 +5315,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -5332,7 +5325,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11645</integer>
+					<integer>11787</integer>
 				</dict>
 				<dict>
 					<key>Class</key>
@@ -5345,7 +5338,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 							<key>Class</key>
 							<string>ShapedGraphic</string>
 							<key>ID</key>
-							<integer>11649</integer>
+							<integer>11791</integer>
 							<key>Shape</key>
 							<string>Rectangle</string>
 							<key>Style</key>
@@ -5388,7 +5381,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 								<key>Pad</key>
 								<integer>4</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
@@ -5396,7 +5389,7 @@ Redirect includes oauth_token, oauth_token_secret, oauth_state (optional)}</stri
 \f0\b\fs24 \cf0 Consumer Requests Permission\
 
 \f1\b0 \
-Request includes oauth_consumer_key, oauth_nonce, oauth_ts, oauth_sigalg, oauth_state (optional). \
+Request includes oauth_consumer_key, oauth_state (optional). \
 \
 Signed with oauth_secret.}</string>
 							</dict>
@@ -5416,7 +5409,7 @@ Signed with oauth_secret.}</string>
 								<real>6</real>
 							</dict>
 							<key>ID</key>
-							<integer>11650</integer>
+							<integer>11792</integer>
 							<key>Shape</key>
 							<string>Circle</string>
 							<key>Style</key>
@@ -5449,7 +5442,7 @@ Signed with oauth_secret.}</string>
 								<key>Pad</key>
 								<integer>0</integer>
 								<key>Text</key>
-								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+								<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fnil\fcharset77 TrebuchetMS-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -5459,7 +5452,7 @@ Signed with oauth_secret.}</string>
 						</dict>
 					</array>
 					<key>ID</key>
-					<integer>11648</integer>
+					<integer>11790</integer>
 				</dict>
 				<dict>
 					<key>Bounds</key>
@@ -5487,11 +5480,11 @@ Signed with oauth_secret.}</string>
 						<real>12</real>
 					</dict>
 					<key>ID</key>
-					<integer>11651</integer>
+					<integer>11793</integer>
 					<key>Line</key>
 					<dict>
 						<key>ID</key>
-						<integer>11661</integer>
+						<integer>11803</integer>
 						<key>Position</key>
 						<real>0.4783165454864502</real>
 						<key>RotationType</key>
@@ -5534,7 +5527,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -5560,7 +5553,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11652</integer>
+					<integer>11794</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -5584,7 +5577,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -5604,7 +5597,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11653</integer>
+					<integer>11795</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -5628,7 +5621,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc\pardirnatural
@@ -5642,7 +5635,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11654</integer>
+					<integer>11796</integer>
 					<key>Points</key>
 					<array>
 						<string>{42.5298, 72.8658}</string>
@@ -5677,7 +5670,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11655</integer>
+					<integer>11797</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -5709,7 +5702,7 @@ Signed with oauth_secret.}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -5727,17 +5720,17 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11662</integer>
+						<integer>11804</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11656</integer>
+					<integer>11798</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
 					<real>-1</real>
 					<key>Points</key>
 					<array>
-						<string>{325.118, 395.503}</string>
+						<string>{285.945, 395.503}</string>
 						<string>{118.346, 427.677}</string>
 					</array>
 					<key>Style</key>
@@ -5763,7 +5756,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11663</integer>
+						<integer>11805</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5774,12 +5767,12 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11663</integer>
+						<integer>11805</integer>
 						<key>Info</key>
 						<integer>4</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11657</integer>
+					<integer>11799</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -5787,7 +5780,7 @@ Signed with oauth_secret.}</string>
 					<key>Points</key>
 					<array>
 						<string>{73.3465, 346.464}</string>
-						<string>{280.118, 377.503}</string>
+						<string>{240.945, 377.503}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -5812,7 +5805,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11664</integer>
+						<integer>11806</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5823,10 +5816,10 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11664</integer>
+						<integer>11806</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11658</integer>
+					<integer>11800</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -5857,7 +5850,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11665</integer>
+						<integer>11807</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5868,15 +5861,15 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11665</integer>
+						<integer>11807</integer>
 						<key>Info</key>
 						<integer>2</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11659</integer>
+					<integer>11801</integer>
 					<key>Points</key>
 					<array>
-						<string>{285.965, 241.445}</string>
+						<string>{285.965, 240.945}</string>
 						<string>{285.945, 274.464}</string>
 					</array>
 					<key>Style</key>
@@ -5898,7 +5891,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11666</integer>
+						<integer>11808</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5909,10 +5902,10 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11666</integer>
+						<integer>11808</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11660</integer>
+					<integer>11802</integer>
 					<key>Points</key>
 					<array>
 						<string>{285.945, 173.559}</string>
@@ -5937,7 +5930,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11667</integer>
+						<integer>11809</integer>
 						<key>Info</key>
 						<integer>1</integer>
 					</dict>
@@ -5948,10 +5941,10 @@ Signed with oauth_secret.}</string>
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>11667</integer>
+						<integer>11809</integer>
 					</dict>
 					<key>ID</key>
-					<integer>11661</integer>
+					<integer>11803</integer>
 					<key>Points</key>
 					<array>
 						<string>{118.347, 155.559}</string>
@@ -5976,7 +5969,7 @@ Signed with oauth_secret.}</string>
 					<key>Tail</key>
 					<dict>
 						<key>ID</key>
-						<integer>11668</integer>
+						<integer>11810</integer>
 					</dict>
 				</dict>
 				<dict>
@@ -5985,7 +5978,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11662</integer>
+					<integer>11804</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6000,7 +5993,7 @@ Signed with oauth_secret.}</string>
 						<key>Align</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -6010,11 +6003,11 @@ Signed with oauth_secret.}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{280.118, 359.503}, {90, 36}}</string>
+					<string>{{240.945, 359.503}, {90, 36}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11663</integer>
+					<integer>11805</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6027,7 +6020,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -6041,7 +6034,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11664</integer>
+					<integer>11806</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6054,7 +6047,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -6068,7 +6061,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11665</integer>
+					<integer>11807</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6081,7 +6074,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -6095,7 +6088,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11666</integer>
+					<integer>11808</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6108,7 +6101,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -6122,7 +6115,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11667</integer>
+					<integer>11809</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6135,7 +6128,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -6149,7 +6142,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11668</integer>
+					<integer>11810</integer>
 					<key>Magnets</key>
 					<array>
 						<string>{0, 1}</string>
@@ -6162,7 +6155,7 @@ Signed with oauth_secret.}</string>
 					<key>Text</key>
 					<dict>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
@@ -6180,7 +6173,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11669</integer>
+					<integer>11811</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -6212,7 +6205,7 @@ Signed with oauth_secret.}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -6228,7 +6221,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>LineGraphic</string>
 					<key>ID</key>
-					<integer>11670</integer>
+					<integer>11812</integer>
 					<key>OrthogonalBarAutomatic</key>
 					<true/>
 					<key>OrthogonalBarPosition</key>
@@ -6276,7 +6269,7 @@ Signed with oauth_secret.}</string>
 					<key>Flow</key>
 					<string>Resize</string>
 					<key>ID</key>
-					<integer>11671</integer>
+					<integer>11813</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -6308,7 +6301,7 @@ Signed with oauth_secret.}</string>
 						<key>Pad</key>
 						<integer>0</integer>
 						<key>Text</key>
-						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+						<string>{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf440
 {\fonttbl\f0\fswiss\fcharset77 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
@@ -6326,7 +6319,7 @@ Signed with oauth_secret.}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
-					<integer>11672</integer>
+					<integer>11814</integer>
 					<key>Shape</key>
 					<string>Rectangle</string>
 					<key>Style</key>
@@ -6372,7 +6365,7 @@ Signed with oauth_secret.}</string>
 				</dict>
 			</array>
 			<key>ID</key>
-			<integer>11629</integer>
+			<integer>11771</integer>
 		</dict>
 	</array>
 	<key>GridInfo</key>
@@ -6490,9 +6483,9 @@ Signed with oauth_secret.}</string>
 		</dict>
 	</array>
 	<key>ModificationDate</key>
-	<string>2007-08-31 18:41:30 -0700</string>
+	<string>2007-09-03 22:47:18 -0700</string>
 	<key>Modifier</key>
-	<string>Todd Sieling</string>
+	<string>Larry Halff</string>
 	<key>NotesVisible</key>
 	<string>NO</string>
 	<key>Orientation</key>
@@ -6518,12 +6511,12 @@ Signed with oauth_secret.}</string>
 		<key>NSPaperName</key>
 		<array>
 			<string>string</string>
-			<string>iso-a4</string>
+			<string>A4</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
 			<string>size</string>
-			<string>{595.2, 841.8}</string>
+			<string>{595, 842}</string>
 		</array>
 		<key>NSRightMargin</key>
 		<array>
@@ -6557,17 +6550,25 @@ Signed with oauth_secret.}</string>
 	<key>WindowInfo</key>
 	<dict>
 		<key>CurrentSheet</key>
-		<integer>0</integer>
+		<string>0</string>
+		<key>DrawerOpen</key>
+		<false/>
 		<key>DrawerTab</key>
 		<string>Outline</string>
 		<key>DrawerWidth</key>
 		<real>209</real>
+		<key>FitInWindow</key>
+		<false/>
 		<key>Frame</key>
-		<string>{{849, 65}, {743, 801}}</string>
+		<string>{{328, 48}, {743, 801}}</string>
+		<key>ShowRuler</key>
+		<false/>
+		<key>ShowStatusBar</key>
+		<true/>
 		<key>VisibleRegion</key>
-		<string>{{-91, 0}, {759.318, 716.554}}</string>
+		<string>{{-98, 98.0438}, {759.318, 716.554}}</string>
 		<key>Zoom</key>
-		<real>0.9587554931640625</real>
+		<string>0.9587555</string>
 	</dict>
 </dict>
 </plist>
