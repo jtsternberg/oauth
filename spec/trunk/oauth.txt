@@ -2,20 +2,20 @@
 
 ## Authors
 
-* Mark Atwood (me@mark.atwood.name)
-* Blaine Cook (blaine@twitter.com)
-* Leah Culver (leah@pownce.com)
-* Kellan Elliott-McCrea (kellan@flickr.com)
-* Larry Halff (larry@ma.gnolia.com)
-* Eran Hammer-Lahav (eran@hueniverse.com)
-* Ben Laurie (benl@google.com) 
-* Chris Messina (chris@citizenagency.com)
-* John Panzer (jpanzer@acm.org)
-* David Recordon (david@sixapart.com)
-* Eran Sandler (eran@yedda.com)
-* Jonathan Sergent (sergent@google.com)
-* Todd Sieling (todd@ma.gnolia.com)
-* Andy Smith (andy@jaiku.com)
+* <span class="vcard"><span class="fn">Mark Atwood</span> (<span class="email">me@mark.atwood.name</span>)</span>
+* <span class="vcard"><span class="fn">Blaine Cook</span> (<span class="email">blaine@twitter.com</span>)</span>
+* <span class="vcard"><span class="fn">Leah Culver</span> (<span class="email">leah@pownce.com</span>)</span>
+* <span class="vcard"><span class="fn">Kellan Elliott-McCrea</span> (<span class="email">kellan@flickr.com</span>)</span>
+* <span class="vcard"><span class="fn">Larry Halff</span> (<span class="email">larry@ma.gnolia.com</span>)</span>
+* <span class="vcard"><span class="fn">Eran Hammer-Lahav</span> (<span class="email">eran@hueniverse.com</span>)</span>
+* <span class="vcard"><span class="fn">Ben Laurie</span> (<span class="email">benl@google.com</span>)</span> 
+* <span class="vcard"><span class="fn">Chris Messina</span> (<span class="email">chris@citizenagency.com</span>)</span>
+* <span class="vcard"><span class="fn">John Panzer</span> (<span class="email">jpanzer@acm.org</span>)</span>
+* <span class="vcard"><span class="fn">David Recordon</span> (<span class="email">david@sixapart.com</span>)</span>
+* <span class="vcard"><span class="fn">Eran Sandler</span> (<span class="email">eran@yedda.com</span>)</span>
+* <span class="vcard"><span class="fn">Jonathan Sergent</span> (<span class="email">sergent@google.com</span>)</span>
+* <span class="vcard"><span class="fn">Todd Sieling</span> (<span class="email">todd@ma.gnolia.com</span>)</span>
+* <span class="vcard"><span class="fn">Andy Smith</span> (<span class="email">andy@jaiku.com</span>)</span>
 
 ## Description
 
