@@ -352,7 +352,7 @@ The signature process MUST NOT change the request parameter names or values. It 
 All Service Provider request parameters (parameters starting with something other than `oauth_`) SHALL be normalized as follows into a single string:
 
 1. Parameters are sorted alphabetically by name. If two or more parameters share the same name, they are sorted by their value. For example: `a=1`, `c=hi%20there`, `f=25`, `f=50`, `z=10`.
-2. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated by an `=` character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`
+2. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated from the corresponding value by an = character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`
 3. The concatenated string is encoded as described in "HTTP Request Parameters".
 
 ### 2. Concatenate Parameters Into a String
@@ -378,7 +378,7 @@ The OAuth request parameters, custom request parameters, and other request prope
 9. `oauth_ts`
 : An integer representing the time of request, expressed in number of seconds after January 1, 1970 00:00:00 GMT.
 
-The above request parameter are concatenated in order into a single string. For each parameter, the name is separated by an `=` character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38).
+The above request parameter are concatenated in order into a single string. For each parameter, the name is separated from the corresponding value by an = character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38).
 
 ### 3. Sign or Hash the Concatenated String
 
