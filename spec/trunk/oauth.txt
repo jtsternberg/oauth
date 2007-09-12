@@ -3,6 +3,7 @@
 ## Authors
 
 * <span class="vcard"><span class="fn">Mark Atwood</span> (<span class="email">me@mark.atwood.name</span>)</span>
+* <span class="vcard"><span class="fn">Richard M. Conlan</span> (<span class="email">zeveck@google.com</span>)</span>
 * <span class="vcard"><span class="fn">Blaine Cook</span> (<span class="email">blaine@twitter.com</span>)</span>
 * <span class="vcard"><span class="fn">Leah Culver</span> (<span class="email">leah@pownce.com</span>)</span>
 * <span class="vcard"><span class="fn">Kellan Elliott-McCrea</span> (<span class="email">kellan@flickr.com</span>)</span>
