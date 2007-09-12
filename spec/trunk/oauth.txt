@@ -374,9 +374,9 @@ The OAuth request parameters, custom request parameters, and the request propert
 2. `oauth_consumer_key`
 : The Consumer Key.
 3. `oauth_token`
-: The Single-Use or Multi-Use Token.
+: The Single-Use or Multi-Use Token. If no Token has been issued yet, the parameter is included with empty value.
 4. `oauth_token_secret`
-: The Token Secret.
+: The Token Secret. If no Token Secret has been issued yet, the parameter is included with empty value.
 5. `http_request_method`
 : The HTTP request method used to send the request. Value MUST be uppercase, for example: `HEAD`, `GET`, `POST`, etc.
 6. `http_request_uri`
