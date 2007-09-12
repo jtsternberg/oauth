@@ -136,13 +136,13 @@ OAuth does not specify how the Service Provider authenticates the User. However,
 
 Web-based Consumers obtain a Single-Use Token by way of an HTTP Redirect from the Consumer to the Service Provider's Authorization Endpoint URL and back to the Consumer's Callback Endpoint URL, following these steps:
 
-1. The Consumer requests User authorization
-2. The Service Provider authenticates the User and obtains User consent
-3. The Service Provider issues a Single-Use Token
+1. Consumer requests User authorization
+2. Service Provider authenticates the User and obtains User consent
+3. Service Provider issues a Single-Use Token
 
 ![OAuth Web Flow Diagram](./diagrams/oauth_web_flow.png)
 
-#### 1. The Consumer Requests User Authorization
+#### 1. Consumer Requests User Authorization
 
 To request a Single-Use Token and Token Secret, the Consumer constructs an HTTP GET request to the Service Provider's Authorization Endpoint URL, to be sent via the User's web browser.
 
@@ -160,11 +160,11 @@ For example, if the Consumer is requesting a Single-Use Token from the Authoriza
 
       https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91
 
-#### 2. The Service Provider Authenticates the User and Obtains Consent
+#### 2. Service Provider Authenticates the User and Obtains Consent
 
 The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Consumer Access Grants" section.
 
-#### 3. The Service Provider issues a Single-Use Token
+#### 3. Service Provider issues a Single-Use Token
 
 After the User has authenticated with the Service Provider and has granted permission for Consumer access, the Service Provider will create a Single-Use Token and a corresponding Token Secret, and deliver it to the Consumer via an HTTP Redirect.
 
@@ -185,15 +185,15 @@ For example, if the Service Provider has created a Single-Use Token `c3e347b6a50
 
 Desktop Consumers can redirect the User to the Service Provider but cannot accept incoming HTTP(S) requests from the Service Provider via a Callback Endpoint URL. Instead, they MUST first obtain a Single-Use Token.
 
-1. The Consumer requests a Single-Use Token
-2. The Service Provider issues an unauthorized Single-Use Token
-3. The Consumer redirects the User to the Service Provider
-4. The Service Provider authenticates the User and obtains consent
-5. The Service Provider directs the User back to the Consumer
+1. Consumer requests a Single-Use Token
+2. Service Provider issues an unauthorized Single-Use Token
+3. Consumer redirects the User to the Service Provider
+4. Service Provider authenticates the User and obtains consent
+5. Service Provider directs the User back to the Consumer
 
 ![Desktop Flow Diagram](./diagrams/oauth_desktop_flow.png)
 
-#### 1. The Consumer Requests a Single-Use Token
+#### 1. Consumer Requests a Single-Use Token
 
 To obtain a Single-Use Token, the Consumer sends a request to the Service Provider's API Endpoint URL. The request contains the following parameters:
 
@@ -212,16 +212,15 @@ For example, the Consumer has a Consumer Key `1b20acc6` and a Consumer Secret `4
 
       https://sp.example.com/oauth/get_su_token?oauth_consumer_key=1b20acc6&oauth_nonce=17907867114999140772853922434221488511&oauth_ts=1186953553&oauth_sigalg=sha1&oauth_sig=26287279e66f7f183af02653e823625871167d16
 
-#### 2. The Service Provider Issues an Unauthorized Single-Use Token
+#### 2. Service Provider Issues an Unauthorized Single-Use Token
 
-The Service Provider generates a Single-Use Token and MUST ensure it cannot be exchanged for a Multi-Use Token until the User successfully grants access in step 5 below.
-
+The Service Provider generates a Single-Use Token and Token Secret and returns them to the Consumer in the HTTP response. The Service Provider MUST ensure the Single-Use Token cannot be exchanged for a Multi-Use Token until the User successfully grants access in step 4 below.
 For example, the Service Provider generates a Single-Use Token `37bb49b4` and a corresponding Token Secret `d0e46c19`, and returns the following as the body of the response:
 
       token=37bb49b4
       secret=d0e46c19
 
-#### 3. The Consumer Redirects the User to the Service Provider
+#### 3. Consumer Redirects the User to the Service Provider
 
 In order for the Consumer to be able to exchange the pre-obtained Single-Use Token for a Multi-Use Token, the Consumer MUST obtain approval from the User by directing the User to the Service Provider. The Consumer constructs an HTTP GET request to the Service Provider's Authorization Endpoint URL which will be sent via the User's web browser.
 
@@ -239,11 +238,11 @@ For example, if the Consumer requests the User to authorize a Single-Use Token a
 
     https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91&oauth_token=37bb49b4
 
-#### 4. The Service Provider Authenticates the User and Obtains Consent
+#### 4. Service Provider Authenticates the User and Obtains Consent
 
 The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Consumer Access Grants" section.
 
-#### 5. The Service Provider Directs the User Back to the Consumer
+#### 5. Service Provider Directs the User Back to the Consumer
 
 The Service Provider instructs the User to inform the Consumer that authorization has completed.
 
@@ -251,16 +250,16 @@ The Service Provider instructs the User to inform the Consumer that authorizatio
 
 Manual-token-entry Consumers cannot redirect the User to the Service Provider nor accept incoming HTTP(S) requests from the Service Provider. Instead, A Single-Use Token and Token Secret will be generated by the Service Provider and presented to the User. The Consumer waits for the User to manually submit the Token and Token Secret back to it.
 
-1. The Consumer directs the User to request authorization
-2. The Service Provider authenticates the User and obtains consent
-3. The Service Provider presents a Single-Use Token and Token Secret to the User
-4. The User enters the Single-Use Token and Token Secret in the Consumer
+1. Consumer directs the User to request authorization
+2. Service Provider authenticates the User and obtains consent
+3. Service Provider presents a Single-Use Token and Token Secret to the User
+4. User enters the Single-Use Token and Token Secret in the Consumer
 
 Note: If a Service Provider knows a Consumer to be running on a mobile device or set-top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL, the Single-Use Token, and Token Secret are short and simple for manual entry.
 
 ![Manual-Token-Entry Provider Flow Diagram](./diagrams/oauth_oob_flow.png)
 
-#### 1. The Consumer directs the User to request authorization
+#### 1. Consumer directs the User to request authorization
 
 The Consumer directs the User to the Service Provider's Authorization Endpoint URL.
 
@@ -268,15 +267,15 @@ For example, the Consumer is requesting a Single-Use Token and Token Secret from
 
       https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91
 
-#### 2. The Service Provider Authenticates the User and Obtains Consent
+#### 2. Service Provider Authenticates the User and Obtains Consent
 
 The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Consumer Access Grants" section.
 
-#### 3. The Service Provider presents a Single-Use Token and Token Secret to the User
+#### 3. Service Provider presents a Single-Use Token and Token Secret to the User
 
 The Service Provider presents the Single-Use Token and Token Secret to the User by displaying it on the screen or other available methods.
 
-#### 4. The User Enters the Single-Use Token and Token Secret in the Consumer
+#### 4. User Enters the Single-Use Token and Token Secret in the Consumer
 
 The User manually enters the Single-Use Token and Token Secret in the Consumer. This can be done by manually typing the information or using cut-and-paste.
 
