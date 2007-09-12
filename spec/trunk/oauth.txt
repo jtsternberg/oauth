@@ -214,7 +214,7 @@ For example, the Consumer has a Consumer Key `1b20acc6` and a Consumer Secret `4
 
 #### 2. Service Provider Issues an Unauthorized Single-Use Token
 
-The Service Provider generates a Single-Use Token and Token Secret and returns them to the Consumer in the HTTP response. The Service Provider MUST ensure the Single-Use Token cannot be exchanged for a Multi-Use Token until the User successfully grants access in step 4 below.
+The Service Provider generates a Single-Use Token and Token Secret and returns them to the Consumer in the HTTP response body. The Service Provider MUST ensure the Single-Use Token cannot be exchanged for a Multi-Use Token until the User successfully grants access in step 4 below.
 For example, the Service Provider generates a Single-Use Token `37bb49b4` and a corresponding Token Secret `d0e46c19`, and returns the following as the body of the response:
 
       token=37bb49b4
