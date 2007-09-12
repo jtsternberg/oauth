@@ -3,6 +3,7 @@
 ## Authors
 
 * <span class="vcard"><span class="fn">Mark Atwood</span> (<span class="email">me@mark.atwood.name</span>)</span>
+* <span class="vcard"><span class="fn">Richard M. Conlan</span> (<span class="email">zeveck@google.com</span>)</span>
 * <span class="vcard"><span class="fn">Blaine Cook</span> (<span class="email">blaine@twitter.com</span>)</span>
 * <span class="vcard"><span class="fn">Leah Culver</span> (<span class="email">leah@pownce.com</span>)</span>
 * <span class="vcard"><span class="fn">Kellan Elliott-McCrea</span> (<span class="email">kellan@flickr.com</span>)</span>
@@ -171,11 +172,11 @@ In order for the Consumer to be able to exchange the Single-Use Token for a Mult
 
 Once the request URL has been constructed the Consumer redirects the User to the URL via the User's web browser. If the Consumer is incapable of automatic HTTP redirection, the Consumer SHALL notify the User how to manually go to the constructed request URL.
 
-Note: If a Service Provider knows a Consumer to be running on a mobile device or set-top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL and Single-Use Token are short and simple for manual entry. The Service Provider MAY accept requests to the Authorization Endpoint URL without the `oauth_token` parameter, in which case it will prompt the User to enter it separately.
-
 For example, if the Consumer requests the User to authorize the Single-Use Token `37bb49b4` at the Service Provider's Authorization Endpoint URL `https://sp.example.com/oauth/authorize`, the request would be as follows:
 
     https://sp.example.com/oauth/authorize?&oauth_token=37bb49b4
+
+Note: If a Service Provider knows a Consumer to be running on a mobile device or set-top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL and Single-Use Token are short and simple for manual entry. The Service Provider MAY accept requests to the Authorization Endpoint URL without the `oauth_token` parameter, in which case it will prompt the User to enter it separately.
 
 #### 4. Service Provider Authenticates the User and Obtains Consent
 
@@ -183,9 +184,9 @@ The Service Provider verifies the User's identity and asks for consent as detail
 
 #### 5. Service Provider Directs the User Back to the Consumer
 
-After the User authenticates with the Service Provider and grants permission for Consumer access, the Consumer MUST be notified the Single-Use Token has been authorized and ready to be exchanged for a Multi-Use Token. If the User denies access, the Consumer MAY be notified the Single-Use Token has been revoked.
+After the User authenticates with the Service Provider and grants permission for Consumer access, the Consumer MUST be notified that the Single-Use Token has been authorized and ready to be exchanged for a Multi-Use Token. If the User denies access, the Consumer MAY be notified that the Single-Use Token has been revoked.
 
-Consumer notification method is based on the Consumer type.
+The Consumer notification method is based on the Consumer type as follows:
 
 ##### Web-Based Consumers
 
@@ -208,7 +209,7 @@ For example, if the User granted access to the Single-Use Token `c3e347b6a5001c1
 
 The Service Provider instructs the User to inform the Consumer that authorization has completed. Since Limited Consumers cannot accept incoming HTTP(S) requests, the User will need to manually notify the Consumer when they are done.
 
-The Service Provider MAY include a machine-readable tag in its human-readable instructions to the User. If included, the tag MUST be added in the Header element of the HTML document:
+The Service Provider MAY include a machine-readable tag in its human-readable instructions to the User. If included, the tag MUST be added in the <head> element of the HTML document:
 
      <meta name="oauth.result" content="true" />
 
