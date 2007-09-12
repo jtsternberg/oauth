@@ -62,7 +62,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 * API Endpoint URL(s)
 : URL(s) provided by the Service Provider, which the Consumer uses to make API requests, including obtaining Tokens.
 * Callback Endpoint URL
-: A URL provided by a web Consumer, which the Service Provider uses to return a Single-Use Token and Token Secret.
+: A URL provided by a web-based Consumer, which the Service Provider uses to return a Single-Use Token and Token Secret.
 * Protocol Parameters
 : Parameters with names beginning with `oauth_`.
 
