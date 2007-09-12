@@ -128,7 +128,7 @@ OAuth does not specify how the Service Provider authenticates the User. However,
 
 * The Service Provider MUST first verify the User's identity before asking for consent. It MAY prompt the User to sign in if the User has not already done so.
 * The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The information MUST include the duration of the access and the Protected Resources provided. The information MAY include other details specific to the Service Provider.
-* The User MUST grant or decline permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for the protocol flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT provide the Consumer with a Single-Use Token and MUST NOT allow access to the Protected Resources.
+* The User MUST grant or deny permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for the protocol flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT provide the Consumer with a Single-Use Token and MUST NOT allow access to the Protected Resources.
 
 ## Obtaining a Single-Use Token
 
