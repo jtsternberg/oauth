@@ -145,6 +145,8 @@ To obtain a Single-Use Token, the Consumer sends a request to the Service Provid
 : The signature algorithm that the Consumer used to sign the request. 
 * `oauth_sig`
 : The signature as defined in "Signing API Requests".
+* `oauth_state`
+: An OPTIONAL parameter that will be returned unmodified to the Consumer. This parameter is only available to web-based Consumers, and SHOULD only be used in the case of stateless Consumers. The value is returned via the Callback Endpoint URL.
 * Any additional parameters, as defined by the Service Provider.
 
 For example, the Consumer has a Consumer Key `1b20acc6` and a Consumer Secret `427a5979d9df7722`. The Service Provider's API Endpoint URL for requesting a Single-Use Token is `http://sp.example.com/oauth/get_su_token`, and the request is using the HTTP GET method. The nonce is `17907867114999140772853922434221488511` and the timestamp of `1186953553`. Using `sha1` as the signature algorithm, the signature is then `26287279e66f7f183af02653e823625871167d16`, and the request is as follows:
@@ -162,20 +164,18 @@ For example, the Service Provider generates a Single-Use Token `37bb49b4` and a 
 
 #### 3. Consumer Directs the User to the Service Provider
 
-In order for the Consumer to be able to exchange the pre-obtained Single-Use Token for a Multi-Use Token, the Consumer MUST obtain approval from the User by directing the User to the Service Provider. The Consumer constructs an HTTP GET request to the Service Provider's Authorization Endpoint URL with the following parameters: 
+In order for the Consumer to be able to exchange the Single-Use Token for a Multi-Use Token, the Consumer MUST obtain approval from the User by directing the User to the Service Provider. The Consumer constructs an HTTP GET request to the Service Provider's Authorization Endpoint URL with the following parameter:
 
-* `oauth_consumer_key`
-: The Consumer Key 
 * `oauth_token`
 : The Single-Use Token obtained in the previous step.
 
-Once the request URL has been generated the Consumer redirects the User to the URL via the User's web browser.
+Once the request URL has been constructed the Consumer redirects the User to the URL via the User's web browser. If the Consumer is incapable of automatic HTTP redirection, the Consumer SHALL notify the User how to manually go to the constructed request URL.
 
-Note: If a Service Provider knows a Consumer to be running on a mobile device or set-top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL, the Single-Use Token, and Token Secret are short and simple for manual entry.
+Note: If a Service Provider knows a Consumer to be running on a mobile device or set-top box, the Service Provider SHOULD ensure that the Authorization Endpoint URL and Single-Use Token are short and simple for manual entry. The Service Provider MAY accept requests to the Authorization Endpoint URL without the `oauth_token` parameter, in which case it will prompt the User to enter it separately.
 
-For example, if the Consumer requests the User to authorize a Single-Use Token at the Service Provider's Authorization Endpoint URL `https://sp.example.com/oauth/authorize` with the Consumer Key `0685bd91` and pre-obtained Single-Use Token `37bb49b4`, the request would be as follows:
+For example, if the Consumer requests the User to authorize the Single-Use Token `37bb49b4` at the Service Provider's Authorization Endpoint URL `https://sp.example.com/oauth/authorize`, the request would be as follows:
 
-    https://sp.example.com/oauth/authorize?oauth_consumer_key=0685bd91&oauth_token=37bb49b4
+    https://sp.example.com/oauth/authorize?&oauth_token=37bb49b4
 
 #### 4. Service Provider Authenticates the User and Obtains Consent
 
@@ -183,7 +183,36 @@ The Service Provider verifies the User's identity and asks for consent as detail
 
 #### 5. Service Provider Directs the User Back to the Consumer
 
-The Service Provider instructs the User to inform the Consumer that authorization has completed.
+After the User authenticates with the Service Provider and grants permission for Consumer access, the Consumer MUST be notified the Single-Use Token has been authorized and ready to be exchanged for a Multi-Use Token. If the User denies access, the Consumer MAY be notified the Single-Use Token has been revoked.
+
+Consumer notification method is based on the Consumer type.
+
+##### Web-Based Consumers
+
+The Service Provider constructs an HTTP GET request to the Consumer's Callback Endpoint URL with the following parameters:
+
+* `oauth_token`
+: The Single-Use Token the User authorized or denied.
+* `oauth_result`
+: `true` if the User grants access, `false` if the User denies access.
+* `oauth_state`
+: REQUIRED if one was provided in the Consumer Single-Use Token request.
+
+Once the request URL has been constructed the Service Provider redirects the User to the URL via the User's web browser.
+
+For example, if the User granted access to the Single-Use Token `c3e347b6a5001c16` for the Consumer, whose Callback Endpoint URL is `https://Consumer.example.com/validate`, then the Service Provider will redirect the User to the following URL:
+
+     https://Consumer.example.com/validate?oauth_token=c3e347b6a5001c16&oauth_result=true
+
+##### Limited Consumers
+
+The Service Provider instructs the User to inform the Consumer that authorization has completed. Since Limited Consumers cannot accept incoming HTTP(S) requests, the User will need to manually notify the Consumer when they are done.
+
+The Service Provider MAY include a machine-readable tag in its human-readable instructions to the User. If included, the tag MUST be added in the Header element of the HTML document:
+
+     <meta name="oauth.result" content="true" />
+
+The `content` attribute indicates whether access was granted, true` if the User grants access, `false` if the User denies access.
 
 ### Obtaining a Multi-Use Token
 
