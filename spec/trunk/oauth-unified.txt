@@ -82,9 +82,9 @@ All Endpoint URLs for both Service Providers and Consumers MUST include scheme, 
 
 ## Setting Up to Use OAuth
 
-OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Customer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources). 
+OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Consumer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources). 
 
-Only web-based Consumers are assumed to be capable of keeping their Consumer Secret private. Service Providers MUST NOT rely on the Consumer Secret as a method to verify the Consumer identity for non web-based Consumers.
+Service Providers MUST NOT rely on the Consumer Secret as a method to verify the Consumer identity, unless the Consumer Secret is known to be inaccessible to anyone other than the Consumer and the Service Provider. When displaying any identifying information about the Consumer to the User based on the Consumer Key, the Service Provider MUST inform the User if it is unable to assure the Consumer’s true identity. The method in which the Service Provider informs the User and the quality of the identity assurance is beyond the scope of this specification.
 
 ### Service Providers
 
