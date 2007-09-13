@@ -425,7 +425,7 @@ The concatenated string from step 3 (`concatenated_string`) is signed or hashed 
 
 5. The full signed request is then:
 
-    `GET http://twitter.com/statuses/friends/123456.json?page=3&count=50&oauth_key=0685bd91&oauth_token=540ad18&oauth_nonce=MTgzNTYxODk4Mw&oauth_ts=1181537927&oauth_sigalg=sha1&oauth_sig=2d047740b53ae16f670750bef5bb5c2a0f398f30`
+    `GET http://twitter.com/statuses/friends/123456.json?page=3&count=50&oauth_consumer_key=0685bd91&oauth_token=540ad18&oauth_nonce=MTgzNTYxODk4Mw&oauth_ts=1181537927&oauth_sigalg=sha1&oauth_sig=2d047740b53ae16f670750bef5bb5c2a0f398f30`
 
 ## Request Nonce
 
@@ -437,7 +437,7 @@ This section defines an RFC 2617 extension to support OAuth. It uses the standar
 
 When using an HTTP-Authorization header, the OAuth request parameters are not included in the request URL. Rather they are included as the value of the header.
 
-    `Authorization: OAuth oauth_token="540ad18" oauth_key="0685bd91" oauth_nonce="MTgzNTYxODk4Mw" oauth_ts="1185517832" oauth_sigalg="SHA1" oauth_sig="2d047740b53ae16f670750bef5bb5c2a0f398f30"`
+    `Authorization: OAuth oauth_token="540ad18" oauth_consumer_key="0685bd91" oauth_nonce="MTgzNTYxODk4Mw" oauth_ts="1185517832" oauth_sigalg="SHA1" oauth_sig="2d047740b53ae16f670750bef5bb5c2a0f398f30"`
 
 To reject a request that lacks appropriate credentials, the Service Provider MUST respond with a 401 Unauthorized response. Such a response MUST include at least one OAuth WWW-Authenticate header and MAY include additional WWW-Authenticate headers:
 
