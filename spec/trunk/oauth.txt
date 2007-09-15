@@ -373,7 +373,7 @@ All API Endpoint URL requests MUST be signed by the Consumer and the signature v
 2. Concatenate parameters into a string
 3. Sign or hash the concatenated parameters string
 
-The signature process MUST NOT change the request parameter names or values. It is a read-only process on the request. All request parameters MUST have be properly encoded as described in "Parameter Encoding" prior to applying the signature process.
+The signature process MUST NOT change the request parameter names or values. It is a read-only process on the request. All request parameters MUST be encoded as described in "Parameter Encoding" prior to applying the signature process.
 
 ### 1. Normalize Service Provider Request Parameters
 
