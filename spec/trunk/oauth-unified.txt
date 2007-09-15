@@ -301,6 +301,13 @@ The signature process MUST NOT change the request parameter names or values. It 
 
 ### PLAINTEXT
 
+The `PLAINTEXT` method does not provide any security protection and SHOULD be used over a secure channel such as HTTPS. The signature Protocol Parameters are set with the following values unencrypted:
+
+* `oauth.signature_method`
+: Set to `PLAINTEXT`.
+* `oauth.signature`
+: Set to the concatenated value of the `oauth.consumer_secret` parameter and the value of the `oauth.token_secret` parameter. The values are separated by a `,` character (ASCII code 44), even if empty.
+
 ### HMAC-SHA1
 
 The `HMAC-SHA1` method includes the following steps:
@@ -323,7 +330,7 @@ All non-Protocol Parameters SHALL be normalized as follows into a single string:
 
 A nonce is a random string, uniquely generated for each request. The nonce allows the Service Provider to verify that a request has never been made before and helps prevent replay attacks when requests are made over a non-secure channel (such as HTTP).
 
-The Consumer SHALL first calculate the request timestamp expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The Consumer SHALL then generate a Nonce values that is unique for each request with the same Token and timestamp value.
+The Consumer SHALL first calculate the request timestamp expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The Consumer SHALL then generate a Nonce values that is unique for each request with the same timestamp value.
 
 #### 3. Concatenate Parameters into a String
 
@@ -344,15 +351,22 @@ The above request parameters and generated values are concatenated in order into
 
 #### 4. Calculate HMAC value 
 
-The HMAC-SHA1 value of the concatenated string from step 3 is calculated:
+The HMAC-SHA1 value of the concatenated string from step 3 is calculated as defined in RFC 2104:
 
 hmac_sha1(oauth.consumer_secret, concatenated_string)
 
 #### 5. Set Signature Parameters
 
+The signature Protocol Parameters are set with the following values:
+
+* `oauth.signature_method`
+: Set to `HMAC-SHA1`.
+* `oauth.signature`
+: Set to the concatenated values of the timestamp value from step 2, the nonce value from step 2, and the calculated HMAC value from step 4. Each value is separated by an `,` character (ASCII code 44).
 
 ### RSA
 
+-- Not yet done - ignore
 * `oauth.signature=openssl_x509_sign`
 : openssl_x509_sign(private_certificate, concatenated_string). In the case of using x509 certs, the Service Provider would have the Consumer's public key and therefore would provide an empty string as the secret.
 
@@ -362,7 +376,7 @@ This section defines an RFC 2617 extension to support OAuth. It uses the standar
 
 When using an HTTP-Authorization header, the Protocol Parameters are not included in the request URL. Rather they are included as the value of the header.
 
-    `Authorization: OAuth oauth.token="540ad18" oauth.consumer_key="0685bd91" oauth.signature_method="SHA1" oauth.signature="2d047740b53ae16f670750bef5bb5c2a0f398f30"`
+    `Authorization: OAuth oauth.token="540ad18" oauth.consumer_key="0685bd91" oauth.signature_method="PLAINTEXT" oauth.signature="2d047740b53,bb5c2a0f398f30"`
 
 To reject a request that lacks appropriate credentials, the Service Provider MUST respond with a 401 Unauthorized response. Such a response MUST include at least one OAuth WWW-Authenticate header and MAY include additional WWW-Authenticate headers:
 
@@ -385,9 +399,4 @@ A Consumer MAY also include an empty, token-less OAuth Authorization header on a
   * Invalid Signature
   * Nonce Spent
 
-## Security Considerations
-
-* Service Providers are RECOMMENDED to use HTTPS for endpoints URLs which contain sensitive information such as Token Secrets. The decision to use HTTPS is left for each Service Provider.
-* Credentials as GET parameters can get logged in various places
-* Timestamps SHOULD be good for 5 minutes, this gives sufficient time to deal with network latency, without becoming a security hole, or placing an unbearable burden on the server for tracking and storing nonces. Ideally, servers would provide a method for retrieving what they think the current time is.
 
