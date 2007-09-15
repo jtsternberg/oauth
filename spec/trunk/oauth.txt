@@ -304,7 +304,6 @@ Obtaining a Multi-Use Token follows the same process for all Consumer types.
 
 1. Consumer Requests Multi-Use Token
 2. Service Provider Grants Multi-Use Token
-3. Consumer Accesses Service Provider API Endpoints
 
 ### 1. Consumer Requests Multi-Use Token
 
@@ -346,7 +345,7 @@ The Multi-Use Token and Token Secret are stored by the Consumer to use when sign
 
 If the request is unsuccessful, the Service Provider MUST respond with an HTTP 401 Not Authorized, and MAY include some further details about why the request was not authorized.
 
-### 3. Consumer Accesses Service Provider API Endpoints
+## Accessing Protected Resources
 
 After receiving the Multi-Use Token and Token Secret, the Consumer is able to use the Multi-Use Token and Token Secret to access the Protected Resources on behalf of the User. The Service Provider documentation MAY specify limitations on the Multi-Use Token such as expiration or other constrains.
 
@@ -364,6 +363,7 @@ The request contains the following parameters:
 : The signature algorithm that the Consumer used to sign the request. 
 * `oauth_sig`
 : The signature as defined in "Signing API Requests". 
+* Any additional parameters, as defined by the Service Provider.
 
 ## Signing API Requests
 
