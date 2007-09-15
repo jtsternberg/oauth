@@ -406,7 +406,7 @@ The OAuth request parameters, custom request parameters, and the request propert
 9. `oauth_ts`
 : An integer representing the time of request, expressed in number of seconds after January 1, 1970 00:00:00 GMT.
 
-The above request parameters are concatenated in order into a single string. For each parameter, the name is separated from the corresponding value by an = character (ASCII code 61). Each name-value pair is seperated by an `&` character (ASCII code 38).
+The above request parameters are concatenated in order into a single string. For each parameter, the name is separated from the corresponding value by an = character (ASCII code 61). Each name-value pair is separated by an `&` character (ASCII code 38).
 
 ### 3. Sign or Hash the Concatenated String
 
