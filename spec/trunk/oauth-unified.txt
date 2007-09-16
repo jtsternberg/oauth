@@ -92,7 +92,7 @@ The Service Provider MUST also provide documentation to specify:
 
 1. The Authorization Endpoint URL and the API Endpoint URLs that the Consumer will use when making OAuth requests.
 2. Signature algorithms supported by the Service Provider.
-3. Any additional request parameters that the Service Provider requires in order to obtain a Token. Service Provider specific parameters MUST NOT begin with `oauth.`.
+3. Any additional request parameters that the Service Provider requires in order to obtain a Token. Service Provider specific parameters MUST NOT begin with `oauth_`.
 
 ### Consumers
 
@@ -152,17 +152,17 @@ The Consumer obtains an authorized Request Token by asking the Service Provider 
 
 To obtain a Request Token, the Consumer sends an HTTP GET request to the Service Provider's API Endpoint URL for Request Token requests. The request MUST be signed per "Signing API Requests", and contains the following parameters:
 
-* `oauth.consumer_key`
+* `oauth_consumer_key`
 : The Consumer Key.
-* `oauth.token_attributes`
+* `oauth_token_attributes`
 : OPTIONAL. Service Provider specific value used to indicate the type of access, resources, duration, and other Token attributes. 
-* `oauth.signature_method`
+* `oauth_signature_method`
 : The signature method the Consumer used to sign the request.
-* `oauth.signature`
+* `oauth_signature`
 : The signature as defined in "Signing API Requests".
-* `oauth.state`
+* `oauth_state`
 : OPTIONAL. This parameter will be returned unmodified to the Consumer. This parameter is only available to web-based Consumers, and SHOULD only be used in the case of stateless Consumers. The value is returned via the Callback Endpoint URL.
-* `oauth.version`
+* `oauth_version`
 : OPTIONAL. If present, value MUST be `1.0`. Service Providers MUST assume the protocol version to be `1.0` if this parameter is not present. Service Providers’ response to non-`1.0` value is left undefined.
 * Any additional parameters, as defined by the Service Provider.
 
@@ -172,9 +172,9 @@ The Service Provider verifies the Consumer Key and if successful, generates a Re
 
 The response contains the following parameters:
 
-* `oauth.token`
+* `oauth_token`
 : The Request Token.
-* `oauth.token_secret`
+* `oauth_token_secret`
 : The Token Secret.
 * Any additional parameters, as defined by the Service Provider.
 
@@ -184,7 +184,7 @@ If the request fails verification, the Service Provider MUST respond with an HTT
 
 In order for the Consumer to be able to exchange the Request Token for an Access Token, the Consumer MUST obtain approval from the User by directing the User to the Service Provider. The Consumer constructs an HTTP GET request to the Service Provider's Authorization Endpoint URL with the following parameter:
 
-* `oauth.token`
+* `oauth_token`
 : OPTIONAL. The Request Token obtained in the previous step. The Service Provider MAY declare this parameter as REQUIRED, or accept requests to the Authorization Endpoint URL without it, in which case it will prompt the User to enter it manually.
 
 Once the request URL has been constructed the Consumer redirects the User to the URL via the User's web browser. If the Consumer is incapable of automatic HTTP redirection, the Consumer SHALL notify the User how to manually go to the constructed request URL.
@@ -205,11 +205,11 @@ The Consumer notification method is based on the Consumer type as follows:
 
 The Service Provider constructs an HTTP GET request to the Consumer's Callback Endpoint URL with the following parameters:
 
-* `oauth.token`
+* `oauth_token`
 : The Request Token the User authorized or denied.
-* `oauth.result`
+* `oauth_result`
 : `true` if the User grants access, `false` if the User denies access.
-* `oauth.state`
+* `oauth_state`
 : REQUIRED if one was provided in the Consumer Request Token request.
 
 Once the request URL has been constructed the Service Provider redirects the User to the URL via the User's web browser.
@@ -220,10 +220,10 @@ The Service Provider instructs the User to inform the Consumer that authorizatio
 
 The Service Provider MAY include two machine-readable tags in its human-readable instructions to the User. If included, both tags MUST be added in the <head> element of the HTML document:
 
-     <meta name="oauth.result" content="true" />
-     <meta name="oauth.token" content="single_use_token" />
+     <meta name="oauth_result" content="true" />
+     <meta name="oauth_token" content="request_token" />
 
-In the `oauth.result` tag, the `content` attribute indicates whether access was granted, true` if the User grants access, `false` if the User denies access. In the `oauth.token` tag, the `content` attributes is the Request Token approved or denied.
+In the `oauth_result` tag, the `content` attribute indicates whether access was granted, true` if the User grants access, `false` if the User denies access. In the `oauth_token` tag, the `content` attributes is the Request Token approved or denied.
 
 ### Obtaining an Access Token
 
@@ -240,13 +240,13 @@ To request as Access Token, the Consumer makes an HTTP request to Service Provid
 
 The request contains the following parameters:
 
-* `oauth.consumer_key`
+* `oauth_consumer_key`
 : The Consumer Key.
-* `oauth.token`
+* `oauth_token`
 : The Request Token obtained previously.
-* `oauth.signature_method`
+* `oauth_signature_method`
 : The signature method the Consumer used to sign the request.
-* `oauth.signature`
+* `oauth_signature`
 : The signature as defined in "Signing API Requests".
 
 No additional Service Provider specific parameters are allowed when requesting an Access Token to ensure all Token related information is present prior to seeking User approval.
@@ -263,9 +263,9 @@ On successful verification, the Service Provider returns an Access Token and a T
 
 The response contains the following parameters:
 
-* `oauth.token`
+* `oauth_token`
 : The Access Token.
-* `oauth.token_secret`
+* `oauth_token_secret`
 : The Token Secret.
 * Any additional parameters, as defined by the Service Provider.
 
@@ -277,13 +277,13 @@ After successfully receiving the Access Token and Token Secret, the Consumer is 
 
 The request contains the following parameters:
 
-* `oauth.consumer_key`
+* `oauth_consumer_key`
 : The Consumer Key.
-* `oauth.token`
+* `oauth_token`
 : The Access Token.
-* `oauth.signature_method`
+* `oauth_signature_method`
 : The signature method the Consumer used to sign the request.
-* `oauth.signature`
+* `oauth_signature`
 : The signature as defined in "Signing API Requests".
 * Any additional parameters, as defined by the Service Provider.
 
@@ -295,7 +295,7 @@ OAuth does not require a particular signature method, as each API implementation
 
 All API Endpoint URL requests MUST be signed by the Consumer and verified by the Service Provider. Both the Consumer and Service Provider follow the same process to generate the request signature.
 
-The Consumer declares a signature method in the `oauth.signature_method` parameter, and generates a signature which is includes in the `oauth.signature` parameter. The Service Provider verifies the request by generating a new request signature based on the Consumer specified method, and compares it to the signature provided by the Consumer.
+The Consumer declares a signature method in the `oauth_signature_method` parameter, and generates a signature which is includes in the `oauth_signature` parameter. The Service Provider verifies the request by generating a new request signature based on the Consumer specified method, and compares it to the signature provided by the Consumer.
 
 The signature process MUST NOT change the request parameter names or values. It is a read-only process on the request. All request parameters MUST be encoded as described in "Parameter Encoding" prior to applying the signature process.
 
@@ -303,10 +303,10 @@ The signature process MUST NOT change the request parameter names or values. It 
 
 The `PLAINTEXT` method does not provide any security protection and SHOULD be used over a secure channel such as HTTPS. The signature Protocol Parameters are set with the following values unencrypted:
 
-* `oauth.signature_method`
+* `oauth_signature_method`
 : Set to `PLAINTEXT`.
-* `oauth.signature`
-: Set to the concatenated value of the `oauth.consumer_secret` parameter and the value of the `oauth.token_secret` parameter. The values are separated by a `,` character (ASCII code 44), even if empty.
+* `oauth_signature`
+: Set to the concatenated value of the `oauth_consumer_secret` parameter and the value of the `oauth_token_secret` parameter. The values are separated by a `,` character (ASCII code 44), even if empty.
 
 ### HMAC-SHA1
 
@@ -336,10 +336,10 @@ The Consumer SHALL first calculate the request timestamp expressed in the number
 
 The Protocol Parameters and values generated in the previous two steps are concatenated into a single string used as the input to the signature algorithm. The request parameters MUST be concatenated in the following order:
 
-1. `oauth.consumer_key`
-2. `oauth.consumer_secret`
-3. `oauth.token`
-4. `oauth.token_secret`
+1. `oauth_consumer_key`
+2. `oauth_consumer_secret`
+3. `oauth_token`
+4. `oauth_token_secret`
 5. The HTTP request method used to send the request. Value MUST be uppercase, for example: `HEAD`, `GET`, `POST`, etc.
 6. The API Endpoint URL as defined in "Endpoint URLs".
 7. The normalized Service Provider request parameter result string from step 1.
@@ -353,21 +353,21 @@ The above request parameters and generated values are concatenated in order into
 
 The HMAC-SHA1 value of the concatenated string from step 3 is calculated as defined in RFC 2104:
 
-hmac_sha1(oauth.consumer_secret, concatenated_string)
+hmac_sha1(oauth_consumer_secret, concatenated_string)
 
 #### 5. Set Signature Parameters
 
 The signature Protocol Parameters are set with the following values:
 
-* `oauth.signature_method`
+* `oauth_signature_method`
 : Set to `HMAC-SHA1`.
-* `oauth.signature`
+* `oauth_signature`
 : Set to the concatenated values of the timestamp value from step 2, the nonce value from step 2, and the calculated HMAC value from step 4. Each value is separated by an `,` character (ASCII code 44).
 
 ### RSA
 
 -- Not yet done - ignore
-* `oauth.signature=openssl_x509_sign`
+* `oauth_signature=openssl_x509_sign`
 : openssl_x509_sign(private_certificate, concatenated_string). In the case of using x509 certs, the Service Provider would have the Consumer's public key and therefore would provide an empty string as the secret.
 
 ## Using HTTP-Authorization Headers
@@ -376,7 +376,7 @@ This section defines an RFC 2617 extension to support OAuth. It uses the standar
 
 When using an HTTP-Authorization header, the Protocol Parameters are not included in the request URL. Rather they are included as the value of the header.
 
-    `Authorization: OAuth oauth.token="540ad18" oauth.consumer_key="0685bd91" oauth.signature_method="PLAINTEXT" oauth.signature="2d047740b53,bb5c2a0f398f30"`
+    `Authorization: OAuth oauth_token="540ad18" oauth_consumer_key="0685bd91" oauth_signature_method="PLAINTEXT" oauth_signature="2d047740b53,bb5c2a0f398f30"`
 
 To reject a request that lacks appropriate credentials, the Service Provider MUST respond with a 401 Unauthorized response. Such a response MUST include at least one OAuth WWW-Authenticate header and MAY include additional WWW-Authenticate headers:
 
