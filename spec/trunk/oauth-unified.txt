@@ -20,7 +20,7 @@
 
 ## Description
 
-The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring the User to disclose their Service Provider credentials to the Consumer. An example use case is allowing printing service print.example.com (the Consumer), to access private photos stored on photos.example.com (the Service Provider) without requiring the User to provide their photos.example.com credentials to print.example.com.
+The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring Users to disclose their Service Provider credentials to the Consumers. An example use case is allowing printing service print.example.com (the Consumer), to access private photos stored on photos.example.com (the Service Provider) without requiring Users to provide their photos.example.com credentials to print.example.com.
 
 More generally, OAuth creates a freely-implementable and generic methodology for API authentication, benefitting developers who want their Consumer product to interact with various Service Providers.
 
@@ -78,9 +78,7 @@ All Endpoint URLs for both Service Providers and Consumers MUST include scheme, 
 
 OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Consumer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources). 
 
-Service Providers MUST NOT rely on the Consumer Secret as a method to verify the Consumer identity, unless the Consumer Secret is known to be inaccessible to anyone other than the Consumer and the Service Provider. When displaying any identifying information about the Consumer to the User based on the Consumer Key, the Service Provider MUST inform the User if it is unable to assure the Consumer’s true identity. The method in which the Service Provider informs the User and the quality of the identity assurance is beyond the scope of this specification.
-
-For example, the Consumer Key and Consumer Secret of a desktop application running on a User desktop can be extracted and abused, while a Consumer Key and Consumer Secret stored on a web server behind a firewall can be assumed safe.
+Service Providers MUST NOT rely on the Consumer Secret as a method to verify the Consumer identity, unless the Consumer Secret is known to be inaccessible to anyone other than the Consumer and the Service Provider.
 
 ### Service Providers
 
@@ -98,7 +96,7 @@ The Service Provider MUST also provide documentation to specify:
 
 The Consumer Developer MUST establish a Consumer Key and a Consumer Secret with the Service Provider.
 
-When registering a Consumer Key, the Consumer Developer MUST identify the Consumer type (web-based or limited). If the Consumer is web-based, the Consumer Developer MUST provide the Callback Endpoint URL where the Service Provider notifies the Consumer when the User grants or denies access.
+When registering a Consumer Key, the Consumer Developer MUST identify the Consumer type (web-based or limited). If the Consumer is web-based, the Consumer Developer MUST provide the Callback Endpoint URL which the Service Provider uses to notify the Consumer when the User grants or denies access.
 
 ## Parameters
 
@@ -119,13 +117,17 @@ Protocol Parameters are sent from the Consumer to the Service Provider in one of
 
 Response parameters are sent by the Service Provider to return Tokens and other information to the Consumer in the HTTP response body. The parameters are first encoded and then sent as a sequence of lines. Each line begins with a parameter name, followed by an = character (ASCII code 61), and the parameter value. The line is terminated by a single newline character (ASCII code 10). Additional characters, including whitespace, MUST NOT be added before or after the = or newline characters.
 
-## User Authentication and Consumer Access Grants
+## User Authentication and Access Grants
 
-OAuth does not specify how the Service Provider authenticates the User. However, it does provide a set of steps to verify User identity and obtain approval to grant the Consumer access to the Protected Resources.
+OAuth does not specify how the Service Provider authenticates the User. However, it does define a set of REQUIRED steps:
 
 * The Service Provider MUST first verify the User's identity before asking for consent. It MAY prompt the User to sign in if the User has not already done so.
 * The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The information MUST include the duration of the access and the Protected Resources provided. The information MAY include other details specific to the Service Provider.
-* The User MUST grant or deny permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. Permission MUST be granted for the protocol flow to continue. If the User denies the Consumer access, the Service Provider MUST NOT allow access to the Protected Resources.
+* The User MUST grant or deny permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. If the User denies the Consumer access, the Service Provider MUST NOT allow access to the Protected Resources.
+
+When displaying any identifying information about the Consumer to the User based on the Consumer Key, the Service Provider MUST inform the User if it is unable to assure the Consumer’s true identity. The method in which the Service Provider informs the User and the quality of the identity assurance is beyond the scope of this specification.
+
+For example, the Consumer Key and Consumer Secret of a desktop application running on a User desktop can be extracted and abused, while a Consumer Key and Consumer Secret stored on a web server behind a firewall can be assumed safe.
 
 ## Authenticating with OAuth
 
@@ -137,6 +139,8 @@ OAuth authentication is the process in which Users grant access to their Protect
 : Used by the Consumer to access the Protected Resources on behalf of the User. Access Tokens MAY limit access to certain Protected Resources, and MAY have a defined lifetime. Service Providers SHOULD allow Users to revoke Access Tokens.
 
 OAuth Authentication is done in two broad steps. First, the Consumer obtains an authorized Request Token. Second, the Consumer exchanges the Request Token for an Access Token. Only the Access Token SHALL be used to access the Protect Resources.
+
+Service Providers SHOULD be prepare to handle the case in which Consumers fail to use the Request Token (to request User access grant or exchange it for an Access Token).
 
 ### Obtaining a Request Token
 
@@ -160,8 +164,6 @@ To obtain a Request Token, the Consumer sends an HTTP GET request to the Service
 : The signature method the Consumer used to sign the request.
 * `oauth_signature`
 : The signature as defined in "Signing API Requests".
-* `oauth_state`
-: OPTIONAL. This parameter will be returned unmodified to the Consumer. This parameter is only available to web-based Consumers, and SHOULD only be used in the case of stateless Consumers. The value is returned via the Callback Endpoint URL.
 * `oauth_version`
 : OPTIONAL. If present, value MUST be `1.0`. Service Providers MUST assume the protocol version to be `1.0` if this parameter is not present. Service Providers’ response to non-`1.0` value is left undefined.
 * Any additional parameters, as defined by the Service Provider.
@@ -186,6 +188,8 @@ In order for the Consumer to be able to exchange the Request Token for an Access
 
 * `oauth_token`
 : OPTIONAL. The Request Token obtained in the previous step. The Service Provider MAY declare this parameter as REQUIRED, or accept requests to the Authorization Endpoint URL without it, in which case it will prompt the User to enter it manually.
+* `oauth_state`
+: OPTIONAL. This parameter will be returned unmodified to the Consumer. This parameter is only available to web-based Consumers, and SHOULD only be used in the case of stateless Consumers. The value is returned via the Callback Endpoint URL.
 
 Once the request URL has been constructed the Consumer redirects the User to the URL via the User's web browser. If the Consumer is incapable of automatic HTTP redirection, the Consumer SHALL notify the User how to manually go to the constructed request URL.
 
@@ -193,7 +197,7 @@ Note: If a Service Provider knows a Consumer to be running on a mobile device or
 
 #### 4. Service Provider Authenticates the User and Obtains Consent
 
-The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Consumer Access Grants" section.
+The Service Provider verifies the User's identity and asks for consent as detailed in the "User Authentication and Access Grants" section.
 
 #### 5. Service Provider Directs the User Back to the Consumer
 
@@ -210,7 +214,7 @@ The Service Provider constructs an HTTP GET request to the Consumer's Callback E
 * `oauth_result`
 : `true` if the User grants access, `false` if the User denies access.
 * `oauth_state`
-: REQUIRED if one was provided in the Consumer Request Token request.
+: REQUIRED if one was provided in the Consumer step 3.
 
 Once the request URL has been constructed the Service Provider redirects the User to the URL via the User's web browser.
 
