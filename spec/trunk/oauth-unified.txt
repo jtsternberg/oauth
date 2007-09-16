@@ -91,7 +91,7 @@ The Consumer Secret MAY be either a randomized string or a public/private key pa
 The Service Provider MUST also provide documentation to specify:
 
 1. The Authorization Endpoint URL and the API Endpoint URLs that the Consumer will use when making OAuth requests.
-2. Signature algorithms supported by the Service Provider.
+2. Signature methods supported by the Service Provider.
 3. Any additional request parameters that the Service Provider requires in order to obtain a Token. Service Provider specific parameters MUST NOT begin with `oauth_`.
 
 ### Consumers
@@ -178,7 +178,7 @@ The response contains the following parameters:
 : The Token Secret.
 * Any additional parameters, as defined by the Service Provider.
 
-If the request fails verification, the Service Provider MUST respond with an HTTP 401 Not Authorized, and MAY include some further details about why the request was not authorized in the HTTP response body as defined in "Response Parameters".
+If the request fails verification or is rejected for other reasons, the Service Provider MUST respond with the appropriate error code as defined in "HTTP Error Messages". The Service Provider MAY include some further details about why the request was rejected in the HTTP response body as defined in "Response Parameters".
 
 #### 3. Consumer Directs the User to the Service Provider
 
@@ -269,7 +269,7 @@ The response contains the following parameters:
 : The Token Secret.
 * Any additional parameters, as defined by the Service Provider.
 
-If the request is unsuccessful, the Service Provider MUST respond with an HTTP 401 Not Authorized, and MAY include some further details about why the request was not authorized in the HTTP response body as defined in "Response Parameters". 
+If the request fails verification or is rejected for other reasons, the Service Provider MUST respond with the appropriate error code as defined in "HTTP Error Messages". The Service Provider MAY include some further details about why the request was rejected in the HTTP response body as defined in "Response Parameters".
 
 ## Accessing Protected Resources
 
@@ -351,9 +351,9 @@ The above request parameters and generated values are concatenated in order into
 
 #### 4. Calculate HMAC value 
 
-The HMAC-SHA1 value of the concatenated string from step 3 is calculated as defined in RFC 2104:
+The HMAC-SHA1 value of the concatenated string from step 3 (`concatenated_string`) is calculated as defined in RFC 2104:
 
-hmac_sha1(oauth_consumer_secret, concatenated_string)
+    hmac_sha1(oauth_consumer_secret, concatenated_string)
 
 #### 5. Set Signature Parameters
 
@@ -376,27 +376,69 @@ This section defines an RFC 2617 extension to support OAuth. It uses the standar
 
 When using an HTTP-Authorization header, the Protocol Parameters are not included in the request URL. Rather they are included as the value of the header.
 
-    `Authorization: OAuth oauth_token="540ad18" oauth_consumer_key="0685bd91" oauth_signature_method="PLAINTEXT" oauth_signature="2d047740b53,bb5c2a0f398f30"`
+    Authorization: OAuth oauth_token="540ad18" oauth_consumer_key="0685bd91" oauth_signature_method="PLAINTEXT" oauth_signature="2d047740b53,bb5c2a0f398f30"
 
-To reject a request that lacks appropriate credentials, the Service Provider MUST respond with a 401 Unauthorized response. Such a response MUST include at least one OAuth WWW-Authenticate header and MAY include additional WWW-Authenticate headers:
+To reject a request that lacks appropriate credentials, the Service Provider MUST respond with a 401 Unauthorized HTTP response. Such a response MUST include at least one OAuth WWW-Authenticate header and MAY include additional WWW-Authenticate headers:
 
-    `401 Unauthorized`
+    401 Unauthorized
     ...
-    `WWW-Authenticate: OAuth realm="https://sp.example.com/oauth/authorize?res=74637288"`
+    WWW-Authenticate: OAuth realm="https://sp.example.com/oauth/authorize?res=74637288"
 
-The realm parameter both defines a protection realm per RFC 2617, section 1.2, and also specifies the Authorization Endpoint URL to be used by the Consumer to obtain authorization for the accessed resource.
+The realm parameter defines a protection realm per RFC 2617, section 1.2, and also specifies the Authorization Endpoint URL to be used by the Consumer to obtain authorization for the accessed resource.
 
 A Consumer MAY also include an empty, token-less OAuth Authorization header on any HTTP request to inform a Service Provider that it supports OAuth. The Service Provider MUST then respond with the appropriate WWW-Authenticate header for the requested resource in the response. For example, a Consumer could inquire using HEAD and then adjust its UI if the Service Provider supports OAuth.
 
-## Error Messages
+## HTTP Error Messages
+
+When the Service Provider rejects a Consumer API Endpoint URL request, it MUST respond with HTTP 400 Bad Request or HTTP 401 Unauthorized.
 
 * HTTP 400 Bad Request
-  * Invalid Timestamp
-  * Unsupported Signature Algorithm
+  * Unsupported parameter
+  * Unsupported signature method
+  * Missing required parameter
+  * Duplicated Protocol Parameter
 * HTTP 401 Unauthorized
   * Invalid Consumer Key
-  * Invalid/Expired Token
-  * Invalid Signature
-  * Nonce Spent
+  * Invalid / expired Token
+  * Invalid signature
+  * Nonce spent / invalid timestamp
+
+## Appendix A – Protocol Example
+
+In this example, the Service Provider photos.example.com is a photo sharing website, and the Consumer printer.example.com is a photo printing website. The User would like printer.example.com to print the private photo `picture.jpg` stored at photos.example.com.
+
+When the User is signs-into photos.example.com using her username and password, she can access the photo by going to the URL `http://photos.example.com/file=picture.jpg`. Other Users cannot access that photo, and the User does not want to share her username and password with printer.example.com.
+
+### 1. Setting Up to Use OAuth
+
+The Service Provider documentation explains how to register for a Consumer Key and Consumer Secret. It states it only supports the `HMAC-SHA1` signature method and declares the following Endpoint URLs:
+
+* Authorization Endpoint URL
+: http://photos.example.com/authorize
+* Request Token API Endpoint URL
+: https://photos.example.com/request_token with supported `oauth_token_attributes`: `single` (for a single photo request) and `unlimited` (for unlimited photo requests).
+* Access Token API Endpoint URL
+: https://photos.example.com/access_token
+* Photo (Protected Resource) API Endpoint URL
+: http://photos.example.com/ with required parameter `file`
+
+The Consumer printer.example.com already established a Consumer Key and Consumer Secret (as a web-based Consumer) with photos.example.com and advertizes its printing services for photos stored on photos.example.com. The Consumer registration is:
+
+* Consumer Key
+: `dpf43:3p2l4k3l03`
+* Consumer Secret
+: `kd94hf93k#23kf44`
+* Callback Endpoint URL
+: `http://printer.example.com/request_token_ready`
+
+### 2. Obtaining a Request Token
+
+### 3. Requesting User Authorization
+
+### 4. Obtaining an Access Token
+
+### 5. Accessing Protected Resources
+
+## Appendix B – References
 
 
