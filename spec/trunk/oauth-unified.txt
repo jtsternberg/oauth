@@ -82,7 +82,7 @@ Service Providers MUST NOT rely on the Consumer Secret as a method to verify the
 
 ### Service Providers
 
-Service Providers MUST enable Consumer Developers to obtain a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers unless where otherwise specified.
+Service Providers MUST enable Consumer Developers to establish a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers unless where otherwise specified.
 
 The Consumer Secret MAY be either a randomized string or a public/private key pair. In the case that the Consumer Secret is a public/private key pair, the Service Provider only requires the public key, and SHOULD verify that the Consumer Developer is, in fact, the owner of the private key.
 
@@ -334,7 +334,9 @@ All non-Protocol Parameters SHALL be normalized as follows into a single string:
 
 A nonce is a random string, uniquely generated for each request. The nonce allows the Service Provider to verify that a request has never been made before and helps prevent replay attacks when requests are made over a non-secure channel (such as HTTP).
 
-The Consumer SHALL first calculate the request timestamp expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The Consumer SHALL then generate a Nonce values that is unique for each request with the same timestamp value.
+The Consumer SHALL first calculate the request timestamp expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The timestamp value MUST be equal or greater than the timestamp used in previous requests. The Consumer SHALL then generate a Nonce values that is unique for each request with the same timestamp value.
+
+When verifying a Consumer signature, the Service Provider SHOULD check the request nonce to ensure it has not been used in a previous Consumer request. Since the nonce is unique per timestamp, and timestamps are always equal or greater, the Service Provider only needs to keep track of nonces with the most up-to-date timestamps. Service Providers May also skip checking the nonce in Consumer requests for Access Token, as the Request Token can only be used once already.
 
 #### 3. Concatenate Parameters into a String
 
@@ -409,9 +411,9 @@ When the Service Provider rejects a Consumer API Endpoint URL request, it MUST r
 
 ## Appendix A – Protocol Example
 
-In this example, the Service Provider photos.example.com is a photo sharing website, and the Consumer printer.example.com is a photo printing website. The User would like printer.example.com to print the private photo `picture.jpg` stored at photos.example.com.
+In this example, the Service Provider photos.example.com is a photo sharing website, and the Consumer printer.example.com is a photo printing website. Jane, the User, would like printer.example.com to print the private photo `vacation.jpg` stored at photos.example.com.
 
-When the User is signs-into photos.example.com using her username and password, she can access the photo by going to the URL `http://photos.example.com/file=picture.jpg`. Other Users cannot access that photo, and the User does not want to share her username and password with printer.example.com.
+When Jane signs-into photos.example.com using her username and password, she can access the photo by going to the URL `http://photos.example.com/file=vacation.jpg`. Other Users cannot access that photo, and Jane does not want to share her username and password with printer.example.com.
 
 ### 1. Setting Up to Use OAuth
 
