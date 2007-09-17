@@ -458,7 +458,7 @@ In this example, the Service Provider photos-example.com is a photo sharing webs
 
 When Jane signs-into photos-example.com using her username and password, she can access the photo by going to the URL `http://photos-example.com/file=vacation.jpg`. Other Users cannot access that photo, and Jane does not want to share her username and password with printer-example.com.
 
-### 1. Protocol Setup
+### 1. Documentation and Registration
 
 The Service Provider documentation explains how to register for a Consumer Key and Consumer Secret, and declares the following Endpoint URLs:
 
