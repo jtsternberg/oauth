@@ -72,7 +72,11 @@ Consumers are categorized based on their ability to accept incoming HTTP(S) requ
 
 ## Endpoint URLs
 
-All Endpoint URLs for both Service Providers and Consumers MUST include scheme, authority, and path, and MUST NOT include query or fragment as defined by RFC 3986 section 3. Service Providers MAY specify additional query parameters to be used with the Authorization and API Endpoint URLs, but those parameters are not considered part of the Endpoint URL.
+All Endpoint URLs for both Service Providers and Consumers MUST include scheme, authority, and path, and MAY include query and fragment as defined by RFC 3986 section 3. The Endpoint URL query MUST NOT contain any Protocol Parameter.
+
+## Tokens, Secrets, and Keys
+
+The Consumer Secret MAY be either a randomized string or a public/private key pair. In the case that the Consumer Secret is a public/private key pair, the Service Provider only requires the public key, and SHOULD verify that the Consumer Developer is, in fact, the owner of the private key.
 
 ## Setting Up to Use OAuth
 
@@ -83,8 +87,6 @@ Service Providers MUST NOT rely on the Consumer Secret as a method to verify the
 ### Service Providers
 
 Service Providers MUST enable Consumer Developers to establish a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers unless where otherwise specified.
-
-The Consumer Secret MAY be either a randomized string or a public/private key pair. In the case that the Consumer Secret is a public/private key pair, the Service Provider only requires the public key, and SHOULD verify that the Consumer Developer is, in fact, the owner of the private key.
 
 The Service Provider MUST also provide documentation to specify:
 
@@ -144,7 +146,7 @@ Service Providers SHOULD be prepare to handle the case in which Consumers fail t
 
 ### Obtaining a Request Token
 
-The Consumer obtains an authorized Request Token by asking the Service Provider to issue a Token, and having the User to authorize it. The Request Token sole purpose is to receive User approval and can only be used to obtain an Access Token. The Request Token process goes as follows:
+The Consumer obtains an authorized Request Token by asking the Service Provider to issue a Token, and having the User to authorize it. The Request Token’s sole purpose is to receive User approval and can only be used to obtain an Access Token. The Request Token process goes as follows:
 
 1. Consumer requests a Request Token
 2. Service Provider issues an unauthorized Request Token
@@ -224,8 +226,8 @@ The Service Provider instructs the User to inform the Consumer that authorizatio
 
 The Service Provider MAY include two machine-readable tags in its human-readable instructions to the User. If included, both tags MUST be added in the <head> element of the HTML document:
 
-     <meta name="oauth_result" content="true" />
-     <meta name="oauth_token" content="request_token" />
+    <meta name="oauth_result" content="true" />
+    <meta name="oauth_token" content="request_token" />
 
 In the `oauth_result` tag, the `content` attribute indicates whether access was granted, true` if the User grants access, `false` if the User denies access. In the `oauth_token` tag, the `content` attributes is the Request Token approved or denied.
 
@@ -295,11 +297,11 @@ The request contains the following parameters:
 
 The purpose of signing API requests is to prevent unauthorized parties from using the Consumer Key and Tokens when making API Endpoint URL requests. The signature process encodes the Consumer Secret and Token Secret into a verifiable value which is included with the request.
 
-OAuth does not require a particular signature method, as each API implementation can have its own unique requirements. The protocol defines three signature methods: `PLAINTEXT`, `HMAC-SHA1`, and `RSA`, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.
+OAuth does not require a particular signature method, as each API implementation can have its own unique requirements. The protocol defines three signature methods: `PLAINTEXT`, `HMAC-SHA1`, and `RSA-SHA1`, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.
 
 All API Endpoint URL requests MUST be signed by the Consumer and verified by the Service Provider. Both the Consumer and Service Provider follow the same process to generate the request signature.
 
-The Consumer declares a signature method in the `oauth_signature_method` parameter, and generates a signature which is includes in the `oauth_signature` parameter. The Service Provider verifies the request by generating a new request signature based on the Consumer specified method, and compares it to the signature provided by the Consumer.
+The Consumer declares a signature method in the `oauth_signature_method` parameter, and generates a signature which is included in the `oauth_signature` parameter. The Service Provider verifies the request by generating a new request signature based on the Consumer specified method, and compares it to the signature provided by the Consumer.
 
 The signature process MUST NOT change the request parameter names or values. It is a read-only process on the request. All request parameters MUST be encoded as described in "Parameter Encoding" prior to applying the signature process.
 
@@ -324,10 +326,10 @@ The `HMAC-SHA1` method includes the following steps:
 
 #### 1. Normalize Service Provider Request Parameters
 
-All non-Protocol Parameters SHALL be normalized as follows into a single string:
+All non-Protocol Parameters SHALL be normalized before used for signing. If a request Endpoint contains a query, it is broken into individual parameters which are treated like any other non-Protocol Parameter. The parameters are normalized into a single string as follows:
 
 1. Parameters are sorted by name, using lexicographical byte value ordering. If two or more parameters share the same name, they are sorted by their value. For example: `a=1`, `c=hi%20there`, `f=25`, `f=50`, `z=10`.
-2. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated from the corresponding value by an = character (ASCII code 61). Each name-value pair is separated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`
+2. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated from the corresponding value by an = character (ASCII code 61), even if the value is empty. Each name-value pair is separated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`.
 3. The concatenated string is encoded as described in "Parameter Encoding".
 
 #### 2. Generate a Nonce and Timestamp
@@ -347,13 +349,13 @@ The Protocol Parameters and values generated in the previous two steps are conca
 3. `oauth_token`
 4. `oauth_token_secret`
 5. The HTTP request method used to send the request. Value MUST be uppercase, for example: `HEAD`, `GET`, `POST`, etc.
-6. The API Endpoint URL as defined in "Endpoint URLs".
+6. The API Endpoint URL as defined in "Endpoint URLs" excluding the query and fragment parts.
 7. The normalized Service Provider request parameter result string from step 1.
 8. The HTTP request body.
 9. The timestamp value from step 2.
 10. The nonce value from step 2.
 
-The above request parameters and generated values are concatenated in order into a single string. For each Protocol Parameter, the name is separated from the corresponding value by an = character (ASCII code 61). If a Protocol Parameter is not present in the request, the parameter is included with an empty value. Each signature item is separated by an `&` character (ASCII code 38), even if empty.
+The above request parameters and generated values are concatenated in order into a single string. For each Protocol Parameter, the name is separated from the corresponding value by an = character (ASCII code 61), even if the value is empty. Each signature item is separated by an `&` character (ASCII code 38), even if empty.
 
 #### 4. Calculate HMAC value 
 
@@ -370,7 +372,7 @@ The signature Protocol Parameters are set with the following values:
 * `oauth_signature`
 : Set to the concatenated values of the timestamp value from step 2, the nonce value from step 2, and the calculated HMAC value from step 4. Each value is separated by an `,` character (ASCII code 44).
 
-### RSA
+### RSA-SHA1
 
 -- Not yet done - ignore
 * `oauth_signature=openssl_x509_sign`
