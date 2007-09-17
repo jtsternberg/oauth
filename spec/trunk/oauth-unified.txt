@@ -20,7 +20,7 @@
 
 ## Description
 
-The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring Users to disclose their Service Provider credentials to the Consumers. An example use case is allowing printing service print.example.com (the Consumer), to access private photos stored on photos.example.com (the Service Provider) without requiring Users to provide their photos.example.com credentials to print.example.com.
+The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring Users to disclose their Service Provider credentials to the Consumers. An example use case is allowing printing service printer-example.com (the Consumer), to access private photos stored on photos-example.com (the Service Provider) without requiring Users to provide their photos-example.com credentials to printer-example.com.
 
 More generally, OAuth creates a freely-implementable and generic methodology for API authentication, benefitting developers who want their Consumer product to interact with various Service Providers.
 
@@ -413,31 +413,31 @@ When the Service Provider rejects a Consumer API Endpoint URL request, it MUST r
 
 ## Appendix A – Protocol Example
 
-In this example, the Service Provider photos.example.com is a photo sharing website, and the Consumer printer.example.com is a photo printing website. Jane, the User, would like printer.example.com to print the private photo `vacation.jpg` stored at photos.example.com.
+In this example, the Service Provider photos-example.com is a photo sharing website, and the Consumer printer-example.com is a photo printing website. Jane, the User, would like printer-example.com to print the private photo `vacation.jpg` stored at photos-example.com.
 
-When Jane signs-into photos.example.com using her username and password, she can access the photo by going to the URL `http://photos.example.com/file=vacation.jpg`. Other Users cannot access that photo, and Jane does not want to share her username and password with printer.example.com.
+When Jane signs-into photos-example.com using her username and password, she can access the photo by going to the URL `http://photos-example.com/file=vacation.jpg`. Other Users cannot access that photo, and Jane does not want to share her username and password with printer-example.com.
 
 ### 1. Setting Up to Use OAuth
 
 The Service Provider documentation explains how to register for a Consumer Key and Consumer Secret. It states it only supports the `HMAC-SHA1` signature method and declares the following Endpoint URLs:
 
 * Authorization Endpoint URL
-: http://photos.example.com/authorize
+: http://photos-example.com/authorize
 * Request Token API Endpoint URL
-: https://photos.example.com/request_token with supported `oauth_token_attributes`: `single` (for a single photo request) and `unlimited` (for unlimited photo requests).
+: https://photos-example.com/request_token with supported `oauth_token_attributes`: `single` (for a single photo request) and `unlimited` (for unlimited photo requests).
 * Access Token API Endpoint URL
-: https://photos.example.com/access_token
+: https://photos-example.com/access_token
 * Photo (Protected Resource) API Endpoint URL
-: http://photos.example.com/ with required parameter `file`
+: http://photos-example.com/ with required parameter `file`
 
-The Consumer printer.example.com already established a Consumer Key and Consumer Secret (as a web-based Consumer) with photos.example.com and advertizes its printing services for photos stored on photos.example.com. The Consumer registration is:
+The Consumer printer-example.com already established a Consumer Key and Consumer Secret (as a web-based Consumer) with photos-example.com and advertizes its printing services for photos stored on photos-example.com. The Consumer registration is:
 
 * Consumer Key
 : `dpf43:3p2l4k3l03`
 * Consumer Secret
 : `kd94hf93k#23kf44`
 * Callback Endpoint URL
-: `http://printer.example.com/request_token_ready`
+: `http://printer-example.com/request_token_ready`
 
 ### 2. Obtaining a Request Token
 
