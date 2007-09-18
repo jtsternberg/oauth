@@ -127,13 +127,13 @@ The extension auth-scheme (as defined by [RFC 2617]) is `OAuth` and is case-inse
 
 When using an HTTP Authorization header, the Protocol Parameters are not included in the request URL. Rather they are included as the value of the header. Parameters are included in the header the following way:
 
-1. Parameters are separated by a space character (ASCII code 44).
+1. Parameters are separated by a comma character (ASCII code 44).
 2. Parameters’ names and values are encoded per "Parameter Encoding".
 3. For each parameter, the name is immediately followed by an `=` character (ASCII code 61), a `"` character (ASCII code 34), the parameter value (MAY be empty), and another `"` character (ASCII code 34).
 
 For example:
 
-    Authorization: OAuth oauth_token="540ad18" oauth_consumer_key="0685bd91" oauth_signature_method="PLAINTEXT" oauth_signature="2d047740b53,bb5c2a0f398f30"
+    Authorization: OAuth oauth_token="540ad18",oauth_consumer_key="0685bd91",oauth_signature_method="PLAINTEXT",oauth_signature="2d047740b53,bb5c2a0f398f30"
 
 Consumers MAY also include an OAuth Authorization header without any parameters on any HTTP request to inform a Service Provider they support OAuth. The Service Provider MUST then respond with the appropriate WWW-Authenticate header for the requested resource in the response. For example, a Consumer could inquire using HEAD and then adjust its user interface if the Service Provider supports OAuth.
 
@@ -334,13 +334,13 @@ The `PLAINTEXT` method does not provide any security protection and SHOULD be us
 * `oauth_signature_method`
 : Set to `PLAINTEXT`.
 * `oauth_signature`
-: Set to the concatenated encoded value of the `oauth_consumer_secret` parameter and the value of the `oauth_token_secret` parameter. If the values contain a `.` character (ASCII code 46), it must be encoded as `%2E`. The values are separated by a `.` character (ASCII code 46), even if empty. The result MUST not be encoded again.
+: Set to the concatenated encoded value of the Consumer Secret and the value of the `oauth_token_secret` parameter. If the values contain a `.` character (ASCII code 46), it must be encoded as `%2E`. The values are separated by a `.` character (ASCII code 46), even if empty. The result MUST not be encoded again.
 
-For example, if the Consumer Key is `dj.9rj$0jd78jf88` and Token Secret is `jjd999(j88ui.hs3`, the encoded values are:
+For example, if the Consumer Secret is `dj.9rj$0jd78jf88` and Token Secret is `jjd999(j88ui.hs3`, the encoded values are:
 
-* Consumer Key
+* Consumer Secret
 : `dj%2E9rj%240jd78jf88`
-* Token Secret
+* `oauth_token_secret`
 : `jjd999%28j88ui%2Ehs3`
 
 And the `oauth_signature` value is `dj%2E9rj%240jd78jf88.jjd999%28j88ui%2Ehs3`. This value is not encoded anymore and is used as it in the HTTP request. If the Token Secret is empty, the value is `dj%2E9rj%240jd78jf88.` (the separator `.` is retained).
@@ -438,7 +438,7 @@ The Service Provider verifies the Consumer signature of the concatenated string 
 
 ## HTTP Response Codes
 
-The Service Provider MUST respond with HTTP 200 OK for all successful Consumer requests. When the Service Provider rejects a Consumer API Endpoint URL request, it MUST respond with HTTP 400 Bad Request or HTTP 401 Unauthorized.
+This section applies only to the Request Token and Access Token OAuth requests. The Service Provider MUST respond with HTTP 200 OK for all successful Consumer requests. When the Service Provider rejects a Consumer API Endpoint URL request, it MUST respond with HTTP 400 Bad Request or HTTP 401 Unauthorized.
 
 * HTTP 400 Bad Request
   * Unsupported parameter
@@ -559,7 +559,7 @@ If the Service Provider supports the HTTP Authorization Headers extension, the C
 
     http://photos-example.com/file=vacation.jpg&size=original
 
-    Authorization: OAuth oauth_consumer_key="dpf43%3A3p2l4k3l03" oauth_token="nnch73%40d00sl2jdk" oauth_signature_method="HMAC-SHA1" oauth_signature="1191242096.8392048%3A97482910.3443483bd0365b9985c038220ef65b4d230afcf6"
+    Authorization: OAuth oauth_consumer_key="dpf43%3A3p2l4k3l03",oauth_token="nnch73%40d00sl2jdk" oauth_signature_method="HMAC-SHA1",oauth_signature="1191242096.8392048%3A97482910.3443483bd0365b9985c038220ef65b4d230afcf6"
 
 To which photos-example.com responds (after checking the signature) with the requested photo.
 
