@@ -75,7 +75,7 @@ All Endpoint URLs for both Service Providers and Consumers MUST include scheme, 
 
 ### Service Providers
 
-Service Providers MUST enable Consumer Developers to establish a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers unless where otherwise specified.
+Service Providers MUST enable Consumer Developers to establish a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers.
 
 The Service Provider MUST also provide documentation to specify:
 
@@ -251,7 +251,7 @@ The Service Provider MAY include two machine-readable tags in its human-readable
     <meta name="oauth_result" content="true" />
     <meta name="oauth_token" content="request_token" />
 
-In the `oauth_result` tag, the `content` attribute indicates whether access was granted, true` if the User grants access, `false` if the User denies access. In the `oauth_token` tag, the `content` attributes is the Request Token approved or denied.
+In the `oauth_result` tag, the `content` attribute indicates whether access was granted, `true` if the User grants access, `false` if the User denies access. In the `oauth_token` tag, the `content` attributes is the Request Token approved or denied.
 
 ### Obtaining an Access Token
 
