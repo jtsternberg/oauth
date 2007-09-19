@@ -367,7 +367,7 @@ All non-Protocol Parameters SHALL be normalized before used for signing. If a re
 
 A nonce is a random string, uniquely generated for each request. The nonce allows the Service Provider to verify that a request has never been made before and helps prevent replay attacks when requests are made over a non-secure channel (such as HTTP).
 
-The Consumer SHALL first calculate the request timestamp expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The timestamp value MUST be equal or greater than the timestamp used in previous requests. The Consumer SHALL then generate a Nonce values that is unique for each request with the same timestamp value.
+The Consumer SHALL first calculate the request timestamp expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The timestamp value MUST be equal or greater than the timestamp used in previous requests. The Consumer SHALL then generate a Nonce value that is unique for all requests with that timestamp.
 
 When verifying a Consumer signature, the Service Provider SHOULD check the request nonce to ensure it has not been used in a previous Consumer request. Since the nonce is unique per timestamp, and timestamps are always equal or greater, the Service Provider only needs to keep track of nonces with the most up-to-date timestamps. Service Providers May also skip checking the nonce in Consumer requests for Access Token, as the Request Token can only be used once already.
 
