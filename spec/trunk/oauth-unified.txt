@@ -48,100 +48,97 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 : A value used by the Consumer to identify itself to the Service Provider. 
 * Consumer Secret
 : A secret used by the Consumer to establish ownership of the Consumer Key.
-* Token
-: A value used by the Consumer to gain access to the Protected Resources on behalf of the User, instead of using the User's Service Provider credentials. There are two types of Tokens: Request Token and Access Token.
+* Request Token
+: A value used by the Consumer to obtain authorization from the User, and to obtain an Access Token.
+* Access Token
+: A value used by the Consumer to gain access to the Protected Resources on behalf of the User, instead of using the User's Service Provider credentials.
 * Token Secret
 : A secret used by the Consumer to establish ownership of a given Token.
 * Authorization Endpoint URL
 : A Service Provider URL used by the User to grant Consumer access.
 * API Endpoint URLs
 : Service Provider URLs used by the Consumer API requests, including obtaining and exchanging Tokens.
-* Callback Endpoint URL
-: A web-based Consumer URL used by Service Provider to notify when the User grants or denies access.
-* Protocol Parameters
+* OAuth Protocol Parameters
 : Parameters with names beginning with `oauth_`.
 
 ## Documentation and Registration
 
 OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Consumer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources). 
 
-Service Providers MUST NOT rely on the Consumer Secret as a method to verify the Consumer identity, unless the Consumer Secret is known to be inaccessible to anyone other than the Consumer and the Service Provider.
-
-Consumer Secrets MAY be an empty string when no Consumer verification is needed. Consumer Keys SHOULD NOT be an empty string, but if they are, the Service Provider MUST specify the default Consumer type for such Consumer Keys.
+Service Providers SHOULD NOT rely on the Consumer Secret as a method to verify the Consumer identity, unless the Consumer Secret is known to be inaccessible to anyone other than the Consumer and the Service Provider. Consumer Secrets MAY be an empty string when no Consumer verification is needed.
 
 ### Endpoint URLs
 
-All Endpoint URLs for both Service Providers and Consumers MUST include scheme, authority, and path, and MAY include query and fragment as defined by [RFC 3986] section 3. The Endpoint URL query MUST NOT contain any Protocol Parameter.
+All Endpoint URLs for both Service Providers and Consumers MUST include scheme, authority, and path, and MAY include port, query and fragment as defined by [RFC 3986] section 3. The Endpoint URL query MUST NOT contain any OAuth Protocol Parameters.
+
+    example: http://example.com/authorize/
 
 ### Service Providers
 
-Service Providers MUST enable Consumer Developers to establish a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers.
+Service Providers responsibility is to enable Consumer Developers to establish a Consumer Key and Consumer Secret. The process and requirements for provisioning these are entirely up to the Service Providers.
 
-The Service Provider MUST also provide documentation to specify:
+The Service Provider must also provide documentation to specify:
 
-1. The Authorization Endpoint URL and the API Endpoint URLs that the Consumer will use when making OAuth requests.
+1. The OAuth Endpoint URLs that the Consumer will use when making OAuth requests.
 2. Signature methods supported by the Service Provider.
 3. Any additional request parameters that the Service Provider requires in order to obtain a Token. Service Provider specific parameters MUST NOT begin with `oauth_`.
 
 ### Consumers
 
-The Consumer Developer MUST establish a Consumer Key and a Consumer Secret with the Service Provider.
-
-Consumers are categorized based on their ability to accept incoming HTTP(S) requests. OAuth defines two Consumer types:
-
-* Web-Based Consumer
-: A website or other web-based application capable of accepting incoming HTTP(S) requests.
-* Limited Consumer
-: An application running on a User device (desktop, mobile, set-top box, etc.) incapable of accepting incoming HTTP(S) requests.
-
-When registering a Consumer Key, the Consumer Developer MUST identify the Consumer type (web-based or limited). If the Consumer is web-based, the Consumer Developer MUST provide the Callback Endpoint URL which the Service Provider uses to notify the Consumer when the User grants or denies access.
+The Consumer Developer MUST establish a Consumer Key and a Consumer Secret with the Service Provider. The Consumer Developer MAY also be required to provide additional information to the Service Provider upon registration.
 
 ## Parameters
 
-Protocol Parameters' names and values are case sensitive. Each Protocol Parameter MUST NOT appear more than once per request.
+OAuth Protocol Parameters' names and values are case sensitive. Each OAuth Protocol Parameter MUST NOT appear more than once per request.
 
 ### Parameter Encoding
 
 All parameter names and values are escaped using the [RFC 3986] percent-encoding (%xx) mechanism. Characters not in the unreserved character set ([RFC 3986] section 2.3) MUST be encoded. Characters in the unreserved character set MUST NOT be encoded. Hexadecimal characters in encodings MUST be upper case. Text names and values MUST be encoded as UTF-8 octets before percent-encoding them per [RFC 3629].
 
-### Request Parameters
+    unreserved  = ALPHA, DIGIT, "-", ".", "_", "~"
 
-Protocol Parameters are sent from the Consumer to the Service Provider in one of two methods:
+### Sending Request Parameters
 
-1. Added to the API Endpoint URL in the query part (as defined by [RFC 3986] section 3).
-2. In the HTTP `Authorization` header as defined in "Using HTTP-Authorization Headers".
+OAuth Protocol Parameters are sent from the Consumer to the Service Provider in one of three methods, in order of decreasing preference:
 
-### Response Parameters
+1. In the HTTP `Authorization` header as defined in "OAuth HTTP Authorization Scheme".
+2. Added to the HTTP Request Body
+3. Added to the API Endpoint URLs in the query part (as defined by [RFC 3986] section 3).
 
-Response parameters are sent by the Service Provider to return Tokens and other information to the Consumer in the HTTP response body. The parameters are first encoded and then sent as a sequence of lines. Each line begins with a parameter name, followed by an = character (ASCII code 61), and the parameter value. The line is terminated by a single newline character (ASCII code 10). Additional characters, including whitespace, MUST NOT be added before or after the = or newline characters.
+In addition to these defined methods, future extensions may describe alternate methods for sending the OAuth Request Parameters.
 
-### Using HTTP Authorization Headers
+### OAuth Protocol Response Parameters
+
+OAuth Protocol Response Parameters are sent by the Service Provider to return Tokens and other information to the Consumer in the HTTP response body. The parameters are first encoded as per the "Encoding Parameters" section, and concatenated with the "&" character (ASCII code 38) as defined in [RFC 3986] Section 2.1.
+
+    example: 
+       token=abc&secret=xyz
+
+### OAuth HTTP Authorization Scheme
 
 This section defines an [RFC 2617] extension to support OAuth. It uses the standard HTTP Authorization and WWW-Authenticate headers to pass Protocol Parameters rather than using URL parameters. 
 
-It is RECOMMENDED that Service Providers accept the HTTP Authorization header. For the remainder of this section, we assume that the Service Provider has chosen to support this extension. Consumers SHOULD be able to supply an OAuth Authorization header as an alternative to passing URL parameters.
+It is RECOMMENDED that Service Providers accept the HTTP Authorization header. Consumers SHOULD be able to supply an OAuth Authorization header as an alternative to passing URL parameters.
 
 The extension auth-scheme (as defined by [RFC 2617]) is `OAuth` and is case-insensitive.
 
 #### Authorization Header
 
-When using an HTTP Authorization header, the Protocol Parameters are not included in the request URL. Rather they are included as the value of the header. Parameters are included in the header the following way:
+When using an HTTP Authorization header, the OAuth Protocol Parameters are not included in the request URL. Rather they are included in the Authorization header. Parameters are included in the header the following way:
 
-1. Parameters are separated by a comma character (ASCII code 44).
-2. Parameters’ names and values are encoded per "Parameter Encoding".
+1. Parameters are separated by a comma character (ASCII code 44) followed by a space (ASCII code 32).
+2. Parameters names and values are encoded per "Encoding Parameters".
 3. For each parameter, the name is immediately followed by an `=` character (ASCII code 61), a `"` character (ASCII code 34), the parameter value (MAY be empty), and another `"` character (ASCII code 34).
 
 For example:
 
-    Authorization: OAuth oauth_token="540ad18",oauth_consumer_key="0685bd91",oauth_signature_method="PLAINTEXT",oauth_signature="2d047740b53,bb5c2a0f398f30"
-
-Consumers MAY also include an OAuth Authorization header without any parameters on any HTTP request to inform a Service Provider they support OAuth. The Service Provider MUST then respond with the appropriate WWW-Authenticate header for the requested resource in the response. For example, a Consumer could inquire using HEAD and then adjust its user interface if the Service Provider supports OAuth.
+    Authorization: OAuth oauth_token="540ad18", oauth_consumer_key="0685bd91", oauth_signature_method="HMAC-SHA-1", oauth_signature="FIXME"
 
 #### WWW-Authenticate Header
 
-Service Providers MUST indicate their support for the extension by returning the OAuth HTTP WWW-Authenticate header upon all API Endpoint URL requests for Protected Resources.
+Service Providers MAY indicate their support for the extension by returning the OAuth HTTP WWW-Authenticate header upon API Endpoint URL requests for Protected Resources. As per [RFC 2617] such a response MAY include additional HTTP WWW-Authenticate headers:
 
-Such a response MUST include at least one OAuth HTTP WWW-Authenticate header and MAY include additional HTTP WWW-Authenticate headers:
+For example:
 
     WWW-Authenticate: OAuth realm="https://sp.example.com/oauth/authorize"
 
@@ -149,28 +146,27 @@ The realm parameter defines a protection realm per [RFC 2617], section 1.2. The 
 
 ## Authenticating with OAuth
 
-OAuth authentication is the process in which Users grant access to their Protected Resources without sharing their credentials with the Consumer. OAuth uses Tokens generated by the Service Provider instead of the User’s credentials in API requests. The process uses two Token types:
+OAuth authentication is the process in which Users grant access to their Protected Resources without sharing their credentials with the Consumer. OAuth uses Tokens generated by the Service Provider instead of the User's credentials in API requests. The process uses two Token types:
 
 * Request Token
-: Used by the Consumer to ask the USER to authorize access to the Protected Resources. The authorized Request Token MUST be exchanged for an Access Token, SHALL only be used once, and SHALL NOT be used for any other purpose. Request Tokens SHOULD have a limited lifetime.
+: Used by the Consumer to ask the User to authorize access to the Protected Resources. The authorized Request Token is exchanged for an Access Token, MUST only be used once, and MUST NOT be used for any other purpose. It is RECOMMENDED that Request Tokens have a limited lifetime.
 * Access Token
-: Used by the Consumer to access the Protected Resources on behalf of the User. Access Tokens MAY limit access to certain Protected Resources, and MAY have a defined lifetime. Service Providers SHOULD allow Users to revoke Access Tokens.
+: Used by the Consumer to access the Protected Resources on behalf of the User. Access Tokens MAY limit access to certain Protected Resources, and MAY have a limited lifetime. Service Providers SHOULD allow Users to revoke Access Tokens. Only the Access Token SHALL be used to access the Protect Resources.
 
-OAuth Authentication is done in two broad steps. First, the Consumer obtains an authorized Request Token. Second, the Consumer exchanges the Request Token for an Access Token. Only the Access Token SHALL be used to access the Protect Resources.
+OAuth Authentication is done in three steps:
 
-Service Providers SHOULD be prepare to handle the case in which Consumers fail to use the Request Token (to request User access grant or exchange it for an Access Token).
+1. The Consumer obtains an unauthorized Request Token.
+2. The User authorizes the Request Token.
+3. The Consumer exchanges the Request Token for an Access Token.
 
-### Obtaining a Request Token
+### Obtaining an Unauthorized Request Token
 
-The Consumer obtains an authorized Request Token by asking the Service Provider to issue a Token, and having the User to authorize it. The Request Token’s sole purpose is to receive User approval and can only be used to obtain an Access Token. The Request Token process goes as follows:
+The Consumer obtains an unauthorized Request Token by asking the Service Provider to issue a Token. The Request Token's sole purpose is to receive User approval and can only be used to obtain an Access Token. The Request Token process goes as follows:
 
 1. Consumer requests a Request Token
 2. Service Provider issues an unauthorized Request Token
-3. Consumer directs the User to the Service Provider
-4. Service Provider authenticates the User and obtains consent
-5. Service Provider directs the User back to the Consumer
 
-#### 1. Consumer Requests a Request Token
+#### 1. Consumer Obtains a Request Token
 
 To obtain a Request Token, the Consumer sends an HTTP GET request to the Service Provider's API Endpoint URL for Request Token requests. The request MUST be signed per "Signing API Requests", and contains the following parameters:
 
@@ -180,6 +176,10 @@ To obtain a Request Token, the Consumer sends an HTTP GET request to the Service
 : The signature method the Consumer used to sign the request.
 * `oauth_signature`
 : The signature as defined in "Signing API Requests".
+* `oauth_ts`
+: The numeric timestamp (unix epoch) unless defined otherwise by the Service Provider, e.g. monotonically increasing integer.
+* `oauth_nonce`
+: A nonce is a nonce is a nonce (but never three times like that) unless you're in the UK. FIXME
 * `oauth_version`
 : OPTIONAL. If present, value MUST be `1.0`. Service Providers MUST assume the protocol version to be `1.0` if this parameter is not present. Service Providers’ response to non-`1.0` value is left undefined.
 * Any additional parameters, as defined by the Service Provider.
@@ -204,8 +204,6 @@ In order for the Consumer to be able to exchange the Request Token for an Access
 
 * `oauth_token`
 : OPTIONAL. The Request Token obtained in the previous step. The Service Provider MAY declare this parameter as REQUIRED, or accept requests to the Authorization Endpoint URL without it, in which case it will prompt the User to enter it manually.
-* `oauth_state`
-: OPTIONAL. This parameter will be returned unmodified to the Consumer. This parameter is only available to web-based Consumers, and SHOULD only be used in the case of stateless Consumers. The value is returned via the Callback Endpoint URL.
 
 Once the request URL has been constructed the Consumer redirects the User to the URL via the User's web browser. If the Consumer is incapable of automatic HTTP redirection, the Consumer SHALL notify the User how to manually go to the constructed request URL.
 
@@ -235,23 +233,12 @@ The Service Provider constructs an HTTP GET request to the Consumer's Callback E
 
 * `oauth_token`
 : The Request Token the User authorized or denied.
-* `oauth_result`
-: `true` if the User grants access, `false` if the User denies access.
-* `oauth_state`
-: REQUIRED if one was provided in the Consumer step 3.
 
 Once the request URL has been constructed the Service Provider redirects the User to the URL via the User's web browser.
 
 ##### Limited Consumers
 
 The Service Provider instructs the User to inform the Consumer that authorization has completed. Since Limited Consumers cannot accept incoming HTTP(S) requests, the User will need to manually notify the Consumer when they are done.
-
-The Service Provider MAY include two machine-readable tags in its human-readable instructions to the User. If included, both tags MUST be added in the <head> element of the HTML document:
-
-    <meta name="oauth_result" content="true" />
-    <meta name="oauth_token" content="request_token" />
-
-In the `oauth_result` tag, the `content` attribute indicates whether access was granted, `true` if the User grants access, `false` if the User denies access. In the `oauth_token` tag, the `content` attributes is the Request Token approved or denied.
 
 ### Obtaining an Access Token
 
@@ -272,6 +259,10 @@ The request contains the following parameters:
 : The Consumer Key.
 * `oauth_token`
 : The Request Token obtained previously.
+* `oauth_nonce`
+: The consumer-generated nonce
+* `oauth_ts`
+: The timestamp
 * `oauth_signature_method`
 : The signature method the Consumer used to sign the request.
 * `oauth_signature`
@@ -319,7 +310,7 @@ The request contains the following parameters:
 
 The purpose of signing API requests is to prevent unauthorized parties from using the Consumer Key and Tokens when making API Endpoint URL requests. The signature process encodes the Consumer Secret and Token Secret into a verifiable value which is included with the request.
 
-OAuth does not require a particular signature method, as each API implementation can have its own unique requirements. The protocol defines three signature methods: `PLAINTEXT`, `HMAC-SHA1`, and `RSA-SHA1`, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.
+OAuth does not require a particular signature method, as each API implementation can have its own unique requirements. The protocol defines three signature methods: `HMAC-SHA-1`, `PLAINTEXT`, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.
 
 All API Endpoint URL requests MUST be signed by the Consumer and verified by the Service Provider. Both the Consumer and Service Provider follow the same process to generate the request signature.
 
@@ -382,9 +373,8 @@ The Protocol Parameters and values generated in the previous two steps are conca
 5. The HTTP request method used to send the request. Value MUST be uppercase, for example: `HEAD`, `GET`, `POST`, etc.
 6. The API Endpoint URL as defined in "Endpoint URLs" excluding the query and fragment parts.
 7. The normalized Service Provider request parameters result string from step 1.
-8. The HTTP request body.
-9. The timestamp value from step 2.
-10. The nonce value from step 2.
+8. The timestamp value from step 2.
+9. The nonce value from step 2.
 
 The above request parameters and generated values are concatenated in order into a single string. Each signature item is separated by an `&` character (ASCII code 38), even if empty.
 
@@ -405,30 +395,6 @@ The signature Protocol Parameters are set with the following values:
 * `oauth_signature`
 : Set to the concatenated encoded values of the timestamp from step 2, the nonce from step 2, and the calculated HMAC from step 4. Each value is separated by an `.` character (ASCII code 46). If the values contain a `.` character (ASCII code 46), it must be encoded as `%2E`. The result MUST not be encoded again.
 
-### RSA-SHA1
-
-The `RSA-SHA1` signature method requires the Consumer to establish a public key pair with the Service Provider. The Consumer MUST retain the private key part (`private_key`) while the Service provider MUST retain the public key part (`public_key`). The process and requirements for establishing the public key are left to the Service Provider.
-
-The `RSA-SHA1` method includes the following steps:
-
-1. Build the concatenated request string
-2. Calculate RSA signature value using the SHA1 hash algorithm
-3. Set Signature parameters
-
-#### 1. Build the Concatenated Request String
-
-Follow steps 1-3 of the `HMAC-SHA1` signature method.
-
-#### 2. Calculate RSA Signature Value
-
-The Consumer signed the concatenated string from step 1 (`concatenated_string`) using:
-
-    RSA_sign(SHA1, private_key, concatenated_string)
-
-The Service Provider verifies the Consumer signature of the concatenated string from step 1 (`concatenated_string`) using:
-
-    RSA_verify(SHA1, public_key, concatenated_string)
-
 #### 3. Set Signature parameters
 
 * `oauth_signature_method`
@@ -438,7 +404,7 @@ The Service Provider verifies the Consumer signature of the concatenated string 
 
 ## HTTP Response Codes
 
-This section applies only to the Request Token and Access Token OAuth requests. The Service Provider MUST respond with HTTP 200 OK for all successful Consumer requests. When the Service Provider rejects a Consumer API Endpoint URL request, it MUST respond with HTTP 400 Bad Request or HTTP 401 Unauthorized.
+This section applies only to the Request Token and Access Token OAuth requests. In general, the Service Provider should use the normal response codes as defined in [RFC 2616] Section 10. When the Service Provider rejects a Consumer API Endpoint URL request, it SHOULD respond with HTTP 400 Bad Request or HTTP 401 Unauthorized.
 
 * HTTP 400 Bad Request
   * Unsupported parameter
@@ -501,7 +467,7 @@ The Consumer redirects Jane’s browser to the Service Provider Authorization Endp
 
 The Service Provider asks Jane to sign-in using her username and password and if successful, asks her if she approves granting printer-example.com access to her private photos. If Jane approves the request, the Service Provider redirects her back to the Consumer’s Callback Endpoint URL:
 
-    http://printer-example.com/request_token_ready?oauth_token=hh%5Ds93j4hdidpola&oauth_result=true
+    http://printer-example.com/request_token_ready?oauth_token=hh%5Ds93j4hdidpola
 
 ### 4. Obtaining an Access Token
 
