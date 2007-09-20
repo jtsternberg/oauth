@@ -16,6 +16,7 @@
 * <span class="vcard"><span class="fn">Eran Sandler</span> (<span class="email">eran@yedda.com</span>)</span>
 * <span class="vcard"><span class="fn">Jonathan Sergent</span> (<span class="email">sergent@google.com</span>)</span>
 * <span class="vcard"><span class="fn">Todd Sieling</span> (<span class="email">todd@ma.gnolia.com</span>)</span>
+* <span class="vcard"><span class="fn">Brian Slesinsky</span> (<span class="email">brian-oauth@slesinsky.org</span>)</span>
 * <span class="vcard"><span class="fn">Andy Smith</span> (<span class="email">andy@jaiku.com</span>)</span>
 
 ## Description
@@ -292,7 +293,7 @@ After successfully receiving the Access Token and Token Secret, the Consumer is 
 
 The purpose of signing API requests is to prevent unauthorized parties from using the Consumer Key and Tokens when making OAuth Endpoint URL requests or API Endpoint URL requests. The signature process encodes the Consumer Secret and Token Secret into a verifiable value which is included with the request.
 
-OAuth does not require a particular signature method, as each API implementation can have its own unique requirements. The protocol defines two signature methods: `HMAC-SHA1`, `PLAINTEXT`, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.
+OAuth does not mandate a particular signature method, as each API implementation can have its own unique requirements. The protocol defines two signature methods: `HMAC-SHA1`, `PLAINTEXT`, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.
 
 All OAuth Endpoint URL requests and API Endpoint URL requests MUST be signed by the Consumer and verified by the Service Provider. Both the Consumer and Service Provider follow the same process to generate the request signature.
 
@@ -300,25 +301,11 @@ The Consumer declares a signature method in the `oauth_signature_method` paramet
 
 The signature process MUST NOT change the request parameter names or values. It is a read-only process on the request. All request parameters MUST be encoded as described in "Parameter Encoding" prior to applying the signature process.
 
-### HMAC-SHA1
-
-* `oauth_signature_method`
-: The signature method the Consumer used to sign the request.
-* `oauth_signature`
-: The signature as defined in "Signing API Requests".
-* `oauth_ts`
-: The numeric timestamp (unix epoch) unless defined otherwise by the Service Provider, e.g. monotonically increasing integer.
-* `oauth_nonce`
-: A nonce is a nonce is a nonce (but never three times like that) unless you're in the UK. FIXME
-
-
-The `HMAC-SHA1` method includes the following steps:
+### Signature Base String
 
 1. Normalize Service Provider request parameters
 2. Generate a Nonce
 3. Concatenate parameters into a string
-4. Calculate HMAC value
-5. Set Signature parameters
 
 #### 1. Normalize Service Provider Request Parameters
 
@@ -352,7 +339,28 @@ The OAuth Protocol Parameters and values generated in the previous two steps are
 
 The above request parameters and generated values are concatenated in order into a single string. Each signature item is separated by an `&` character (ASCII code 38), even if empty.
 
-#### 4. Calculate HMAC value 
+### HMAC-SHA1
+
+* `oauth_signature_method`
+: The signature method the Consumer used to sign the request.
+* `oauth_signature`
+: The signature as defined in "Signing API Requests".
+* `oauth_ts`
+: The numeric timestamp (unix epoch) unless defined otherwise by the Service Provider, e.g. monotonically increasing integer.
+* `oauth_nonce`
+: A nonce is a nonce is a nonce (but never three times like that) unless you're in the UK. FIXME
+
+
+The `HMAC-SHA1` method includes the following steps:
+
+1. Generate the Signature Base String
+2. Calculate HMAC value
+3. Set Signature parameters
+
+#### 1. Generate the Signature Base String
+
+
+#### 2. Calculate HMAC value 
 
 The HMAC-SHA1 value of the concatenated string from step 3 (`concatenated_string`) is calculated using the Consumer Secret (`oauth_consumer_secret`, not encoded) as defined in [RFC 2104]:
 
@@ -360,7 +368,7 @@ The HMAC-SHA1 value of the concatenated string from step 3 (`concatenated_string
 
 The calculated value is used in HEX string format.
 
-#### 5. Set Signature Parameters
+#### 3. Set Signature Parameters
 
 The signature OAuth Protocol Parameters are set with the following values:
 
@@ -369,16 +377,9 @@ The signature OAuth Protocol Parameters are set with the following values:
 * `oauth_signature`
 : Set to the concatenated encoded values of the timestamp from step 2, the nonce from step 2, and the calculated HMAC from step 4. Each value is separated by an `.` character (ASCII code 46). If the values contain a `.` character (ASCII code 46), it must be encoded as `%2E`. The result MUST not be encoded again.
 
-#### 3. Set Signature parameters
-
-* `oauth_signature_method`
-: Set to `RSA-SHA1`.
-* `oauth_signature`
-: Set to the concatenated encoded values of the timestamp from step 1, the nonce from step 1, and the RSA signature from step 2. Each value is separated by an `.` character (ASCII code 46). If the values contain a `.` character (ASCII code 46), it must be encoded as `%2E`. The result MUST not be encoded again.
-
 ### PLAINTEXT
 
-The `PLAINTEXT` method does not provide any security protection and SHOULD be used over a secure channel such as HTTPS. The signature OAuth Protocol Parameters are set with the following values unencrypted:
+The `PLAINTEXT` method does not provide any security protection and SHOULD be used over a secure channel such as HTTPS. It does not use the Signature Base String. The signature OAuth Protocol Parameters are set with the following values unencrypted:
 
 * `oauth_signature_method`
 : Set to `PLAINTEXT`.
