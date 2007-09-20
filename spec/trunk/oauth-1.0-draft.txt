@@ -461,6 +461,7 @@ The Service Provider checks the signature and replies with an Access Token in th
 ### 5. Accessing Protected Resources
 
 The Consumer is now ready to request the private photo. Since the photo API Endpoint URL is not secure (HTTP), it must use `HMAC-SHA1`. To generate the signature, it first needs to generate the Signature Base String. The request contains the following parameters (`oauth_signature` excluded) which are ordered and concatenated into a normalized string:
+
 * `oauth_consumer_key`
 : `dpf43f3p2l4k3l03`
 * `oauth_token`
