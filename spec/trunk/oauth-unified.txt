@@ -21,7 +21,7 @@
 
 ## Description
 
-The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring Users to disclose their Service Provider credentials to the Consumers. An example use case is allowing printing service printer-example.com (the Consumer), to access private photos stored on photos-example.com (the Service Provider) without requiring Users to provide their photos-example.com credentials to printer-example.com.
+The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring Users to disclose their Service Provider credentials to the Consumers. An example use case is allowing printing service printer.example.com (the Consumer), to access private photos stored on photos.example.net (the Service Provider) without requiring Users to provide their photos.example.net credentials to printer.example.com.
 
 More generally, OAuth creates a freely-implementable and generic methodology for API authentication, benefitting developers who want their Consumer product to interact with various Service Providers.
 
@@ -31,7 +31,7 @@ OAuth aims to unify the experience and implementation of delegated web service a
 
 ## Notation and Conventions 
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119].
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119]. Domain name examples use [RFC 2606].
 
 ## Definitions
 
@@ -74,7 +74,7 @@ Service Providers SHOULD NOT rely on the Consumer Secret as a method to verify t
 
 All Endpoint URLs for both Service Providers and Consumers MUST include scheme, authority, and path, and MAY include query and fragment as defined by [RFC 3986] section 3. The Endpoint URL query MUST NOT contain any OAuth Protocol Parameters. For example:
 
-    http://example.com/authorize
+    http://sp.example.com/authorize
 
 ### Service Providers
 
@@ -98,21 +98,21 @@ OAuth Protocol Parameter names and values are case sensitive. Each OAuth Protoco
 
 All parameter names and values are escaped using the [RFC 3986] percent-encoding (%xx) mechanism. Characters not in the unreserved character set ([RFC 3986] section 2.3) MUST be encoded. Characters in the unreserved character set MUST NOT be encoded. Hexadecimal characters in encodings MUST be upper case. Text names and values MUST be encoded as UTF-8 octets before percent-encoding them per [RFC 3629].
 
-    unreserved = ALPHA, DIGIT, "-", ".", "_", "~"
+    unreserved = ALPHA, DIGIT, '-', '.', '_', '~'
 
 ### Sending Request Parameters
 
 OAuth Protocol Parameters are sent from the Consumer to the Service Provider in one of three methods, in order of decreasing preference:
 
 1. In the HTTP `Authorization` header as defined in "OAuth HTTP Authorization Scheme".
-2. Added to the HTTP Request Body.
+2. As the HTTP POST request body with a `content-type` of `application/x-www-form-urlencoded`.
 3. Added to the URLs in the query part (as defined by [RFC 3986] section 3).
 
 In addition to these defined methods, future extensions may describe alternate methods for sending the OAuth Protocol Parameters.
 
 ### OAuth Endpoint URLs Response Parameters
 
-OAuth Endpoint URLs response parameters are sent by the Service Provider to return Tokens and other information to the Consumer in the HTTP response body. The parameter names and values are first encoded as per the "Encoding Parameters" section, and concatenated with the `&` character (ASCII code 38) as defined in [RFC 3986] Section 2.1. For example:
+OAuth Endpoint URLs response parameters are sent by the Service Provider to return Tokens and other information to the Consumer in the HTTP response body. The parameter names and values are first encoded as per the "Encoding Parameters" section, and concatenated with the '&' character (ASCII code 38) as defined in [RFC 3986] Section 2.1. For example:
 
     oauth_token=ab3cd9j4ks73hf7g&oauth_token_secret=xyz4992k83j47x0b
 
@@ -120,21 +120,29 @@ OAuth Endpoint URLs response parameters are sent by the Service Provider to retu
 
 This section defines an [RFC 2617] extension to support OAuth. It uses the standard HTTP `Authorization` and `WWW-Authenticate` headers to pass OAuth Protocol Parameters. 
 
-It is RECOMMENDED that Service Providers accept the HTTP `Authorization` header. Consumers SHOULD be able to supply an OAuth `Authorization` header as an alternative to passing OAuth Protocol Parameters.
+It is RECOMMENDED that Service Providers accept the HTTP `Authorization` header. Consumers SHOULD be able to send OAuth Protocol Parameters in the OAuth `Authorization` header.
 
 The extension auth-scheme (as defined by [RFC 2617]) is `OAuth` and is case-insensitive.
+
 
 #### Authorization Header
 
 The OAuth Protocol Parameters are sent in the `Authorization` header the following way:
 
 1. Parameter names and values are encoded per "Encoding Parameters".
-2. For each parameter, the name is immediately followed by an `=` character (ASCII code 61), a `"` character (ASCII code 34), the parameter value (MAY be empty), and another `"` character (ASCII code 34).
-3. Parameters are separated by a comma character (ASCII code 44) followed by a space (ASCII code 32).
+2. For each parameter, the name is immediately followed by an '=' character (ASCII code 61), a '"' character (ASCII code 34), the parameter value (MAY be empty), and another '"' character (ASCII code 34).
+3. Parameters are separated by a comma character (ASCII code 44) and OPTIONAL linear whitespace per [RFC 2616].
+4. The REQUIRED `realm` parameter is added and interpreted per [RFC 2616], section 1.2. The parameter MAY specify the Authorization Endpoint URL to be used by the Consumer to obtain authorization for the accessed resource.
 
 For example:
 
-    Authorization: OAuth oauth_token="ad180jjd733klru7", oauth_consumer_key="0685bd9184jfhq22", oauth_signature_method="HMAC-SHA1", oauth_signature="c0e2483bd0365b9985c038220ef65b4d230afcf6"
+    Authorization: OAuth realm="https://sp.example.com/oauth/authorize",
+        oauth_consumer_key="0685bd9184jfhq22",
+        oauth_token="ad180jjd733klru7",
+        oauth_signature_method="HMAC-SHA1",
+        oauth_signature="c0e2483bd0365b9985c038220ef65b4d230afcf6",
+        oauth_timestamp="137131200",
+        oauth_nonce="4572616e48616d6d65724c61686176"
 
 #### WWW-Authenticate Header
 
@@ -178,7 +186,14 @@ To obtain a Request Token, the Consumer sends an HTTP GET request to the Service
 : OPTIONAL. The Consumer MAY specify a URL the Service Provider will use to redirect the User back to the Consumer when "Obtaining User Authorization" is complete.
 * `oauth_version`
 : OPTIONAL. If present, value MUST be `1.0`. Service Providers MUST assume the protocol version to be `1.0` if this parameter is not present. Service Providers’ response to non-`1.0` value is left undefined.
-* REQUIRED signature parameters per "Signing API Requests".
+* `oauth_signature_method`
+: The signature method the Consumer used to sign the request.
+* `oauth_signature`
+: The signature as defined in "Signing API Requests".
+* `oauth_timestamp`
+: As defined in "Nonce and Timestamp".
+* `oauth_nonce`
+: As defined in "Nonce and Timestamp".
 * Any additional parameters, as defined by the Service Provider.
 
 #### 2. Service Provider Issues an Unauthorized Request Token
@@ -256,7 +271,14 @@ To request an Access Token, the Consumer makes an HTTP request to Service Provid
 : The Consumer Key.
 * `oauth_token`
 : The Request Token obtained previously.
-* REQUIRED signature parameters per "Signing API Requests".
+* `oauth_signature_method`
+: The signature method the Consumer used to sign the request.
+* `oauth_signature`
+: The signature as defined in "Signing API Requests".
+* `oauth_timestamp`
+: As defined in "Nonce and Timestamp".
+* `oauth_nonce`
+: As defined in "Nonce and Timestamp".
 
 No additional Service Provider specific parameters are allowed when requesting an Access Token to ensure all Token related information is present prior to seeking User approval.
 
@@ -286,8 +308,21 @@ After successfully receiving the Access Token and Token Secret, the Consumer is 
 : The Consumer Key.
 * `oauth_token`
 : The Access Token.
-* REQUIRED signature parameters per "Signing API Requests".
+* `oauth_signature_method`
+: The signature method the Consumer used to sign the request.
+* `oauth_signature`
+: The signature as defined in "Signing API Requests".
+* `oauth_timestamp`
+: As defined in "Nonce and Timestamp".
+* `oauth_nonce`
+: As defined in "Nonce and Timestamp".
 * Any additional parameters, as defined by the Service Provider.
+
+## Nonce and Timestamp
+
+A nonce is a random string, uniquely generated for each request. The nonce allows the Service Provider to verify that a request has never been made before and helps prevent replay attacks when requests are made over a non-secure channel (such as HTTP).
+
+The Consumer SHALL first calculate the request timestamp. Unless otherwise specified by the Service Provider, the timestamp is expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The timestamp value MUST be a positive integer and MUST be equal or greater than the timestamp used in previous requests. The Consumer SHALL then generate a Nonce value that is unique for all requests with that timestamp.
 
 ## Signing API Requests
 
@@ -297,94 +332,44 @@ OAuth does not mandate a particular signature method, as each API implementation
 
 All OAuth Endpoint URL requests and API Endpoint URL requests MUST be signed by the Consumer and verified by the Service Provider. Both the Consumer and Service Provider follow the same process to generate the request signature.
 
-The Consumer declares a signature method in the `oauth_signature_method` parameter, and generates a signature. The Service Provider verifies the request by generating a new request signature based on the Consumer specified method, and compares it to the signature provided by the Consumer.
+The Consumer declares a signature method in the `oauth_signature_method` parameter, generates a signature, and store it in the `oauth_signature` parameter. The Service Provider verifies the request by generating a new request signature based on the Consumer specified method, and compares it to the signature provided by the Consumer. When verifying a Consumer signature, the Service Provider SHOULD check the request nonce to ensure it has not been used in a previous Consumer request. 
 
-The signature process MUST NOT change the request parameter names or values. It is a read-only process on the request. All request parameters MUST be encoded as described in "Parameter Encoding" prior to applying the signature process.
+The signature process MUST NOT change the request parameter names or values, with the exception of the `oauth_signature` parameter. All request parameters MUST be encoded as described in "Parameter Encoding" prior to applying the signature process.
 
 ### Signature Base String
 
-1. Normalize Service Provider request parameters
-2. Generate a Nonce
-3. Concatenate parameters into a string
+The Signature Base String is a consistent reproducible concatenation of the request elements into a single string. The string is used as an input in hashing or signing algorithms. The `HMAC-SHA1` signature method provides both a standard and an example of using the Signature Base String with a signing algorithm to generate signatures. The process of generating the Signature Base String is as follows:
 
-#### 1. Normalize Service Provider Request Parameters
+1. Normalize request parameters
+2. Concatenate request elements 
 
-All non-OAuth Protocol Parameters SHALL be normalized before used for signing. If a request Endpoint contains a query, it is broken into individual parameters which are treated like any other non-OAuth Protocol Parameter. The parameters are normalized into a single string as follows:
+#### 1. Normalize Request Parameters
+
+The request parameters are sorted and concatenated into a normalized string. If a request Endpoint contains a query, the query is broken into individual parameters which are also processed. The `oauth_signature` parameter MUST be excluded. The parameters are normalized into a single string as follows:
 
 1. Parameters are sorted by name, using lexicographical byte value ordering. If two or more parameters share the same name, they are sorted by their value. For example: `a=1`, `c=hi%20there`, `f=25`, `f=50`, `z=10`.
-2. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated from the corresponding value by an `=` character (ASCII code 61), even if the value is empty. Each name-value pair is separated by an `&` character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`.
+2. Parameters are concatenated in their sorted order into a single string. For each parameter, the name is separated from the corresponding value by an '=' character (ASCII code 61), even if the value is empty. Each name-value pair is separated by an '&' character (ASCII code 38). For example: `a=1&c=hi%20there&f=25&f=50&z=10`.
 3. The concatenated string is encoded as described in "Parameter Encoding".
 
-#### 2. Generate a Nonce and Timestamp
+#### 2. Concatenate Request Elements
 
-A nonce is a random string, uniquely generated for each request. The nonce allows the Service Provider to verify that a request has never been made before and helps prevent replay attacks when requests are made over a non-secure channel (such as HTTP).
+The following items MUST be concatenated in order into a single string. Each item is separated by an '&' character (ASCII code 38), even if empty.
 
-The Consumer SHALL first calculate the request timestamp expressed in the number of seconds since January 1, 1970 00:00:00 GMT. The timestamp value MUST be equal or greater than the timestamp used in previous requests. The Consumer SHALL then generate a Nonce value that is unique for all requests with that timestamp.
-
-When verifying a Consumer signature, the Service Provider SHOULD check the request nonce to ensure it has not been used in a previous Consumer request. Since the nonce is unique per timestamp, and timestamps are always equal or greater, the Service Provider only needs to keep track of nonces with the most up-to-date timestamps. Service Providers May also skip checking the nonce in Consumer requests for Access Token, as the Request Token can only be used once already.
-
-#### 3. Concatenate Parameters into a String
-
-The OAuth Protocol Parameters and values generated in the previous two steps are concatenated into a single string used as the input to the signature algorithm. The request parameters MUST be concatenated in the following order:
-
-1. The value of `oauth_consumer_key`.
-2. The Consumer Secret.
-3. The value of `oauth_token`.
-4. The value of `oauth_token_secret`.
-5. The HTTP request method used to send the request. Value MUST be uppercase, for example: `HEAD`, `GET`, `POST`, etc.
-6. The URL as defined in "Endpoint URLs" excluding the query and fragment parts.
-7. The normalized Service Provider request parameters result string from step 1.
-8. The timestamp value from step 2.
-9. The nonce value from step 2.
-
-The above request parameters and generated values are concatenated in order into a single string. Each signature item is separated by an `&` character (ASCII code 38), even if empty.
+1. The URL as defined in "Endpoint URLs" excluding the query and fragment parts.
+2. The normalized request parameters string from step 1.
+3. The HTTP request method used to send the request. Value MUST be uppercase, for example: `HEAD`, `GET`, `POST`, etc.
+4. The Consumer Secret, encoded per "Parameter Encoding".
+5. The Token Secret, encoded per "Parameter Encoding" (empty value if `oauth_token` is not present).
 
 ### HMAC-SHA1
 
-* `oauth_signature_method`
-: The signature method the Consumer used to sign the request.
-* `oauth_signature`
-: The signature as defined in "Signing API Requests".
-* `oauth_ts`
-: The numeric timestamp (unix epoch) unless defined otherwise by the Service Provider, e.g. monotonically increasing integer.
-* `oauth_nonce`
-: A nonce is a nonce is a nonce (but never three times like that) unless you're in the UK. FIXME
-
-
-The `HMAC-SHA1` method includes the following steps:
-
-1. Generate the Signature Base String
-2. Calculate HMAC value
-3. Set Signature parameters
-
-#### 1. Generate the Signature Base String
-
-
-#### 2. Calculate HMAC value 
-
-The HMAC-SHA1 value of the concatenated string from step 3 (`concatenated_string`) is calculated using the Consumer Secret (`oauth_consumer_secret`, not encoded) as defined in [RFC 2104]:
-
-    hmac_sha1(oauth_consumer_secret, concatenated_string)
-
-The calculated value is used in HEX string format.
-
-#### 3. Set Signature Parameters
-
-The signature OAuth Protocol Parameters are set with the following values:
-
-* `oauth_signature_method`
-: Set to `HMAC-SHA1`.
-* `oauth_signature`
-: Set to the concatenated encoded values of the timestamp from step 2, the nonce from step 2, and the calculated HMAC from step 4. Each value is separated by an `.` character (ASCII code 46). If the values contain a `.` character (ASCII code 46), it must be encoded as `%2E`. The result MUST not be encoded again.
+The `HMAC-SHA1` signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC 2104] where the Signature Base String is both the `text` and the `key` and `oauth_signature` is set to the calculated `digest` in HEX string format.
 
 ### PLAINTEXT
 
-The `PLAINTEXT` method does not provide any security protection and SHOULD be used over a secure channel such as HTTPS. It does not use the Signature Base String. The signature OAuth Protocol Parameters are set with the following values unencrypted:
+The `PLAINTEXT` method does not provide any security protection and SHOULD be used over a secure channel such as HTTPS. It does not use the Signature Base String.
 
-* `oauth_signature_method`
-: Set to `PLAINTEXT`.
-* `oauth_signature`
-: Set to the concatenated encoded value of the Consumer Secret and the value of the `oauth_token_secret` parameter. If the values contain a `.` character (ASCII code 46), it must be encoded as `%2E`. The values are separated by a `.` character (ASCII code 46), even if empty. The result MUST not be encoded again.
+`oauth_signature` is set to the concatenated encoded values of the Consumer Secret and Token Secret, separated by a '.' character (ASCII code 46), even if empty. If the secrets contain a '.' character (ASCII code 46), it must be encoded as `%2E`. The result MUST not be encoded again.
 
 For example, if the Consumer Secret is `dj.9rj$0jd78jf88` and Token Secret is `jjd999(j88ui.hs3`, the encoded values are:
 
@@ -393,7 +378,7 @@ For example, if the Consumer Secret is `dj.9rj$0jd78jf88` and Token Secret is `j
 * `oauth_token_secret`
 : `jjd999%28j88ui%2Ehs3`
 
-And the `oauth_signature` value is `dj%2E9rj%240jd78jf88.jjd999%28j88ui%2Ehs3`. This value is not encoded anymore and is used as it in the HTTP request. If the Token Secret is empty, the value is `dj%2E9rj%240jd78jf88.` (the separator `.` is retained).
+And the `oauth_signature` value is `dj%2E9rj%240jd78jf88.jjd999%28j88ui%2Ehs3`. This value is not encoded anymore and is used as it in the HTTP request. If the Token Secret is empty, the value is `dj%2E9rj%240jd78jf88.` (the separator '.' is retained).
 
 ## HTTP Response Codes
 
@@ -413,123 +398,133 @@ This section applies only to the Request Token and Access Token OAuth Endpoint U
 
 ## Appendix A – Protocol Example
 
-In this example, the Service Provider photos-example.com is a photo sharing website, and the Consumer printer-example.com is a photo printing website. Jane, the User, would like printer-example.com to print the private photo `vacation.jpg` stored at photos-example.com.
+In this example, the Service Provider photos.example.net is a photo sharing website, and the Consumer printer.example.com is a photo printing website. Jane, the User, would like printer.example.com to print the private photo `vacation.jpg` stored at photos.example.net.
 
-When Jane signs-into photos-example.com using her username and password, she can access the photo by going to the URL `http://photos-example.com/photo?file=vacation.jpg`. Other Users cannot access that photo, and Jane does not want to share her username and password with printer-example.com.
+When Jane signs-into photos.example.net using her username and password, she can access the photo by going to the URL `http://photos.example.net/photo?file=vacation.jpg`. Other Users cannot access that photo, and Jane does not want to share her username and password with printer.example.com.
 
 ### 1. Documentation and Registration
 
 The Service Provider documentation explains how to register for a Consumer Key and Consumer Secret, and declares the following Endpoint URLs:
 
 * Authorization Endpoint URL
-: http://photos-example.com/authorize
+: http://photos.example.net/authorize
 * Request Token OAuth Endpoint URL
-: https://photos-example.com/request_token
+: https://photos.example.net/request_token
 * Access Token OAuth Endpoint URL
-: https://photos-example.com/access_token
+: https://photos.example.net/access_token
 * Photo (Protected Resource) API Endpoint URL
-: http://photos-example.com/photo with required parameter `file` and optional parameter `size`
+: http://photos.example.net/photo with required parameter `file` and optional parameter `size`
 
 The Service Provider declares support for the `HMAC-SHA1` signature method for all requests, and `PLAINTEXT` only for secure (HTTPS) requests.
 
-The Consumer printer-example.com already established a Consumer Key and Consumer Secret (as a web-based Consumer) with photos-example.com and advertizes its printing services for photos stored on photos-example.com. The Consumer registration is:
+The Consumer printer.example.com already established a Consumer Key and Consumer Secret with photos.example.net and advertizes its printing services for photos stored on photos.example.net. The Consumer registration is:
 
 * Consumer Key
-: `dpf43:3p2l4k3l03`
+: `dpf43f3p2l4k3l03`
 * Consumer Secret
-: `kd94hf93k#23kf44`
-* Callback Endpoint URL
-: `http://printer-example.com/request_token_ready`
+: `kd94hf93k423kf44`
 
 ### 2. Obtaining a Request Token
 
-After Jane informs printer-example.com that she would like to print her vacation photo at photos-example.com, the printer website tries to access the photo and receives HTTP 401 Unauthorized. The Consumer send the following HTTP GET request to the Service Provider:
+After Jane informs printer.example.com that she would like to print her vacation photo stored at photos.example.net, the printer website tries to access the photo and receives HTTP 401 Unauthorized indicating it is private. The Service Provider includes the following header with the response:
 
-    https://photos-example.com/request_token?oauth_consumer_key=dpf43 %3A3p2l4k3l03&oauth_signature_method=PLAINTEXT&oauth_signature=kd94hf93k%2323kf44.&oauth_version=1.0
+    WWW-Authenticate: OAuth realm="http://photos.example.net/authorize"
+
+The Consumer sends the following HTTP GET request to the Service Provider:
+
+    https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_callback=http%3A%2f%2fprinter.example.com%2Frequest_token_ready&oauth_version=1.0&oauth_signature_method=PLAINTEXT&oauth_signature=kd94hf93k423kf44.&oauth_timestamp=1191242090&oauth_nonce=hsu94j3884jdopsl
 
 The Service Provider checks the signature and replies with an unauthorized Request Token in the body of the HTTP response:
 
-    oauth_token=hh%5Ds93j4hdidpola
-    oauth_token_secret=hdhd0%2F44k9j7ao03
+    oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03
 
 ### 3. Requesting User Authorization
 
 The Consumer redirects Jane’s browser to the Service Provider Authorization Endpoint URL to obtain Jane’s approval for accessing her private photos.
 
-    http://photos-example.com/authorize?oauth_token=hh%5Ds93j4hdidpola
+    http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola
 
-The Service Provider asks Jane to sign-in using her username and password and if successful, asks her if she approves granting printer-example.com access to her private photos. If Jane approves the request, the Service Provider redirects her back to the Consumer’s Callback Endpoint URL:
+The Service Provider asks Jane to sign-in using her username and password and if successful, asks her if she approves granting printer.example.com access to her private photos. If Jane approves the request, the Service Provider redirects her back to the Consumer’s callback:
 
-    http://printer-example.com/request_token_ready?oauth_token=hh%5Ds93j4hdidpola
+    http://printer.example.com/request_token_ready?oauth_token=hh5s93j4hdidpola
 
 ### 4. Obtaining an Access Token
 
 Now that the Consumer knows Jane approved the Request Token, it asks the Service Provider to exchange it for an Access Token:
 
-    https://photos-example.com/access_token?oauth_consumer_key=dpf43 %3A3p2l4k3l03&oauth_token=hh%5Ds93j4hdidpola&oauth_signature_method=PLAINTEXT&oauth_signature=kd94hf93k%2323kf44.hdhd0%2F44k9j7ao03&oauth_version=1.0
+    https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_token=hh5s93j4hdidpola&oauth_signature_method=PLAINTEXT&oauth_signature=kd94hf93k423kf44.hdhd0244k9j7ao03&oauth_timestamp=1191242092&oauth_nonce=dji430splmx33448 
 
 The Service Provider checks the signature and replies with an Access Token in the body of the HTTP response:
 
-    oauth_token=nnch73%40d00sl2jdk
-    oauth_token_secret=%2B%24kkdhi9sl%28r.s00
+    oauth_token=nnch734d00sl2jdk&oauth_token_secret=pfkkdhi9sl3r4s00
 
 ### 5. Accessing Protected Resources
 
-The Consumer is now ready to request the private photo. Since the photo API Endpoint URL is not secure (HTTP), it must use `HMAC-SHA1`. To generate the signature, the following inputs are used:
-
-1. The value of `oauth_consumer_key`
-: `dpf43:3p2l4k3l03`
-2. The Consumer Secret
-: `kd94hf93k#23kf44`
-3. The value of `oauth_token`
-: `nnch73@d00sl2jdk`
-4. The value of `oauth_token_secret`
-: `+$kkdhi9sl(r.s00`
-5. The HTTP request
-: `GET`
-6. The API Endpoint
-: `http://photos-example.com/photos`
-7. The normalized Service Provider request parameters (already encoded)
-: `file%3Dvacation.jpg%2Csize%3Doriginal`
-8. The HTTP request body
-: Empty
-9. The timestamp (request is made on October 1st, 2007 at 12:34:56 AM GMT)
+The Consumer is now ready to request the private photo. Since the photo API Endpoint URL is not secure (HTTP), it must use `HMAC-SHA1`. To generate the signature, it first needs to generate the Signature Base String. The request contains the following parameters (`oauth_signature` excluded) which are ordered and concatenated into a normalized string:
+* `oauth_consumer_key`
+: `dpf43f3p2l4k3l03`
+* `oauth_token`
+: `nnch734d00sl2jdk`
+* `oauth_signature_method`
+: `HMAC-SHA1`
+* `oauth_timestamp`
 : `1191242096`
-10. The nonce value
-: `8392048:97482910`
+* `oauth_nonce`
+: `kllo9940pd9333jh`
+* `file`
+: `vacation.jpg`
+* `size`
+: `original`
 
-The concatenated string is:
+The following inputs are used to generate the Signature Base String:
 
-    dpf43%3A3p2l4k3l03&kd94hf93k%2323kf44& nnch73%40d00sl2jdk& %2B%24kkdhi9sl%28r.s00&GET&http%3A%2F%2Fphotos-example.com%2F&file%3Dvacation.jpg%2Csize%3Doriginal&&1191242096&8392048%3A97482910
+1. The request URL
+: `http://photos.example.net/photos`
+2. The encoded normalized request parameters string
+: `file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal`
+3. The HTTP request method
+: `GET`
+4. The Consumer Secret
+: `kd94hf93k423kf44`
+5. The Token Secret
+: `pfkkdhi9sl3r4s00`
 
-Using HMAC-SHA1 with the concatenated string and Consumer Secret the hash value in HEX string is:
+The Signature Base String is:
 
-    3443483bd0365b9985c038220ef65b4d230afcf6
+    http://photos.example.net/photos&file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal&GET&kd94hf93k423kf44&pfkkdhi9sl3r4s00
 
-The `oauth_signature` is constructed from the timestamp, encoded nonce, and hash value, period-seperated:
+HMAC-SHA1 produces the following digest value in HEX string:
 
-    1191242096.8392048%3A97482910.3443483bd0365b9985c038220ef65b4d230afcf6
+    9e8004b58fcfb73c0129f6cddaa2d1e4254bac50
 
 All together, the Consumer request for the photo is:
 
-    http://photos-example.com/photos?file=vacation.jpg&size=original&oauth_consumer_key=dpf43%3A3p2l4k3l03&oauth_token=nnch73%40d00sl2jdk&oauth_signature_method=HMAC-SHA1&oauth_signature=1191242096.8392048%3A97482910.3443483bd0365b9985c038220ef65b4d230afcf6
+    http://photos.example.net/photos?file=vacation.jpg&size=original
 
-If the Service Provider supports the HTTP Authorization Headers extension, the Consumer can make the following request instead:
+    Authorization: OAuth realm="http://photos.example.net/authorize",
+        oauth_consumer_key="dpf43f3p2l4k3l03",
+        oauth_token="nnch734d00sl2jdk",
+        oauth_signature_method="HMAC-SHA1",
+        oauth_signature="9e8004b58fcfb73c0129f6cddaa2d1e4254bac50",
+        oauth_timestamp="1191242096",
+        oauth_nonce="kllo9940pd9333jh"
 
-    http://photos-example.com/photos?file=vacation.jpg&size=original
+And if using query parameters:
 
-    Authorization: OAuth oauth_consumer_key="dpf43%3A3p2l4k3l03",oauth_token="nnch73%40d00sl2jdk" oauth_signature_method="HMAC-SHA1",oauth_signature="1191242096.8392048%3A97482910.3443483bd0365b9985c038220ef65b4d230afcf6"
+    http://photos.example.net/photos?file=vacation.jpg&size=original&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_token=nnch734d00sl2jdk&oauth_signature_method=HMAC-SHA1&oauth_signature=9e8004b58fcfb73c0129f6cddaa2d1e4254bac50&oauth_timestamp=1191242096&oauth_nonce=kllo9940pd9333jh 
 
-To which photos-example.com responds (after checking the signature) with the requested photo.
+photos.example.net checks the signature and responds with the requested photo.
 
 ## Appendix B – References
 
 * RFC 2104
 : H. Krawczyk, M. Bellare, and R. Canetti, "HMAC: Keyed-Hashing for Message Authentication"
+* RFC 2606
+: D. Eastlake and A. Panitz, "Reserved Top Level DNS Names"
 * RFC 2119
 : S. Bradner, "Key words for use in RFCs to Indicate Requirement Levels"
 * RFC 2616
-: 
+: R. Fielding, J. Gettys, J. Mogul, H. Frystyk, L. Masinter, P. Leach, and T. Berners-Lee, "Hypertext Transfer Protocol -- HTTP/1.1"
 * RFC 2617
 : J. Franks, P. Hallam-Baker, J. Hostetler, S. Lawrence, P. Leach, A. Luotonen, and L. Stewart, "HTTP Authentication: Basic and Digest Access Authentication"
 * RFC 3629
