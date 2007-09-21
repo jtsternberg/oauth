@@ -21,9 +21,9 @@
 
 ## Description
 
-The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring Users to disclose their Service Provider credentials to the Consumers. An example use case is allowing printing service printer.example.com (the Consumer), to access private photos stored on photos.example.net (the Service Provider) without requiring Users to provide their photos.example.net credentials to printer.example.com.
+The OAuth protocol enables websites or applications (Consumers) to access Protected Resources from a web service (Service Provider) via an API, without requiring Users to disclose their Service Provider credentials to the Consumers. More generally, OAuth creates a freely-implementable and generic methodology for API authentication.
 
-More generally, OAuth creates a freely-implementable and generic methodology for API authentication, benefitting developers who want their Consumer product to interact with various Service Providers.
+An example use case is allowing printing service printer.example.com (the Consumer), to access private photos stored on photos.example.net (the Service Provider) without requiring Users to provide their photos.example.net credentials to printer.example.com.
 
 OAuth does not require a specific user interface or interaction pattern, nor does it specify how Service Providers authenticate Users, making the protocol ideally suited for cases where authentication credentials are unavailable to the Consumer, such as with OpenID. 
 
