@@ -363,7 +363,7 @@ The following items MUST be concatenated in order into a single string. Each ite
 
 ### HMAC-SHA1
 
-The `HMAC-SHA1` signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC 2104] where the Signature Base String is both the `text` and the `key` and `oauth_signature` is set to the calculated `digest` in HEX string format.
+The `HMAC-SHA1` signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC 2104] where the Signature Base String is the `text` and the `key` is the concatenated values (each first encoded per "Parameter Encoding") of the Consumer Secret and Token Secret, separated by an '&' character (ASCII code 38) even if empty. `oauth_signature` is set to the calculated `digest` in HEX string format.
 
 ### PLAINTEXT
 
@@ -494,9 +494,9 @@ The Signature Base String is:
 
     http://photos.example.net/photos&file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal&GET&kd94hf93k423kf44&pfkkdhi9sl3r4s00
 
-HMAC-SHA1 produces the following digest value in HEX string:
+HMAC-SHA1 produces the following `digest` value in HEX string (using the Signature Base String as `text` and `kd94hf93k423kf44&pfkkdhi9sl3r4s00` as `key`):
 
-    9e8004b58fcfb73c0129f6cddaa2d1e4254bac50
+    3a4df91bba14e81cde073c9070beec993e45a2d6
 
 All together, the Consumer request for the photo is:
 
@@ -506,13 +506,13 @@ All together, the Consumer request for the photo is:
         oauth_consumer_key="dpf43f3p2l4k3l03",
         oauth_token="nnch734d00sl2jdk",
         oauth_signature_method="HMAC-SHA1",
-        oauth_signature="9e8004b58fcfb73c0129f6cddaa2d1e4254bac50",
+        oauth_signature="3a4df91bba14e81cde073c9070beec993e45a2d6",
         oauth_timestamp="1191242096",
         oauth_nonce="kllo9940pd9333jh"
 
 And if using query parameters:
 
-    http://photos.example.net/photos?file=vacation.jpg&size=original&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_token=nnch734d00sl2jdk&oauth_signature_method=HMAC-SHA1&oauth_signature=9e8004b58fcfb73c0129f6cddaa2d1e4254bac50&oauth_timestamp=1191242096&oauth_nonce=kllo9940pd9333jh 
+    http://photos.example.net/photos?file=vacation.jpg&size=original&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_token=nnch734d00sl2jdk&oauth_signature_method=HMAC-SHA1&oauth_signature=3a4df91bba14e81cde073c9070beec993e45a2d6&oauth_timestamp=1191242096&oauth_nonce=kllo9940pd9333jh 
 
 photos.example.net checks the signature and responds with the requested photo.
 

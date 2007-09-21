@@ -416,7 +416,7 @@
 
 <h3>HMAC-SHA1</h3>
 
-<p>The <code>HMAC-SHA1</code> signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC 2104] where the Signature Base String is both the <code>text</code> and the <code>key</code> and <code>oauth_signature</code> is set to the calculated <code>digest</code> in HEX string format.</p>
+<p>The <code>HMAC-SHA1</code> signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC 2104] where the Signature Base String is the <code>text</code> and the <code>key</code> is the concatenated values (each first encoded per "Parameter Encoding") of the Consumer Secret and Token Secret, separated by an '&amp;' character (ASCII code 38) even if empty. <code>oauth_signature</code> is set to the calculated <code>digest</code> in HEX string format.</p>
 
 <h3>PLAINTEXT</h3>
 
@@ -572,9 +572,9 @@
 <pre><code>http://photos.example.net/photos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal&amp;GET&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
 </code></pre>
 
-<p>HMAC-SHA1 produces the following digest value in HEX string:</p>
+<p>HMAC-SHA1 produces the following <code>digest</code> value in HEX string (using the Signature Base String as <code>text</code> and <code>kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00</code> as <code>key</code>):</p>
 
-<pre><code>9e8004b58fcfb73c0129f6cddaa2d1e4254bac50
+<pre><code>3a4df91bba14e81cde073c9070beec993e45a2d6
 </code></pre>
 
 <p>All together, the Consumer request for the photo is:</p>
@@ -585,14 +585,14 @@ Authorization: OAuth realm="http://photos.example.net/authorize",
     oauth_consumer_key="dpf43f3p2l4k3l03",
     oauth_token="nnch734d00sl2jdk",
     oauth_signature_method="HMAC-SHA1",
-    oauth_signature="9e8004b58fcfb73c0129f6cddaa2d1e4254bac50",
+    oauth_signature="3a4df91bba14e81cde073c9070beec993e45a2d6",
     oauth_timestamp="1191242096",
     oauth_nonce="kllo9940pd9333jh"
 </code></pre>
 
 <p>And if using query parameters:</p>
 
-<pre><code>http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=9e8004b58fcfb73c0129f6cddaa2d1e4254bac50&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh 
+<pre><code>http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=3a4df91bba14e81cde073c9070beec993e45a2d6&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh 
 </code></pre>
 
 <p>photos.example.net checks the signature and responds with the requested photo.</p>
