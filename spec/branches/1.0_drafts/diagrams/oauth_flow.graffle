@@ -352,7 +352,7 @@ Request includes oauth_consumer_key, oauth_token, oauth_signature_method, oauth_
 
 \f0\b\fs24 \cf0 Provider Grants 
 \f1\i Access Token
-\f0\i0  Token\
+\f0\i0 \
 
 \f2\b0 \
 Response includes oauth_token, oath_token_secret}</string>
@@ -2712,7 +2712,7 @@ or Manual Entry}</string>
 		</dict>
 	</array>
 	<key>ModificationDate</key>
-	<string>2007-09-21 15:51:16 -0700</string>
+	<string>2007-09-21 15:52:40 -0700</string>
 	<key>Modifier</key>
 	<string>Larry Halff</string>
 	<key>NotesVisible</key>
