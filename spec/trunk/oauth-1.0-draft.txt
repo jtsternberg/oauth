@@ -396,7 +396,7 @@ This section applies only to the Request Token and Access Token OAuth Endpoint U
   * Invalid signature
   * Invalid / used nonce
 
-## Appendix A – Protocol Example
+## Appendix A - Protocol Example
 
 In this example, the Service Provider photos.example.net is a photo sharing website, and the Consumer printer.example.com is a photo printing website. Jane, the User, would like printer.example.com to print the private photo `vacation.jpg` stored at photos.example.net.
 
@@ -516,7 +516,7 @@ And if using query parameters:
 
 photos.example.net checks the signature and responds with the requested photo.
 
-## Appendix B – References
+## Appendix B - References
 
 * RFC 2104
 : H. Krawczyk, M. Bellare, and R. Canetti, "HMAC: Keyed-Hashing for Message Authentication"
