@@ -64,7 +64,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{305.363, 380.678}, {114, 24}}</string>
+			<string>{{305.363, 391.132}, {114, 24}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -259,8 +259,8 @@ Request Token}</string>
 			<real>-1</real>
 			<key>Points</key>
 			<array>
-				<string>{32.5185, 321.812}</string>
-				<string>{386.849, 321.812}</string>
+				<string>{32.5185, 328.551}</string>
+				<string>{386.849, 328.551}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1218,8 +1218,8 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 			<real>-1</real>
 			<key>Points</key>
 			<array>
-				<string>{278.532, 231.427}</string>
-				<string>{278.532, 267.294}</string>
+				<string>{278.532, 260.335}</string>
+				<string>{278.428, 281.615}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1247,7 +1247,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{174.715, 344.985}, {23.8173, 18}}</string>
+			<string>{{174.792, 347.981}, {23.8173, 18}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1277,7 +1277,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 				<key>ID</key>
 				<integer>12186</integer>
 				<key>Position</key>
-				<real>0.73297488689422607</real>
+				<real>0.71588724851608276</real>
 				<key>RotationType</key>
 				<integer>0</integer>
 			</dict>
@@ -1467,7 +1467,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{175.04, 428.37}, {23.8173, 18}}</string>
+			<string>{{175.781, 428.37}, {23.8173, 18}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1497,7 +1497,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 				<key>ID</key>
 				<integer>12184</integer>
 				<key>Position</key>
-				<real>0.70022213459014893</real>
+				<real>0.68141889572143555</real>
 				<key>RotationType</key>
 				<integer>0</integer>
 			</dict>
@@ -1556,7 +1556,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{173.054, 379.85}, {23.8173, 18}}</string>
+			<string>{{174.682, 387.816}, {23.8173, 18}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1586,7 +1586,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 				<key>ID</key>
 				<integer>12185</integer>
 				<key>Position</key>
-				<real>0.69780933856964111</real>
+				<real>0.71669399738311768</real>
 				<key>RotationType</key>
 				<integer>0</integer>
 			</dict>
@@ -1645,7 +1645,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{173.869, 204.427}, {23.8173, 18}}</string>
+			<string>{{174.449, 233.335}, {23.8173, 18}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1675,7 +1675,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 				<key>ID</key>
 				<integer>12180</integer>
 				<key>Position</key>
-				<real>0.74650424718856812</real>
+				<real>0.70773172378540039</real>
 				<key>RotationType</key>
 				<integer>0</integer>
 			</dict>
@@ -1734,7 +1734,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{174.69, 141.903}, {23.8173, 18}}</string>
+			<string>{{174.517, 197.786}, {23.8173, 18}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1764,7 +1764,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 				<key>ID</key>
 				<integer>12181</integer>
 				<key>Position</key>
-				<real>0.71480530500411987</real>
+				<real>0.75006604194641113</real>
 				<key>RotationType</key>
 				<integer>0</integer>
 			</dict>
@@ -1823,7 +1823,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{173.895, 85.6952}, {23.8173, 18}}</string>
+			<string>{{173.895, 116.584}, {23.8173, 18}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -1926,8 +1926,8 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 			<real>-1</real>
 			<key>Points</key>
 			<array>
-				<string>{89.6741, 168.903}</string>
-				<string>{233.532, 213.427}</string>
+				<string>{89.6741, 224.786}</string>
+				<string>{233.532, 242.335}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -1971,8 +1971,8 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 			<real>-1</real>
 			<key>Points</key>
 			<array>
-				<string>{278.532, 112.695}</string>
-				<string>{134.674, 150.903}</string>
+				<string>{278.532, 143.584}</string>
+				<string>{134.674, 206.786}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2004,7 +2004,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{44.6741, 132.903}, {90, 36}}</string>
+			<string>{{44.6741, 188.786}, {90, 36}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2031,7 +2031,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{233.532, 76.6952}, {90, 36}}</string>
+			<string>{{233.532, 107.584}, {90, 36}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2075,7 +2075,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 			<real>-1</real>
 			<key>Points</key>
 			<array>
-				<string>{278.532, 406.85}</string>
+				<string>{278.532, 414.816}</string>
 				<string>{134.674, 437.37}</string>
 			</array>
 			<key>Style</key>
@@ -2122,8 +2122,8 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 			<real>-1</real>
 			<key>Points</key>
 			<array>
-				<string>{89.6741, 371.985}</string>
-				<string>{233.532, 388.85}</string>
+				<string>{89.6741, 374.981}</string>
+				<string>{233.532, 396.816}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2171,8 +2171,8 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 			<real>-1</real>
 			<key>Points</key>
 			<array>
-				<string>{278.532, 303.294}</string>
-				<string>{134.674, 353.985}</string>
+				<string>{278.428, 317.615}</string>
+				<string>{134.674, 356.981}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2212,8 +2212,8 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 			<integer>12187</integer>
 			<key>Points</key>
 			<array>
-				<string>{134.674, 94.6952}</string>
-				<string>{233.532, 94.6952}</string>
+				<string>{134.674, 125.584}</string>
+				<string>{233.532, 125.584}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -2243,7 +2243,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{233.532, 370.85}, {90, 36}}</string>
+			<string>{{233.532, 378.816}, {90, 36}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2300,7 +2300,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{233.532, 267.294}, {90, 36}}</string>
+			<string>{{233.428, 281.615}, {90, 36}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2327,7 +2327,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{44.6741, 335.985}, {90, 36}}</string>
+			<string>{{44.6741, 338.981}, {90, 36}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2357,7 +2357,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{233.532, 195.427}, {90, 36}}</string>
+			<string>{{233.532, 224.335}, {90, 36}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2384,7 +2384,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{44.6741, 76.6952}, {90, 36}}</string>
+			<string>{{44.6741, 107.584}, {90, 36}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>ID</key>
@@ -2982,7 +2982,7 @@ or Manual Entry}</string>
 		</dict>
 	</array>
 	<key>ModificationDate</key>
-	<string>2007-09-24 13:41:45 -0700</string>
+	<string>2007-09-24 13:46:57 -0700</string>
 	<key>Modifier</key>
 	<string>Larry Halff</string>
 	<key>NotesVisible</key>
@@ -3059,7 +3059,7 @@ or Manual Entry}</string>
 		<key>FitInWindow</key>
 		<false/>
 		<key>Frame</key>
-		<string>{{376, 138}, {879, 825}}</string>
+		<string>{{245, 206}, {879, 825}}</string>
 		<key>ShowRuler</key>
 		<false/>
 		<key>ShowStatusBar</key>
