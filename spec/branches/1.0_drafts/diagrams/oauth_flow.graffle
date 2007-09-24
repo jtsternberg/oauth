@@ -630,7 +630,7 @@ Request includes oauth_consumer_key, oauth_token, oauth_signature_method, oauth_
 \f0\i0 \
 
 \f2\b0 \
-Response includes oauth_token, oath_token_secret}</string>
+Response includes oauth_token, oauth_token_secret}</string>
 					</dict>
 					<key>TextPlacement</key>
 					<integer>0</integer>
@@ -1645,7 +1645,7 @@ Request includes oauth_consumer_key, oauth_signature_method, oauth_signature, oa
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{173.87, 204.427}, {23.8173, 18}}</string>
+			<string>{{173.869, 204.427}, {23.8173, 18}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FitText</key>
@@ -2982,7 +2982,7 @@ or Manual Entry}</string>
 		</dict>
 	</array>
 	<key>ModificationDate</key>
-	<string>2007-09-24 11:36:57 -0700</string>
+	<string>2007-09-24 13:41:45 -0700</string>
 	<key>Modifier</key>
 	<string>Larry Halff</string>
 	<key>NotesVisible</key>
@@ -3059,7 +3059,7 @@ or Manual Entry}</string>
 		<key>FitInWindow</key>
 		<false/>
 		<key>Frame</key>
-		<string>{{238, 173}, {879, 825}}</string>
+		<string>{{376, 138}, {879, 825}}</string>
 		<key>ShowRuler</key>
 		<false/>
 		<key>ShowStatusBar</key>
