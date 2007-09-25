@@ -187,7 +187,7 @@ To obtain a Request Token, the Consumer sends an HTTP request to the Service Pro
 * `oauth_callback`
 : OPTIONAL. The Consumer MAY specify a URL the Service Provider will use to redirect the User back to the Consumer when "Obtaining User Authorization" is complete.
 * `oauth_version`
-: OPTIONAL. If present, value MUST be `1.0`. Service Providers MUST assume the protocol version to be `1.0` if this parameter is not present. Service Providers’ response to non-`1.0` value is left undefined.
+: OPTIONAL. If present, value MUST be `1.0`. Service Providers MUST assume the protocol version to be `1.0` if this parameter is not present. Service Providers' response to non-`1.0` value is left undefined.
 * `oauth_signature_method`
 : The signature method the Consumer used to sign the request.
 * `oauth_signature`
@@ -239,7 +239,7 @@ The Service Provider verifies the User's identity and asks for consent as detail
 * The Service Provider presents to the User information about the Consumer requesting access (as registered by the Consumer Developer). The information MUST include the duration of the access and the Protected Resources provided. The information MAY include other details specific to the Service Provider.
 * The User MUST grant or deny permission for the Service Provider to give the Consumer access to the Protected Resources on behalf of the User. If the User denies the Consumer access, the Service Provider MUST NOT allow access to the Protected Resources.
 
-When displaying any identifying information about the Consumer to the User based on the Consumer Key, the Service Provider MUST inform the User if it is unable to assure the Consumer’s true identity. The method in which the Service Provider informs the User and the quality of the identity assurance is beyond the scope of this specification.
+When displaying any identifying information about the Consumer to the User based on the Consumer Key, the Service Provider MUST inform the User if it is unable to assure the Consumer's true identity. The method in which the Service Provider informs the User and the quality of the identity assurance is beyond the scope of this specification.
 
 For example, the Consumer Key and Consumer Secret of a desktop application running on a User desktop can be extracted and abused, while a Consumer Key and Consumer Secret stored on a web server behind a firewall is more protected.
 
@@ -373,13 +373,13 @@ The Service Provider verifies the request by generating a new request signature 
 
 The `RSA-SHA1` signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in [RFC 3447] section 8.2 (more simply known as PKCS#1), using SHA1 as the hash function for EMSA-PKCS1-v1_5. It is assumed that the Consumer has provided its RSA public key in a verified way to the Service Provider, in a manner which is beyond the scope of this specification.
 
-The Signature Base String is signed using the Consumer's RSA private key per [RFC 3447] section 8.2.1, where `K` is the Consumer’s RSA private key, `M` the Signature Base String, and `S` is the result signature octet string:
+The Signature Base String is signed using the Consumer's RSA private key per [RFC 3447] section 8.2.1, where `K` is the Consumer's RSA private key, `M` the Signature Base String, and `S` is the result signature octet string:
 
     S = RSASSA-PKCS1-V1_5-SIGN (K, M)
 
 `oauth_signature` is set to `S`, first base64-encoded per [RFC 4648], then URL-encoded per "Parameter Encoding".
 
-The Service Provider verifies the signature per [RFC 3447] section 8.2.2, where `(n, e)` is the Consumer’s RSA public key, `M` is the Signature Base String, and `S` is the octet string representation of the `oauth_signature` value:
+The Service Provider verifies the signature per [RFC 3447] section 8.2.2, where `(n, e)` is the Consumer's RSA public key, `M` is the Signature Base String, and `S` is the octet string representation of the `oauth_signature` value:
 
     RSASSA-PKCS1-V1_5-VERIFY ((n, e), M, S)
 
@@ -393,7 +393,7 @@ For example, if the Consumer Secret is `dj.9rj$0jd78jf88` and Token Secret is `j
 
 * Consumer Secret
 : `dj%2E9rj%240jd78jf88`
-* `oauth_token_secret`
+* Token Secret
 : `jjd999%28j88ui%2Ehs3`
 
 And the `oauth_signature` value is `dj%2E9rj%240jd78jf88.jjd999%28j88ui%2Ehs3`. This value is not encoded anymore and is used as it in the HTTP request. If the Token Secret is empty, the value is `dj%2E9rj%240jd78jf88.` (the separator '.' is retained).
@@ -460,11 +460,11 @@ The Service Provider checks the signature and replies with an unauthorized Reque
 
 ### 3. Requesting User Authorization
 
-The Consumer redirects Jane’s browser to the Service Provider Authorization Endpoint URL to obtain Jane’s approval for accessing her private photos.
+The Consumer redirects Jane's browser to the Service Provider Authorization Endpoint URL to obtain Jane's approval for accessing her private photos.
 
     http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola
 
-The Service Provider asks Jane to sign-in using her username and password and if successful, asks her if she approves granting printer.example.com access to her private photos. If Jane approves the request, the Service Provider redirects her back to the Consumer’s callback:
+The Service Provider asks Jane to sign-in using her username and password and if successful, asks her if she approves granting printer.example.com access to her private photos. If Jane approves the request, the Service Provider redirects her back to the Consumer's callback:
 
     http://printer.example.com/request_token_ready?oauth_token=hh5s93j4hdidpola
 
