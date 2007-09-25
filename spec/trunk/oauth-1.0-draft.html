@@ -1,9 +1,9 @@
 <html>
 <head>
-<title>OAuth 1.0 Draft 1</title>
+<title>OAuth 1.0 Draft 2</title>
 </head>
 <body>
-<h1>OAuth 1.0 Draft 1 - 09/21/2007</h1>
+<h1>OAuth 1.0 Draft 2 - 09/25/2007</h1>
 
 <h2>Authors</h2>
 
@@ -77,7 +77,7 @@
 
 <p>OAuth includes a Consumer Key and matching Consumer Secret that together authenticate the Consumer (as opposed to the User) to the Service Provider. Consumer-specific identification allows the Service Provider to vary access levels to Consumers (such as un-throttled API access or other resources).</p>
 
-<p>Service Providers SHOULD NOT rely on the Consumer Secret as a method to verify the Consumer identity, unless the Consumer Secret is known to be inaccessible to anyone other than the Consumer and the Service Provider. Consumer Secrets MAY be an empty string when no Consumer verification is needed.</p>
+<p>Service Providers SHOULD NOT rely on the Consumer Secret as a method to verify the Consumer identity, unless the Consumer Secret is known to be inaccessible to anyone other than the Consumer and the Service Provider. The Consumer Secret MAY be an empty string (for example when no Consumer verification is needed, or when verification is achieved through other means such as RSA).</p>
 
 <h3>Endpoint URLs</h3>
 
@@ -157,7 +157,7 @@
     oauth_consumer_key="0685bd9184jfhq22",
     oauth_token="ad180jjd733klru7",
     oauth_signature_method="HMAC-SHA1",
-    oauth_signature="c0e2483bd0365b9985c038220ef65b4d230afcf6",
+    oauth_signature="wOJIO9A2W5mFwDgiDvZbTSMK%2FPY%3D",
     oauth_timestamp="137131200",
     oauth_nonce="4572616e48616d6d65724c61686176"
 </code></pre>
@@ -179,7 +179,7 @@
 
 <ul>
 <li>Request Token
-: Used by the Consumer to ask the User to authorize access to the Protected Resources. The authorized Request Token is exchanged for an Access Token, MUST only be used once, and MUST NOT be used for any other purpose. It is RECOMMENDED that Request Tokens have a limited lifetime.</li>
+: Used by the Consumer to ask the User to authorize access to the Protected Resources. The User-authorized Request Token is exchanged for an Access Token, MUST only be used once, and MUST NOT be used for any other purpose. It is RECOMMENDED that Request Tokens have a limited lifetime.</li>
 <li>Access Token
 : Used by the Consumer to access the Protected Resources on behalf of the User. Access Tokens MAY limit access to certain Protected Resources, and MAY have a limited lifetime. Service Providers SHOULD allow Users to revoke Access Tokens. Only the Access Token SHALL be used to access the Protect Resources.</li>
 </ul>
@@ -192,6 +192,8 @@
 <li>The Consumer exchanges the Request Token for an Access Token.</li>
 </ol>
 
+<p><img src="oauth-1.0-draft.png" alt="OAuth Flow Diagram" /></p>
+
 <h3>Obtaining an Unauthorized Request Token</h3>
 
 <p>The Consumer obtains an unauthorized Request Token by asking the Service Provider to issue a Token. The Request Token's sole purpose is to receive User approval and can only be used to obtain an Access Token. The Request Token process goes as follows:</p>
@@ -203,7 +205,7 @@
 
 <h4>1. Consumer Obtains a Request Token</h4>
 
-<p>To obtain a Request Token, the Consumer sends an HTTP GET request to the Service Provider's OAuth Endpoint URL for Request Token requests. The request MUST be signed and contains the following parameters:</p>
+<p>To obtain a Request Token, the Consumer sends an HTTP request to the Service Provider's OAuth Endpoint URL for Request Token requests. The Service Provider documentation MUST specify either HTTP GET or POST for this endpoint. It is RECOMMENDED that this be a POST request. The request MUST be signed and contains the following parameters:</p>
 
 <ul>
 <li><code>oauth_consumer_key</code>
@@ -225,7 +227,7 @@
 
 <h4>2. Service Provider Issues an Unauthorized Request Token</h4>
 
-<p>The Service Provider verifies the signature and Consumer Key and if successful, generates a Request Token and Token Secret and returns them to the Consumer in the HTTP response body as defined in "OAuth Endpoint URLs Response Parameters". The Service Provider MUST ensure the Request Token cannot be exchanged for an Access Token until the User successfully grants access in step 4 below.</p>
+<p>The Service Provider verifies the signature and Consumer Key. If successful, it generates a Request Token and Token Secret and returns them to the Consumer in the HTTP response body as defined in "OAuth Endpoint URLs Response Parameters". The Service Provider MUST ensure the Request Token cannot be exchanged for an Access Token until the User successfully grants access in step 4 below.</p>
 
 <p>The response contains the following parameters:</p>
 
@@ -325,15 +327,15 @@
 
 <h4>2. Service Provider Grants an Access Token</h4>
 
-<p>The Service Provider exchanges the Consumer's Authorization for a new Access Token and Token Secret. The Service Provider MUST verify that:</p>
+<p>The Service Provider MUST ensure that:</p>
 
 <ul>
-<li>The request is properly signed.</li>
+<li>The request signature has been successfully verified.</li>
 <li>The Request Token has not been exchanged before for an Access Token.</li>
 <li>The Request Token matches the Consumer Key.</li>
 </ul>
 
-<p>On successful verification, the Service Provider returns an Access Token and a Token Secret in the HTTP response body as defined in "OAuth Endpoint URLs Response Parameters". The Access Token and Token Secret are stored by the Consumer and used when signing Protected Resources requests. The response contains the following parameters:</p>
+<p>If successful, the Service Provider generates a Request Token and Token Secret and returns them in the HTTP response body as defined in "OAuth Endpoint URLs Response Parameters". The Access Token and Token Secret are stored by the Consumer and used when signing Protected Resources requests. The response contains the following parameters:</p>
 
 <ul>
 <li><code>oauth_token</code>
@@ -375,11 +377,11 @@
 
 <p>The purpose of signing API requests is to prevent unauthorized parties from using the Consumer Key and Tokens when making OAuth Endpoint URL requests or API Endpoint URL requests. The signature process encodes the Consumer Secret and Token Secret into a verifiable value which is included with the request.</p>
 
-<p>OAuth does not mandate a particular signature method, as each API implementation can have its own unique requirements. The protocol defines two signature methods: <code>HMAC-SHA1</code>, <code>PLAINTEXT</code>, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.</p>
+<p>OAuth does not mandate a particular signature method, as each API implementation can have its own unique requirements. The protocol defines three signature methods: <code>HMAC-SHA1</code>, <code>RSA-SHA1</code>, and <code>PLAINTEXT</code>, but Service Providers are free to implement and document their own methods. Recommending any particular method is beyond the scope of this specification.</p>
 
 <p>All OAuth Endpoint URL requests and API Endpoint URL requests MUST be signed by the Consumer and verified by the Service Provider. Both the Consumer and Service Provider follow the same process to generate the request signature.</p>
 
-<p>The Consumer declares a signature method in the <code>oauth_signature_method</code> parameter, generates a signature, and store it in the <code>oauth_signature</code> parameter. The Service Provider verifies the request by generating a new request signature based on the Consumer specified method, and compares it to the signature provided by the Consumer. When verifying a Consumer signature, the Service Provider SHOULD check the request nonce to ensure it has not been used in a previous Consumer request.</p>
+<p>The Consumer declares a signature method in the <code>oauth_signature_method</code> parameter, generates a signature, and stores it in the <code>oauth_signature</code> parameter. The Service Provider verifies the signature as specified in each method. When verifying a Consumer signature, the Service Provider SHOULD check the request nonce to ensure it has not been used in a previous Consumer request.</p>
 
 <p>The signature process MUST NOT change the request parameter names or values, with the exception of the <code>oauth_signature</code> parameter. All request parameters MUST be encoded as described in "Parameter Encoding" prior to applying the signature process.</p>
 
@@ -410,13 +412,31 @@
 <li>The URL as defined in "Endpoint URLs" excluding the query and fragment parts.</li>
 <li>The normalized request parameters string from step 1.</li>
 <li>The HTTP request method used to send the request. Value MUST be uppercase, for example: <code>HEAD</code>, <code>GET</code>, <code>POST</code>, etc.</li>
-<li>The Consumer Secret, encoded per "Parameter Encoding".</li>
+<li>The Consumer Secret, encoded per "Parameter Encoding". The Consumer Secret is included to provide support for hashing algorithms that do not use keys.</li>
 <li>The Token Secret, encoded per "Parameter Encoding" (empty value if <code>oauth_token</code> is not present).</li>
 </ol>
 
 <h3>HMAC-SHA1</h3>
 
-<p>The <code>HMAC-SHA1</code> signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC 2104] where the Signature Base String is the <code>text</code> and the <code>key</code> is the concatenated values (each first encoded per "Parameter Encoding") of the Consumer Secret and Token Secret, separated by an '&amp;' character (ASCII code 38) even if empty. <code>oauth_signature</code> is set to the calculated <code>digest</code> in HEX string format.</p>
+<p>The <code>HMAC-SHA1</code> signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC 2104] where the Signature Base String is the <code>text</code> and the <code>key</code> is the concatenated values (each first encoded per "Parameter Encoding") of the Consumer Secret and Token Secret, separated by an '&amp;' character (ASCII code 38) even if empty. <code>oauth_signature</code> is set to the calculated <code>digest</code> octet string, first base64-encoded per [RFC 4648], then URL-encoded per "Parameter Encoding".</p>
+
+<p>The Service Provider verifies the request by generating a new request signature and comparing it to the signature provided by the Consumer.</p>
+
+<h3>RSA-SHA1</h3>
+
+<p>The <code>RSA-SHA1</code> signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in [RFC 3447] section 8.2 (more simply known as PKCS#1), using SHA1 as the hash function for EMSA-PKCS1-v1_5. It is assumed that the Consumer has provided its RSA public key in a verified way to the Service Provider, in a manner which is beyond the scope of this specification.</p>
+
+<p>The Signature Base String is signed using the Consumer's RSA private key per [RFC 3447] section 8.2.1, where <code>K</code> is the Consumer’s RSA private key, <code>M</code> the Signature Base String, and <code>S</code> is the result signature octet string:</p>
+
+<pre><code>S = RSASSA-PKCS1-V1_5-SIGN (K, M)
+</code></pre>
+
+<p><code>oauth_signature</code> is set to <code>S</code>, first base64-encoded per [RFC 4648], then URL-encoded per "Parameter Encoding".</p>
+
+<p>The Service Provider verifies the signature per [RFC 3447] section 8.2.2, where <code>(n, e)</code> is the Consumer’s RSA public key, <code>M</code> is the Signature Base String, and <code>S</code> is the octet string representation of the <code>oauth_signature</code> value:</p>
+
+<pre><code>RSASSA-PKCS1-V1_5-VERIFY ((n, e), M, S)
+</code></pre>
 
 <h3>PLAINTEXT</h3>
 
@@ -434,6 +454,8 @@
 </ul>
 
 <p>And the <code>oauth_signature</code> value is <code>dj%2E9rj%240jd78jf88.jjd999%28j88ui%2Ehs3</code>. This value is not encoded anymore and is used as it in the HTTP request. If the Token Secret is empty, the value is <code>dj%2E9rj%240jd78jf88.</code> (the separator '.' is retained).</p>
+
+<p>The Service Provider verifies the request by parsing the signature value into its two secret components and ensuring they match the established secrets.</p>
 
 <h2>HTTP Response Codes</h2>
 
@@ -572,9 +594,9 @@
 <pre><code>http://photos.example.net/photos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal&amp;GET&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
 </code></pre>
 
-<p>HMAC-SHA1 produces the following <code>digest</code> value in HEX string (using the Signature Base String as <code>text</code> and <code>kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00</code> as <code>key</code>):</p>
+<p>HMAC-SHA1 produces the following <code>digest</code> value as a base64-encoded string (using the Signature Base String as <code>text</code> and <code>kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00</code> as <code>key</code>):</p>
 
-<pre><code>3a4df91bba14e81cde073c9070beec993e45a2d6
+<pre><code>Ok35G7oU6BzeBzyQcL7smT5FotY=
 </code></pre>
 
 <p>All together, the Consumer request for the photo is:</p>
@@ -585,14 +607,14 @@ Authorization: OAuth realm="http://photos.example.net/authorize",
     oauth_consumer_key="dpf43f3p2l4k3l03",
     oauth_token="nnch734d00sl2jdk",
     oauth_signature_method="HMAC-SHA1",
-    oauth_signature="3a4df91bba14e81cde073c9070beec993e45a2d6",
+    oauth_signature="Ok35G7oU6BzeBzyQcL7smT5FotY%3D",
     oauth_timestamp="1191242096",
     oauth_nonce="kllo9940pd9333jh"
 </code></pre>
 
 <p>And if using query parameters:</p>
 
-<pre><code>http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=3a4df91bba14e81cde073c9070beec993e45a2d6&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh 
+<pre><code>http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Ok35G7oU6BzeBzyQcL7smT5FotY%3D&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh 
 </code></pre>
 
 <p>photos.example.net checks the signature and responds with the requested photo.</p>
@@ -610,10 +632,14 @@ Authorization: OAuth realm="http://photos.example.net/authorize",
 : R. Fielding, J. Gettys, J. Mogul, H. Frystyk, L. Masinter, P. Leach, and T. Berners-Lee, "Hypertext Transfer Protocol -- HTTP/1.1"</li>
 <li>RFC 2617
 : J. Franks, P. Hallam-Baker, J. Hostetler, S. Lawrence, P. Leach, A. Luotonen, and L. Stewart, "HTTP Authentication: Basic and Digest Access Authentication"</li>
+<li>RFC 3447
+: J. Jonsson and B. Kaliski, "Public-Key Cryptography Standards (PKCS) #1: RSA Cryptography; Specifications Version 2.1"</li>
 <li>RFC 3629
 : F. Yergeau, "UTF-8, a transformation format of ISO 10646"</li>
 <li>RFC 3986
 : T. Berners-Lee, R. Fielding, and L. Masinter, "Uniform Resource Identifier (URI): Generic Syntax"</li>
+<li>RFC 4648
+: S. Josefsson, "The Base16, Base32, and Base64 Data Encodings"</li>
 </ul>
 <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
