@@ -665,6 +665,14 @@
               <t hangText="oauth_token:">
                 The Request Token obtained previously.
               </t>
+              <t hangText="oauth_version:">
+                OPTIONAL. If present, value MUST be <spanx style="verb">
+                  1.0
+                </spanx>. Service Providers
+                MUST assume the protocol version to be <spanx style="verb">1.0</spanx> if this parameter
+                is not present. Service Providers' response to non-<spanx style="verb">1.0</spanx> value
+                is left undefined.
+              </t>
               <t hangText="oauth_signature_method:">
                 The signature method the Consumer used to sign the request.
               </t>
@@ -750,6 +758,14 @@
           </t>
           <t hangText="oauth_token:">
             The Access Token.
+          </t>
+          <t hangText="oauth_version:">
+            OPTIONAL. If present, value MUST be <spanx style="verb">
+              1.0
+            </spanx>. Service Providers
+            MUST assume the protocol version to be <spanx style="verb">1.0</spanx> if this parameter
+            is not present. Service Providers' response to non-<spanx style="verb">1.0</spanx> value
+            is left undefined.
           </t>
           <t hangText="oauth_signature_method:">
             The signature method the Consumer used to sign the request.
