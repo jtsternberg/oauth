@@ -77,7 +77,7 @@
         </list>
       </t>
     </section>
-    
+
     <section title="Notation and Conventions">
       <t>
         The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -162,7 +162,7 @@
         no Consumer verification is needed, or when verification is achieved
         through other means such as RSA).
       </t>
-      
+
       <section title="Endpoint URLs" anchor="endpoint_urls">
         <t>
           All Endpoint URLs for both Service Providers and Consumers MUST
@@ -177,7 +177,7 @@
           </figure>
         </t>
       </section>
-      
+
       <section title="Service Providers">
         <t>
           Service Providers responsibility is to enable Consumer Developers
@@ -200,60 +200,62 @@
               Any additional request parameters that the Service Provider
               requires in order to obtain a Token. Service Provider specific
               parameters MUST NOT begin with <spanx style="verb">
-              oauth_</spanx>.
+                oauth_
+              </spanx>.
             </t>
-        </list>
-      </t>
+          </list>
+        </t>
+      </section>
+
+      <section title="Consumers">
+        <t>
+          The Consumer Developer MUST establish a Consumer Key and a Consumer
+          Secret with the Service Provider. The Consumer Developer MAY also be
+          required to provide additional information to the Service Provider
+          upon registration.
+        </t>
+      </section>
+
     </section>
 
-    <section title="Consumers">
+    <section title="Parameters">
       <t>
-        The Consumer Developer MUST establish a Consumer Key and a Consumer
-        Secret with the Service Provider. The Consumer Developer MAY also be
-        required to provide additional information to the Service Provider
-        upon registration.
+        OAuth Protocol Parameter names and values are case sensitive. Each
+        OAuth Protocol Parameters MUST NOT appear more than once per request,
+        and are REQUIRED unless otherwise noted.
       </t>
-    </section>
 
-  </section>
+      <section title="Parameter Encoding" anchor="encoding_parameters">
+        <t>
+          All parameter names and values are escaped using the
+          <xref target="RFC3986" /> percent-encoding (%xx) mechanism.
+          Characters not in the unreserved character set
+          (<xref target="RFC3986" /> section 2.3) MUST be encoded. Characters
+          in the unreserved character set MUST NOT be encoded. Hexadecimal
+          characters in encodings MUST be upper case. Text names and values
+          MUST be encoded as UTF-8 octets before percent-encoding them per
+          <xref target="RFC3629" />.
+        </t>
+        <figure>
+          <artwork>
+            unreserved = ALPHA, DIGIT, '-', '.', '_', '~'
+          </artwork>
+        </figure>
+      </section>
 
-  <section title="Parameters">
-    <t>
-      OAuth Protocol Parameter names and values are case sensitive. Each
-      OAuth Protocol Parameters MUST NOT appear more than once per request,
-      and are REQUIRED unless otherwise noted.
-    </t>
-
-    <section title="Parameter Encoding" anchor="encoding_parameters">
-      <t>
-        All parameter names and values are escaped using the
-        <xref target="RFC3986" /> percent-encoding (%xx) mechanism.
-        Characters not in the unreserved character set
-        (<xref target="RFC3986" /> section 2.3) MUST be encoded. Characters
-        in the unreserved character set MUST NOT be encoded. Hexadecimal
-        characters in encodings MUST be upper case. Text names and values
-        MUST be encoded as UTF-8 octets before percent-encoding them per
-        <xref target="RFC3629" />.
-      </t>
-      <figure>
-        <artwork>
-          unreserved = ALPHA, DIGIT, '-', '.', '_', '~'
-        </artwork>
-      </figure>
-    </section>
-
-    <section title="Sending Request Parameters">
-      <t>
-        OAuth Protocol Parameters are sent from the Consumer to the Service
-        Provider in one of three methods, in order of decreasing preference:
-        <list style="numbers">
-          <t>
-            In the HTTP <spanx style="verb">Authorization</spanx> header as defined in
+      <section title="Sending Request Parameters">
+        <t>
+          OAuth Protocol Parameters are sent from the Consumer to the Service
+          Provider in one of three methods, in order of decreasing preference:
+          <list style="numbers">
+            <t>
+              In the HTTP <spanx style="verb">Authorization</spanx> header as defined in
               <xref target="auth_header">OAuth HTTP Authorization Scheme</xref>.
             </t>
             <t>
               As the HTTP POST request body with a <spanx style="verb">
-              content-type</spanx> of
+                content-type
+              </spanx> of
               <spanx style="verb">application/x-www-form-urlencoded</spanx>.
             </t>
             <t>
@@ -273,7 +275,8 @@
           OAuth Endpoint URLs response parameters are sent by the Service
           Provider to return Tokens and other information to the Consumer in
           the HTTP response body. The parameter names and values are first
-          encoded as per <xref target="encoding_parameters">Parameter Encoding
+          encoded as per <xref target="encoding_parameters">
+            Parameter Encoding
           </xref>, and concatenated with the '&amp;' character (ASCII code 38)
           as defined in <xref target="RFC3986" /> Section 2.1. For example:
         </t>
@@ -283,25 +286,26 @@
           </artwork>
         </figure>
       </section>
-      
+
       <section title="OAuth HTTP Authorization Scheme" anchor="auth_header">
         <t>
           This section defines an <xref target="RFC2617" /> extension to
           support OAuth. It uses the standard HTTP <spanx style="verb">Authorization</spanx> and
           <spanx style="verb">
-            WWW-Authenticate</spanx> headers to pass OAuth Protocol Parameters.
-          
-      </t>
-      <t>
-        It is RECOMMENDED that Service Providers accept the HTTP
-        <spanx style="verb">Authorization</spanx> header. Consumers SHOULD be able to send OAuth
+            WWW-Authenticate
+          </spanx> headers to pass OAuth Protocol Parameters.
+
+        </t>
+        <t>
+          It is RECOMMENDED that Service Providers accept the HTTP
+          <spanx style="verb">Authorization</spanx> header. Consumers SHOULD be able to send OAuth
           Protocol Parameters in the OAuth <spanx style="verb">Authorization</spanx> header.
         </t>
         <t>
           The extension auth-scheme (as defined by
           <xref target="RFC2617" />) is <spanx style="verb">OAuth</spanx> and is case-insensitive.
         </t>
-        
+
         <section title="Authorization Header">
           <t>
             The OAuth Protocol Parameters are sent in the <spanx style="verb">Authorization</spanx>
@@ -335,22 +339,23 @@
             <figure>
               <artwork>
                 Authorization: OAuth realm="https://sp.example.com/oauth/authorize",
-                    oauth_consumer_key="0685bd9184jfhq22",
-                    oauth_token="ad180jjd733klru7",
-                    oauth_signature_method="HMAC-SHA1",
-                    oauth_signature="wOJIO9A2W5mFwDgiDvZbTSMK%2FPY%3D",
-                    oauth_timestamp="137131200",
-                    oauth_nonce="4572616e48616d6d65724c61686176"
+                oauth_consumer_key="0685bd9184jfhq22",
+                oauth_token="ad180jjd733klru7",
+                oauth_signature_method="HMAC-SHA1",
+                oauth_signature="wOJIO9A2W5mFwDgiDvZbTSMK%2FPY%3D",
+                oauth_timestamp="137131200",
+                oauth_nonce="4572616e48616d6d65724c61686176"
               </artwork>
             </figure>
           </t>
         </section>
-        
+
         <section title="WWW-Authenticate Header">
           <t>
             Service Providers MAY indicate their support for the extension by
             returning the OAuth HTTP <spanx style="verb">
-            WWW-Authenticate</spanx> header upon API
+              WWW-Authenticate
+            </spanx> header upon API
             Endpoint URL requests for Protected Resources. As per
             <xref target="RFC2617" /> such a response MAY include additional
             HTTP <spanx style="verb">WWW-Authenticate</spanx> headers:
@@ -370,9 +375,9 @@
             authorization for the accessed resource.
           </t>
         </section>
-        
+
       </section>
-      
+
     </section>
 
     <section title="Authenticating with OAuth">
@@ -382,7 +387,7 @@
         Consumer. OAuth uses Tokens generated by the Service Provider instead
         of the User's credentials in Protected Resources requests. The process
         uses two Token types:
-        
+
         <list style="hanging">
           <t hangText="Request Token:">
             Used by the Consumer to ask the User to authorize access to the
@@ -437,16 +442,11 @@
               <t hangText="oauth_consumer_key:">
                 The Consumer Key.
               </t>
-              <t hangText="oauth_callback:">
-                OPTIONAL. The Consumer MAY specify a URL the Service Provider
-                will use to redirect the User back to the Consumer when
-                <xref target="obtaining_auth">Obtaining User Authorization</xref>
-                is complete.
-              </t>
               <t hangText="oauth_version:">
                 OPTIONAL. If present, value MUST be <spanx style="verb">
-                  1.0</spanx>. Service Providers
-                  MUST assume the protocol version to be <spanx style="verb">1.0</spanx> if this parameter
+                  1.0
+                </spanx>. Service Providers
+                MUST assume the protocol version to be <spanx style="verb">1.0</spanx> if this parameter
                 is not present. Service Providers' response to non-<spanx style="verb">1.0</spanx> value
                 is left undefined.
               </t>
@@ -469,17 +469,21 @@
             </list>
           </t>
         </section>
-        
+
         <section title="Service Provider Issues an Unauthorized Request Token">
           <t>
             The Service Provider verifies the signature and Consumer Key. If
             successful, it generates a Request Token and Token Secret and
             returns them to the Consumer in the HTTP response body as defined
-            in <xref target="response_parameters">OAuth Endpoint URLs Response
-            Parameters</xref>. The Service Provider MUST ensure the Request
+            in <xref target="response_parameters">
+              OAuth Endpoint URLs Response
+              Parameters
+            </xref>. The Service Provider MUST ensure the Request
             Token cannot be exchanged for an Access Token until the User
-            successfully grants access in <xref target="obtaining_auth">Obtaining
-            User Authorization</xref>.
+            successfully grants access in <xref target="obtaining_auth">
+              Obtaining
+              User Authorization
+            </xref>.
           </t>
           <t>
             The response contains the following parameters:
@@ -505,17 +509,17 @@
             <xref target="response_parameters">OAuth Endpoint URLs Response Parameters</xref>.
           </t>
         </section>
-        
+
       </section>
-      
+
       <section title="Obtaining User Authorization" anchor="obtaining_auth">
         <t>
           The Consumer cannot use the Request Token until it has been
           authorized by the User. Obtaining User authorization includes
           the following steps:
         </t>
-        
-        <section title="Consumer Directs the User to the Service Provider">
+
+        <section title="Consumer Directs the User to the Service Provider" anchor="user_auth_redirected">
           <t>
             In order for the Consumer to be able to exchange the Request Token
             for an Access Token, the Consumer MUST obtain approval from the
@@ -529,6 +533,12 @@
                 Service Provider MAY declare this parameter as REQUIRED, or
                 accept requests to the Authorization Endpoint URL without it, in
                 which case it will prompt the User to enter it manually.
+              </t>
+              <t hangText="oauth_callback:">
+                OPTIONAL. The Consumer MAY specify a URL the Service Provider
+                will use to redirect the User back to the Consumer when
+                <xref target="obtaining_auth">Obtaining User Authorization</xref>
+                is complete.
               </t>
             </list>
           </t>
@@ -545,7 +555,7 @@
             for manual entry.
           </t>
         </section>
-        
+
         <section title="Service Provider Authenticates the User and Obtains Consent">
           <t>
             The Service Provider verifies the User's identity and asks for
@@ -590,7 +600,7 @@
             behind a firewall is more protected.
           </t>
         </section>
-        
+
         <section title="Service Provider Directs the User Back to the Consumer">
           <t>
             After the User authenticates with the Service Provider and grants
@@ -601,7 +611,7 @@
           </t>
           <t>
             If the Consumer provided a callback URL in <spanx style="verb">oauth_callback</spanx> (as
-            described in <xref target="obtain_request_token">Consumer Obtains a Request Token</xref>),
+            described in <xref target="user_auth_redirected">Consumer Directs the User to the Service Provider</xref>),
             the Service Provider constructs an HTTP GET request URL, and
             redirects the User's web browser to that URL with the following
             parameters:
@@ -623,16 +633,16 @@
             completed.
           </t>
         </section>
-        
+
       </section>
-      
+
       <section title="Obtaining an Access Token">
         <t>
           The Consumer exchanges the Request Token for an Access Token capable
           of accessing the Protected Resources. Obtaining an Access Token
           includes the following steps:
         </t>
-        
+
         <section title="Consumer Requests an Access Token">
           <t>
             The Request Token and Token Secret MUST be exchanged for an Access
@@ -643,8 +653,10 @@
             Service Provider OAuth Endpoint URL for Token exchange. The Service
             Provider documentation MUST specify either HTTP GET or POST for
             this endpoint. It is RECOMMENDED that this be a POST request. The
-            request MUST be signed per <xref target="signing_process">Signing
-            API Requests</xref>, and contains the following parameters:
+            request MUST be signed per <xref target="signing_process">
+              Signing
+              API Requests
+            </xref>, and contains the following parameters:
 
             <list style="hanging">
               <t hangText="oauth_consumer_key:">
@@ -673,18 +685,17 @@
             is present prior to seeking User approval.
           </t>
         </section>
-        
+
         <section title="Service Provider Grants an Access Token">
           <t>
             The Service Provider MUST ensure that:
-            
+
             <list style="symbols">
               <t>
                 The request signature has been successfully verified.
               </t>
               <t>
-                The Request Token has not been exchanged before for an Access
-                Token.
+                The Request Token has never been exchanged for an Access Token.
               </t>
               <t>
                 The Request Token matches the Consumer Key.
@@ -720,11 +731,11 @@
             <xref target="response_parameters">OAuth Endpoint URLs Response Parameters</xref>.
           </t>
         </section>
-        
+
       </section>
-      
+
     </section>
-    
+
     <section title="Accessing Protected Resources">
       <t>
         After successfully receiving the Access Token and Token Secret, the
@@ -759,7 +770,7 @@
         </list>
       </t>
     </section>
-    
+
     <section title="Nonce and Timestamp" anchor="nonce">
       <t>
         A nonce is a random string, uniquely generated for each request. The
@@ -777,7 +788,7 @@
         timestamp.
       </t>
     </section>
-    
+
     <section title="Signing API Requests" anchor="signing_process">
       <t>
         The purpose of signing API requests is to prevent unauthorized parties
@@ -815,7 +826,7 @@
         <xref target="encoding_parameters">Parameter Encoding</xref> prior to
         applying the signature process.
       </t>
-      
+
       <section title="Signature Base String">
         <t>
           The Signature Base String is a consistent reproducible concatenation
@@ -825,7 +836,7 @@
           Base String with a signing algorithm to generate signatures. The
           process of generating the Signature Base String is as follows:
         </t>
-        
+
         <section title="Normalize Request Parameters">
           <t>
             The request parameters are sorted and concatenated into a
@@ -839,7 +850,7 @@
                 Parameters are sorted by name, using lexicographical byte value
                 ordering. If two or more parameters share the same name, they
                 are sorted by their value. For example:
-                
+
                 <figure>
                   <artwork>
                     a=1, c=hi%20there, f=25, f=50, z=10
@@ -852,7 +863,7 @@
                 corresponding value by an '=' character (ASCII code 61), even
                 if the value is empty. Each name-value pair is separated by an
                 '&amp;' character (ASCII code 38). For example:
-                
+
                 <figure>
                   <artwork>
                     a=1&amp;c=hi%20there&amp;f=25&amp;f=50&amp;z=10
@@ -866,7 +877,7 @@
             </list>
           </t>
         </section>
-        
+
         <section title="Concatenate Request Elements">
           <t>
             The following items MUST be concatenated in order into a single
@@ -884,7 +895,8 @@
               <t>
                 The HTTP request method used to send the request. Value MUST be
                 uppercase, for example: <spanx style="verb">HEAD</spanx>, <spanx style="verb">
-                  GET</spanx>, <spanx style="verb">POST</spanx>, etc.
+                  GET
+                </spanx>, <spanx style="verb">POST</spanx>, etc.
               </t>
               <t>
                 The Consumer Secret, encoded per
@@ -893,120 +905,155 @@
                 algorithms that do not use keys.
               </t>
               <t>
-                The Token Secret, encoded per 
-                <xref target="encoding_parameters">Parameter Encoding</xref>
-                (empty value if <spanx style="verb">oauth_token</spanx> is not present).
+                The Token Secret, encoded per
+                <xref target="encoding_parameters">Parameter Encoding</xref>,
+                or an empty string if <spanx style="verb">oauth_token</spanx>
+                is not present.
               </t>
             </list>
           </t>
+          <t>
+            See Signature Base String example in <xref target="sig_base_example" />.
+          </t>
         </section>
-        
+
       </section>
-      
+
       <section title="HMAC-SHA1">
         <t>
           The <spanx style="verb">HMAC-SHA1</spanx> signature method uses the HMAC-SHA1 signature
           algorithm as defined in <xref target="RFC2104" /> where the Signature
-          Base String is the <spanx style="verb">
-            text</spanx> and the <spanx style="verb">key</spanx> is the concatenated values
+          Base String is the <spanx style="verb">text</spanx> and the
+          <spanx style="verb">key</spanx> is the concatenated values
           (each first encoded per <xref target="encoding_parameters">Parameter Encoding</xref>)
           of the Consumer Secret and Token Secret, separated by an '&amp;'
-          character (ASCII code 38) even if empty. <spanx style="verb">oauth_signature</spanx> is set
-          to the calculated <spanx style="verb">digest</spanx> octet string, first base64-encoded per
-          <xref target="RFC4648" />, then URL-encoded per
-          <xref target="encoding_parameters">Parameter Encoding</xref>.
+          character (ASCII code 38) even if empty.
         </t>
-        <t>
-          The Service Provider verifies the request by generating a new request
-          signature and comparing it to the signature provided by the Consumer.
-        </t>
+
+        <section title="Generating Signature">
+          <t>
+            <spanx style="verb">oauth_signature</spanx> is set
+            to the calculated <spanx style="verb">digest</spanx> octet string, first base64-encoded per
+            <xref target="RFC4648" />, then URL-encoded per
+            <xref target="encoding_parameters">Parameter Encoding</xref>.
+          </t>
+        </section>
+
+        <section title="Verifying Signature">
+          <t>
+            The Service Provider verifies the request by generating a new request
+            signature and comparing it to the signature provided by the Consumer.
+            The signature is generated using the request parameters as provided
+            by the Consumer, and the Consumer Secret and Token Secret as stored
+            by the Service Provider.
+          </t>
+        </section>
+
       </section>
-      
+
       <section title="RSA-SHA1">
         <t>
-          The <spanx style="verb">RSA-SHA1</spanx> signature method uses the RSASSA-PKCS1-v1_5 signature
-          algorithm as defined in <xref target="RFC3447" /> section 8.2
-          (more simply known as PKCS#1), using SHA1 as the hash function for
-          EMSA-PKCS1-v1_5. It is assumed that the Consumer has provided its RSA
-          public key in a verified way to the Service Provider, in a manner
-          which is beyond the scope of this specification.
+          The <spanx style="verb">RSA-SHA1</spanx> signature method uses the
+          RSASSA-PKCS1-v1_5 signature algorithm as defined in
+          <xref target="RFC3447" /> section 8.2 (more simply known as PKCS#1),
+          using SHA1 as the hash function for EMSA-PKCS1-v1_5. It is assumed
+          that the Consumer has provided its RSA public key in a verified way
+          to the Service Provider, in a manner which is beyond the scope of
+          this specification.
         </t>
-        <t>
-          The Signature Base String is signed using the Consumer's RSA private
-          key per <xref target="RFC3447" /> section 8.2.1, where <spanx style="verb">K</spanx> is the
-          Consumer's RSA private key, <spanx style="verb">M</spanx> the Signature Base String, and <spanx style="verb">S</spanx> is
-          the result signature octet string:
 
-          <figure>
-            <artwork>
-              S = RSASSA-PKCS1-V1_5-SIGN (K, M)
-            </artwork>
-          </figure>
-        </t>
-        <t>
-          <spanx style="verb">oauth_signature</spanx> is set to <spanx style="verb">S</spanx>, first base64-encoded per
-          <xref target="RFC4648" />, then URL-encoded per
-          <xref target="encoding_parameters">Parameter Encoding</xref>.
-        </t>
-        <t>
-          The Service Provider verifies the signature per <xref target="RFC3447" />
-          section 8.2.2, where <spanx style="verb">
-          (n, e)</spanx> is the Consumer's RSA public key, <spanx style="verb">M</spanx>
-          is the Signature Base String, and <spanx style="verb">S</spanx> is the octet string
-          representation of the <spanx style="verb">oauth_signature</spanx> value:
+        <section title="Generating Signature">
+          <t>
+            The Signature Base String is signed using the Consumer's RSA private
+            key per <xref target="RFC3447" /> section 8.2.1, where <spanx style="verb">K</spanx> is the
+            Consumer's RSA private key, <spanx style="verb">M</spanx> the Signature Base String, and <spanx style="verb">S</spanx> is
+            the result signature octet string:
 
-          <figure>
-            <artwork>
-              RSASSA-PKCS1-V1_5-VERIFY ((n, e), M, S)
-            </artwork>
-          </figure>
-        </t>
+            <figure>
+              <artwork>
+                S = RSASSA-PKCS1-V1_5-SIGN (K, M)
+              </artwork>
+            </figure>
+          </t>
+          <t>
+            <spanx style="verb">oauth_signature</spanx> is set to <spanx style="verb">S</spanx>, first base64-encoded per
+            <xref target="RFC4648" />, then URL-encoded per
+            <xref target="encoding_parameters">Parameter Encoding</xref>.
+          </t>
+        </section>
+
+        <section title="Verifying Signature">
+          <t>
+            The Service Provider verifies the signature per <xref target="RFC3447" />
+            section 8.2.2, where <spanx style="verb">
+              (n, e)
+            </spanx> is the Consumer's RSA public key, <spanx style="verb">M</spanx>
+            is the Signature Base String, and <spanx style="verb">S</spanx> is the octet string
+            representation of the <spanx style="verb">oauth_signature</spanx> value:
+
+            <figure>
+              <artwork>
+                RSASSA-PKCS1-V1_5-VERIFY ((n, e), M, S)
+              </artwork>
+            </figure>
+          </t>
+        </section>
+
       </section>
-      
+
       <section title="PLAINTEXT">
         <t>
           The <spanx style="verb">
-          PLAINTEXT</spanx> method does not provide any security protection and
-          SHOULD be used over a secure channel such as HTTPS. It does not use
-          the Signature Base String.
+            PLAINTEXT
+          </spanx> method does not provide any security protection and
+          SHOULD only be used over a secure channel such as HTTPS. It does not
+          use the Signature Base String.
         </t>
-      <t>
-        <spanx style="verb">oauth_signature</spanx> is set to the concatenated encoded values of the
-          Consumer Secret and Token Secret, separated by a '.' character (ASCII
-          code 46), even if empty. If the secrets contain a '.' character
-          (ASCII code 46), it must be encoded as <spanx style="verb">%2E</spanx>. The result MUST not be
-          encoded again.
-        </t>
-        <t>
-          For example, if the Consumer Secret is <spanx style="verb">dj.9rj$0jd78jf88</spanx> and Token
-          Secret is <spanx style="verb">jjd999(j88ui.hs3</spanx>, the encoded values are:
+        <section title="Generating Signature">
+          <t>
+            <spanx style="verb">oauth_signature</spanx> is set to the concatenated encoded values of the
+            Consumer Secret and Token Secret, separated by a '.' character (ASCII
+            code 46), even if empty. If the secrets contain a '.' character
+            (ASCII code 46), it must be encoded as <spanx style="verb">%2E</spanx>. The result MUST not be
+            encoded again.
+          </t>
+          <t>
+            For example, if the Consumer Secret is <spanx style="verb">dj.9rj$0jd78jf88</spanx> and Token
+            Secret is <spanx style="verb">jjd999(j88ui.hs3</spanx>, the encoded values are:
 
-          <list style="hanging">
-            <t hangText="Consumer Secret:">
-              <spanx style="verb">
-                dj%2E9rj%240jd78jf88</spanx>
+            <list style="hanging">
+              <t hangText="Consumer Secret:">
+                <spanx style="verb">
+                  dj%2E9rj%240jd78jf88
+                </spanx>
               </t>
-            <t hangText="Token Secret:">
-              <spanx style="verb">jjd999%28j88ui%2Ehs3</spanx>
-            </t>
-          </list>
-        </t>
-        <t>
-          And the <spanx style="verb">
-          oauth_signature</spanx> value is <spanx style="verb">dj%2E9rj%240jd78jf88.jjd999%28j88ui%2Ehs3</spanx>.
-          This value is not encoded anymore and is used as it in the HTTP request.
-          If the Token Secret is empty, the value is <spanx style="verb">dj%2E9rj%240jd78jf88.</spanx>
-          (the separator '.' is retained).
-        </t>
-        <t>
-          The Service Provider verifies the request by parsing the signature
-          value into its two secret components and ensuring they match the
-          established secrets.
-        </t>
+              <t hangText="Token Secret:">
+                <spanx style="verb">jjd999%28j88ui%2Ehs3</spanx>
+              </t>
+            </list>
+          </t>
+          <t>
+            And the <spanx style="verb">
+              oauth_signature
+            </spanx> value is <spanx style="verb">dj%2E9rj%240jd78jf88.jjd999%28j88ui%2Ehs3</spanx>.
+            This value is not encoded anymore and is used as it in the HTTP request.
+            If the Token Secret is empty, the value is <spanx style="verb">dj%2E9rj%240jd78jf88.</spanx>
+            (the separator '.' is retained).
+          </t>
+        </section>
+        
+        <section title="Verifying Signature">
+          <t>
+            The Service Provider verifies the request by breaking the signature
+            value into the Consumer Secret and Token Secret, and verify they
+            match the secrets stored locally.
+          </t>
+        </section>
+        
       </section>
-      
+
     </section>
-    
+
     <section title="HTTP Response Codes" anchor="http_codes">
       <t>
         This section applies only to the Request Token and Access Token OAuth
@@ -1019,57 +1066,58 @@
           <t>
             HTTP 400 Bad Request
             <list style="symbols">
-            <t>
-              Unsupported parameter
-            </t>
-            <t>
-              Unsupported signature method
-            </t>
-            <t>
-              Missing required parameter
-            </t>
-            <t>
-              Duplicated OAuth Protocol Parameter
-            </t>
-          </list>
-        </t>
-        <t>
-          HTTP 401 Unauthorized
-          <list style="symbols">
-            <t>
-              Invalid Consumer Key
-            </t>
-            <t>
-              Invalid / expired Token
-            </t>
-            <t>
-              Invalid signature
-            </t>
-            <t>
-              Invalid / used nonce
-            </t>
-          </list>
-        </t>
-      </list>
-    </t>
+              <t>
+                Unsupported parameter
+              </t>
+              <t>
+                Unsupported signature method
+              </t>
+              <t>
+                Missing required parameter
+              </t>
+              <t>
+                Duplicated OAuth Protocol Parameter
+              </t>
+            </list>
+          </t>
+          <t>
+            HTTP 401 Unauthorized
+            <list style="symbols">
+              <t>
+                Invalid Consumer Key
+              </t>
+              <t>
+                Invalid / expired Token
+              </t>
+              <t>
+                Invalid signature
+              </t>
+              <t>
+                Invalid / used nonce
+              </t>
+            </list>
+          </t>
+        </list>
+      </t>
     </section>
-    
+
     <appendix title="Appendix A - Protocol Example">
       <t>
         In this example, the Service Provider photos.example.net is a photo
         sharing website, and the Consumer printer.example.com is a photo
         printing website. Jane, the User, would like printer.example.com to
         print the private photo <spanx style="verb">
-        vacation.jpg</spanx> stored at photos.example.net.
+          vacation.jpg
+        </spanx> stored at photos.example.net.
       </t>
-    <t>
-      When Jane signs-into photos.example.net using her username and
-      password, she can access the photo by going to the URL
-      <spanx style="verb">http://photos.example.net/photo?file=vacation.jpg</spanx>. Other Users
+      <t>
+        When Jane signs-into photos.example.net using her username and
+        password, she can access the photo by going to the URL
+        <spanx style="verb">http://photos.example.net/photo?file=vacation.jpg</spanx>. Other Users
         cannot access that photo, and Jane does not want to share her
         username and password with printer.example.com.
       </t>
-      
+
       <appendix title="Documentation and Registration">
         <t>
           The Service Provider documentation explains how to register for a
@@ -1094,7 +1142,8 @@
         </t>
         <t>
           The Service Provider declares support for the <spanx style="verb">
-          HMAC-SHA1</spanx> signature
+            HMAC-SHA1
+          </spanx> signature
           method for all requests, and <spanx style="verb">PLAINTEXT</spanx> only for secure (HTTPS)
           requests.
         </t>
@@ -1107,15 +1156,16 @@
           <list style="hanging">
             <t hangText="Consumer Key:">
               <spanx style="verb">
-                dpf43f3p2l4k3l03</spanx>
-              </t>
+                dpf43f3p2l4k3l03
+              </spanx>
+            </t>
             <t hangText="Consumer Secret:">
               <spanx style="verb">kd94hf93k423kf44</spanx>
             </t>
           </list>
         </t>
       </appendix>
-      
+
       <appendix title="Obtaining a Request Token">
         <t>
           After Jane informs printer.example.com that she would like to print
@@ -1136,7 +1186,7 @@
 
           <figure>
             <artwork>
-              https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_callback=http%3A%2f%2fprinter.example.com%2Frequest_token_ready&amp;oauth_version=1.0&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44.&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl
+              https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_version=1.0&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44.&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl
             </artwork>
           </figure>
         </t>
@@ -1151,7 +1201,7 @@
           </figure>
         </t>
       </appendix>
-      
+
       <appendix title="Requesting User Authorization">
         <t>
           The Consumer redirects Jane's browser to the Service Provider
@@ -1160,7 +1210,7 @@
 
           <figure>
             <artwork>
-              http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola
+              http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola&amp;oauth_callback=http%3A%2f%2fprinter.example.com%2Frequest_token_ready
             </artwork>
           </figure>
         </t>
@@ -1178,7 +1228,7 @@
           </figure>
         </t>
       </appendix>
-      
+
       <appendix title="Obtaining an Access Token">
         <t>
           Now that the Consumer knows Jane approved the Request Token, it
@@ -1201,123 +1251,136 @@
           </figure>
         </t>
       </appendix>
-      
+
       <appendix title="Accessing Protected Resources">
         <t>
           The Consumer is now ready to request the private photo. Since the
           photo API Endpoint URL is not secure (HTTP), it must use <spanx style="verb">
-          HMAC-SHA1</spanx>.
-          To generate the signature, it first needs to generate the Signature
-          Base String. The request contains the following parameters
-          (<spanx style="verb">oauth_signature</spanx> excluded) which are ordered and concatenated into
-          a normalized string:
-
-          <list style="hanging">
-            <t hangText="oauth_consumer_key:">
-              <spanx style="verb">dpf43f3p2l4k3l03</spanx>
-            </t>
-            <t hangText="oauth_token:">
-              <spanx style="verb">nnch734d00sl2jdk</spanx>
-            </t>
-            <t hangText="oauth_signature_method:">
-              <spanx style="verb">HMAC-SHA1</spanx>
-            </t>
-            <t hangText="oauth_timestamp:">
-              <spanx style="verb">1191242096</spanx>
-            </t>
-            <t hangText="oauth_nonce:">
-              <spanx style="verb">kllo9940pd9333jh</spanx>
-            </t>
-            <t hangText="file:">
-              <spanx style="verb">vacation.jpg</spanx>
-            </t>
-            <t hangText="size:">
-              <spanx style="verb">original</spanx>
-            </t>
-          </list>
+            HMAC-SHA1
+          </spanx>.
         </t>
-        <t>
-          The following inputs are used to generate the Signature Base String:
+        <appendix title="Generating Signature Base String" anchor="sig_base_example">
+          <t>
+            To generate the signature, it first needs to generate the Signature
+            Base String. The request contains the following parameters
+            (<spanx style="verb">oauth_signature</spanx> excluded) which are ordered and concatenated into
+            a normalized string:
 
-          <list style="numbers">
-            <t hangText="The request URL:">
-              <spanx style="verb">http://photos.example.net/photos</spanx>
-            </t>
-            <t hangText="The encoded normalized request parameters string:">
-              <spanx style="verb">file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal</spanx>
-            </t>
-            <t hangText="The HTTP request method:">
-              <spanx style="verb">GET</spanx>
-            </t>
-            <t hangText="The Consumer Secret:">
-              <spanx style="verb">kd94hf93k423kf44</spanx>
-            </t>
-            <t hangText="The Token Secret:">
-              <spanx style="verb">pfkkdhi9sl3r4s00</spanx>
-            </t>
-          </list>
-        </t>
-        <t>
-          The Signature Base String is:
+            <list style="hanging">
+              <t hangText="oauth_consumer_key:">
+                <spanx style="verb">dpf43f3p2l4k3l03</spanx>
+              </t>
+              <t hangText="oauth_token:">
+                <spanx style="verb">nnch734d00sl2jdk</spanx>
+              </t>
+              <t hangText="oauth_signature_method:">
+                <spanx style="verb">HMAC-SHA1</spanx>
+              </t>
+              <t hangText="oauth_timestamp:">
+                <spanx style="verb">1191242096</spanx>
+              </t>
+              <t hangText="oauth_nonce:">
+                <spanx style="verb">kllo9940pd9333jh</spanx>
+              </t>
+              <t hangText="file:">
+                <spanx style="verb">vacation.jpg</spanx>
+              </t>
+              <t hangText="size:">
+                <spanx style="verb">original</spanx>
+              </t>
+            </list>
+          </t>
+          <t>
+            The following inputs are used to generate the Signature Base String:
 
-          <figure>
-            <artwork>
-              http://photos.example.net/photos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal&amp;GET&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
-            </artwork>
-          </figure>
-        </t>
-        <t>
-          HMAC-SHA1 produces the following <spanx style="verb">digest</spanx> value as a base64-encoded
-          string (using the Signature Base String as <spanx style="verb">text</spanx> and
-          <spanx style="verb">
-            kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00</spanx> as <spanx style="verb">key</spanx>):
+            <list style="numbers">
+              <t hangText="The request URL:">
+                <spanx style="verb">http://photos.example.net/photos</spanx>
+              </t>
+              <t hangText="The encoded normalized request parameters string:">
+                <spanx style="verb">file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal</spanx>
+              </t>
+              <t hangText="The HTTP request method:">
+                <spanx style="verb">GET</spanx>
+              </t>
+              <t hangText="The Consumer Secret:">
+                <spanx style="verb">kd94hf93k423kf44</spanx>
+              </t>
+              <t hangText="The Token Secret:">
+                <spanx style="verb">pfkkdhi9sl3r4s00</spanx>
+              </t>
+            </list>
+          </t>
+          <t>
+            The Signature Base String is:
 
-          <figure>
-            <artwork>
-              Ok35G7oU6BzeBzyQcL7smT5FotY=
-            </artwork>
-          </figure>
-        </t>
-        <t>
-          All together, the Consumer request for the photo is:
+            <figure>
+              <artwork>
+                http://photos.example.net/photos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26size%3Doriginal&amp;GET&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
+              </artwork>
+            </figure>
+          </t>
+        </appendix>
 
-          <figure>
-            <artwork>
-              http://photos.example.net/photos?file=vacation.jpg&amp;size=original
+        <appendix title="Calculating Signature Value">
+          <t>
+            HMAC-SHA1 produces the following <spanx style="verb">digest</spanx> value as a base64-encoded
+            string (using the Signature Base String as <spanx style="verb">text</spanx> and
+            <spanx style="verb">
+              kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
+            </spanx> as <spanx style="verb">key</spanx>):
 
-              Authorization: OAuth realm="http://photos.example.net/authorize",
-                  oauth_consumer_key="dpf43f3p2l4k3l03",
-                  oauth_token="nnch734d00sl2jdk",
-                  oauth_signature_method="HMAC-SHA1",
-                  oauth_signature="Ok35G7oU6BzeBzyQcL7smT5FotY%3D",
-                  oauth_timestamp="1191242096",
-                  oauth_nonce="kllo9940pd9333jh"
-            </artwork>
-          </figure>
-        </t>
-        <t>
-          And if using query parameters:
+            <figure>
+              <artwork>
+                Ok35G7oU6BzeBzyQcL7smT5FotY=
+              </artwork>
+            </figure>
+          </t>
+        </appendix>
 
-          <figure>
-            <artwork>
-              http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Ok35G7oU6BzeBzyQcL7smT5FotY%3D&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh
-            </artwork>
-          </figure>
-        </t>
-        <t>
-          photos.example.net checks the signature and responds with the
-          requested photo.
-        </t>
+        <appendix title="Requesting Protected Resource">
+          <t>
+            All together, the Consumer request for the photo is:
+
+            <figure>
+              <artwork>
+                http://photos.example.net/photos?file=vacation.jpg&amp;size=original
+
+                Authorization: OAuth realm="http://photos.example.net/authorize",
+                oauth_consumer_key="dpf43f3p2l4k3l03",
+                oauth_token="nnch734d00sl2jdk",
+                oauth_signature_method="HMAC-SHA1",
+                oauth_signature="Ok35G7oU6BzeBzyQcL7smT5FotY%3D",
+                oauth_timestamp="1191242096",
+                oauth_nonce="kllo9940pd9333jh"
+              </artwork>
+            </figure>
+          </t>
+          <t>
+            And if using query parameters:
+
+            <figure>
+              <artwork>
+                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Ok35G7oU6BzeBzyQcL7smT5FotY%3D&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh
+              </artwork>
+            </figure>
+          </t>
+          <t>
+            photos.example.net checks the signature and responds with the
+            requested photo.
+          </t>
+        </appendix>
+
       </appendix>
-      
+
     </appendix>
 
   </middle>
-    
+
   <back>
-    
+
     <references title="Appendix B - References">
-      
+
       <reference anchor="RFC2104">
         <front>
           <title>HMAC: Keyed-Hashing for Message Authentication</title>
@@ -1333,7 +1396,7 @@
         </front>
         <seriesInfo name="RFC" value="2104" />
       </reference>
-      
+
       <reference anchor="RFC2606">
         <front>
           <title>Reserved Top Level DNS Names</title>
@@ -1358,7 +1421,7 @@
         </front>
         <seriesInfo name="RFC" value="2119" />
       </reference>
-      
+
       <reference anchor="RFC2616">
         <front>
           <title>Hypertext Transfer Protocol -- HTTP/1.1</title>
@@ -1443,7 +1506,7 @@
         </front>
         <seriesInfo name="RFC" value="3629" />
       </reference>
-      
+
       <reference anchor="RFC3986">
         <front>
           <title>Uniform Resource Identifiers (URI): Generic Syntax</title>
