@@ -1,8 +1,8 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en"><head><title>Implementor's Draft: OAuth Authentication 1.0 - Draft 2</title>
-<meta http-equiv="Expires" content="Wed, 26 Sep 2007 20:55:28 +0000">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>Implementor's Draft: OAuth Authentication 1.0 - Draft 3</title>
+<meta http-equiv="Expires" content="Sat, 29 Sep 2007 02:23:39 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="OAuth Authentication 1.0 - Draft 2">
+<meta name="description" content="OAuth Authentication 1.0 - Draft 3">
 <meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)">
 <style type='text/css'><!--
         body {
@@ -143,9 +143,9 @@
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Implementor's Draft</td><td class="header"> OAuth</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">September 26, 2007</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">September 28, 2007</td></tr>
 </table></td></tr></table>
-<h1><br />OAuth Authentication 1.0 - Draft 2</h1>
+<h1><br />OAuth Authentication 1.0 - Draft 3</h1>
 
 <h3>Abstract</h3>
 
@@ -294,7 +294,7 @@ Authors</h3>
 </p>
 <p>Leah Culver (leah@pownce.com)
 </p>
-<p>Kellan Elliott-McCrea (kellan@yahoo-inc.com)
+<p>Kellan Elliott-McCrea (kellan@flickr.com)
 </p>
 <p>Larry Halff (larry@ma.gnolia.com)
 </p>
@@ -763,8 +763,9 @@ Authenticating with OAuth</h3>
           
 </li>
 </ol><p>
-<p><img src="./diagram.png"></p>  
+      
 </p>
+<p><img src="./diagram.png"></p>  
 <a name="auth_step1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.6.1"></a><h3>6.1.&nbsp;
@@ -1267,6 +1268,8 @@ Nonce and Timestamp</h3>
 Signing Requests</h3>
 
 <p>
+        All Token requests and Protected Resources requests MUST be
+        signed by the Consumer and verified by the Service Provider.
         The purpose of signing requests is to prevent unauthorized parties
         from using the Consumer Key and Tokens when making Token requests or
         Protected Resources requests. The signature process encodes
@@ -1285,13 +1288,6 @@ Signing Requests</h3>
       
 </p>
 <p>
-        All Token requests and Protected Resources requests MUST be
-        signed by the Consumer and verified by the Service Provider. Both the
-        Consumer and Service Provider follow the same process to generate the
-        request signature.
-      
-</p>
-<p>
         The Consumer declares a signature method in the <tt>oauth_signature_method</tt>
         parameter, generates a signature, and stores it in the <tt>oauth_signature</tt>
         parameter. The Service Provider verifies the signature as specified in
@@ -1302,10 +1298,7 @@ Signing Requests</h3>
 </p>
 <p>
         The signature process MUST NOT change the request parameter names or
-        values, with the exception of the <tt>oauth_signature</tt> parameter. All
-        request parameters MUST be encoded as described in
-        <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a> prior to
-        applying the signature process.
+        values, with the exception of the <tt>oauth_signature</tt> parameter.
       
 </p>
 <a name="anchor16"></a><br /><hr />
@@ -1318,8 +1311,10 @@ Signature Base String</h3>
           of the request elements into a single string. The string is used as an
           input in hashing or signing algorithms. The <tt>HMAC-SHA1</tt> signature
           method provides both a standard and an example of using the Signature
-          Base String with a signing algorithm to generate signatures. The
-          process of generating the Signature Base String is as follows:
+          Base String with a signing algorithm to generate signatures.  All
+          request parameters MUST be encoded as described in
+          <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a> prior to
+          constructing the Signature Base String.
         
 </p>
 <a name="anchor17"></a><br /><hr />
@@ -1358,11 +1353,6 @@ Normalize Request Parameters</h3>
 </pre></div>
               
 </li>
-<li>
-                The concatenated string is encoded as described in
-                <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a>.
-              
-</li>
 </ol><p>
           
 </p>
@@ -1373,21 +1363,21 @@ Concatenate Request Elements</h3>
 
 <p>
             The following items MUST be concatenated in order into a single
-            string. Each item is separated by an '&amp;' character (ASCII
-            code 38), even if empty.
+            string. Each item is <a class='info' href='#encoding_parameters'>encoded<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a>
+            and separated by an '&amp;' character (ASCII code 38), even if empty.
 
             </p>
 <ol class="text">
 <li>
                 The HTTP request method used to send the request. Value MUST be
                 uppercase, for example: <tt>HEAD</tt>, <tt>
-                  GET
-                </tt>, <tt>POST</tt>, etc.
+                  GET </tt>, <tt>POST</tt>, etc.
               
 </li>
 <li>
                 The URL as defined in <a class='info' href='#request_urls'>Request URLs<span> (</span><span class='info'>Request URLs</span><span>)</span></a>
-                excluding the query and fragment parts.
+                excluding the query and fragment parts. The URL MUST be identical
+                to the one specified by the Service Provider.
               
 </li>
 <li>
@@ -1395,14 +1385,11 @@ Concatenate Request Elements</h3>
               
 </li>
 <li>
-                The Consumer Secret, encoded per
-                <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a>.
+                The Consumer Secret.
               
 </li>
 <li>
-                The Token Secret, encoded per
-                <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a>,
-                or an empty string if <tt>oauth_token</tt>
+                The Token Secret or an empty string if <tt>oauth_token</tt>
                 is not present.
               
 </li>
@@ -1436,7 +1423,7 @@ Generating Signature</h3>
 <p>
             <tt>oauth_signature</tt> is set
             to the calculated <tt>digest</tt> octet string, first base64-encoded per
-            <a class='info' href='#RFC4648'>[RFC4648]<span> (</span><span class='info'>Josefsson, S., &ldquo;The Base16, Base32, and Base64 Data Encodings,&rdquo; .</span><span>)</span></a>, then URL-encoded per
+            <a class='info' href='#RFC2045'>[RFC2045]<span> (</span><span class='info'>Freed, N. and N. Borenstein, &ldquo;Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies,&rdquo; .</span><span>)</span></a> section 6.8, then URL-encoded per
             <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a>.
           
 </p>
@@ -1447,7 +1434,9 @@ Verifying Signature</h3>
 
 <p>
             The Service Provider verifies the request by generating a new request
-            signature and comparing it to the signature provided by the Consumer.
+            signature octet string, and comparing it to the signature provided by the Consumer,
+            first URL-decoded per <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a>,
+            then base64-decoded per <a class='info' href='#RFC2045'>[RFC2045]<span> (</span><span class='info'>Freed, N. and N. Borenstein, &ldquo;Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies,&rdquo; .</span><span>)</span></a> section 6.8.
             The signature is generated using the request parameters as provided
             by the Consumer, and the Consumer Secret and Token Secret as stored
             by the Service Provider.
@@ -1488,7 +1477,7 @@ Generating Signature</h3>
 </p>
 <p>
             <tt>oauth_signature</tt> is set to <tt>S</tt>, first base64-encoded per
-            <a class='info' href='#RFC4648'>[RFC4648]<span> (</span><span class='info'>Josefsson, S., &ldquo;The Base16, Base32, and Base64 Data Encodings,&rdquo; .</span><span>)</span></a>, then URL-encoded per
+            <a class='info' href='#RFC2045'>[RFC2045]<span> (</span><span class='info'>Freed, N. and N. Borenstein, &ldquo;Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies,&rdquo; .</span><span>)</span></a> section 6.8, then URL-encoded per
             <a class='info' href='#encoding_parameters'>Parameter Encoding<span> (</span><span class='info'>Parameter Encoding</span><span>)</span></a>.
           
 </p>
@@ -1532,40 +1521,33 @@ Generating Signature</h3>
 
 <p>
             <tt>oauth_signature</tt> is set to the concatenated encoded values of the
-            Consumer Secret and Token Secret, separated by a '.' character (ASCII
-            code 46), even if empty. If the secrets contain a '.' character
-            (ASCII code 46), it must be encoded as <tt>%2E</tt>. The result MUST not be
-            encoded again.
+            Consumer Secret and Token Secret, separated by a '&amp;' character (ASCII
+            code 38), even if either secret is empty. The result MUST be encoded again.
           
 </p>
 <p>
-            For example, if the Consumer Secret is <tt>dj.9rjt0jd78jf88</tt> and Token
-            Secret is <tt>jjd999tj88uiths3</tt>, the encoded values are:
+            These examples show the value of <tt>oauth_signature</tt>
+            for Consumer Secret <tt>djr9rjt0jd78jf88</tt> and
+            3 different Token Secrets:
 
             </p>
 <blockquote class="text"><dl>
-<dt>Consumer Secret:</dt>
+<dt>jjd999tj88uiths3:</dt>
 <dd>
-                <tt>
-                  dj%2E9rjt0jd78jf88
-                </tt>
+                <tt>oauth_signature</tt>=<tt>djr9rjt0jd78jf88%26jjd999tj88uiths3</tt>
               
 </dd>
-<dt>Token Secret:</dt>
+<dt>jjd99=tj88uiths3:</dt>
 <dd>
-                <tt>jjd999tj88uiths3</tt>
+                <tt>oauth_signature</tt>=<tt>djr9rjt0jd78jf88%26jjd99%253Dtj88uiths3</tt>
+              
+</dd>
+<dt>Empty:</dt>
+<dd>
+                <tt>oauth_signature</tt>=<tt>djr9rjt0jd78jf88%26</tt>
               
 </dd>
 </dl></blockquote><p>
-          
-</p>
-<p>
-            And the <tt>
-              oauth_signature
-            </tt> value is <tt>dj%2E9rjt0jd78jf88.jjd999tj88uiths3</tt>.
-            This value is not encoded anymore and is used as it in the HTTP request.
-            If the Token Secret is empty, the value is <tt>dj%2E9rjt0jd78jf88.</tt>
-            (the separator '.' is retained).
           
 </p>
 <a name="anchor27"></a><br /><hr />
@@ -1755,7 +1737,7 @@ Obtaining a Request Token</h3>
 
           </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-              https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44.&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl&amp;oauth_version=1.0
+              https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl&amp;oauth_version=1.0
 </pre></div><p>
 
         
@@ -1813,7 +1795,7 @@ Obtaining an Access Token</h3>
 
           </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-              https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=hh5s93j4hdidpola&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44.hdhd0244k9j7ao03&amp;oauth_timestamp=1191242092&amp;oauth_nonce=dji430splmx33448&amp;oauth_version=1.0
+              https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=hh5s93j4hdidpola&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26hdhd0244k9j7ao03&amp;oauth_timestamp=1191242092&amp;oauth_nonce=dji430splmx33448&amp;oauth_version=1.0
 </pre></div><p>
 
         
@@ -1909,7 +1891,7 @@ Generating Signature Base String</h3>
               
 </li>
 <li>
-                <tt>file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal</tt>
+                <tt>file=vacation.jpg&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=kllo9940pd9333jh&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1191242096&oauth_token=nnch734d00sl2jdk&oauth_version=1.0&size=original</tt>
               
 </li>
 <li>
@@ -1928,7 +1910,7 @@ Generating Signature Base String</h3>
 
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                GET&amp;http://photos.example.net/photos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
+                GET&amp;http%3A%2F%2Fphotos.example.net%2Fphotos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
 </pre></div><p>
 
           
@@ -1947,7 +1929,7 @@ Calculating Signature Value</h3>
 
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                RaYSKGBuOveArf/QaPdzu26oPhs
+                Gcg/323lvAsQ707p+y41y14qWfY
 </pre></div><p>
 
           
@@ -1968,7 +1950,7 @@ Requesting Protected Resource</h3>
                 oauth_consumer_key="dpf43f3p2l4k3l03",
                 oauth_token="nnch734d00sl2jdk",
                 oauth_signature_method="HMAC-SHA1",
-                oauth_signature="RaYSKGBuOveArf%2FQaPdzu26oPhs",
+                oauth_signature="Gcg%2F323lvAsQ707p%2By41y14qWfY",
                 oauth_timestamp="1191242096",
                 oauth_nonce="kllo9940pd9333jh",
                 oauth_version="1.0"
@@ -1981,7 +1963,7 @@ Requesting Protected Resource</h3>
 
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=RaYSKGBuOveArf%2FQaPdzu26oPhs&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
+                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Gcg%2F323lvAsQ707p%2By41y14qWfY&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
 </pre></div><p>
 
           
@@ -2039,7 +2021,7 @@ Confidentiality of Requests</h3>
           access to request content. Service Providers should carefully
           consider the kinds of data likely to be sent as part of such requests,
           and should employ transport-layer security mechanisms to protect
-          sensitive resources."
+          sensitive resources.
         
 </p>
 <a name="anchor40"></a><br /><hr />
@@ -2272,6 +2254,8 @@ Signature Base String Compatibility</h3>
 <table width="99%" border="0">
 <tr><td class="author-text" valign="top"><a name="NIST">[NIST]</a></td>
 <td class="author-text">National Institute of Standards and Technolog, NIST., &ldquo;<a href="http://csrc.nist.gov/hash_standards_comments.pdf">NIST Brief Comments on Recent Cryptanalytic Attacks on Secure Hashing Functions and the Continued Security Provided by SHA-1</a>.&rdquo;</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC2045">[RFC2045]</a></td>
+<td class="author-text">Freed, N. and N. Borenstein, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc2045.txt">Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies</a>,&rdquo; RFC&nbsp;2045.</td></tr>
 <tr><td class="author-text" valign="top"><a name="RFC2104">[RFC2104]</a></td>
 <td class="author-text">Krawczyk, H., Bellare, M., and R. Canetti, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc2104.txt">HMAC: Keyed-Hashing for Message Authentication</a>,&rdquo; RFC&nbsp;2104.</td></tr>
 <tr><td class="author-text" valign="top"><a name="RFC2119">[RFC2119]</a></td>
@@ -2288,8 +2272,6 @@ Signature Base String Compatibility</h3>
 <td class="author-text">Yergeau, F., &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc3629.txt">UTF-8, a transformation format of Unicode and ISO 10646</a>,&rdquo; RFC&nbsp;3629.</td></tr>
 <tr><td class="author-text" valign="top"><a name="RFC3986">[RFC3986]</a></td>
 <td class="author-text">Berners-Lee, T., &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc3986.txt">Uniform Resource Identifiers (URI): Generic Syntax</a>,&rdquo; RFC&nbsp;3986.</td></tr>
-<tr><td class="author-text" valign="top"><a name="RFC4648">[RFC4648]</a></td>
-<td class="author-text">Josefsson, S., &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc4648.txt">The Base16, Base32, and Base64 Data Encodings</a>,&rdquo; RFC&nbsp;4648.</td></tr>
 <tr><td class="author-text" valign="top"><a name="SHA1">[SHA1]</a></td>
 <td class="author-text">De Cannière, C. and C. Rechberger, &ldquo;<a href="http://dx.doi.org/10.1007/11935230_1">Finding SHA-1 Characteristics: General Results and Applications</a>.&rdquo;</td></tr>
 </table>
@@ -2303,11 +2285,5 @@ Signature Base String Compatibility</h3>
 <tr><td class="author" align="right">Email:&nbsp;</td>
 <td class="author-text"><a href="mailto:spec@oauth.net">spec@oauth.net</a></td></tr>
 </table>
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-2649949-2";
-urchinTracker();
-</script>
 </body></html>
 

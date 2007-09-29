@@ -1033,7 +1033,7 @@
               <t hangText="jjd99=tj88uiths3:">
                 <spanx style="verb">oauth_signature</spanx>=<spanx style="verb">djr9rjt0jd78jf88%26jjd99%253Dtj88uiths3</spanx>
               </t>
-              <t handText="Empty:">
+              <t hangText="Empty:">
                 <spanx style="verb">oauth_signature</spanx>=<spanx style="verb">djr9rjt0jd78jf88%26</spanx>
               </t>
             </list>

@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
-<rfc category="info" ipr="full3978" docName="oauth-authentication-1_0-2.xml">
+<rfc category="info" ipr="full3978" docName="oauth-authentication-1_0-3.xml">
 
   <?rfc toc="yes" ?>
   <?rfc tocdepth="2" ?>
@@ -13,7 +13,7 @@
   <?rfc private="Implementor's Draft" ?>
 
   <front>
-    <title>OAuth Authentication 1.0 - Draft 2</title>
+    <title>OAuth Authentication 1.0 - Draft 3</title>
 
     <author initials="" surname="OAuth" fullname="OAuth Authorization Workgroup">
       <organization />
@@ -22,7 +22,7 @@
       </address>
     </author>
 
-    <date day="26" month="September" year="2007"/>
+    <date day="28" month="September" year="2007"/>
 
     <abstract>
       <t>
@@ -65,7 +65,7 @@
           <t>Richard M. Conlan (zeveck@google.com)</t>
           <t>Blaine Cook (blaine@twitter.com)</t>
           <t>Leah Culver (leah@pownce.com)</t>
-          <t>Kellan Elliott-McCrea (kellan@yahoo-inc.com)</t>
+          <t>Kellan Elliott-McCrea (kellan@flickr.com)</t>
           <t>Larry Halff (larry@ma.gnolia.com)</t>
           <t>Eran Hammer-Lahav (eran@hueniverse.com)</t>
           <t>Ben Laurie (benl@google.com)</t>
@@ -808,6 +808,8 @@
 
     <section title="Signing Requests" anchor="signing_process">
       <t>
+        All Token requests and Protected Resources requests MUST be
+        signed by the Consumer and verified by the Service Provider.
         The purpose of signing requests is to prevent unauthorized parties
         from using the Consumer Key and Tokens when making Token requests or
         Protected Resources requests. The signature process encodes
@@ -824,12 +826,6 @@
         Recommending any particular method is beyond the scope of this specification.
       </t>
       <t>
-        All Token requests and Protected Resources requests MUST be
-        signed by the Consumer and verified by the Service Provider. Both the
-        Consumer and Service Provider follow the same process to generate the
-        request signature.
-      </t>
-      <t>
         The Consumer declares a signature method in the <spanx style="verb">oauth_signature_method</spanx>
         parameter, generates a signature, and stores it in the <spanx style="verb">oauth_signature</spanx>
         parameter. The Service Provider verifies the signature as specified in
@@ -839,10 +835,7 @@
       </t>
       <t>
         The signature process MUST NOT change the request parameter names or
-        values, with the exception of the <spanx style="verb">oauth_signature</spanx> parameter. All
-        request parameters MUST be encoded as described in
-        <xref target="encoding_parameters">Parameter Encoding</xref> prior to
-        applying the signature process.
+        values, with the exception of the <spanx style="verb">oauth_signature</spanx> parameter.
       </t>
 
       <section title="Signature Base String">
@@ -851,8 +844,10 @@
           of the request elements into a single string. The string is used as an
           input in hashing or signing algorithms. The <spanx style="verb">HMAC-SHA1</spanx> signature
           method provides both a standard and an example of using the Signature
-          Base String with a signing algorithm to generate signatures. The
-          process of generating the Signature Base String is as follows:
+          Base String with a signing algorithm to generate signatures.  All
+          request parameters MUST be encoded as described in
+          <xref target="encoding_parameters">Parameter Encoding</xref> prior to
+          constructing the Signature Base String.
         </t>
 
         <section title="Normalize Request Parameters">
@@ -888,10 +883,6 @@
                   </artwork>
                 </figure>
               </t>
-              <t>
-                The concatenated string is encoded as described in
-                <xref target="encoding_parameters">Parameter Encoding</xref>.
-              </t>
             </list>
           </t>
         </section>
@@ -899,31 +890,28 @@
         <section title="Concatenate Request Elements">
           <t>
             The following items MUST be concatenated in order into a single
-            string. Each item is separated by an '&amp;' character (ASCII
-            code 38), even if empty.
+            string. Each item is <xref target="encoding_parameters">encoded</xref>
+            and separated by an '&amp;' character (ASCII code 38), even if empty.
 
             <list style="numbers">
               <t>
                 The HTTP request method used to send the request. Value MUST be
                 uppercase, for example: <spanx style="verb">HEAD</spanx>, <spanx style="verb">
-                  GET
-                </spanx>, <spanx style="verb">POST</spanx>, etc.
+                  GET </spanx>, <spanx style="verb">POST</spanx>, etc.
               </t>
               <t>
                 The URL as defined in <xref target="request_urls">Request URLs</xref>
-                excluding the query and fragment parts.
+                excluding the query and fragment parts. The URL MUST be identical
+                to the one specified by the Service Provider.
               </t>
               <t>
                 The normalized request parameters string from step 1.
               </t>
               <t>
-                The Consumer Secret, encoded per
-                <xref target="encoding_parameters">Parameter Encoding</xref>.
+                The Consumer Secret.
               </t>
               <t>
-                The Token Secret, encoded per
-                <xref target="encoding_parameters">Parameter Encoding</xref>,
-                or an empty string if <spanx style="verb">oauth_token</spanx>
+                The Token Secret or an empty string if <spanx style="verb">oauth_token</spanx>
                 is not present.
               </t>
             </list>
@@ -950,7 +938,7 @@
           <t>
             <spanx style="verb">oauth_signature</spanx> is set
             to the calculated <spanx style="verb">digest</spanx> octet string, first base64-encoded per
-            <xref target="RFC4648" />, then URL-encoded per
+            <xref target="RFC2045" /> section 6.8, then URL-encoded per
             <xref target="encoding_parameters">Parameter Encoding</xref>.
           </t>
         </section>
@@ -958,7 +946,9 @@
         <section title="Verifying Signature">
           <t>
             The Service Provider verifies the request by generating a new request
-            signature and comparing it to the signature provided by the Consumer.
+            signature octet string, and comparing it to the signature provided by the Consumer,
+            first URL-decoded per <xref target="encoding_parameters">Parameter Encoding</xref>,
+            then base64-decoded per <xref target="RFC2045" /> section 6.8.
             The signature is generated using the request parameters as provided
             by the Consumer, and the Consumer Secret and Token Secret as stored
             by the Service Provider.
@@ -993,7 +983,7 @@
           </t>
           <t>
             <spanx style="verb">oauth_signature</spanx> is set to <spanx style="verb">S</spanx>, first base64-encoded per
-            <xref target="RFC4648" />, then URL-encoded per
+            <xref target="RFC2045" /> section 6.8, then URL-encoded per
             <xref target="encoding_parameters">Parameter Encoding</xref>.
           </t>
         </section>
@@ -1028,33 +1018,25 @@
         <section title="Generating Signature">
           <t>
             <spanx style="verb">oauth_signature</spanx> is set to the concatenated encoded values of the
-            Consumer Secret and Token Secret, separated by a '.' character (ASCII
-            code 46), even if empty. If the secrets contain a '.' character
-            (ASCII code 46), it must be encoded as <spanx style="verb">%2E</spanx>. The result MUST not be
-            encoded again.
+            Consumer Secret and Token Secret, separated by a '&amp;' character (ASCII
+            code 38), even if either secret is empty. The result MUST be encoded again.
           </t>
           <t>
-            For example, if the Consumer Secret is <spanx style="verb">dj.9rjt0jd78jf88</spanx> and Token
-            Secret is <spanx style="verb">jjd999tj88uiths3</spanx>, the encoded values are:
+            These examples show the value of <spanx style="verb">oauth_signature</spanx>
+            for Consumer Secret <spanx style="verb">djr9rjt0jd78jf88</spanx> and
+            3 different Token Secrets:
 
             <list style="hanging">
-              <t hangText="Consumer Secret:">
-                <spanx style="verb">
-                  dj%2E9rjt0jd78jf88
-                </spanx>
+              <t hangText="jjd999tj88uiths3:">
+                <spanx style="verb">oauth_signature</spanx>=<spanx style="verb">djr9rjt0jd78jf88%26jjd999tj88uiths3</spanx>
               </t>
-              <t hangText="Token Secret:">
-                <spanx style="verb">jjd999tj88uiths3</spanx>
+              <t hangText="jjd99=tj88uiths3:">
+                <spanx style="verb">oauth_signature</spanx>=<spanx style="verb">djr9rjt0jd78jf88%26jjd99%253Dtj88uiths3</spanx>
+              </t>
+              <t hangText="Empty:">
+                <spanx style="verb">oauth_signature</spanx>=<spanx style="verb">djr9rjt0jd78jf88%26</spanx>
               </t>
             </list>
-          </t>
-          <t>
-            And the <spanx style="verb">
-              oauth_signature
-            </spanx> value is <spanx style="verb">dj%2E9rjt0jd78jf88.jjd999tj88uiths3</spanx>.
-            This value is not encoded anymore and is used as it in the HTTP request.
-            If the Token Secret is empty, the value is <spanx style="verb">dj%2E9rjt0jd78jf88.</spanx>
-            (the separator '.' is retained).
           </t>
         </section>
 
@@ -1201,7 +1183,7 @@
 
           <figure>
             <artwork>
-              https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44.&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl&amp;oauth_version=1.0
+              https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl&amp;oauth_version=1.0
           </artwork>
           </figure>
         </t>
@@ -1251,7 +1233,7 @@
 
           <figure>
             <artwork>
-              https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=hh5s93j4hdidpola&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44.hdhd0244k9j7ao03&amp;oauth_timestamp=1191242092&amp;oauth_nonce=dji430splmx33448&amp;oauth_version=1.0
+              https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=hh5s93j4hdidpola&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26hdhd0244k9j7ao03&amp;oauth_timestamp=1191242092&amp;oauth_nonce=dji430splmx33448&amp;oauth_version=1.0
           </artwork>
           </figure>
         </t>
@@ -1317,7 +1299,7 @@
                 <spanx style="verb">http://photos.example.net/photos</spanx>
               </t>
               <t hangText="The encoded normalized request parameters string:">
-                <spanx style="verb">file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal</spanx>
+                <spanx style="verb">file=vacation.jpg&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=kllo9940pd9333jh&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1191242096&oauth_token=nnch734d00sl2jdk&oauth_version=1.0&size=original</spanx>
               </t>
               <t hangText="The Consumer Secret:">
                 <spanx style="verb">kd94hf93k423kf44</spanx>
@@ -1332,7 +1314,7 @@
 
             <figure>
               <artwork>
-                GET&amp;http://photos.example.net/photos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
+                GET&amp;http%3A%2F%2Fphotos.example.net%2Fphotos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
               </artwork>
             </figure>
           </t>
@@ -1348,7 +1330,7 @@
 
             <figure>
               <artwork>
-                RaYSKGBuOveArf/QaPdzu26oPhs
+                Gcg/323lvAsQ707p+y41y14qWfY
               </artwork>
             </figure>
           </t>
@@ -1366,7 +1348,7 @@
                 oauth_consumer_key="dpf43f3p2l4k3l03",
                 oauth_token="nnch734d00sl2jdk",
                 oauth_signature_method="HMAC-SHA1",
-                oauth_signature="RaYSKGBuOveArf%2FQaPdzu26oPhs",
+                oauth_signature="Gcg%2F323lvAsQ707p%2By41y14qWfY",
                 oauth_timestamp="1191242096",
                 oauth_nonce="kllo9940pd9333jh",
                 oauth_version="1.0"
@@ -1378,7 +1360,7 @@
 
             <figure>
               <artwork>
-                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=RaYSKGBuOveArf%2FQaPdzu26oPhs&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
+                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Gcg%2F323lvAsQ707p%2By41y14qWfY&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
               </artwork>
             </figure>
           </t>
@@ -1427,7 +1409,7 @@
           access to request content. Service Providers should carefully
           consider the kinds of data likely to be sent as part of such requests,
           and should employ transport-layer security mechanisms to protect
-          sensitive resources."
+          sensitive resources.
         </t>
       </appendix>
 
@@ -1760,14 +1742,17 @@
         <seriesInfo name="RFC" value="3986" />
       </reference>
 
-      <reference anchor="RFC4648">
+      <reference anchor="RFC2045">
         <front>
-          <title>The Base16, Base32, and Base64 Data Encodings</title>
-          <author initials="S.J" surname="Josefsson" fullname="Simon Josefsson">
-            <organization />
+          <title>Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies</title>
+          <author initials="N.F" surname="Freed" fullname="N. Freed">
+            <organization>Innosoft</organization>
+          </author>
+          <author initials="N.B" surname="Borenstein" fullname="N. Borenstein">
+            <organization>First Virtual</organization>
           </author>
         </front>
-        <seriesInfo name="RFC" value="4648" />
+        <seriesInfo name="RFC" value="2045" />
       </reference>
 
       <reference anchor="SHA1">
