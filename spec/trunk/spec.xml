@@ -1293,7 +1293,7 @@
                 <spanx style="verb">http://photos.example.net/photos</spanx>
               </t>
               <t hangText="The encoded normalized request parameters string:">
-                <spanx style="verb">file=vacation.jpg&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=kllo9940pd9333jh&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1191242096&oauth_token=nnch734d00sl2jdk&oauth_version=1.0&size=original</spanx>
+                <spanx style="verb">file=vacation.jpg&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_version=1.0&amp;size=original</spanx>
               </t>
               <t hangText="The Consumer Secret:">
                 <spanx style="verb">kd94hf93k423kf44</spanx>
