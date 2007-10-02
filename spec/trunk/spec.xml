@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
-<rfc category="info" ipr="full3978" docName="oauth-authentication-1_0-3.xml">
+<rfc category="info" ipr="full3978" docName="oauth-core-1_0.xml">
 
   <?rfc toc="yes" ?>
   <?rfc tocdepth="2" ?>
@@ -13,7 +13,7 @@
   <?rfc private="Implementor's Draft" ?>
 
   <front>
-    <title>OAuth Authentication 1.0 - Draft 3</title>
+    <title>OAuth Core 1.0</title>
 
     <author initials="" surname="OAuth" fullname="OAuth Authorization Workgroup">
       <organization />
@@ -22,7 +22,7 @@
       </address>
     </author>
 
-    <date day="28" month="September" year="2007"/>
+    <date day="4" month="October" year="2007"/>
 
     <abstract>
       <t>
@@ -191,13 +191,13 @@
 
       <section title="Service Providers">
         <t>
-          Service Providers responsibility is to enable Consumer Developers
+          The Service Provider's responsibility is to enable Consumer Developers
           to establish a Consumer Key and Consumer Secret. The process and
           requirements for provisioning these are entirely up to the Service
           Providers.
         </t>
         <t>
-          The Service Providers documentation includes:
+          The Service Provider's documentation includes:
 
           <list style="numbers">
             <t>
@@ -339,7 +339,7 @@
               <t>
                 The REQUIRED <spanx style="verb">realm</spanx> parameter is added and interpreted per
                 <xref target="RFC2616" />, section 1.2. The parameter MAY
-                specify the User Authorization URL to be used by the
+                specify the User Authorization URL used by the
                 Consumer to obtain authorization for the accessed resource.
               </t>
             </list>
@@ -507,7 +507,7 @@
           </t>
           <t>
             If the request fails verification or is rejected for other reasons,
-            the Service Provider MUST respond with the appropriate response
+            the Service Provider SHOULD respond with the appropriate response
             code as defined in <xref target="http_codes">HTTP Response Codes</xref>.
             The Service Provider MAY include some further details about why the
             request was rejected in the HTTP response body as defined in
@@ -597,12 +597,6 @@
             identity. The method in which the Service Provider informs the User
             and the quality of the identity assurance is beyond the scope of
             this specification.
-          </t>
-          <t>
-            For example, the Consumer Key and Consumer Secret of a desktop
-            application running on a User desktop can be extracted and abused,
-            while a Consumer Key and Consumer Secret stored on a web server
-            behind a firewall is more protected.
           </t>
         </section>
 
@@ -735,7 +729,7 @@
           </t>
           <t>
             If the request fails verification or is rejected for other reasons,
-            the Service Provider MUST respond with the appropriate response
+            the Service Provider SHOULD respond with the appropriate response
             code as defined in <xref target="http_codes">HTTP Response Codes</xref>.
             The Service Provider MAY include some further details about why the
             request was rejected in the HTTP response body as defined in
