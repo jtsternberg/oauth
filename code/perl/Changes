@@ -1,0 +1,8 @@
+Revision history for Net-OAuth
+
+0.01    Sun, 30 Sep 2007 13:35:06 UTC
+        First version, released on an unsuspecting world.
+
+0.02    Tue, 02 Oct 2007 07:35:17 UTC
+        Added RSA-SHA1 support
+
