@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en"><head><title>Implementor's Draft: OAuth Authentication 1.0 - Draft 3</title>
-<meta http-equiv="Expires" content="Sat, 29 Sep 2007 02:23:39 +0000">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="OAuth Authentication 1.0 - Draft 3">
-<meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>Implementor's Draft: OAuth Core 1.0 Draft 4</title>
+<meta http-equiv="Expires" content="Thu, 04 Oct 2007 04:07:43 +0000" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="OAuth Core 1.0 Draft 4" />
+<meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)" />
 <style type='text/css'><!--
         body {
                 font-family: verdana, charcoal, helvetica, arial, sans-serif;
@@ -143,9 +143,9 @@
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Implementor's Draft</td><td class="header"> OAuth</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">September 28, 2007</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">October 3, 2007</td></tr>
 </table></td></tr></table>
-<h1><br />OAuth Authentication 1.0 - Draft 3</h1>
+<h1><br />OAuth Core 1.0 Draft 4</h1>
 
 <h3>Abstract</h3>
 
@@ -481,14 +481,14 @@ Request URLs</h3>
 Service Providers</h3>
 
 <p>
-          Service Providers responsibility is to enable Consumer Developers
+          The Service Provider's responsibility is to enable Consumer Developers
           to establish a Consumer Key and Consumer Secret. The process and
           requirements for provisioning these are entirely up to the Service
           Providers.
         
 </p>
 <p>
-          The Service Providers documentation includes:
+          The Service Provider's documentation includes:
 
           </p>
 <ol class="text">
@@ -658,7 +658,7 @@ Authorization Header</h3>
 <li>
                 The REQUIRED <tt>realm</tt> parameter is added and interpreted per
                 <a class='info' href='#RFC2616'>[RFC2616]<span> (</span><span class='info'>Fielding, R., Gettys, J., Mogul, J., Frystyk, H., Masinter, L., Leach, P., and T. Berners-Lee, &ldquo;Hypertext Transfer Protocol -- HTTP/1.1,&rdquo; .</span><span>)</span></a>, section 1.2. The parameter MAY
-                specify the User Authorization URL to be used by the
+                specify the User Authorization URL used by the
                 Consumer to obtain authorization for the accessed resource.
               
 </li>
@@ -765,7 +765,7 @@ Authenticating with OAuth</h3>
 </ol><p>
       
 </p>
-<p><img src="./diagram.png"></p>  
+<p><img src="./diagram.png" alt="" /></p>  
 <a name="auth_step1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.6.1"></a><h3>6.1.&nbsp;
@@ -876,7 +876,7 @@ Service Provider Issues an Unauthorized Request Token</h3>
 </p>
 <p>
             If the request fails verification or is rejected for other reasons,
-            the Service Provider MUST respond with the appropriate response
+            the Service Provider SHOULD respond with the appropriate response
             code as defined in <a class='info' href='#http_codes'>HTTP Response Codes<span> (</span><span class='info'>HTTP Response Codes</span><span>)</span></a>.
             The Service Provider MAY include some further details about why the
             request was rejected in the HTTP response body as defined in
@@ -986,13 +986,6 @@ Service Provider Authenticates the User and Obtains Consent</h3>
             identity. The method in which the Service Provider informs the User
             and the quality of the identity assurance is beyond the scope of
             this specification.
-          
-</p>
-<p>
-            For example, the Consumer Key and Consumer Secret of a desktop
-            application running on a User desktop can be extracted and abused,
-            while a Consumer Key and Consumer Secret stored on a web server
-            behind a firewall is more protected.
           
 </p>
 <a name="anchor13"></a><br /><hr />
@@ -1172,7 +1165,7 @@ Service Provider Grants an Access Token</h3>
 </p>
 <p>
             If the request fails verification or is rejected for other reasons,
-            the Service Provider MUST respond with the appropriate response
+            the Service Provider SHOULD respond with the appropriate response
             code as defined in <a class='info' href='#http_codes'>HTTP Response Codes<span> (</span><span class='info'>HTTP Response Codes</span><span>)</span></a>.
             The Service Provider MAY include some further details about why the
             request was rejected in the HTTP response body as defined in
@@ -1371,7 +1364,8 @@ Concatenate Request Elements</h3>
 <li>
                 The HTTP request method used to send the request. Value MUST be
                 uppercase, for example: <tt>HEAD</tt>, <tt>
-                  GET </tt>, <tt>POST</tt>, etc.
+                  GET
+                </tt>, <tt>POST</tt>, etc.
               
 </li>
 <li>
@@ -1891,7 +1885,7 @@ Generating Signature Base String</h3>
               
 </li>
 <li>
-                <tt>file=vacation.jpg&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=kllo9940pd9333jh&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1191242096&oauth_token=nnch734d00sl2jdk&oauth_version=1.0&size=original</tt>
+                <tt>file=vacation.jpg&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_version=1.0&amp;size=original</tt>
               
 </li>
 <li>
@@ -2232,7 +2226,7 @@ Cryptographic Attacks</h3>
           use of SHA-1 by 2010. Service Providers should take this into account
           when considering whether SHA-1 provides an adequate level of security
           for their applications.
-       
+        
 </p>
 <a name="anchor49"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -2290,6 +2284,5 @@ Signature Base String Compatibility</h3>
 <script type="text/javascript">
 _uacct = "UA-2649949-2";
 urchinTracker();
-</script>
-</body></html>
+</script></body></html>
 

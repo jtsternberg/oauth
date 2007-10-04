@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
-<rfc category="info" ipr="full3978" docName="oauth-authentication-1_0-3.xml">
+<rfc category="info" ipr="full3978" docName="oauth-core-1_0_d4.xml">
 
   <?rfc toc="yes" ?>
   <?rfc tocdepth="2" ?>
@@ -13,7 +13,7 @@
   <?rfc private="Implementor's Draft" ?>
 
   <front>
-    <title>OAuth Authentication 1.0 - Draft 3</title>
+    <title>OAuth Core 1.0 Draft 4</title>
 
     <author initials="" surname="OAuth" fullname="OAuth Authorization Workgroup">
       <organization />
@@ -22,7 +22,7 @@
       </address>
     </author>
 
-    <date day="28" month="September" year="2007"/>
+    <date day="3" month="October" year="2007"/>
 
     <abstract>
       <t>
@@ -191,13 +191,13 @@
 
       <section title="Service Providers">
         <t>
-          Service Providers responsibility is to enable Consumer Developers
+          The Service Provider's responsibility is to enable Consumer Developers
           to establish a Consumer Key and Consumer Secret. The process and
           requirements for provisioning these are entirely up to the Service
           Providers.
         </t>
         <t>
-          The Service Providers documentation includes:
+          The Service Provider's documentation includes:
 
           <list style="numbers">
             <t>
@@ -339,7 +339,7 @@
               <t>
                 The REQUIRED <spanx style="verb">realm</spanx> parameter is added and interpreted per
                 <xref target="RFC2616" />, section 1.2. The parameter MAY
-                specify the User Authorization URL to be used by the
+                specify the User Authorization URL used by the
                 Consumer to obtain authorization for the accessed resource.
               </t>
             </list>
@@ -507,7 +507,7 @@
           </t>
           <t>
             If the request fails verification or is rejected for other reasons,
-            the Service Provider MUST respond with the appropriate response
+            the Service Provider SHOULD respond with the appropriate response
             code as defined in <xref target="http_codes">HTTP Response Codes</xref>.
             The Service Provider MAY include some further details about why the
             request was rejected in the HTTP response body as defined in
@@ -597,12 +597,6 @@
             identity. The method in which the Service Provider informs the User
             and the quality of the identity assurance is beyond the scope of
             this specification.
-          </t>
-          <t>
-            For example, the Consumer Key and Consumer Secret of a desktop
-            application running on a User desktop can be extracted and abused,
-            while a Consumer Key and Consumer Secret stored on a web server
-            behind a firewall is more protected.
           </t>
         </section>
 
@@ -735,7 +729,7 @@
           </t>
           <t>
             If the request fails verification or is rejected for other reasons,
-            the Service Provider MUST respond with the appropriate response
+            the Service Provider SHOULD respond with the appropriate response
             code as defined in <xref target="http_codes">HTTP Response Codes</xref>.
             The Service Provider MAY include some further details about why the
             request was rejected in the HTTP response body as defined in
@@ -897,7 +891,8 @@
               <t>
                 The HTTP request method used to send the request. Value MUST be
                 uppercase, for example: <spanx style="verb">HEAD</spanx>, <spanx style="verb">
-                  GET </spanx>, <spanx style="verb">POST</spanx>, etc.
+                  GET
+                </spanx>, <spanx style="verb">POST</spanx>, etc.
               </t>
               <t>
                 The URL as defined in <xref target="request_urls">Request URLs</xref>
@@ -1184,7 +1179,7 @@
           <figure>
             <artwork>
               https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl&amp;oauth_version=1.0
-          </artwork>
+            </artwork>
           </figure>
         </t>
         <t>
@@ -1234,7 +1229,7 @@
           <figure>
             <artwork>
               https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=hh5s93j4hdidpola&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26hdhd0244k9j7ao03&amp;oauth_timestamp=1191242092&amp;oauth_nonce=dji430splmx33448&amp;oauth_version=1.0
-          </artwork>
+            </artwork>
           </figure>
         </t>
         <t>
@@ -1299,7 +1294,7 @@
                 <spanx style="verb">http://photos.example.net/photos</spanx>
               </t>
               <t hangText="The encoded normalized request parameters string:">
-                <spanx style="verb">file=vacation.jpg&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=kllo9940pd9333jh&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1191242096&oauth_token=nnch734d00sl2jdk&oauth_version=1.0&size=original</spanx>
+                <spanx style="verb">file=vacation.jpg&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_version=1.0&amp;size=original</spanx>
               </t>
               <t hangText="The Consumer Secret:">
                 <spanx style="verb">kd94hf93k423kf44</spanx>
@@ -1584,7 +1579,7 @@
           use of SHA-1 by 2010. Service Providers should take this into account
           when considering whether SHA-1 provides an adequate level of security
           for their applications.
-       </t>
+        </t>
       </appendix>
 
       <appendix title="Signature Base String Compatibility">
@@ -1758,7 +1753,7 @@
       <reference anchor="SHA1">
         <front>
           <title>Finding SHA-1 Characteristics: General Results and Applications</title>
-          <author initials="C.DC" surname="De CanniÃ¨re" fullname="Christophe De CanniÃ¨re">
+          <author initials="C.DC" surname="De Cannière" fullname="Christophe De Cannière">
             <organization />
           </author>
           <author initials="C.R" surname="Rechberger" fullname="Christian Rechberger">
