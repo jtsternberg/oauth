@@ -158,7 +158,7 @@
 
       <section title="Request URLs" anchor="request_urls">
         <t>
-          OAuth defines three request URL:
+          OAuth defines three request URLs:
 
           <list style="hanging">
             <t hangText="Request Token URL:">
