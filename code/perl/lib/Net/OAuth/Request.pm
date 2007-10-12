@@ -177,7 +177,7 @@ sub from_authorization_header {
     my $class = ref $proto || $proto;
     my $header = shift;
     my %extra_params = @_;
-    my @header = split /\s+,\s+/, $header;
+    my @header = split /[\s]*,[\s]*/, $header;
     shift @header;
     my %params;
     foreach my $pair (@header) {
@@ -185,6 +185,7 @@ sub from_authorization_header {
         if (defined $k and defined $v) {
             $v =~ s/(^"|"$)//g;
             ($k,$v) = map decode($_), $k, $v;
+            $k =~ s/^oauth_//;
             $params{$k} = $v;
         }
     }
