@@ -13,5 +13,6 @@ META.yml
 README
 t/01-spec.t
 t/02-rsa.t
+t/03-header.t
 t/rsakey
 t/rsakey.pub

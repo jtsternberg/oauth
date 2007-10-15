@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Module::Build;
 
-shift(@ARGV) if $ARGV[0] eq 'Build'; # accomodate with CPAN autoinstall
+shift(@ARGV) if defined $ARGV[0] and $ARGV[0] eq 'Build'; # accomodate with CPAN autoinstall
 
 my $builder = Module::Build->new(
     module_name         => 'Net::OAuth',

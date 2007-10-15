@@ -6,3 +6,5 @@ Revision history for Net-OAuth
 0.02    Tue, 02 Oct 2007 07:35:17 UTC
         Added RSA-SHA1 support
 
+0.03    Mon, 15 Oct 2007 01:35:17 UTC
+        Fixed header parsing
