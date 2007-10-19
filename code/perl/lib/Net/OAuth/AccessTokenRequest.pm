@@ -5,7 +5,6 @@ use base 'Net::OAuth::Request';
 
 __PACKAGE__->add_required_request_params(qw/token/);
 __PACKAGE__->add_required_api_params(qw/token_secret/);
-__PACKAGE__->add_to_signature(qw/token_secret/);
 sub allow_extra_params {0}
 
 =head1 NAME

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 12;
+use Test::More tests => 15;
 
 BEGIN {
     use_ok( 'Net::OAuth::Request' );
@@ -81,4 +81,21 @@ oauth_timestamp="1191242096",
 oauth_token="nnch734d00sl2jdk",
 oauth_version="1.0"
 EOT
+
+$request = Net::OAuth::RequestTokenRequest->new(
+        consumer_key => 'dpf43f3p2l4k3l03',
+        consumer_secret => 'kd94hf93k423kf44',
+        request_url => 'https://photos.example.net/request_token',
+        request_method => 'POST',
+        signature_method => 'HMAC-SHA1',
+        timestamp => '1191242090',
+        nonce => 'hsu94j3884jdopsl',
+);
+
+$request->sign;
+
+ok($request->verify);
+
+is($request->signature_base_string, 'POST&https%3A%2F%2Fphotos.example.net%2Frequest_token&oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dhsu94j3884jdopsl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242090%26oauth_version%3D1.0&kd94hf93k423kf44&');
+is($request->signature, 'ivUllEyrORt90wdGXjOp5Z+ERCQ');
 

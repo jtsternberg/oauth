@@ -8,3 +8,6 @@ Revision history for Net-OAuth
 
 0.03    Mon, 15 Oct 2007 01:35:17 UTC
         Fixed header parsing
+
+0.04		Fri, 19 Oct 2007 16:45:03 UTC
+				Integrated patch from SARTAK, fixing signature for RequestTokenRequest with HMAC-SHA1

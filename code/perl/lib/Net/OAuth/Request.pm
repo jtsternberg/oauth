@@ -5,7 +5,7 @@ use base qw/Class::Data::Inheritable Class::Accessor/;
 use URI::Escape;
 use UNIVERSAL::require;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 __PACKAGE__->mk_classdata(required_request_params => [qw/
     consumer_key
@@ -29,13 +29,14 @@ __PACKAGE__->mk_classdata(signature_elements => [qw/
     request_url
     normalized_request_parameters
     consumer_secret
+    token_secret
     /]);
     
 __PACKAGE__->mk_accessors(
     @{__PACKAGE__->required_request_params}, 
     @{__PACKAGE__->optional_request_params},
     @{__PACKAGE__->required_api_params},
-    qw/extra_params signature signature_key/
+    qw/extra_params signature signature_key token_secret/
     );
 
 sub add_required_request_params {
@@ -89,6 +90,7 @@ sub check {
 
 sub encode {
     my $str = shift;
+    $str = "" unless defined $str;
     return URI::Escape::uri_escape_utf8($str,'^\w.~-');
 }
 
