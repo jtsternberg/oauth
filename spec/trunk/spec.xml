@@ -649,7 +649,7 @@
           </t>
           <t>
             To request an Access Token, the Consumer makes an HTTP request to
-            Service Provider's Access Token URL. The Service Provider
+            the Service Provider's Access Token URL. The Service Provider
             documentation specifies the HTTP method for this request, and HTTP POST
             is RECOMMENDED. The request MUST be signed per
             <xref target="signing_process">Signing Requests</xref>,
@@ -844,7 +844,7 @@
           constructing the Signature Base String.
         </t>
 
-        <section title="Normalize Request Parameters">
+        <section title="Normalize Request Parameters" anchor="sig_norm_param">
           <t>
             The request parameters are sorted and concatenated into a
             normalized string. If a request URL contains a query, the
@@ -899,7 +899,7 @@
                 to the one specified by the Service Provider.
               </t>
               <t>
-                The normalized request parameters string from step 1.
+                The normalized request parameters string from <xref target="sig_norm_param" />.
               </t>
               <t>
                 The Consumer Secret.
@@ -1037,7 +1037,7 @@
         <section title="Verifying Signature">
           <t>
             The Service Provider verifies the request by breaking the signature
-            value into the Consumer Secret and Token Secret, and verify they
+            value into the Consumer Secret and Token Secret, and ensures they
             match the secrets stored locally.
           </t>
         </section>
@@ -1120,7 +1120,7 @@
               https://photos.example.net/request_token, using HTTP POST
             </t>
             <t hangText="User Authorization URL:">
-              http://photos.example.net/authorize
+              http://photos.example.net/authorize, using HTTP GET
             </t>
             <t hangText="Access Token URL:">
               https://photos.example.net/access_token, using HTTP POST
@@ -1201,16 +1201,16 @@
 
           <figure>
             <artwork>
-              http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola&amp;oauth_callback=http%3A%2f%2fprinter.example.com%2Frequest_token_ready
+              http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola&amp;oauth_callback=http%3A%2F%2Fprinter.example.com%2Frequest_token_ready
             </artwork>
           </figure>
         </t>
         <t>
           The Service Provider asks Jane to sign-in using her username and
-          password and if successful, asks her if she approves granting
+          password and, if successful, asks her if she approves granting
           printer.example.com access to her private photos. If Jane approves
           the request, the Service Provider redirects her back to the
-          Consumer's callback:
+          Consumer's callback URL:
 
           <figure>
             <artwork>
@@ -1411,7 +1411,7 @@
         <t>
           OAuth makes no attempt to verify the authenticity of the Service
           Provider. A hostile party could take advantage of this by intercepting
-          Consumer's requests and returning misleading or otherwise incorrect
+          the Consumer's requests and returning misleading or otherwise incorrect
           responses. Service providers should consider such attacks when
           developing services based on OAuth, and should require transport-layer
           security for any requests where the authenticity of the Service
