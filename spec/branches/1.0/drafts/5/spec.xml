@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
-<rfc category="info" ipr="full3978" docName="oauth-core-1_0_d4.xml">
+<rfc category="info" ipr="full3978" docName="oauth-core-1_0_d5.xml">
 
   <?rfc toc="yes" ?>
   <?rfc tocdepth="2" ?>
@@ -13,7 +13,7 @@
   <?rfc private="Implementor's Draft" ?>
 
   <front>
-    <title>OAuth Core 1.0 Draft 4</title>
+    <title>OAuth Core 1.0 Draft 5</title>
 
     <author initials="" surname="OAuth" fullname="OAuth Authorization Workgroup">
       <organization />
@@ -22,7 +22,7 @@
       </address>
     </author>
 
-    <date day="3" month="October" year="2007"/>
+    <date day="1" month="November" year="2007"/>
 
     <abstract>
       <t>
@@ -253,7 +253,7 @@
         </figure>
       </section>
 
-      <section title="Consumer Request Parameters">
+      <section title="Consumer Request Parameters" anchor="consumer_req_param">
         <t>
           OAuth Protocol Parameters are sent from the Consumer to the Service
           Provider in one of three methods, in order of decreasing preference:
@@ -301,10 +301,7 @@
         <t>
           This section defines an <xref target="RFC2617" /> extension to
           support OAuth. It uses the standard HTTP <spanx style="verb">Authorization</spanx> and
-          <spanx style="verb">
-            WWW-Authenticate
-          </spanx> headers to pass OAuth Protocol Parameters.
-
+          <spanx style="verb">WWW-Authenticate</spanx> headers to pass OAuth Protocol Parameters.
         </t>
         <t>
           It is RECOMMENDED that Service Providers accept the HTTP
@@ -316,7 +313,7 @@
           <xref target="RFC2617" />) is <spanx style="verb">OAuth</spanx> and is case-insensitive.
         </t>
 
-        <section title="Authorization Header">
+        <section title="Authorization Header" anchor="auth_header_authorization">
           <t>
             The OAuth Protocol Parameters are sent in the <spanx style="verb">Authorization</spanx>
             header the following way:
@@ -649,7 +646,7 @@
           </t>
           <t>
             To request an Access Token, the Consumer makes an HTTP request to
-            Service Provider's Access Token URL. The Service Provider
+            the Service Provider's Access Token URL. The Service Provider
             documentation specifies the HTTP method for this request, and HTTP POST
             is RECOMMENDED. The request MUST be signed per
             <xref target="signing_process">Signing Requests</xref>,
@@ -844,12 +841,32 @@
           constructing the Signature Base String.
         </t>
 
-        <section title="Normalize Request Parameters">
+        <section title="Normalize Request Parameters" anchor="sig_norm_param">
           <t>
             The request parameters are sorted and concatenated into a
-            normalized string. If a request URL contains a query, the
-            query is broken into individual parameters which are also
-            processed. The <spanx style="verb">oauth_signature</spanx> parameter MUST be excluded.
+            normalized string. They include:
+
+            <list style="numbers">
+              <t>
+                Parameters sent via any of the methods described in
+                <xref target="consumer_req_param" />, of which more than one
+                method MAY be used simultaneously.
+              </t>
+              <t>
+                If a request URL contains a query, the query is broken into
+                individual parameters which are also processed. Query elements
+                that cannot be broken into name-value pairs are treated as
+                empty parameters (names only).
+              </t>
+              <t>
+                The <spanx style="verb">Authorization</spanx> header
+                <spanx style="verb">realm</spanx> parameter as defined in
+                <xref target="auth_header_authorization" /> and the
+                <spanx style="verb">oauth_signature</spanx> parameter MUST be
+                excluded.
+              </t>
+            </list>
+
             The parameters are normalized into a single string as follows:
 
             <list style="numbers">
@@ -881,6 +898,47 @@
           </t>
         </section>
 
+        <section title="Construct Request URL" anchor="sig_url">
+          <t>
+            The Signature Base String includes the request absolute URL, tying
+            the signature to a specific endpoint. The URL used in the Signature
+            Base String MUST include the scheme, authority, and path, and MUST
+            exclude the query and fragment as defined by <xref target="RFC3986" />
+            section 3.
+          </t>
+          <t>
+            If the absolute request URL is not available to the Service Provider
+            (it is always available to the Consumer), it can be constructed by
+            combining the schema being used, the HTTP <spanx style="verb">Host</spanx>
+            header, and the relative HTTP request URL, . If the
+            <spanx style="verb">Host</spanx> header is not available, the Service
+            Provider SHOULD use the host name communicated to the Consumer in the
+            documentation or other means.
+          </t>
+          <t>
+            The URL authority MUST include the port number except for <spanx style="verb">
+            http</spanx> on port 80 and <spanx style="verb">https</spanx> on port
+            443 which MUST be excluded.
+          </t>
+          <t>
+            For example, the request:
+            
+            <figure>
+              <artwork>
+                http://example.com:80/resource?id=123
+              </artwork>
+            </figure>
+
+            Is included in the Signature Base String as:
+            
+            <figure>
+              <artwork>
+                http://example.com/resource
+              </artwork>
+            </figure>
+          </t>
+        </section>
+
         <section title="Concatenate Request Elements">
           <t>
             The following items MUST be concatenated in order into a single
@@ -891,16 +949,13 @@
               <t>
                 The HTTP request method used to send the request. Value MUST be
                 uppercase, for example: <spanx style="verb">HEAD</spanx>, <spanx style="verb">
-                  GET
-                </spanx>, <spanx style="verb">POST</spanx>, etc.
+                  GET </spanx>, <spanx style="verb">POST</spanx>, etc.
               </t>
               <t>
-                The URL as defined in <xref target="request_urls">Request URLs</xref>
-                excluding the query and fragment parts. The URL MUST be identical
-                to the one specified by the Service Provider.
+                The request URL from <xref target="sig_url" />.
               </t>
               <t>
-                The normalized request parameters string from step 1.
+                The normalized request parameters string from <xref target="sig_norm_param" />.
               </t>
               <t>
                 The Consumer Secret.
@@ -1038,7 +1093,7 @@
         <section title="Verifying Signature">
           <t>
             The Service Provider verifies the request by breaking the signature
-            value into the Consumer Secret and Token Secret, and verify they
+            value into the Consumer Secret and Token Secret, and ensures they
             match the secrets stored locally.
           </t>
         </section>
@@ -1121,7 +1176,7 @@
               https://photos.example.net/request_token, using HTTP POST
             </t>
             <t hangText="User Authorization URL:">
-              http://photos.example.net/authorize
+              http://photos.example.net/authorize, using HTTP GET
             </t>
             <t hangText="Access Token URL:">
               https://photos.example.net/access_token, using HTTP POST
@@ -1179,7 +1234,7 @@
           <figure>
             <artwork>
               https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl&amp;oauth_version=1.0
-            </artwork>
+          </artwork>
           </figure>
         </t>
         <t>
@@ -1202,16 +1257,16 @@
 
           <figure>
             <artwork>
-              http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola&amp;oauth_callback=http%3A%2f%2fprinter.example.com%2Frequest_token_ready
+              http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola&amp;oauth_callback=http%3A%2F%2Fprinter.example.com%2Frequest_token_ready
             </artwork>
           </figure>
         </t>
         <t>
           The Service Provider asks Jane to sign-in using her username and
-          password and if successful, asks her if she approves granting
+          password and, if successful, asks her if she approves granting
           printer.example.com access to her private photos. If Jane approves
           the request, the Service Provider redirects her back to the
-          Consumer's callback:
+          Consumer's callback URL:
 
           <figure>
             <artwork>
@@ -1229,7 +1284,7 @@
           <figure>
             <artwork>
               https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=hh5s93j4hdidpola&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26hdhd0244k9j7ao03&amp;oauth_timestamp=1191242092&amp;oauth_nonce=dji430splmx33448&amp;oauth_version=1.0
-            </artwork>
+          </artwork>
           </figure>
         </t>
         <t>
@@ -1325,7 +1380,7 @@
 
             <figure>
               <artwork>
-                Gcg/323lvAsQ707p+y41y14qWfY
+                Gcg/323lvAsQ707p+y41y14qWfY=
               </artwork>
             </figure>
           </t>
@@ -1343,7 +1398,7 @@
                 oauth_consumer_key="dpf43f3p2l4k3l03",
                 oauth_token="nnch734d00sl2jdk",
                 oauth_signature_method="HMAC-SHA1",
-                oauth_signature="Gcg%2F323lvAsQ707p%2By41y14qWfY",
+                oauth_signature="Gcg%2F323lvAsQ707p%2By41y14qWfY%3D",
                 oauth_timestamp="1191242096",
                 oauth_nonce="kllo9940pd9333jh",
                 oauth_version="1.0"
@@ -1355,7 +1410,7 @@
 
             <figure>
               <artwork>
-                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Gcg%2F323lvAsQ707p%2By41y14qWfY&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
+                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Gcg%2F323lvAsQ707p%2By41y14qWfY%3D&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
               </artwork>
             </figure>
           </t>
@@ -1412,7 +1467,7 @@
         <t>
           OAuth makes no attempt to verify the authenticity of the Service
           Provider. A hostile party could take advantage of this by intercepting
-          Consumer's requests and returning misleading or otherwise incorrect
+          the Consumer's requests and returning misleading or otherwise incorrect
           responses. Service providers should consider such attacks when
           developing services based on OAuth, and should require transport-layer
           security for any requests where the authenticity of the Service
@@ -1579,7 +1634,7 @@
           use of SHA-1 by 2010. Service Providers should take this into account
           when considering whether SHA-1 provides an adequate level of security
           for their applications.
-        </t>
+       </t>
       </appendix>
 
       <appendix title="Signature Base String Compatibility">
@@ -1590,6 +1645,12 @@
           algorithms that do not use keys and cannot use the secrets in that fashion.
           when designing additional signature methods, the Signature Base String should
           be evaluated to ensure compatibility with the algorithms used.
+        </t>
+        <t>
+          The Signature Base String cannot guarantee the order in which parameters
+          are sent. If parameter ordering is important and affects the result of a
+          request, the Signature Base String will not protect against request
+          manipulation.
         </t>
       </appendix>
 
@@ -1753,7 +1814,7 @@
       <reference anchor="SHA1">
         <front>
           <title>Finding SHA-1 Characteristics: General Results and Applications</title>
-          <author initials="C.DC" surname="De Cannière" fullname="Christophe De Cannière">
+          <author initials="C.DC" surname="De Canniere" fullname="Christophe De Canniere">
             <organization />
           </author>
           <author initials="C.R" surname="Rechberger" fullname="Christian Rechberger">
