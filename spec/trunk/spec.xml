@@ -22,7 +22,7 @@
       </address>
     </author>
 
-    <date day="1" month="November" year="2007"/>
+    <date day="5" month="November" year="2007"/>
 
     <abstract>
       <t>
@@ -277,6 +277,9 @@
         <t>
           In addition to these defined methods, future extensions may describe
           alternate methods for sending the OAuth Protocol Parameters.
+          The methods for sending other request parameters are left
+          undefined, but SHOULD NOT use the
+          <xref target="auth_header">OAuth HTTP Authorization Scheme</xref> header.
         </t>
       </section>
 
@@ -877,7 +880,7 @@
 
                 <figure>
                   <artwork>
-                    a=1, c=hi%20there, f=25, f=50, z=10
+                    a=1, c=hi%20there, f=a, f=25, f=50, z=p, z=t
                   </artwork>
                 </figure>
               </t>
@@ -905,20 +908,24 @@
             Base String MUST include the scheme, authority, and path, and MUST
             exclude the query and fragment as defined by <xref target="RFC3986" />
             section 3.
-
+          </t>
+          <t>
             If the absolute request URL is not available to the Service Provider
             (it is always available to the Consumer), it can be constructed by
-            combining the schema being used, the HTTP <spanx style="verb">Host</spanx>
+            combining the scheme being used, the HTTP <spanx style="verb">Host</spanx>
             header, and the relative HTTP request URL, . If the
             <spanx style="verb">Host</spanx> header is not available, the Service
             Provider SHOULD use the host name communicated to the Consumer in the
             documentation or other means.
-            
+          </t>
+          <t>
             The URL authority MUST include the port number except for <spanx style="verb">
             http</spanx> on port 80 and <spanx style="verb">https</spanx> on port
             443 which MUST be excluded.
-            
+          </t>
+          <t>
             For example, the request:
+            
             <figure>
               <artwork>
                 http://example.com:80/resource?id=123
@@ -1640,7 +1647,8 @@
           algorithms that do not use keys and cannot use the secrets in that fashion.
           when designing additional signature methods, the Signature Base String should
           be evaluated to ensure compatibility with the algorithms used.
-
+        </t>
+        <t>
           The Signature Base String cannot guarantee the order in which parameters
           are sent. If parameter ordering is important and affects the result of a
           request, the Signature Base String will not protect against request
