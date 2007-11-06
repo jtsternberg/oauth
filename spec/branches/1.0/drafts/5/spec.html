@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en"><head><title>Implementor's Draft: OAuth Core 1.0</title>
-<meta http-equiv="Expires" content="Tue, 06 Nov 2007 03:52:22 +0000">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>Implementor's Draft: OAuth Core 1.0 Draft 5</title>
+<meta http-equiv="Expires" content="Tue, 06 Nov 2007 04:47:10 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="OAuth Core 1.0">
+<meta name="description" content="OAuth Core 1.0 Draft 5">
 <meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)">
 <style type='text/css'><!--
         body {
@@ -145,7 +145,7 @@
 <tr><td class="header">Implementor's Draft</td><td class="header"> OAuth</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">November 5, 2007</td></tr>
 </table></td></tr></table>
-<h1><br />OAuth Core 1.0</h1>
+<h1><br />OAuth Core 1.0 Draft 5</h1>
 
 <h3>Abstract</h3>
 
@@ -283,46 +283,26 @@ Author's Address<br />
 <a name="rfc.section.1"></a><h3>1.&nbsp;
 Authors</h3>
 
-<p>
-        </p>
-<blockquote class="text">
-<p>Mark Atwood (me@mark.atwood.name)
-</p>
-<p>Richard M. Conlan (zeveck@google.com)
-</p>
-<p>Blaine Cook (blaine@twitter.com)
-</p>
-<p>Leah Culver (leah@pownce.com)
-</p>
-<p>Kellan Elliott-McCrea (kellan@flickr.com)
-</p>
-<p>Larry Halff (larry@ma.gnolia.com)
-</p>
-<p>Eran Hammer-Lahav (eran@hueniverse.com)
-</p>
-<p>Ben Laurie (benl@google.com)
-</p>
-<p>Chris Messina (chris@citizenagency.com)
-</p>
-<p>John Panzer (jpanzer@acm.org)
-</p>
-<p>Sam Quigley (quigley@emerose.com)
-</p>
-<p>David Recordon (david@sixapart.com)
-</p>
-<p>Eran Sandler (eran@yedda.com)
-</p>
-<p>Jonathan Sergent (sergent@google.com)
-</p>
-<p>Todd Sieling (todd@ma.gnolia.com)
-</p>
-<p>Brian Slesinsky (brian-oauth@slesinsky.org)
-</p>
-<p>Andy Smith (andy@jaiku.com)
-</p>
-</blockquote><p>
-      
-</p>
+<ul>
+  <li><span class="vcard"><span class="fn">Mark Atwood</span> (<span class="email">me@mark.atwood.name</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Richard M. Conlan</span> (<span class="email">zeveck@google.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Blaine Cook</span> (<span class="email">blaine@twitter.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Leah Culver</span> (<span class="email">leah@pownce.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Kellan Elliott-McCrea</span> (<span class="email">kellan@flickr.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Larry Halff</span> (<span class="email">larry@ma.gnolia.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Eran Hammer-Lahav</span> (<span class="email">eran@hueniverse.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Ben Laurie</span> (<span class="email">benl@google.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Chris Messina</span> (<span class="email">chris@citizenagency.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">John Panzer</span> (<span class="email">jpanzer@acm.org</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Sam Quigley</span> (<span class="email">quigley@emerose.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">David Recordon</span> (<span class="email">david@sixapart.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Eran Sandler</span> (<span class="email">eran@yedda.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Jonathan Sergent</span> (<span class="email">sergent@google.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Todd Sieling</span> (<span class="email">todd@ma.gnolia.com</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Brian Slesinsky</span> (<span class="email">brian-oauth@slesinsky.org</span>)</span></li>
+  <li><span class="vcard"><span class="fn">Andy Smith</span> (<span class="email">andy@jaiku.com</span>)</span></li>
+</ul>
+
 <a name="anchor2"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.2"></a><h3>2.&nbsp;
@@ -765,6 +745,7 @@ Authenticating with OAuth</h3>
 </ol><p>
       
 </p>
+<p><img src="./diagram.png" alt="" /></p>
 <a name="auth_step1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.6.1"></a><h3>6.1.&nbsp;
@@ -1316,7 +1297,7 @@ Normalize Request Parameters</h3>
 
 <p>
             The request parameters are collected, sorted and concatenated into
-            a normalized string. They include:
+            a normalized string:
 
             </p>
 <ul class="text">
@@ -1326,9 +1307,9 @@ Normalize Request Parameters</h3>
               
 </li>
 <li>
-                Parameters in the HTTP POST request body with a
+                Parameters in the HTTP POST request body (with a
                 <tt>content-type</tt> of
-                <tt>application/x-www-form-urlencoded</tt>.
+                <tt>application/x-www-form-urlencoded</tt>).
               
 </li>
 <li>
@@ -1391,17 +1372,19 @@ Construct Request URL</h3>
             If the absolute request URL is not available to the Service Provider
             (it is always available to the Consumer), it can be constructed by
             combining the scheme being used, the HTTP <tt>Host</tt>
-            header, and the relative HTTP request URL, . If the
+            header, and the relative HTTP request URL. If the
             <tt>Host</tt> header is not available, the Service
             Provider SHOULD use the host name communicated to the Consumer in the
             documentation or other means.
           
 </p>
 <p>
-            The URL authority MUST include the port number except for <tt>
-              http
-            </tt> on port 80 and <tt>https</tt> on port
-            443 which MUST be excluded.
+            The Service Provider SHOULD document the form of URL used in the
+            Signature Base String to avoid ambiguity due to URL normalization.
+            Unless specified, URL scheme and authority MUST be lowercase and
+            include the port number; <tt>http</tt> default
+            port 80 and <tt>https</tt> default port 443 MUST
+            be excluded.
           
 </p>
 <p>
@@ -1409,7 +1392,7 @@ Construct Request URL</h3>
 
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                http://example.com:80/resource?id=123
+                HTTP://Example.com:80/resource?id=123
 </pre></div><p>
 
 
@@ -2287,7 +2270,7 @@ Cryptographic Attacks</h3>
 
 <p>
           SHA-1, the hash algorithm used in <tt>HMAC-SHA1</tt>
-          signatures, has been <a class='info' href='#SHA1'>shown<span> (</span><span class='info'>De Cannière, C. and C. Rechberger, &ldquo;Finding SHA-1 Characteristics: General Results and Applications,&rdquo; .</span><span>)</span></a> [SHA1] to have a number
+          signatures, has been <a class='info' href='#SHA1'>shown<span> (</span><span class='info'>De Canniere, C. and C. Rechberger, &ldquo;Finding SHA-1 Characteristics: General Results and Applications,&rdquo; .</span><span>)</span></a> [SHA1] to have a number
           of cryptographic weaknesses that significantly reduce its resistance to
           collision attacks. Practically speaking, these weaknesses are difficult
           to exploit, and by themselves do not pose a significant risk to users
@@ -2344,7 +2327,7 @@ Signature Base String Compatibility</h3>
 <tr><td class="author-text" valign="top"><a name="RFC3986">[RFC3986]</a></td>
 <td class="author-text">Berners-Lee, T., &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc3986.txt">Uniform Resource Identifiers (URI): Generic Syntax</a>,&rdquo; RFC&nbsp;3986.</td></tr>
 <tr><td class="author-text" valign="top"><a name="SHA1">[SHA1]</a></td>
-<td class="author-text">De Cannière, C. and C. Rechberger, &ldquo;<a href="http://dx.doi.org/10.1007/11935230_1">Finding SHA-1 Characteristics: General Results and Applications</a>.&rdquo;</td></tr>
+<td class="author-text">De Canniere, C. and C. Rechberger, &ldquo;<a href="http://dx.doi.org/10.1007/11935230_1">Finding SHA-1 Characteristics: General Results and Applications</a>.&rdquo;</td></tr>
 </table>
 
 <a name="rfc.authors"></a><br /><hr />
@@ -2356,5 +2339,11 @@ Signature Base String Compatibility</h3>
 <tr><td class="author" align="right">Email:&nbsp;</td>
 <td class="author-text"><a href="mailto:spec@oauth.net">spec@oauth.net</a></td></tr>
 </table>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-2649949-2";
+urchinTracker();
+</script>
 </body></html>
 

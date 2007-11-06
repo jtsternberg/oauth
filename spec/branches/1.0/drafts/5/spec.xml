@@ -22,7 +22,7 @@
       </address>
     </author>
 
-    <date day="1" month="November" year="2007"/>
+    <date day="5" month="November" year="2007"/>
 
     <abstract>
       <t>
@@ -277,6 +277,9 @@
         <t>
           In addition to these defined methods, future extensions may describe
           alternate methods for sending the OAuth Protocol Parameters.
+          The methods for sending other request parameters are left
+          undefined, but SHOULD NOT use the
+          <xref target="auth_header">OAuth HTTP Authorization Scheme</xref> header.
         </t>
       </section>
 
@@ -836,37 +839,39 @@
           input in hashing or signing algorithms. The <spanx style="verb">HMAC-SHA1</spanx> signature
           method provides both a standard and an example of using the Signature
           Base String with a signing algorithm to generate signatures.  All
-          request parameters MUST be encoded as described in
+          the request parameters MUST be encoded as described in
           <xref target="encoding_parameters">Parameter Encoding</xref> prior to
           constructing the Signature Base String.
         </t>
 
         <section title="Normalize Request Parameters" anchor="sig_norm_param">
           <t>
-            The request parameters are sorted and concatenated into a
-            normalized string. They include:
+            The request parameters are collected, sorted and concatenated into
+            a normalized string:
 
-            <list style="numbers">
+            <list style="symbols">
               <t>
-                Parameters sent via any of the methods described in
-                <xref target="consumer_req_param" />, of which more than one
-                method MAY be used simultaneously.
+                Parameters in the <xref target="auth_header_authorization">
+                  OAuth HTTP Authorization header
+                </xref> excluding the <spanx style="verb">realm</spanx>
+                parameter.
               </t>
               <t>
-                If a request URL contains a query, the query is broken into
-                individual parameters which are also processed. Query elements
-                that cannot be broken into name-value pairs are treated as
-                empty parameters (names only).
+                Parameters in the HTTP POST request body (with a
+                <spanx style="verb">content-type</spanx> of
+                <spanx style="verb">application/x-www-form-urlencoded</spanx>).
               </t>
               <t>
-                The <spanx style="verb">Authorization</spanx> header
-                <spanx style="verb">realm</spanx> parameter as defined in
-                <xref target="auth_header_authorization" /> and the
-                <spanx style="verb">oauth_signature</spanx> parameter MUST be
-                excluded.
+                HTTP GET parameters added to the URLs in the query part (as defined by
+                <xref target="RFC3986" /> section 3).
               </t>
             </list>
-
+          </t>
+          <t>
+            The <spanx style="verb">oauth_signature</spanx> parameter MUST be
+            excluded.
+          </t>
+          <t>
             The parameters are normalized into a single string as follows:
 
             <list style="numbers">
@@ -877,7 +882,7 @@
 
                 <figure>
                   <artwork>
-                    a=1, c=hi%20there, f=25, f=50, z=10
+                    a=1, c=hi%20there, f=25, f=50, f=a, z=p, z=t
                   </artwork>
                 </figure>
               </t>
@@ -890,7 +895,7 @@
 
                 <figure>
                   <artwork>
-                    a=1&amp;c=hi%20there&amp;f=25&amp;f=50&amp;z=10
+                    a=1&amp;c=hi%20there&amp;f=25&amp;f=50&amp;f=a&amp;z=p&amp;z=t
                   </artwork>
                 </figure>
               </t>
@@ -909,28 +914,30 @@
           <t>
             If the absolute request URL is not available to the Service Provider
             (it is always available to the Consumer), it can be constructed by
-            combining the schema being used, the HTTP <spanx style="verb">Host</spanx>
-            header, and the relative HTTP request URL, . If the
+            combining the scheme being used, the HTTP <spanx style="verb">Host</spanx>
+            header, and the relative HTTP request URL. If the
             <spanx style="verb">Host</spanx> header is not available, the Service
             Provider SHOULD use the host name communicated to the Consumer in the
             documentation or other means.
           </t>
           <t>
-            The URL authority MUST include the port number except for <spanx style="verb">
-            http</spanx> on port 80 and <spanx style="verb">https</spanx> on port
-            443 which MUST be excluded.
+            The Service Provider SHOULD document the form of URL used in the
+            Signature Base String to avoid ambiguity due to URL normalization.
+            Unless specified, URL scheme and authority MUST be lowercase and
+            include the port number; <spanx style="verb">http</spanx> default
+            port 80 and <spanx style="verb">https</spanx> default port 443 MUST
+            be excluded.
           </t>
           <t>
             For example, the request:
-            
+
             <figure>
               <artwork>
-                http://example.com:80/resource?id=123
+                HTTP://Example.com:80/resource?id=123
               </artwork>
             </figure>
 
             Is included in the Signature Base String as:
-            
             <figure>
               <artwork>
                 http://example.com/resource
@@ -949,7 +956,8 @@
               <t>
                 The HTTP request method used to send the request. Value MUST be
                 uppercase, for example: <spanx style="verb">HEAD</spanx>, <spanx style="verb">
-                  GET </spanx>, <spanx style="verb">POST</spanx>, etc.
+                  GET
+                </spanx>, <spanx style="verb">POST</spanx>, etc.
               </t>
               <t>
                 The request URL from <xref target="sig_url" />.
@@ -1234,7 +1242,7 @@
           <figure>
             <artwork>
               https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26&amp;oauth_timestamp=1191242090&amp;oauth_nonce=hsu94j3884jdopsl&amp;oauth_version=1.0
-          </artwork>
+            </artwork>
           </figure>
         </t>
         <t>
@@ -1284,7 +1292,7 @@
           <figure>
             <artwork>
               https://photos.example.net/access_token?oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=hh5s93j4hdidpola&amp;oauth_signature_method=PLAINTEXT&amp;oauth_signature=kd94hf93k423kf44%26hdhd0244k9j7ao03&amp;oauth_timestamp=1191242092&amp;oauth_nonce=dji430splmx33448&amp;oauth_version=1.0
-          </artwork>
+            </artwork>
           </figure>
         </t>
         <t>
@@ -1634,7 +1642,7 @@
           use of SHA-1 by 2010. Service Providers should take this into account
           when considering whether SHA-1 provides an adequate level of security
           for their applications.
-       </t>
+        </t>
       </appendix>
 
       <appendix title="Signature Base String Compatibility">
