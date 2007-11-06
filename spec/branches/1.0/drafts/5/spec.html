@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en"><head><title>Implementor's Draft: OAuth Core 1.0</title>
-<meta http-equiv="Expires" content="Tue, 06 Nov 2007 03:46:58 +0000">
+<meta http-equiv="Expires" content="Tue, 06 Nov 2007 03:52:22 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="OAuth Core 1.0">
 <meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)">
@@ -1321,8 +1321,8 @@ Normalize Request Parameters</h3>
             </p>
 <ul class="text">
 <li>
-                Parameters in the <a class='info' href='#auth_header_authorization'>OAuth HTTP Authorization header<span> (</span><span class='info'>Authorization Header</span><span>)</span></a>. The
-                <tt>realm</tt> parameter MUST be excluded.
+                Parameters in the <a class='info' href='#auth_header_authorization'>OAuth HTTP Authorization header<span> (</span><span class='info'>Authorization Header</span><span>)</span></a> excluding the <tt>realm</tt>
+                parameter.
               
 </li>
 <li>
@@ -1337,9 +1337,15 @@ Normalize Request Parameters</h3>
               
 </li>
 </ul><p>
-
+          
+</p>
+<p>
             The <tt>oauth_signature</tt> parameter MUST be
-            excluded. The parameters are normalized into a single string as follows:
+            excluded.
+          
+</p>
+<p>
+            The parameters are normalized into a single string as follows:
 
             </p>
 <ol class="text">
