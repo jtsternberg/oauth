@@ -22,6 +22,10 @@ module OAuth::Signature
       Base64.decode64(signature) == Base64.decode64(cmp_signature)
     end
 
+    def verify
+      self == self.request.signature
+    end
+
     def signature_base_string
       base = [request.request.method, request.request.uri, request.parameters_for_signature]
       base.map { |v| escape(v) }.join("&")

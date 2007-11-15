@@ -10,6 +10,10 @@ module OAuth
       klass.new(request, &block).signature
     end
 
+    def self.verify(request, &block)
+      self.sign(request, &block).verify
+    end
+
     class UnknownSignatureMethod < Exception; end
   end
 end
