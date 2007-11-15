@@ -4,6 +4,6 @@ require 'hmac-sha2'
 module OAuth::Signature::HMAC
   class SHA2 < Base
     implements 'hmac-sha2'
-    DIGEST_CLASS = ::HMAC::SHA2
+    digest_class ::HMAC::SHA2
   end
 end
