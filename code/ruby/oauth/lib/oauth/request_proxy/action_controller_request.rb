@@ -19,11 +19,13 @@ module OAuth::RequestProxy
     end
 
     def parameters
+      # FIXME this needs to take account of auth headers.
       if options[:clobber_request]
         options[:parameters] || {}
       else
-        request.request_parameters.dup.merge(options[:parameters])
+        request.query_parameters.dup.merge(options[:parameters])
       end
     end
+
   end
 end

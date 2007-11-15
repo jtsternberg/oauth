@@ -12,5 +12,13 @@ module OAuth::RequestProxy
       @request = request
       @options = options
     end
+
+    def token
+      parameters[:oauth_token]
+    end
+
+    def consumer_key
+      parameters[:oauth_consumer_key]
+    end
   end
 end

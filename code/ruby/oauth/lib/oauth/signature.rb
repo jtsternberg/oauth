@@ -4,10 +4,10 @@ module OAuth
       @available_methods ||= {}
     end
 
-    def self.sign(request)
+    def self.sign(request, &block)
       klass = available_methods[request.signature_method.downcase]
       raise UnknownSignatureMethod, request.signature_method unless klass
-      klass.new(request).signature
+      klass.new(request, &block).signature
     end
 
     class UnknownSignatureMethod < Exception; end

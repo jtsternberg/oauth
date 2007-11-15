@@ -9,8 +9,9 @@ module OAuth::Signature
       OAuth::Signature.available_methods[signature_method] = self
     end
 
-    def initialize(request)
+    def initialize(request, &block)
       @request = OAuth::RequestProxy.proxy(request)
+      @token_secret, @consumer_secret = yield block.arity == 1 ? token : [token, consumer_key]
     end
 
     def signature
@@ -21,12 +22,20 @@ module OAuth::Signature
       Base64.decode64(signature) == Base64.decode64(cmp_signature)
     end
 
-    def signature_base_string(redact_secrets = false)
+    def signature_base_string
       base = [request.request.method, request.request.uri, request.parameters_for_signature]
       base.map { |v| escape(v) }.join("&")
     end
 
     private
+
+    def token
+      request.token
+    end
+    
+    def consumer_key
+      request.consumer_key
+    end
 
     def digest
       DIGEST_CLASS.digest(signature_base_string)
