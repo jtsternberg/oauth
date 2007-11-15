@@ -9,8 +9,15 @@ module OAuth::Signature
       OAuth::Signature.available_methods[signature_method] = self
     end
 
+    def self.digest_class(digest_class = nil)
+      return @digest_class if digest_class.nil?
+      @digest_class = digest_class
+    end
+
+    attr_reader :token_secret, :consumer_secret
+
     def initialize(request, &block)
-      @request = OAuth::RequestProxy.proxy(request)
+      @request = request
       @token_secret, @consumer_secret = yield block.arity == 1 ? token : [token, consumer_key]
     end
 
@@ -27,7 +34,7 @@ module OAuth::Signature
     end
 
     def signature_base_string
-      base = [request.request.method, request.request.uri, request.parameters_for_signature]
+      base = [request.method, request.uri, request.parameters_for_signature]
       base.map { |v| escape(v) }.join("&")
     end
 
@@ -46,7 +53,7 @@ module OAuth::Signature
     end
 
     def escape(value)
-      CGI.escape(value.to_s).gsub("%7E", "~").gsub("+", "%20").gsub("*", "%2A")
+      URI.escape(value.to_s).gsub("*", "%2A").gsub("+", "%2B")
     end
   end
 end
