@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>Implementor's Draft: OAuth Core 1.0 Draft 5</title>
-<meta http-equiv="Expires" content="Tue, 06 Nov 2007 04:47:10 +0000">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>Implementor's Draft: OAuth Core 1.0 Draft 6</title>
+<meta http-equiv="Expires" content="Thu, 15 Nov 2007 01:03:12 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="OAuth Core 1.0 Draft 5">
+<meta name="description" content="OAuth Core 1.0 Draft 6">
 <meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)">
 <style type='text/css'><!--
         body {
@@ -143,9 +143,9 @@
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Implementor's Draft</td><td class="header"> OAuth</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">November 5, 2007</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">November 14, 2007</td></tr>
 </table></td></tr></table>
-<h1><br />OAuth Core 1.0 Draft 5</h1>
+<h1><br />OAuth Core 1.0 Draft 6</h1>
 
 <h3>Abstract</h3>
 
@@ -1431,15 +1431,6 @@ Concatenate Request Elements</h3>
                 The normalized request parameters string from <a class='info' href='#sig_norm_param'>Section&nbsp;9.1.1<span> (</span><span class='info'>Normalize Request Parameters</span><span>)</span></a>.
               
 </li>
-<li>
-                The Consumer Secret.
-              
-</li>
-<li>
-                The Token Secret or an empty string if <tt>oauth_token</tt>
-                is not present.
-              
-</li>
 </ol><p>
           
 </p>
@@ -1941,14 +1932,6 @@ Generating Signature Base String</h3>
                 <tt>file=vacation.jpg&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_version=1.0&amp;size=original</tt>
               
 </li>
-<li>
-                <tt>kd94hf93k423kf44</tt>
-              
-</li>
-<li>
-                <tt>pfkkdhi9sl3r4s00</tt>
-              
-</li>
 </ol><p>
           
 </p>
@@ -1957,7 +1940,7 @@ Generating Signature Base String</h3>
 
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                GET&amp;http%3A%2F%2Fphotos.example.net%2Fphotos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal&amp;kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00
+                GET&amp;http%3A%2F%2Fphotos.example.net%2Fphotos&amp;file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal
 </pre></div><p>
 
           
@@ -1976,7 +1959,7 @@ Calculating Signature Value</h3>
 
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                Gcg/323lvAsQ707p+y41y14qWfY=
+                tR3+Ty81lMeYAr/Fid0kMTYa/WM=
 </pre></div><p>
 
           
@@ -1997,7 +1980,7 @@ Requesting Protected Resource</h3>
                 oauth_consumer_key="dpf43f3p2l4k3l03",
                 oauth_token="nnch734d00sl2jdk",
                 oauth_signature_method="HMAC-SHA1",
-                oauth_signature="Gcg%2F323lvAsQ707p%2By41y14qWfY%3D",
+                oauth_signature="tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D",
                 oauth_timestamp="1191242096",
                 oauth_nonce="kllo9940pd9333jh",
                 oauth_version="1.0"
@@ -2010,7 +1993,7 @@ Requesting Protected Resource</h3>
 
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=Gcg%2F323lvAsQ707p%2By41y14qWfY%3D&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
+                http://photos.example.net/photos?file=vacation.jpg&amp;size=original&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_signature=tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D&amp;oauth_timestamp=1191242096&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_version=1.0
 </pre></div><p>
 
           
@@ -2287,12 +2270,10 @@ Cryptographic Attacks</h3>
 Signature Base String Compatibility</h3>
 
 <p>
-          The Signature Base String has been designed to support the implementation
-          of additional signature methods not defined in this specification. The
-          Consumer Secret and Token Secret are included to provide support for hashing
-          algorithms that do not use keys and cannot use the secrets in that fashion.
-          when designing additional signature methods, the Signature Base String should
-          be evaluated to ensure compatibility with the algorithms used.
+          The Signature Base String has been designed to support the signature
+          methods defined in this specification. When designing additional
+          signature methods, the Signature Base String should be evaluated to
+          ensure compatibility with the algorithms used.
         
 </p>
 <p>
