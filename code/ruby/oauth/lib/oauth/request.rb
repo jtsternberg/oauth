@@ -1,9 +1,14 @@
+require 'oauth/consumer'
+require 'oauth/token'
+require 'oauth/signature'
+
 module OAuth
   class Request
     attr_accessor :consumer, :token, :request, :realm, :signature_method, :nonce, :timestamp
     attr_reader :parameters_for_signature
 
-    def initialize(consumer, token, request, realm = '', signature_method => 'HMAC-SHA1', nonce = nil, timestamp = nil)
+    def initialize(consumer, token, request, request_options = {},
+                   realm = '', signature_method => 'HMAC-SHA1', nonce = nil, timestamp = nil)
       @consumer = consumer
       @token ||= OAuth::Token.new('', '')
       @request = OAuth::RequestProxy.proxy(request)
