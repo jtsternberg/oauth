@@ -12,12 +12,8 @@ module OAuth::Signature
       signature == cmp_signature
     end
 
-    def signature_base_string(redact_secrets = false)
-      if redact_secrets
-        "CONSUMER_SECRET&TOKEN_SECRET"
-      else
-        "#{escape(request.consumer.secret)}&#{escape(request.token.secret)}"
-      end
+    def signature_base_string
+      secret
     end
   end
 end

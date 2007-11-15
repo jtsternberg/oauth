@@ -8,9 +8,5 @@ module OAuth::Signature::HMAC
     def digest
       self.digest_class.digest(secret, signature_base_string)
     end
-
-    def secret
-      "#{escape(consumer_secret)}&#{escape(token_secret)}"
-    end
   end
 end

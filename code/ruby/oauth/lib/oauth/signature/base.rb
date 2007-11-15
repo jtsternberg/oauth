@@ -48,8 +48,12 @@ module OAuth::Signature
       request.consumer_key
     end
 
+    def secret
+      "#{escape(consumer_secret)}&#{escape(token_secret)}"
+    end
+
     def digest
-      DIGEST_CLASS.digest(signature_base_string)
+      self.class.digest_class.digest(signature_base_string)
     end
 
     def escape(value)

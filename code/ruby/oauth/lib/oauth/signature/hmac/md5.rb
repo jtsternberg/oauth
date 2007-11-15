@@ -4,6 +4,6 @@ require 'hmac-md5'
 module OAuth::Signature::HMAC
   class MD5 < Base
     implements 'hmac-md5'
-    DIGEST_CLASS = ::HMAC::MD5
+    digest_class ::HMAC::MD5
   end
 end
