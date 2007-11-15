@@ -19,12 +19,41 @@ module OAuth::RequestProxy
     end
 
     def parameters
-      # FIXME this needs to take account of auth headers.
       if options[:clobber_request]
         options[:parameters] || {}
       else
-        request.query_parameters.dup.merge(options[:parameters])
+        query_params.merge(header_params).merge(options[:parameters] || {})
       end
+    end
+
+    def parameters_for_signature
+      parameters.dup.delete('oauth_signature')
+    end
+
+    protected
+
+    def header_params
+      %w( X-HTTP_AUTHORIZATION Authorization HTTP_AUTHORIZATION ).each do |header|
+        next unless request.env.include?(header)
+        next unless header[0,6] == 'OAuth '
+
+        oauth_param_string = header[6,header.length].split(/[,=]/)
+        oauth_param_string.map! { |v| unescape(v.strip) }
+        oauth_params = Hash[*oauth_param_string.flatten]
+        oauth_params.reject! { |k,v| k !~ /^oauth_/ }
+
+        return oauth_params
+      end
+
+      return {}
+    end
+
+    def query_params
+      request.query_parameters
+    end
+
+    def unescape(value)
+      URI.unescape(value.gsub('+', '%2B'))
     end
 
   end
