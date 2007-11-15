@@ -20,5 +20,9 @@ module OAuth::RequestProxy
     def consumer_key
       parameters[:oauth_consumer_key]
     end
+
+    def signature
+      parameters[:oauth_signature]
+    end
   end
 end
