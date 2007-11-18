@@ -6,7 +6,7 @@ module OAuth::Signature::HMAC
     private
 
     def digest
-      self.digest_class.digest(secret, signature_base_string)
+      self.class.digest_class.digest(secret, signature_base_string)
     end
   end
 end
