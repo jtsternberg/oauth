@@ -14,7 +14,7 @@ module OAuth::Signature
       @digest_class = digest_class
     end
 
-    attr_reader :token_secret, :consumer_secret
+    attr_reader :token_secret, :consumer_secret, :request
 
     def initialize(request, &block)
       @request = request
@@ -34,7 +34,8 @@ module OAuth::Signature
     end
 
     def signature_base_string
-      base = [request.method, request.uri, request.parameters_for_signature]
+      normalized_params = request.parameters_for_signature.sort.map { |k,v| [k,v] * "=" }.join("&")
+      base = [request.method, request.uri, normalized_params]
       base.map { |v| escape(v) }.join("&")
     end
 
@@ -57,7 +58,7 @@ module OAuth::Signature
     end
 
     def escape(value)
-      URI.escape(value.to_s).gsub("*", "%2A").gsub("+", "%2B")
+      CGI.escape(value.to_s).gsub("%7E", '~')
     end
   end
 end
