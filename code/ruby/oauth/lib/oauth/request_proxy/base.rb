@@ -21,6 +21,12 @@ module OAuth::RequestProxy
       parameters['oauth_consumer_key']
     end
 
+    def parameters_for_signature
+      p = parameters.dup
+      p.delete("oauth_signature")
+      p
+    end
+
     def nonce
       parameters['oauth_nonce']
     end
@@ -34,7 +40,7 @@ module OAuth::RequestProxy
     end
 
     def signature
-      parameters['oauth_signature']
+      parameters['oauth_signature'] || ""
     end
   end
 end
