@@ -67,15 +67,15 @@ $request->sign;
 
 ok($request->verify);
 
-is($request->signature_base_string, 'GET&http%3A%2F%2Fphotos.example.net%2Fphotos&file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal&kd94hf93k423kf44&pfkkdhi9sl3r4s00');
+is($request->signature_base_string, 'GET&http%3A%2F%2Fphotos.example.net%2Fphotos&file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal');
 
-is($request->signature, 'Gcg/323lvAsQ707p+y41y14qWfY');
+is($request->signature, 'tR3+Ty81lMeYAr/Fid0kMTYa/WM=');
 
 is($request->to_authorization_header('http://photos.example.net/authorize', ",\n")."\n", <<EOT);
 OAuth realm="http://photos.example.net/authorize",
 oauth_consumer_key="dpf43f3p2l4k3l03",
 oauth_nonce="kllo9940pd9333jh",
-oauth_signature="Gcg%2F323lvAsQ707p%2By41y14qWfY",
+oauth_signature="tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D",
 oauth_signature_method="HMAC-SHA1",
 oauth_timestamp="1191242096",
 oauth_token="nnch734d00sl2jdk",
@@ -96,6 +96,6 @@ $request->sign;
 
 ok($request->verify);
 
-is($request->signature_base_string, 'POST&https%3A%2F%2Fphotos.example.net%2Frequest_token&oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dhsu94j3884jdopsl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242090%26oauth_version%3D1.0&kd94hf93k423kf44&');
-is($request->signature, 'ivUllEyrORt90wdGXjOp5Z+ERCQ');
+is($request->signature_base_string, 'POST&https%3A%2F%2Fphotos.example.net%2Frequest_token&oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dhsu94j3884jdopsl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242090%26oauth_version%3D1.0');
+is($request->signature, 'mBRi0bX78DgCdolSsSYibIGen7U=');
 
