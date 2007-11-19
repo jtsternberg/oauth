@@ -5,7 +5,7 @@ use base qw/Class::Data::Inheritable Class::Accessor/;
 use URI::Escape;
 use UNIVERSAL::require;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 __PACKAGE__->mk_classdata(required_request_params => [qw/
     consumer_key
@@ -28,8 +28,6 @@ __PACKAGE__->mk_classdata(signature_elements => [qw/
     request_method
     request_url
     normalized_request_parameters
-    consumer_secret
-    token_secret
     /]);
     
 __PACKAGE__->mk_accessors(

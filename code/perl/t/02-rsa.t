@@ -45,7 +45,7 @@ SKIP: {
     );
 
     $request->sign;
-    is($request->signature, "IqaxX6ickh5dUfon2YvSqzDrBKGhO0d1zy+NCqeDR+FRyoECm+MYUGvLAsgGRkj7FqHF/8wbaJFL1eyVQcGqJIR79l18iulfRcS0oqb6kIndbIQ0a3zZq2gwWJ95+EY1mvtQF07lN19xuRsq6qQi7Y1iuTFqgs5+Jzlg2cCPjZiTTPdIS/Ww8V0vEBJemrtWiWr8KwOXYi99D1O0mH17+v9nS5xXt3zj1QqA/FKu1CIuDT2n3KW7fAZhN7Ol7tSSz/RiuvGrAP8ASnETxouYbd9Al3zpetMkQsY2ZLu68pKI9O96mqn/b13Ug8zwKIHXNvahrX2KVOiBXY5kbV4fFg==");
+    is($request->signature, "mkZ/wOq5cS7UOyKKdo5Khd4fYpYVhs20K0E8k/DyumO74rjo7s1y+Y+mZ/hBvy2gu6ip/U4XqTRdT0QObAUvrKf+fH/Yfdc6kQsQ9kP3/IgRF1K5Po284UIy8p7DcJGC5udR01aTkNkpqo3XAw+8ljULguhwVC1l+EWHrzKKuZ6li7EOx1It5JxWqCRVn+1+NA8vGlIjcaPb+aIoUmyM2/ytu1041cnvdDGzuiibRgIv770cuXsfkFNtaK5rgjlmhZhDwqULHfWEN9oxcHxY+6EB/HOvwWkYE1CeUoo9Dgm6mn6+DsfkTjfRh4mJRTIyi6jEYaIgY5RaWwSHaXw44A==");
     ok($request->verify($publickey));
 
 }
