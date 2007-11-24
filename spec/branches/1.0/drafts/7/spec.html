@@ -1,8 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>Implementor's Draft: OAuth Core 1.0 Draft 6</title>
-<meta http-equiv="Expires" content="Thu, 15 Nov 2007 01:03:12 +0000">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml><head><title>Implementor's Draft: OAuth Core 1.0 Draft 7</title>
+<meta http-equiv="Expires" content="Sat, 24 Nov 2007 05:11:34 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="OAuth Core 1.0 Draft 6">
+<meta name="description" content="OAuth Core 1.0 Draft 7">
 <meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)">
 <style type='text/css'><!--
         body {
@@ -143,9 +143,9 @@
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Implementor's Draft</td><td class="header"> OAuth</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">November 14, 2007</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">November 24, 2007</td></tr>
 </table></td></tr></table>
-<h1><br />OAuth Core 1.0 Draft 6</h1>
+<h1><br />OAuth Core 1.0 Draft 7</h1>
 
 <h3>Abstract</h3>
 
@@ -636,10 +636,8 @@ Authorization Header</h3>
               
 </li>
 <li>
-                The REQUIRED <tt>realm</tt> parameter is added and interpreted per
-                <a class='info' href='#RFC2616'>[RFC2616]<span> (</span><span class='info'>Fielding, R., Gettys, J., Mogul, J., Frystyk, H., Masinter, L., Leach, P., and T. Berners-Lee, &ldquo;Hypertext Transfer Protocol -- HTTP/1.1,&rdquo; .</span><span>)</span></a>, section 1.2. The parameter MAY
-                specify the User Authorization URL used by the
-                Consumer to obtain authorization for the accessed resource.
+                The OPTIONAL <tt>realm</tt> parameter is added and interpreted per
+                <a class='info' href='#RFC2616'>[RFC2616]<span> (</span><span class='info'>Fielding, R., Gettys, J., Mogul, J., Frystyk, H., Masinter, L., Leach, P., and T. Berners-Lee, &ldquo;Hypertext Transfer Protocol -- HTTP/1.1,&rdquo; .</span><span>)</span></a>, section 1.2.
               
 </li>
 </ol><p>
@@ -678,16 +676,14 @@ WWW-Authenticate Header</h3>
             For example:
             </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-                WWW-Authenticate: OAuth realm="https://sp.example.com/oauth/authorize"
+                WWW-Authenticate: OAuth realm="https://sp.example.com/"
 </pre></div><p>
 
           
 </p>
 <p>
             The realm parameter defines a protection realm per
-            <a class='info' href='#RFC2617'>[RFC2617]<span> (</span><span class='info'>Franks, J., Hallam-Baker, P., Hostetler, J., Lawrence, S., Leach, P., Luotonen, A., and L. Stewart, &ldquo;HTTP Authentication: Basic and Digest Access Authentication,&rdquo; .</span><span>)</span></a>, section 1.2. The parameter MAY specify
-            the User Authorization URL to be used by the Consumer to obtain
-            authorization for the accessed resource.
+            <a class='info' href='#RFC2617'>[RFC2617]<span> (</span><span class='info'>Franks, J., Hallam-Baker, P., Hostetler, J., Lawrence, S., Leach, P., Luotonen, A., and L. Stewart, &ldquo;HTTP Authentication: Basic and Digest Access Authentication,&rdquo; .</span><span>)</span></a>, section 1.2.
           
 </p>
 <a name="anchor9"></a><br /><hr />
@@ -1219,20 +1215,19 @@ Accessing Protected Resources</h3>
 Nonce and Timestamp</h3>
 
 <p>
-        A nonce is a random string, uniquely generated for each request. The
-        nonce allows the Service Provider to verify that a request has never
-        been made before and helps prevent replay attacks when requests are
-        made over a non-secure channel (such as HTTP).
+        Unless otherwise specified by the Service Provider, the timestamp is
+        expressed in the number of seconds since January 1, 1970 00:00:00 GMT.
+        The timestamp value MUST be a positive integer and MUST be equal or
+        greater than the timestamp used in previous requests.
       
 </p>
 <p>
-        The Consumer SHALL first calculate the request timestamp. Unless
-        otherwise specified by the Service Provider, the timestamp is expressed
-        in the number of seconds since January 1, 1970 00:00:00 GMT. The
-        timestamp value MUST be a positive integer and MUST be equal or greater
-        than the timestamp used in previous requests. The Consumer SHALL then
-        generate a Nonce value that is unique for all requests with that
-        timestamp.
+        The Consumer SHALL then generate a Nonce value that is unique for all
+        requests with that timestamp. A nonce is a random string, uniquely
+        generated for each request. The nonce allows the Service Provider to
+        verify that a request has never been made before and helps prevent
+        replay attacks when requests are made over a non-secure channel
+        (such as HTTP).
       
 </p>
 <a name="signing_process"></a><br /><hr />
@@ -1684,6 +1679,12 @@ Appendix A - Protocol Example</h3>
         username and password with printer.example.com.
       
 </p>
+<p>
+        The requests in this example use the URL query method when sending
+        parameters. This is done to simplify the example and should not be
+        taken as an endorsement of one method over the others.
+      
+</p>
 <a name="anchor26"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.A.1"></a><h3>Appendix A.1.&nbsp;
@@ -1764,7 +1765,7 @@ Obtaining a Request Token</h3>
 
           </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-              WWW-Authenticate: OAuth realm="http://photos.example.net/authorize"
+              WWW-Authenticate: OAuth realm="http://photos.example.net/"
 </pre></div><p>
 
         
@@ -1976,7 +1977,7 @@ Requesting Protected Resource</h3>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
                 http://photos.example.net/photos?file=vacation.jpg&amp;size=original
 
-                Authorization: OAuth realm="http://photos.example.net/authorize",
+                Authorization: OAuth realm="http://photos.example.net/",
                 oauth_consumer_key="dpf43f3p2l4k3l03",
                 oauth_token="nnch734d00sl2jdk",
                 oauth_signature_method="HMAC-SHA1",

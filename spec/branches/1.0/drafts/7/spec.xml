@@ -2,7 +2,7 @@
 <?xml-stylesheet type='text/xsl' href='http://xml.resource.org/authoring/rfc2629.xslt' ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
-<rfc category="info" ipr="full3978" docName="oauth-core-1_0_d6.xml">
+<rfc category="info" ipr="full3978" docName="oauth-core-1_0_d7.xml">
 
   <?rfc toc="yes" ?>
   <?rfc tocdepth="2" ?>
@@ -13,7 +13,7 @@
   <?rfc private="Implementor's Draft" ?>
 
   <front>
-    <title>OAuth Core 1.0 Draft 6</title>
+    <title>OAuth Core 1.0 Draft 7</title>
 
     <author initials="" surname="OAuth" fullname="OAuth Authorization Workgroup">
       <organization />
@@ -22,7 +22,7 @@
       </address>
     </author>
 
-    <date day="14" month="November" year="2007"/>
+    <date day="24" month="November" year="2007"/>
 
     <abstract>
       <t>
@@ -337,10 +337,8 @@
                 and OPTIONAL linear whitespace per <xref target="RFC2616" />.
               </t>
               <t>
-                The REQUIRED <spanx style="verb">realm</spanx> parameter is added and interpreted per
-                <xref target="RFC2616" />, section 1.2. The parameter MAY
-                specify the User Authorization URL used by the
-                Consumer to obtain authorization for the accessed resource.
+                The OPTIONAL <spanx style="verb">realm</spanx> parameter is added and interpreted per
+                <xref target="RFC2616" />, section 1.2.
               </t>
             </list>
           </t>
@@ -373,15 +371,13 @@
             For example:
             <figure>
               <artwork>
-                WWW-Authenticate: OAuth realm="https://sp.example.com/oauth/authorize"
+                WWW-Authenticate: OAuth realm="https://sp.example.com/"
               </artwork>
             </figure>
           </t>
           <t>
             The realm parameter defines a protection realm per
-            <xref target="RFC2617" />, section 1.2. The parameter MAY specify
-            the User Authorization URL to be used by the Consumer to obtain
-            authorization for the accessed resource.
+            <xref target="RFC2617" />, section 1.2.
           </t>
         </section>
 
@@ -784,19 +780,18 @@
 
     <section title="Nonce and Timestamp" anchor="nonce">
       <t>
-        A nonce is a random string, uniquely generated for each request. The
-        nonce allows the Service Provider to verify that a request has never
-        been made before and helps prevent replay attacks when requests are
-        made over a non-secure channel (such as HTTP).
+        Unless otherwise specified by the Service Provider, the timestamp is
+        expressed in the number of seconds since January 1, 1970 00:00:00 GMT.
+        The timestamp value MUST be a positive integer and MUST be equal or
+        greater than the timestamp used in previous requests.
       </t>
       <t>
-        The Consumer SHALL first calculate the request timestamp. Unless
-        otherwise specified by the Service Provider, the timestamp is expressed
-        in the number of seconds since January 1, 1970 00:00:00 GMT. The
-        timestamp value MUST be a positive integer and MUST be equal or greater
-        than the timestamp used in previous requests. The Consumer SHALL then
-        generate a Nonce value that is unique for all requests with that
-        timestamp.
+        The Consumer SHALL then generate a Nonce value that is unique for all
+        requests with that timestamp. A nonce is a random string, uniquely
+        generated for each request. The nonce allows the Service Provider to
+        verify that a request has never been made before and helps prevent
+        replay attacks when requests are made over a non-secure channel
+        (such as HTTP).
       </t>
     </section>
 
@@ -1166,6 +1161,11 @@
         cannot access that photo, and Jane does not want to share her
         username and password with printer.example.com.
       </t>
+      <t>
+        The requests in this example use the URL query method when sending
+        parameters. This is done to simplify the example and should not be
+        taken as an endorsement of one method over the others.
+      </t>
 
       <appendix title="Documentation and Registration">
         <t>
@@ -1224,7 +1224,7 @@
 
           <figure>
             <artwork>
-              WWW-Authenticate: OAuth realm="http://photos.example.net/authorize"
+              WWW-Authenticate: OAuth realm="http://photos.example.net/"
             </artwork>
           </figure>
         </t>
@@ -1389,7 +1389,7 @@
               <artwork>
                 http://photos.example.net/photos?file=vacation.jpg&amp;size=original
 
-                Authorization: OAuth realm="http://photos.example.net/authorize",
+                Authorization: OAuth realm="http://photos.example.net/",
                 oauth_consumer_key="dpf43f3p2l4k3l03",
                 oauth_token="nnch734d00sl2jdk",
                 oauth_signature_method="HMAC-SHA1",
