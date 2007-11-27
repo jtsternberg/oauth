@@ -8,7 +8,7 @@ module OAuth
     attr_reader :parameters_for_signature
 
     def initialize(consumer, token, request, request_options = {},
-                   realm = '', signature_method => 'HMAC-SHA1', nonce = nil, timestamp = nil)
+                   realm = '', signature_method = 'HMAC-SHA1', nonce = nil, timestamp = nil)
       @consumer = consumer
       @token ||= OAuth::Token.new('', '')
       @request = OAuth::RequestProxy.proxy(request)
