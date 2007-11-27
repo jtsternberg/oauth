@@ -17,6 +17,7 @@ module OAuth::Signature
     attr_reader :token_secret, :consumer_secret, :request
 
     def initialize(request, &block)
+      raise TypeError unless request.kind_of?(OAuth::RequestProxy::Base)
       @request = request
       @token_secret, @consumer_secret = yield block.arity == 1 ? token : [token, consumer_key]
     end
