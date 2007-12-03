@@ -4,42 +4,17 @@
 <meta name="description" content="OAuth Core 1.0" />
 <style type='text/css'>
         body {
-                font-family: verdana, charcoal, helvetica, arial, sans-serif;
-                font-size: small; color: #000; background-color: #FFF;
+                font-family: "lucida grande", verdana, arial, helvetica, sans-serif;
+                font-size: 83%; color: #000; background-color: #FFF;
                 margin: 2em;
         }
         h1, h2, h3, h4, h5, h6 {
-                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+                font-family: helvetica neue, arial, "MS Sans Serif", sans-serif;
                 font-weight: bold; font-style: normal;
         }
-        h1 { color: #900; background-color: transparent; text-align: right; }
+        h1 { color: #111; background-color: transparent; padding-bottom: 2px; border-bottom: 4px solid #efefef; }
         h3 { color: #333; background-color: transparent; }
 
-        td.RFCbug {
-                font-size: x-small; text-decoration: none;
-                width: 30px; height: 30px; padding-top: 2px;
-                text-align: justify; vertical-align: middle;
-                background-color: #000;
-        }
-        td.RFCbug span.RFC {
-                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
-                font-weight: bold; color: #666;
-        }
-        td.RFCbug span.hotText {
-                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
-                font-weight: normal; text-align: center; color: #FFF;
-        }
-
-        table.TOCbug { width: 30px; height: 15px; }
-        td.TOCbug {
-                text-align: center; width: 30px; height: 15px;
-                color: #FFF; background-color: #900;
-        }
-        td.TOCbug a {
-                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
-                font-weight: bold; font-size: x-small; text-decoration: none;
-                color: #FFF; background-color: transparent;
-        }
 
         td.header {
                 font-family: arial, helvetica, sans-serif; font-size: x-small;
@@ -54,11 +29,11 @@
                 /* This is the key. */
                 position: relative;
                 z-index: 24;
-                text-decoration: none;
         }
         a.info:hover {
                 z-index: 25;
-                color: #FFF; background-color: #900;
+                color: #FFF; background-color: #369;
+                text-decoration: none;
         }
         a.info span { display: none; }
         a.info:hover span.info {
@@ -68,14 +43,14 @@
                 font-size: smaller;
                 top: 2em; left: -5em; width: 15em;
                 padding: 2px; border: 1px solid #333;
-                color: #900; background-color: #EEE;
+                color: #369; background-color: #EEE;
                 text-align: left;
         }
 
         a { font-weight: bold; }
-        a:link    { color: #900; background-color: transparent; }
-        a:visited { color: #633; background-color: transparent; }
-        a:active  { color: #633; background-color: transparent; }
+        a:link    { color: #369; background-color: transparent; }
+        a:visited { color: #666; background-color: transparent; }
+        a:active  { color: #888; background-color: transparent; }
 
         p { margin-left: 2em; margin-right: 2em; }
         p.copyright { font-size: x-small; }
@@ -83,9 +58,9 @@
         table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
         td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
 
-        ol.text { margin-left: 2em; margin-right: 2em; }
-        ul.text { margin-left: 2em; margin-right: 2em; }
-        li      { margin-left: 3em; }
+        ol.text { margin-left: 1em; margin-right: 2em; }
+        ul.text { margin-left: 1em; margin-right: 2em; }
+        li      { margin-left: 1em; padding-left: 1.2em; }
 
         /* RFC-2629 <spanx>s and <artwork>s. */
         em     { font-style: italic; }
@@ -98,12 +73,13 @@
         }
         pre {
                 text-align: left; padding: 4px;
-                color: #000; background-color: #CCC;
+                color: #000; background-color: #f7f7f7;
+                width: auto; 
         }
-        pre dfn  { color: #900; }
+        pre dfn  { color: #369; }
         pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
         pre .key { color: #33C; font-weight: bold; }
-        pre .id  { color: #900; }
+        pre .id  { color: #369; }
         pre .str { color: #000; background-color: #CFF; }
         pre .val { color: #066; }
         pre .rep { color: #909; }
@@ -118,7 +94,7 @@
         table.all, table.full { border-style: solid; border-color: black; }
         table.headers, table.none { border-style: none; }
         th {
-                font-weight: bold; border-color: black;
+                font-weight: bold; border-color: #000;
                 border-width: 2px 2px 3px 2px;
         }
         table.all th, table.full th { border-style: solid; }
@@ -130,7 +106,7 @@
         }
         table.full td, table.headers td, table.none td { border-style: none; }
 
-        hr { height: 1px; }
+        hr { height: 1px; border:1px solid #e7e7e7; background-color:#e7e7e7;}
         hr.insert {
                 width: 80%; border-style: none; border-width: 0;
                 color: #CCC; background-color: #CCC;
@@ -139,10 +115,7 @@
 </head>
 <body>
 
-<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
-<tr><td class="header"> OAuth</td></tr>
-<tr><td class="header">December 4, 2007</td></tr>
-</table></td></tr></table>
+<span style="float:right">December 4, 2007</span>
 <h1><br />OAuth Core 1.0</h1>
 
 <h3>Abstract</h3>
