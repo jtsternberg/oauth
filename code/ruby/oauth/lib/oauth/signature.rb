@@ -4,19 +4,19 @@ module OAuth
       @available_methods ||= {}
     end
 
-    def self.build(request, &block)
-      request = OAuth::RequestProxy.proxy(request)
+    def self.build(request, options = {}, &block)
+      request = OAuth::RequestProxy.proxy(request, options)
       klass = available_methods[request.signature_method.downcase]
       raise UnknownSignatureMethod, request.signature_method unless klass
-      klass.new(request, &block)
+      klass.new(request, options, &block)
     end
 
-    def self.sign(request, &block)
-      self.build(request, &block).signature
+    def self.sign(request, options = {}, &block)
+      self.build(request, options, &block).signature
     end
 
-    def self.verify(request, &block)
-      self.build(request, &block).verify
+    def self.verify(request, options = {}, &block)
+      self.build(request, options, &block).verify
     end
 
     class UnknownSignatureMethod < Exception; end

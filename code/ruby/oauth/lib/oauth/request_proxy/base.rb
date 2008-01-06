@@ -28,19 +28,19 @@ module OAuth::RequestProxy
     end
 
     def nonce
-      parameters['oauth_nonce']
+      parameters['oauth_nonce'].first
     end
 
     def timestamp
-      parameters['oauth_timestamp']
+      parameters['oauth_timestamp'].first
     end
 
     def signature_method
-      parameters['oauth_signature_method']
+      parameters['oauth_signature_method'].first
     end
 
     def signature
-      parameters['oauth_signature'] || ""
+      parameters['oauth_signature'].first || ""
     end
   end
 end
