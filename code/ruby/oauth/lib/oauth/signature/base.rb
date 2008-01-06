@@ -16,10 +16,15 @@ module OAuth::Signature
 
     attr_reader :token_secret, :consumer_secret, :request
 
-    def initialize(request, &block)
+    def initialize(request, options = {}, &block)
       raise TypeError unless request.kind_of?(OAuth::RequestProxy::Base)
       @request = request
-      @token_secret, @consumer_secret = yield block.arity == 1 ? token : [token, consumer_key]
+      if block_given?
+        @token_secret, @consumer_secret = yield block.arity == 1 ? token : [token, consumer_key]
+      else
+        @consumer_secret = options[:consumer].secret
+        @token_secret = options[:token].secret
+      end
     end
 
     def signature
@@ -37,7 +42,7 @@ module OAuth::Signature
     def signature_base_string
       normalized_params = request.parameters_for_signature.sort.map { |k,v| [k,v] * "=" }.join("&")
       base = [request.method, request.uri, normalized_params]
-      base.map { |v| escape(v) }.join("&")
+      sbs = base.map { |v| escape(v) }.join("&")
     end
 
     private
