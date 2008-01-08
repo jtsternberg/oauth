@@ -13,8 +13,9 @@ class NetHTTPClientTest < Test::Unit::TestCase
   end
 
   def test_that_using_auth_headers_on_get_requests_works
+    http = Net::HTTP.new(@request_uri.host, @request_uri.port)
     request = Net::HTTP::Get.new(@request_uri.path + "?" + request_parameters_to_s)
-    request.oauth(:header, @request_uri, @consumer, @token, 'HMAC-SHA1', @nonce, @timestamp)
+    request.oauth!(@request_uri, @consumer, @token, {:nonce => @nonce, :timestamp => @timestamp})
     
     assert_equal 'GET', request.method
     assert_equal '/test?key=value', request.path
