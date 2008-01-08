@@ -93,6 +93,7 @@ module OAuth
       http.request(request)
     end
     
+    # Creates a request and parses the result as url_encoded
     def token_request(http_method,path,token=nil,options={},*arguments)
       response=request(http_method,path,token,options,*arguments)
       if response.code=="200"
