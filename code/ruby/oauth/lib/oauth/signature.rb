@@ -6,7 +6,7 @@ module OAuth
 
     def self.build(request, options = {}, &block)
       request = OAuth::RequestProxy.proxy(request, options)
-      klass = available_methods[request.signature_method.downcase]
+      klass = available_methods[(request.signature_method || "").downcase]
       raise UnknownSignatureMethod, request.signature_method unless klass
       klass.new(request, options, &block)
     end
