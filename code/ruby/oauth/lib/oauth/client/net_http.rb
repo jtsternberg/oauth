@@ -19,12 +19,12 @@ class Net::HTTPRequest
 
   def oauth_full_request_uri(http)
     uri = URI.parse(self.path)
-    uri.host = http.host
+    uri.host = http.address
     uri.port = http.port
     if http.respond_to?(:use_ssl?)
       uri.scheme = http.use_ssl? ? 'https' : 'http'
     end
-    uri
+    uri.to_s
   end
 
   def set_oauth_header
