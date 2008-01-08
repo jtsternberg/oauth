@@ -17,6 +17,16 @@ class Net::HTTPRequest
 
   private
 
+  def oauth_full_request_uri(http)
+    uri = URI.parse(self.path)
+    uri.host = http.host
+    uri.port = http.port
+    if http.respond_to?(:use_ssl?)
+      uri.scheme = http.use_ssl? ? 'https' : 'http'
+    end
+    uri
+  end
+
   def set_oauth_header
     self['Authorization'] = @oauth_helper.header
   end

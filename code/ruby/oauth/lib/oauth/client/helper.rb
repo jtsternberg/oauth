@@ -5,9 +5,10 @@ require 'oauth/signature/hmac/sha1'
 
 module OAuth::Client
   class Helper
-    def initialize(request, options)
+    def initialize(request, options = {})
       @request = request
       @options = options
+      @options[:signature_method] ||= 'HMAC-SHA1'
     end
 
     def options
@@ -31,11 +32,13 @@ module OAuth::Client
     end
 
     def oauth_parameters
-      { 'oauth_consumer_key'     => options[:consumer].key,
+      {
+        'oauth_consumer_key'     => options[:consumer].key,
         'oauth_token'            => options[:token].token,
         'oauth_signature_method' => options[:signature_method],
         'oauth_timestamp'        => timestamp,
-        'oauth_nonce'            => nonce }
+        'oauth_nonce'            => nonce
+      }
     end
 
     def signature(extra_options = {})
