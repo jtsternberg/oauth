@@ -23,7 +23,7 @@ module OAuth::Signature
         @token_secret, @consumer_secret = yield block.arity == 1 ? token : [token, consumer_key]
       else
         @consumer_secret = options[:consumer].secret
-        @token_secret = options[:token].secret
+        @token_secret = options[:token] ? options[:token].secret : ''
       end
     end
 
