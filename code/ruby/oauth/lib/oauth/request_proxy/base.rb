@@ -36,7 +36,11 @@ module OAuth::RequestProxy
     end
 
     def signature_method
-      parameters['oauth_signature_method']
+      case parameters['oauth_signature_method']
+      when Array: parameters['oauth_signature_method'].first
+      else
+        parameters['oauth_signature_method']
+      end
     end
 
     def signature
