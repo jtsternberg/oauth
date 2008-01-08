@@ -10,12 +10,12 @@ class NetHTTPClientTest < Test::Unit::TestCase
     @request_parameters = { 'key' => 'value' }
     @nonce = 225579211881198842005988698334675835446
     @timestamp = "1199645624"
+    @http = Net::HTTP.new(@request_uri.host, @request_uri.port)
   end
 
   def test_that_using_auth_headers_on_get_requests_works
-    http = Net::HTTP.new(@request_uri.host, @request_uri.port)
     request = Net::HTTP::Get.new(@request_uri.path + "?" + request_parameters_to_s)
-    request.oauth!(@request_uri, @consumer, @token, {:nonce => @nonce, :timestamp => @timestamp})
+    request.oauth!(@http, @consumer, @token, {:nonce => @nonce, :timestamp => @timestamp})
     
     assert_equal 'GET', request.method
     assert_equal '/test?key=value', request.path
@@ -25,7 +25,7 @@ class NetHTTPClientTest < Test::Unit::TestCase
   def test_that_using_auth_headers_on_post_requests_works
     request = Net::HTTP::Post.new(@request_uri.path)
     request.set_form_data( @request_parameters )
-    request.oauth(:header, @request_uri, @consumer, @token, 'HMAC-SHA1', @nonce, @timestamp)
+    request.oauth!(@http, @consumer, @token, {:nonce => @nonce, :timestamp => @timestamp})
 
     assert_equal 'POST', request.method
     assert_equal '/test', request.path
@@ -36,7 +36,7 @@ class NetHTTPClientTest < Test::Unit::TestCase
   def test_that_using_post_params_works
     request = Net::HTTP::Post.new(@request_uri.path)
     request.set_form_data( @request_parameters )
-    request.oauth(:body, @request_uri, @consumer, @token, 'HMAC-SHA1', @nonce, @timestamp)
+    request.oauth!(@http, @consumer, @token, {:scheme => 'body', :nonce => @nonce, :timestamp => @timestamp})
 
     assert_equal 'POST', request.method
     assert_equal '/test', request.path
@@ -46,7 +46,7 @@ class NetHTTPClientTest < Test::Unit::TestCase
 
   def test_that_using_get_params_works
     request = Net::HTTP::Get.new(@request_uri.path + "?" + request_parameters_to_s)
-    request.oauth(:query_string, @request_uri, @consumer, @token, 'HMAC-SHA1', @nonce, @timestamp)
+    request.oauth!(@http, @consumer, @token, {:scheme => 'query_string', :nonce => @nonce, :timestamp => @timestamp})
 
     assert_equal 'GET', request.method
     uri = URI.parse(request.path)
@@ -58,7 +58,7 @@ class NetHTTPClientTest < Test::Unit::TestCase
 
   def test_that_using_get_params_works_with_post_requests
     request = Net::HTTP::Post.new(@request_uri.path + "?" + request_parameters_to_s)
-    request.oauth(:query_string, @request_uri, @consumer, @token, 'HMAC-SHA1', @nonce, @timestamp)
+    request.oauth!(@http, @consumer, @token, {:scheme => 'query_string', :nonce => @nonce, :timestamp => @timestamp})
 
     assert_equal 'POST', request.method
     uri = URI.parse(request.path)
@@ -72,7 +72,7 @@ class NetHTTPClientTest < Test::Unit::TestCase
   def test_that_using_get_params_works_with_post_requests_that_have_post_bodies
     request = Net::HTTP::Post.new(@request_uri.path + "?" + request_parameters_to_s)
     request.set_form_data( { 'key2' => 'value2' } )
-    request.oauth(:query_string, @request_uri, @consumer, @token, 'HMAC-SHA1', @nonce, @timestamp)
+    request.oauth!(@http, @consumer, @token, {:scheme => :query_string, :nonce => @nonce, :timestamp => @timestamp})
 
     assert_equal 'POST', request.method
     uri = URI.parse(request.path)
