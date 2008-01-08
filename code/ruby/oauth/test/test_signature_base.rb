@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
 require 'oauth/signature/base'
-
+require 'net/http'
 class SignatureBaseTest < Test::Unit::TestCase
 
   def test_that_initialize_requires_one_request_argument
