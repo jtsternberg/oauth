@@ -2,9 +2,17 @@ require 'oauth/client/helper'
 require 'oauth/request_proxy/net_http'
 
 class Net::HTTPRequest
-  def oauth(oauth_method, req_uri, consumer, token, sig_method = 'HMAC-SHA1', nonce = nil, timestamp = nil)
-    @oauth_helper = OAuth::Client::Helper.new(self, req_uri, consumer, token, sig_method, nonce, timestamp)
-    self.send("set_oauth_#{oauth_method}")
+  def oauth!(http, consumer = nil, token = nil, options = {})
+    options = { :request_uri => oauth_full_request_uri(http),
+                :consumer => consumer,
+                :token => token,
+                :scheme => 'header',
+                :signature_method => nil,
+                :nonce => nil,
+                :timestamp => nil }.merge(options)
+
+    @oauth_helper = OAuth::Client::Helper.new(self, options)
+    self.send("set_oauth_#{options[:scheme]}")
   end
 
   private

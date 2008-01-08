@@ -5,22 +5,21 @@ require 'oauth/signature/hmac/sha1'
 
 module OAuth::Client
   class Helper
-    def initialize(request, request_uri, consumer, token, sig_method, nonce = nil, timestamp = nil)
+    def initialize(request, options)
       @request = request
-      @request_uri = request_uri
-      @consumer = consumer
-      @token = token
-      @sig_method = sig_method
-      @nonce = nonce
-      @timestamp = timestamp
+      @options = options
+    end
+
+    def options
+      @options
     end
 
     def nonce
-      @nonce || generate_nonce
+      options[:nonce] ||= generate_nonce
     end
 
     def timestamp
-      @timestamp || generate_timestamp
+      options[:timestamp] ||= generate_timestamp
     end
 
     def generate_timestamp
@@ -32,17 +31,17 @@ module OAuth::Client
     end
 
     def oauth_parameters
-      { 'oauth_consumer_key'     => @consumer.key,
-        'oauth_token'            => @token.token,
-        'oauth_signature_method' => @sig_method,
+      { 'oauth_consumer_key'     => options[:consumer].key,
+        'oauth_token'            => options[:token].token,
+        'oauth_signature_method' => options[:signature_method],
         'oauth_timestamp'        => timestamp,
         'oauth_nonce'            => nonce }
     end
 
     def signature(extra_options = {})
-      signature = OAuth::Signature.sign(@request, { :uri      => @request_uri,
-                                                    :consumer => @consumer,
-                                                    :token    => @token }.merge(extra_options) )
+      signature = OAuth::Signature.sign(@request, { :uri      => options[:request_uri],
+                                                    :consumer => options[:consumer],
+                                                    :token    => options[:token] }.merge(extra_options) )
     end
 
     def header
