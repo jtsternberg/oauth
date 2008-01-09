@@ -6,12 +6,14 @@ class OauthController < ApplicationController
     # TODO this does a straight token exchange
     # in a real application, you'd want to ensure that the request token has been authorized
     
+    consumer = oauth_token.consumer
+    
     # destroy the existing request token
     oauth_token.destroy
     
     # create a new access token
     # this is where an existing access token for an app would be loaded in order to share it between devices
-    token = OauthAccessToken.create!
+    token = consumer.access_tokens.create!
       
     render :text => "oauth_token=#{token.token}&oauth_token_secret=#{token.secret}"
   end

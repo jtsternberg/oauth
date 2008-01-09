@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
-  protect_from_forgery # :secret => '5d2393a228686e4193613dbcdf32883c'
+  # protect_from_forgery # :secret => '5d2393a228686e4193613dbcdf32883c'
 
 protected
 
@@ -28,7 +28,7 @@ protected
   # verifies a request token request
   def verify_oauth_consumer_signature
     valid = OAuth::Signature.verify(request) do |token, consumer_key|
-      @oauth_consumer = App.find_by_key(consumer_key)
+      @oauth_consumer = OauthConsumer.find_by_key(consumer_key)
 
       # return the token secret and the consumer secret
       [nil, oauth_consumer.secret]
