@@ -28,7 +28,7 @@ module OAuth
       :oauth_version=>"1.0"
     }
     
-    attr_accessor :site,:params, :key, :secret
+    attr_accessor :site,:params, :key, :secret,:http
     
     
     # Create a new consumer instance by passing it a configuration hash:
@@ -88,7 +88,6 @@ module OAuth
     # It's recommended to use the Token classes to set this up correctly
     def request(http_method,path, token=nil,options={},*arguments)
       request=create_http_request(http_method,path,*arguments)
-      
       sign!(request,token,options)
       http.request(request)
     end
