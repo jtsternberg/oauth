@@ -13,7 +13,7 @@
   <?rfc private="Implementers' Draft" ?>
 
   <front>
-    <title>OAuth Consumer Request 1.0 Draft 1</title>
+    <title>OAuth Request Body Signature 1.0 Draft X</title>
 
     <author initials="E" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav">
       <organization>Hueniverse, LLC</organization>
@@ -22,32 +22,16 @@
       </address>
     </author>
 
-    <date day="14" month="December" year="2007"/>
+    <date day="15" month="January" year="2008"/>
 
     <abstract>
       <t>
-        This memo describes a method for using the OAuth flow to sign
-        a request made between a Consumer and Service Provider where no User
-        is involved. This enables OAuth to be used as a replacement to HTTP
-        Basic authentication, which is not as complex as HTTP Digest
-        authentication, and extends the capabilities of the OAuth Consumer
-        credentials.
-      </t>
-      <t>
-        OAuth Core 1.0 defines a protocol for delegating user access to
-        Consumer applications without sharing the user's private credentials.
-        The protocol centers on a three-legged scenario, delegating User
-        access to a Consumer for resources held by a Service Provider. In
-        some cases, a two-legged scenario is needed, in which the Consumer
-        is acting on behalf of itself, without a User involvement.
-      </t>
-      <t>
-        OAuth was created to solve the problem of sharing two-legged credentials
-        in three-legged situations. However, within the OAuth context, Consumers
-        might still need to communicate with the Service Provider using requests
-        that are Consumer-specific. Since the Consumers already established a
-        Consumer Key and Consumer Secret, there is value in being able to use
-        them for requests where the Consumer identity is verified.
+        This specification extends the OAuth signature workflow to include
+        HTTP request bodies. The OAuth Core signature workflow does not
+        guarentee the integrity of the HTTP body, with the exception of
+        <spanx style="verb">application/x-www-form-urlencoded</spanx>
+        content type bodies. This extension can be used in any request,
+        regardless of the HTTP method, the content type, or body size.
       </t>
     </abstract>
 
@@ -91,22 +75,6 @@
             Consumer Key.
           </t>
         </list>
-      </t>
-    </section>
-
-    <section title="Consumer Identity">
-      <t>
-        This memo defines a method in which the Consumer Key and Consumer
-        Secret, established by means left unspecified, are used to authenticate
-        a Consumer against credentials stored by the Service Provider. For the
-        purpose of this memo, it is assumed the Consumer already established
-        a Consumer Key and Consumer Secret with the Service Provider.
-      </t>
-      <t>
-        While the method described in this memo can be used with an empty
-        Consumer Secret, it does not provide any security or protection in such
-        a scenario, unless other means of identification are used, such as a
-        Public Key.
       </t>
     </section>
 
@@ -157,24 +125,6 @@
               OPTIONAL. Any additional parameters, as defined by the Service Provider.
             </t>
           </list>
-        </t>
-      </section>
-
-      <section title="Service Provider Replies">
-        <t>
-          The Service Provider verifies the signature and Consumer identity as
-          defined in <xref target="OAuth Core 1.0" /> section 9. If successful,
-          it replies with the appropriate response to the Consumer request. The
-          format of the reply is left unspecified by this memo.
-      </t>
-        <t>
-          If the request fails verification or is rejected for other reasons,
-          the Service Provider SHOULD respond with the appropriate response
-          code as defined in <xref target="OAuth Core 1.0" /> section 10: HTTP
-          Response Codes. The Service Provider MAY include some further details
-          about why the request was rejected in the HTTP response body as
-          defined in  <xref target="OAuth Core 1.0" /> section 5.3: Service
-          Provider Response Parameters.
         </t>
       </section>
 
