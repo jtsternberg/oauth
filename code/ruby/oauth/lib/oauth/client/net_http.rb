@@ -15,6 +15,21 @@ class Net::HTTPRequest
     self.send("set_oauth_#{options[:scheme]}")
   end
 
+  def signature_base_string(http, consumer = nil, token = nil, options = {})
+    options = { :request_uri => oauth_full_request_uri(http),
+                :consumer => consumer,
+                :token => token,
+                :scheme => 'header',
+                :signature_method => nil,
+                :nonce => nil,
+                :timestamp => nil }.merge(options)
+
+    OAuth::Client::Helper.new(self, options).signature_base_string
+  end
+  
+  def oauth_helper
+    @oauth_helper
+  end
   private
 
   def oauth_full_request_uri(http)

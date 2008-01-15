@@ -19,6 +19,10 @@ module OAuth
       self.build(request, options, &block).verify
     end
 
+    def self.signature_base_string(request, options = {}, &block)
+      self.build(request, options, &block).signature_base_string
+    end
+
     class UnknownSignatureMethod < Exception; end
   end
 end

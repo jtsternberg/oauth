@@ -1,10 +1,12 @@
 require 'oauth/signature'
+require 'oauth/helper'
 require 'oauth/request_proxy/base'
 require 'base64'
 
 module OAuth::Signature
   class Base
-
+    include OAuth::Helper
+    
     def self.implements(signature_method)
       OAuth::Signature.available_methods[signature_method] = self
     end
@@ -63,8 +65,5 @@ module OAuth::Signature
       self.class.digest_class.digest(signature_base_string)
     end
 
-    def escape(value)
-      CGI.escape(value.to_s).gsub("%7E", '~').gsub("+", "%20")
-    end
   end
 end

@@ -3,7 +3,7 @@ require 'oauth/client/net_http'
 module OAuth
   class Consumer
     
-    @@default_params={
+    @@default_options={
       # Signature method used by server. Defaults to HMAC-SHA1
       :oauth_signature_method=>'HMAC-SHA1',
       
@@ -17,10 +17,10 @@ module OAuth
       #
       # Possible values:
       #
-      #   :authorize - via the Authorize header (Default) ( option 1. in spec)
-      #   :post - url form encoded in body of POST request ( option 2. in spec)
-      #   :query - via the query part of the url ( option 3. in spec)
-      :auth_method=>:authorize, 
+      #   :header - via the Authorize header (Default) ( option 1. in spec)
+      #   :body - url form encoded in body of POST request ( option 2. in spec)
+      #   :query_string - via the query part of the url ( option 3. in spec)
+      :scheme=>:header, 
       
       # Default http method used for OAuth Token Requests (defaults to :post)
       :http_method=>:post, 
@@ -28,14 +28,14 @@ module OAuth
       :oauth_version=>"1.0"
     }
     
-    attr_accessor :site,:params, :key, :secret,:http
+    attr_accessor :site,:options, :key, :secret,:http
     
     
     # Create a new consumer instance by passing it a configuration hash:
     #
     #   @consumer=OAuth::Consumer.new( key,secret,{
     #     :site=>"http://term.ie",
-    #     :auth_method=>:authorize,
+    #     :scheme=>:header,
     #     :http_method=>:post,
     #     :request_token_path=>"/oauth/example/request_token.php",
     #     :access_token_path=>"/oauth/example/access_token.php",
@@ -55,9 +55,9 @@ module OAuth
     #
     #
     
-    def initialize(consumer_key,consumer_secret,params={})
+    def initialize(consumer_key,consumer_secret,options={})
       # ensure that keys are symbols
-      @params=@@default_params.merge( params.inject({}) do |options, (key, value)|
+      @options=@@default_options.merge( options.inject({}) do |options, (key, value)|
         options[key.to_sym] = value
         options
       end)
@@ -66,7 +66,7 @@ module OAuth
     end
     
     def http_method
-      @http_method||=@params[:http_method]||:post
+      @http_method||=@options[:http_method]||:post
     end
     
     def http
@@ -86,15 +86,21 @@ module OAuth
     
     # Creates, signs and performs an http request
     # It's recommended to use the Token classes to set this up correctly
-    def request(http_method,path, token=nil,options={},*arguments)
+    def request(http_method,path, token=nil,request_options={},*arguments)
+      http.request(create_signed_request(http_method,path,token,request_options,*arguments))
+    end
+    
+    # Creates and signs an http request
+    # It's recommended to use the Token classes to set this up correctly
+    def create_signed_request(http_method,path, token=nil,request_options={},*arguments)
       request=create_http_request(http_method,path,*arguments)
-      sign!(request,token,options)
-      http.request(request)
+      sign!(request,token,request_options)
+      request
     end
     
     # Creates a request and parses the result as url_encoded
-    def token_request(http_method,path,token=nil,options={},*arguments)
-      response=request(http_method,path,token,options,*arguments)
+    def token_request(http_method,path,token=nil,request_options={},*arguments)
+      response=request(http_method,path,token,request_options,*arguments)
       if response.code=="200"
         CGI.parse(response.body).inject({}){|h,(k,v)| h[k.to_sym]=v.first;h}
       else 
@@ -103,41 +109,46 @@ module OAuth
     end
 
     # Sign the Request object
-    def sign!(request,token=nil, options = {})
-      request.oauth!(http,self,token,options)
+    def sign!(request,token=nil, request_options = {})
+      request.oauth!(http,self,token,{:scheme=>scheme}.merge(request_options))
     end
     
-    def site
-      @params[:site]
+    # Return the signature_base_string
+    def signature_base_string(request,token=nil, request_options = {})
+      request.signature_base_string(http,self,token,{:scheme=>scheme}.merge(request_options))
     end
 
-    def auth_method
-      @params[:auth_method]
+    def site
+      @options[:site]
+    end
+
+    def scheme
+      @options[:scheme]
     end
     
     def request_token_path
-      @params[:request_token_path]
+      @options[:request_token_path]
     end
     
     def authorize_path
-      @params[:authorize_path]
+      @options[:authorize_path]
     end
     
     def access_token_path
-      @params[:access_token_path]
+      @options[:access_token_path]
     end
     
     # TODO this is ugly, rewrite
     def request_token_url
-      @params[:request_token_url]||site+request_token_path
+      @options[:request_token_url]||site+request_token_path
     end
 
     def authorize_url
-      @params[:authorize_url]||site+authorize_path
+      @options[:authorize_url]||site+authorize_path
     end
 
     def access_token_url
-      @params[:access_token_url]||site+access_token_path
+      @options[:access_token_url]||site+access_token_path
     end
 
     protected
