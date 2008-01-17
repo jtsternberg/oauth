@@ -119,7 +119,7 @@ class ConsumerTest < Test::Unit::TestCase
   end
 
   def test_that_using_auth_headers_on_post_on_create_signed_requests_works
-    request=@consumer.create_signed_request(:post,@request_uri.path,@token,{:nonce => @nonce, :timestamp => @timestamp},{},@request_parameters)
+    request=@consumer.create_signed_request(:post,@request_uri.path,@token,{:nonce => @nonce, :timestamp => @timestamp},@request_parameters,{})
     assert_equal 'POST', request.method
     assert_equal '/test', request.path
     assert_equal 'key=value', request.body
@@ -127,7 +127,7 @@ class ConsumerTest < Test::Unit::TestCase
   end
 
   def test_that_signing_post_params_works
-    request=@consumer.create_signed_request(:post,@request_uri.path,@token,{:scheme => 'body', :nonce => @nonce, :timestamp => @timestamp},{},@request_parameters)
+    request=@consumer.create_signed_request(:post,@request_uri.path,@token,{:scheme => 'body', :nonce => @nonce, :timestamp => @timestamp},@request_parameters,{})
 
     assert_equal 'POST', request.method
     assert_equal '/test', request.path
@@ -144,9 +144,7 @@ class ConsumerTest < Test::Unit::TestCase
         :request_token_path=>"/oauth/example/request_token.php",
         :access_token_path=>"/oauth/example/access_token.php",
         :authorize_path=>"/oauth/example/authorize.php",
-#        ,
         :scheme=>:header
-#        :http_method=>:get
         })
     options={:nonce=>'nonce',:timestamp=>Time.now.to_i.to_s}
  
@@ -155,15 +153,10 @@ class ConsumerTest < Test::Unit::TestCase
     assert_equal "GET&http%3A%2F%2Fterm.ie%2Foauth%2Fexample%2Frequest_token.php&oauth_consumer_key%3Dkey%26oauth_nonce%3D#{options[:nonce]}%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D#{options[:timestamp]}%26oauth_token%3D%26oauth_version%3D1.0",signature_base_string
     @consumer.sign!(request, nil,options)
 
-#    request=@consumer.create_signed_request(:get,"/oauth/example/request_token.php",nil,options)
     assert_equal 'GET', request.method
-#    assert_equal '/oauth/example/request_token.php', request.path
     assert_equal nil, request.body
-#    assert_equal "OAuth oauth_nonce=\"#{options[:nonce]}\", oauth_signature_method=\"HMAC-SHA1\", oauth_token=\"\", oauth_timestamp=\"#{options[:timestamp]}\", oauth_consumer_key=\"key\", oauth_signature=\"#{request.oauth_helper.signature}\"", request['authorization']
-#    assert_equal "POST&http%3A%2F%2Fterm.ie%2Foauth%2Fexample%2Frequest_token.php&oauth_consumer_key%3Dkey%26oauth_nonce%3Dnonce%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D#{options[:timestamp]}%26oauth_token%3D",request.oauth_helper.signature_base_string
     response=@consumer.http.request(request)
     assert_equal "200",response.code
-#    assert_equal request['authorization'],response.body
     assert_equal "oauth_token=requestkey&oauth_token_secret=requestsecret",response.body
   end
   
@@ -176,9 +169,6 @@ class ConsumerTest < Test::Unit::TestCase
         :request_token_path=>"/oauth/example/request_token.php",
         :access_token_path=>"/oauth/example/access_token.php",
         :authorize_path=>"/oauth/example/authorize.php"
-#        ,
-#        :auth_method=>:query,
-#        :http_method=>:get
         })
     
     @request_token=@consumer.get_request_token

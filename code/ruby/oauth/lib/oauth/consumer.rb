@@ -84,13 +84,18 @@ module OAuth
       OAuth::RequestToken.new(self,response[:oauth_token],response[:oauth_token_secret])
     end
     
-    # Creates, signs and performs an http request
-    # It's recommended to use the Token classes to set this up correctly
+    # Creates, signs and performs an http request.
+    # It's recommended to use the Token classes to set this up correctly.
+    # The arguments parameters are a hash or string encoded set of parameters if it's a post request as well as optional http headers.
+    # 
+    #   @consumer.request(:get,'/people',@token,{:scheme=>:query_string})
+    #   @consumer.request(:post,'/people',@token,{},@person.to_xml,{ 'Content-Type' => 'application/xml' })
+    #
     def request(http_method,path, token=nil,request_options={},*arguments)
       http.request(create_signed_request(http_method,path,token,request_options,*arguments))
     end
     
-    # Creates and signs an http request
+    # Creates and signs an http request.
     # It's recommended to use the Token classes to set this up correctly
     def create_signed_request(http_method,path, token=nil,request_options={},*arguments)
       request=create_http_request(http_method,path,*arguments)
@@ -98,7 +103,7 @@ module OAuth
       request
     end
     
-    # Creates a request and parses the result as url_encoded
+    # Creates a request and parses the result as url_encoded. This is used internally for the RequestToken and AccessToken requests.
     def token_request(http_method,path,token=nil,request_options={},*arguments)
       response=request(http_method,path,token,request_options,*arguments)
       if response.code=="200"
@@ -108,7 +113,7 @@ module OAuth
       end
     end
 
-    # Sign the Request object
+    # Sign the Request object. Use this if you have an externally generated http request object you want to sign.
     def sign!(request,token=nil, request_options = {})
       request.oauth!(http,self,token,{:scheme=>scheme}.merge(request_options))
     end
@@ -154,11 +159,13 @@ module OAuth
     protected
     
     # create the http request object for a given http_method and path
-    # TODO clean this up and add headers
     def create_http_request(http_method,path,*arguments)
+      http_method=http_method.to_sym
+      if [:post,:put].include?(http_method)
+        data=arguments.shift
+      end
       headers=(arguments.first.is_a?(Hash) ? arguments.shift : {})
-      data=arguments.first
-      case http_method.to_sym
+      case http_method
       when :post
         request=Net::HTTP::Post.new(path,headers)
       when :put
@@ -167,6 +174,8 @@ module OAuth
         request=Net::HTTP::Get.new(path,headers)
       when :delete
         request=Net::HTTP::Delete.new(path,headers)
+      when :head
+        request=Net::HTTP::Head.new(path,headers)
       else
         raise ArgumentError, "Don't know how to handle http_method: :#{http_method.to_s}"
       end
