@@ -59,7 +59,7 @@ module OAuth
     # exchange for AccessToken on server
     def get_access_token(options={})
       response=consumer.token_request(consumer.http_method,consumer.access_token_path,self,options)
-      OAuth::AccessToken.new(consumer,response['oauth_token'],response['oauth_token_secret'])
+      OAuth::AccessToken.new(consumer,response[:oauth_token],response[:oauth_token_secret])
     end
   end
   
@@ -75,11 +75,11 @@ module OAuth
     end
 
     def post(path, body = '',headers={})
-      request(:post,path,body,headers)
+      request(:post,path,headers,body)
     end
 
     def put(path, body = '', headers={})
-      request(:put,path,body,headers)
+      request(:put,path,headers,body)
     end
     
     def delete(path,headers={})
