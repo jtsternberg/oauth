@@ -64,7 +64,7 @@ module OAuth::Client
 
       header_params_str = parameters.map { |k,v| "#{k}=\"#{escape(v)}\"" }.join(', ')
 
-      return "OAuth #{options[:realm] ? "realm=\"#{options[:realm]}\", " : ''}#{header_params_str}"
+      return "OAuth realm=\"#{options[:realm]||''}\", #{header_params_str}"
     end
 
     def parameters
