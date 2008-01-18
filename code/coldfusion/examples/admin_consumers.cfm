@@ -63,6 +63,8 @@ limitations under the License.
 </cfif>
 <cfif IsDefined('FORM.editorid') AND FORM.editorid GT 0>
 	<cfset iEditorID = Trim(FORM.editorid)>
+<cfelse>
+	<cfset iEditorID = 1>
 </cfif>
 
 <cfif IsDefined('FORM.clearhash')>
@@ -78,8 +80,7 @@ limitations under the License.
 		AND	Len(sConsumerName) GT 0
 		AND	Len(sConsumerFullName) GT 0
 		AND	Len(sConsumerKey) GT 0
-		AND	Len(sConsumerSecret) GT 0
-		AND iEditorID GT 0>
+		AND	Len(sConsumerSecret) GT 0>
 			
 		<cfset oConsumerDAO = CreateObject("component", "oauth.OAuthConsumerDAO").init(sDataSource)>
 		<cftransaction>		
@@ -152,7 +153,7 @@ limitations under the License.
 		<cfset sNewConsumerEmail = Trim(FORM.editconsumeremail)>
 		<cfset sNewConsumerSecret = Trim(FORM.editconsumersecret)>
 		<cfset sNewConsumerKey = Trim(FORM.editconsumerkey)>
-		<cfset iNewEditorID = Trim(FORM.editeditorid)>
+		<cfset iNewEditorID = 1>
 
 		<cfif Len(sNewConsumerEmail) GT 0
 			AND	Len(sNewConsumerName) GT 0
@@ -257,9 +258,6 @@ limitations under the License.
 							<a href="#CGI.SCRIPT_NAME#?sortid=1">ID</a>							
 						</th>
 						<th>
-							<a href="#CGI.SCRIPT_NAME#?sortid=8">editID</a>							
-						</th>
-						<th>
 							<a href="#CGI.SCRIPT_NAME#?sortid=2">Consumer name</a>
 						</th>
 						<th>
@@ -286,13 +284,6 @@ limitations under the License.
 						<td>#qListAll.consumer_id#
 							<input name="editconsumerid" type="hidden" value="#qListAll.consumer_id#">
 						</td>
-						<td>
-							<select name="editeditorid">
-								<cfloop list="#lEditorIDs#" index="iEID">
-								<option value="#iEID#" <cfif qListAll.editor_id EQ iEID>selected</cfif>>#iEID#</option>
-								</cfloop>
-							</select>							
-						</td>						
 						<td><input 	name="editconsumername" 	title="editconsumername"	type="text"
 									id="editconsumername" 		value="#qListAll.name#">
 						</td>

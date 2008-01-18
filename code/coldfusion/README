@@ -17,10 +17,9 @@ Requirements
 ------------------------------------------------
 ColdFusion MX, Railo 2.0, MSSQL or PostgreSQL or Oracle database
 
-
 License
 ------------------------------------------------
-OAuth 0.8 is released under the Apache 2.0 license.
+OAuth 0.8.1 is released under the Apache 2.0 license.
 
 Copyright 2008 CONTENS Software GmbH
 
@@ -45,8 +44,10 @@ Installation
 
 3.	Execute "database/create_tables.cfm"
 
-4.	Configure the base URL and endpoint links in the file "endpoint/common.cfm"
+4.	Configure the base URL and endpoint links in the file "examples/common.cfm"
 
 5.	Copy the folder oauth into your webfolder or set a mapping called oauth for this folder
 
-6.	Now you can browse through the example files (examples/index.cfm), create a consumer and test the endpoints and toke generation
+6.	Create a consumer in "examples/admin_consumers.cfm" with the vales consumer key = CONSUMER_KEY and consumer secret = CONSUMER_SECRET
+
+7.  Now you can browse through the example files (examples/index.cfm) and test the endpoints and token generation
