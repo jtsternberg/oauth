@@ -28,7 +28,7 @@ limitations under the License.
 	<cffunction name="setUp" returntype="void" access="private" output="false" hint="test fixture">		
 		<cfset variables.sDataSource = "oauth">
 		<cfset variables.oDAO = CreateObject("component", "oauth.oauthconsumerdao").init(variables.sDataSource)>
-		<cfset variables.stData = StructNew() >
+		<cfset variables.stData = StructNew()>
 		<cfset variables.stData.consumername = "_testusername">
 		<cfset variables.stData.consumerfullname = "test user name">
 		<cfset variables.stData.consumeremail = "test@example.com">
@@ -37,10 +37,9 @@ limitations under the License.
 		<cfset variables.oDAO.create(variables.stData)>
 		<cfset variables.iDeleteID = variables.oDAO.read(variables.stData.consumerkey).consumerID>
 	</cffunction>
-	
+
 	<!--------------------------------------------------------------->
-	
-	
+
 	<cffunction name="testread" returntype="void" access="public" output="false">
 		<cfset var stRead = variables.oDAO.read(variables.stData.consumerkey)>
 		<cfset assertFalse(StructIsEmpty(stRead))>
@@ -70,13 +69,8 @@ limitations under the License.
 		<cfset assertTrue(StructKeyExists(oTemp, "_insertOk") AND oTemp._insertOk)>
 	</cffunction>
 	
-	<cffunction name="testgetNextConsumerID" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfreturn assertTrue(true)>
-	</cffunction>
-	
 	<cffunction name="testdelete" returntype="void" access="public" output="false">
-		<cfset var stRead = variables.oDAO.read(variables.stData.consumerkey) >
+		<cfset var stRead = variables.oDAO.read(variables.stData.consumerkey)>
 		<cfloop condition="NOT StructIsEmpty(variables.oDAO.read(variables.stData.consumerkey))">
 			<cfset stRead = variables.oDAO.read(variables.stData.consumerkey)>
 			<cfset variables.oDAO.delete(stRead.consumerID)>
@@ -84,19 +78,13 @@ limitations under the License.
 		<cfset assertTrue(StructIsEmpty(variables.oDAO.read(variables.stData.consumerkey)))>
 	</cffunction>
 	
-	<cffunction name="testisToProcess" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
-	</cffunction>
-	
 	<cffunction name="testlistAll" returntype="void" access="public" output="false">
-		<cfset assertTrue( IsQuery(variables.oDAO.listAll()) ) >
+		<cfset assertTrue( IsQuery(variables.oDAO.listAll()) )>
 	</cffunction>
 	
 	<cffunction name="testinit" returntype="void" access="public" output="false">
 		<cfset assertTrue(IsInstanceOf(variables.oDAO, "oauth.oauthconsumerdao"))>
 	</cffunction>
-	
 	
 	<!--------------------------------------------------------------->
 	

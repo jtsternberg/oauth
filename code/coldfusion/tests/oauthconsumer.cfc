@@ -31,14 +31,13 @@ limitations under the License.
 		<cfset variables.sCallbackURL = "http://test.example.com">
 		<cfset variables.iConsumerID = 123456>
 		<cfset variables.oConsumer = CreateObject("component", "oauth.oauthconsumer").init(
-							sKey = variables.sKey,
-							sSecret = variables.sSecret,
-							sCallbackURL = variables.sCallbackURL,
-							iConsumerID = variables.iConsumerID) />
+			sKey = variables.sKey,
+			sSecret = variables.sSecret,
+			sCallbackURL = variables.sCallbackURL,
+			iConsumerID = variables.iConsumerID)>
 	</cffunction>
 	
 	<!--------------------------------------------------------------->
-	
 	
 	<cffunction name="testsetKey" returntype="void" access="public" output="false">
 		<cfset variables.oConsumer.setKey("key")>
@@ -55,11 +54,11 @@ limitations under the License.
 	</cffunction>
 	
 	<cffunction name="testgetKey" returntype="void" access="public" output="false">
-		<cfset assertEqualsString(variables.sKey, variables.oConsumer.getKey()) >
+		<cfset assertEqualsString(variables.sKey, variables.oConsumer.getKey())>
 	</cffunction>
 	
 	<cffunction name="testgetConsumerID" returntype="void" access="public" output="false">
-		<cfset assertEqualsNumber(variables.iConsumerID, variables.oConsumer.getConsumerID()) >
+		<cfset assertEqualsNumber(variables.iConsumerID, variables.oConsumer.getConsumerID())>
 	</cffunction>
 	
 	<cffunction name="testisEmpty" returntype="void" access="public" output="false">
@@ -74,7 +73,7 @@ limitations under the License.
 	</cffunction>
 	
 	<cffunction name="testgetCallbackURL" returntype="void" access="public" output="false">
-		<cfset assertEqualsString(variables.sCallbackURL, variables.oConsumer.getCallbackURL()) >
+		<cfset assertEqualsString(variables.sCallbackURL, variables.oConsumer.getCallbackURL())>
 	</cffunction>
 	
 	<cffunction name="testcreateEmptyConsumer" returntype="void" access="public" output="false">
@@ -92,7 +91,6 @@ limitations under the License.
 		<cfset assertEqualsString("newurl", variables.oConsumer.getCallbackURL())>
 	</cffunction>
 	
-	
 	<!--------------------------------------------------------------->
 	
 	<cffunction name="tearDown" returntype="void" access="private" output="false" 
@@ -101,7 +99,7 @@ limitations under the License.
 		<cfset variables.sSecret = "">
 		<cfset variables.sCallbackURL = "">
 		<cfset variables.iConsumerID = 0>
-		<cfset variables.oConsumer = 0 />
+		<cfset variables.oConsumer = 0>
 	</cffunction>
 	
 </cfcomponent>

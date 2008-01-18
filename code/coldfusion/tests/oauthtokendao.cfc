@@ -31,7 +31,7 @@ limitations under the License.
 		<cfset variables.oDataStore = CreateObject("component", "oauth.oauthdatastore").init(variables.sDataSource)>
 		
 		<cfset variables.oConsumerDAO = CreateObject("component", "oauth.oauthconsumerdao").init(variables.sDataSource)>
-		<cfset variables.stData = StructNew() >
+		<cfset variables.stData = StructNew()>
 		<cfset variables.stData.consumername = "_testusername">
 		<cfset variables.stData.consumerfullname = "test user name">
 		<cfset variables.stData.consumeremail = "test@example.com">
@@ -46,8 +46,8 @@ limitations under the License.
 		<cfset variables.stTokenData.tokentype = "REQUEST">
 				
 		<cfset variables.oToken = CreateObject("component", "oauth.oauthtoken").init(
-						sKey = variables.stTokenData.tokenkey,
-						sSecret = variables.stTokenData.tokensecret)>
+			sKey = variables.stTokenData.tokenkey,
+			sSecret = variables.stTokenData.tokensecret)>
 										
 		<cfset variables.stTokenData.consumerid = variables.iDeleteID>
 		<cfset variables.stTokenData.nonce = variables.oDataStore.getTokenNonce(oToken = variables.oToken, sTokenType = variables.stTokenData.tokentype)>
@@ -55,19 +55,18 @@ limitations under the License.
 	
 	<!--------------------------------------------------------------->
 	
-	
 	<cffunction name="testread" returntype="void" access="public" output="false">
 		<cfset variables.oTokenDAO.create(stCreateData = variables.stTokenData)>
-		<cfset assertFalse(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey))) >
+		<cfset assertFalse(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey)))>
 		<cfset variables.oTokenDAO.delete(sTokenKey = variables.stTokenData.tokenkey, sTokenType = variables.stTokenData.tokentype)>
-		<cfset assertTrue(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey))) >
+		<cfset assertTrue(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey)))>
 	</cffunction>
 	
 	<cffunction name="testcreate" returntype="void" access="public" output="false">
 		<cfset variables.oTokenDAO.create(stCreateData = variables.stTokenData)>
-		<cfset assertFalse(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey))) >
+		<cfset assertFalse(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey)))>
 		<cfset variables.oTokenDAO.delete(sTokenKey = variables.stTokenData.tokenkey, sTokenType = variables.stTokenData.tokentype)>
-		<cfset assertTrue(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey))) >
+		<cfset assertTrue(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey)))>
 	</cffunction>
 	
 	<cffunction name="testinit" returntype="void" access="public" output="false">
@@ -75,25 +74,19 @@ limitations under the License.
 	</cffunction>
 	
 	<cffunction name="testlistAll" returntype="void" access="public" output="false">
-		<cfset assertTrue(IsQuery(variables.oTokenDAO.listAll())) >
+		<cfset assertTrue(IsQuery(variables.oTokenDAO.listAll()))>
 	</cffunction>
 	
 	<cffunction name="testdelete" returntype="void" access="public" output="false">
 		<cfset variables.oTokenDAO.create(stCreateData = variables.stTokenData)>
-		<cfset assertFalse(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey))) >
+		<cfset assertFalse(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey)))>
 		<cfset variables.oTokenDAO.delete(sTokenKey = variables.stTokenData.tokenkey, sTokenType = variables.stTokenData.tokentype)>
-		<cfset assertTrue(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey))) >
-	</cffunction>
-	
-	<cffunction name="testisToProcess" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
+		<cfset assertTrue(StructIsEmpty(variables.oTokenDAO.read(variables.stTokenData.tokenkey)))>
 	</cffunction>
 	
 	<cffunction name="testgetTokenCount" returntype="void" access="public" output="false">
 		<cfset assertTrue(IsNumeric(variables.oTokenDAO.getTokenCount()))>
 	</cffunction>
-	
 	
 	<!--------------------------------------------------------------->
 	

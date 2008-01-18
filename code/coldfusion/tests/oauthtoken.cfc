@@ -29,16 +29,15 @@ limitations under the License.
 		<cfset variables.sTokenKey = "tkey">
 		<cfset variables.sTokenSecret = "tsecret">
 		<cfset variables.oToken = CreateObject("component", "oauth.oauthtoken").init(
-					sKey = variables.sTokenKey, sSecret = variables.sTokenSecret) >					
+			sKey = variables.sTokenKey, sSecret = variables.sTokenSecret)>					
 	</cffunction>
 	
 	<!--------------------------------------------------------------->
 	
-	
 	<cffunction name="testgetString" returntype="void" access="public" output="false">
-		<cfset var sTemp = variables.oToken.getString() >
+		<cfset var sTemp = variables.oToken.getString()>
 		<cfset var sExpected = 	"oauth_token=" & URLEncodedFormat(variables.sTokenKey) & "&" &
-								"oauth_token_secret=" & URLEncodedFormat(variables.sTokenSecret) >
+								"oauth_token_secret=" & URLEncodedFormat(variables.sTokenSecret)>
 		<cfset assertEqualsString(sExpected, sTemp)>
 	</cffunction>
 	
@@ -75,7 +74,6 @@ limitations under the License.
 		<cfset variables.oToken.setSecret("newsecret")>
 		<cfset assertEqualsString("newsecret", variables.oToken.getSecret())>
 	</cffunction>
-	
 	
 	<!--------------------------------------------------------------->
 	

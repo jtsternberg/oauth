@@ -27,9 +27,9 @@ limitations under the License.
 	
 	<cffunction name="setUp" returntype="void" access="private" output="false" hint="test fixture">
 		<cfset variables.sDataSource = "oauth">
-		<cfset variables.oDataStore = CreateObject("component", "oauth.oauthdatastore").init(variables.sDataSource) >		
+		<cfset variables.oDataStore = CreateObject("component", "oauth.oauthdatastore").init(variables.sDataSource)>		
 		<cfset variables.oConsumerDAO = CreateObject("component", "oauth.oauthconsumerdao").init(variables.sDataSource)>
-		<cfset variables.stData = StructNew() >
+		<cfset variables.stData = StructNew()>
 		<cfset variables.stData.consumername = "_testusername">
 		<cfset variables.stData.consumerfullname = "test user name">
 		<cfset variables.stData.consumeremail = "test@example.com">
@@ -37,33 +37,27 @@ limitations under the License.
 		<cfset variables.stData.consumersecret = "CONSUMER_SECRET">
 		<cfset variables.oConsumerDAO.create(variables.stData)>
 		<cfset variables.oConsumer = CreateObject("component","oauth.oauthconsumer").init(
-								sKey = variables.stData.consumerkey,
-								sSecret = variables.stData.consumersecret ) />
+			sKey = variables.stData.consumerkey,
+			sSecret = variables.stData.consumersecret )>
 		<cfset variables.iConsumerIDToDelete = variables.oConsumerDAO.read(variables.stData.consumerkey).consumerID>
 	</cffunction>
-	
+
 	<!--------------------------------------------------------------->
-	
 	
 	<cffunction name="testlookUpNonce" returntype="void" access="public" output="false">
 		<cfset var oTemp = variables.oDataStore.newToken(variables.oConsumer, "REQUEST")>
 		<cfset var sTempNonce = variables.oDataStore.getTokenNonce(oToken = oTemp, sTokenType = "REQUEST")>
 		<cfset assertTrue(variables.oDataStore.lookUpNonce(
-									oConsumer = variables.oConsumer, 
-									oToken = oTemp, 
-									sNonce = sTempNonce, 
-									timestamp = GetTickCount()) )>
+			oConsumer = variables.oConsumer, 
+			oToken = oTemp, 
+			sNonce = sTempNonce, 
+			timestamp = GetTickCount()) )>
 		<cfset variables.oDataStore.deleteToken(sTokenKey = oTemp.getKey(), sTokenType = "REQUEST")>		
 		<cfset assertFalse(variables.oDataStore.lookUpNonce(
-									oConsumer = variables.oConsumer, 
-									oToken = oTemp, 
-									sNonce = sTempNonce,
-									timestamp = GetTickCount()) )>
-	</cffunction>
-	
-	<cffunction name="testgenerateTokenKey" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
+			oConsumer = variables.oConsumer, 
+			oToken = oTemp, 
+			sNonce = sTempNonce,
+			timestamp = GetTickCount()) )>
 	</cffunction>
 	
 	<cffunction name="testnewRequestToken" returntype="void" access="public" output="false">
@@ -73,14 +67,14 @@ limitations under the License.
 	
 	<cffunction name="testlookUpConsumer" returntype="void" access="public" output="false">
 		<cfset var oTemp = Createobject("component", "oauth.oauthconsumer").init(
-						sKey = variables.stData.consumerkey,
-						sSecret = variables.stData.consumersecret) >
-		<cfset var oResult = variables.oDataStore.lookupConsumer(variables.stData.consumerkey) >
+			sKey = variables.stData.consumerkey,
+			sSecret = variables.stData.consumersecret)>
+		<cfset var oResult = variables.oDataStore.lookupConsumer(variables.stData.consumerkey)>
 		<cfset assertTrue(IsInstanceOf(oResult,"oauth.oauthconsumer"))>
 		<cfset assertEqualsString(oTemp.getKey(), oResult.getKey())>
 		<cfset assertEqualsString(oTemp.getSecret(), oResult.getSecret())>
 	</cffunction>
-	
+
 	<cffunction name="testnewToken" returntype="void" access="public" output="false">
 		<cfset var oTemp = variables.oDataStore.newToken(variables.oConsumer, "REQUEST")>
 		<cfset assertTrue(IsInstanceOf(oTemp, "oauth.oauthtoken"))>
@@ -94,10 +88,10 @@ limitations under the License.
 		<cfset var oTemp = variables.oDataStore.newToken(variables.oConsumer, "REQUEST")>
 		<cfset var sTempNonce = variables.oDataStore.getTokenNonce(oToken = oTemp, sTokenType = "REQUEST")>
 		<cfset assertTrue(Len(variables.oDataStore.lookUpNonceValue(
-									oToken = oTemp, sNonce = sTempNonce) )) GT 0>
+			oToken = oTemp, sNonce = sTempNonce) )) GT 0>
 		<cfset variables.oDataStore.deleteToken(sTokenKey = oTemp.getKey(), sTokenType = "REQUEST")>		
 		<cfset assertTrue(Len(variables.oDataStore.lookUpNonceValue(
-									oToken = oTemp,	sNonce = sTempNonce) ) IS 0)>
+			oToken = oTemp,	sNonce = sTempNonce) ) IS 0)>
 	</cffunction>
 	
 	<cffunction name="testnewAccessToken" returntype="void" access="public" output="false">
@@ -108,12 +102,7 @@ limitations under the License.
 	
 	<cffunction name="testlookUpConsumerID" returntype="void" access="public" output="false">
 		<cfset var iTemp = variables.oDataStore.lookUpConsumerID(variables.stData.consumerkey)>
-		<cfset assertEqualsNumber(iTemp, variables.iConsumerIDToDelete) >
-	</cffunction>
-	
-	<cffunction name="testgenerateTokenSecret" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
+		<cfset assertEqualsNumber(iTemp, variables.iConsumerIDToDelete)>
 	</cffunction>
 	
 	<cffunction name="testdeleteToken" returntype="void" access="public" output="false">
@@ -149,7 +138,6 @@ limitations under the License.
 	<cffunction name="testinit" returntype="void" access="public" output="false">
 		<cfset assertTrue(IsInstanceOf(variables.oDataStore, "oauth.oauthdatastore"))>
 	</cffunction>
-	
 	
 	<!--------------------------------------------------------------->
 	
