@@ -26,18 +26,18 @@ limitations under the License.
 	hint="oauth.oauthsignaturemethod_plaintext testcase">
 	
 	<cffunction name="setUp" returntype="void" access="private" output="false" hint="test fixture">
-		<cfset variables.oSigMethod = CreateObject("component", "oauth.oauthsignaturemethod_plaintext") >
+		<cfset variables.oSigMethod = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
 		<cfset variables.oRequest = CreateObject("component", "oauth.oauthrequest").init(
-					sHttpMethod = "GET",
-					sHttpURL = "")>
+			sHttpMethod = "GET",
+			sHttpURL = "")>
 		<cfset variables.sConsumerKey = "ckey">
 		<cfset variables.sConsumerSecret = "csecret">
 		<cfset variables.oConsumer = CreateObject("component", "oauth.oauthconsumer").init(
-					sKey = variables.sConsumerKey, sSecret = variables.sConsumerSecret) >
+			sKey = variables.sConsumerKey, sSecret = variables.sConsumerSecret)>
 		<cfset variables.sTokenKey = "tkey">
 		<cfset variables.sTokenSecret = "tsecret">
 		<cfset variables.oToken = CreateObject("component", "oauth.oauthtoken").init(
-					sKey = variables.sTokenKey, sSecret = variables.sTokenSecret) >
+			sKey = variables.sTokenKey, sSecret = variables.sTokenSecret)>
 	</cffunction>
 	
 	<!--------------------------------------------------------------->
@@ -45,9 +45,9 @@ limitations under the License.
 	
 	<cffunction name="testbuildSignature" returntype="void" access="public" output="false">
 		<cfset var sTempSig = variables.oSigMethod.buildSignature(
-									oRequest = variables.oRequest,
-									oConsumer = variables.oConsumer,
-									oToken = variables.oToken) >
+			oRequest = variables.oRequest,
+			oConsumer = variables.oConsumer,
+			oToken = variables.oToken)>
 		<cfset var sTempSigExpected = URLEncodedFormat(variables.sConsumerSecret) & "&" & URLEncodedFormat(variables.sTokenSecret)>
 		<cfset assertEqualsString(sTempSigExpected, sTempSig)>
 	</cffunction>
@@ -55,7 +55,6 @@ limitations under the License.
 	<cffunction name="testgetName" returntype="void" access="public" output="false">
 		<cfset assertEqualsString("PLAINTEXT", variables.oSigMethod.getName())>
 	</cffunction>
-	
 	
 	<!--------------------------------------------------------------->
 	

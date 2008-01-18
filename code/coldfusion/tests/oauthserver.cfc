@@ -31,7 +31,7 @@ limitations under the License.
 		<cfset variables.sDataSource = "oauth">
 		
 		<cfset variables.oConsumerDAO = CreateObject("component", "oauth.oauthconsumerdao").init(variables.sDataSource)>
-		<cfset variables.stData = StructNew() >
+		<cfset variables.stData = StructNew()>
 		<cfset variables.stData.consumername = "_testusername">
 		<cfset variables.stData.consumerfullname = "test user name">
 		<cfset variables.stData.consumeremail = "test@example.com">
@@ -41,16 +41,16 @@ limitations under the License.
 		<cfset variables.iDeleteID = variables.oConsumerDAO.read(variables.stData.consumerkey).consumerID>
 		
 		<cfset variables.oConsumer = CreateObject("component","oauth.oauthconsumer").init(
-							sKey = variables.stData.consumerkey, 
-							sSecret = variables.stData.consumersecret) >
+			sKey = variables.stData.consumerkey, 
+			sSecret = variables.stData.consumersecret)>
 		
 		<cfset variables.oSig = CreateObject("component","oauth.oauthsignaturemethod_hmac_sha1")>
 		
 		<cfset variables.sTokenKey = "tkey">
 		<cfset variables.sTokenSecret = "tsecret">
 		<cfset variables.oToken = CreateObject("component","oauth.oauthtoken").init(
-							sKey = variables.sTokenKey, 
-							sSecret = variables.sTokenSecret) >
+			sKey = variables.sTokenKey, 
+			sSecret = variables.sTokenSecret)>
 		
 		<cfset variables.oDataStore = CreateObject("component", "oauth.oauthdatastore").init(variables.sDataSource)>
 		<cfset variables.oServer = CreateObject("component", "oauth.oauthserver").init(oDataStore = variables.oDataStore)>
@@ -61,76 +61,47 @@ limitations under the License.
 		<cfset variables.sHttpURL = "http://example.com">
 		<cfset variables.stParameters = StructNew()>
 		<cfset variables.oRequest = CreateObject("component", "oauth.oauthrequest").init(
-					sHttpMethod = variables.sHttpMethod,
-					sHttpURL = variables.sHttpURL,
-					stParameters = variables.stParameters,
-					sOAuthVersion = variables.sOAuthVersion) />
+			sHttpMethod = variables.sHttpMethod,
+			sHttpURL = variables.sHttpURL,
+			stParameters = variables.stParameters,
+			sOAuthVersion = variables.sOAuthVersion)>
 		<cfset variables.oRequest.signRequest(oSignatureMethod = variables.oSig, oConsumer = variables.oConsumer, oToken = variables.oToken)>
 	</cffunction>
 	
 	<!--------------------------------------------------------------->
 	
-	
-	<cffunction name="testgetVersion" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true) >
-	</cffunction>
-	
-	<cffunction name="testcheckSignature" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true) >
-	</cffunction>
-	
 	<cffunction name="testfetchRequestToken" returntype="void" access="public" output="false">
+		<cfset var oTestRToken = "">
 		<cfset var oReqToken = CreateObject("component", "oauth.oauthtoken").init(
-						sKey = variables.sTokenKey,
-						sSecret = variables.sTokenSecret)>		
+			sKey = variables.sTokenKey,
+			sSecret = variables.sTokenSecret)>		
 		<cfset var oLookUpToken = variables.oDataStore.lookUpToken(
-						oConsumer = variables.oConsumer,
-						sTokenType = "request", 
-						oToken = oReqToken)>
+			oConsumer = variables.oConsumer,
+			sTokenType = "request", 
+			oToken = oReqToken)>
+
 		<cfset variables.oRequest.setParameter("oauth_consumer_key",variables.oConsumer.getKey())>
 		<cfset variables.oRequest.setParameter("oauth_timestamp",getTickCount())>
 		<cfset oReqToken = variables.oServer.fetchRequestToken(variables.oRequest)>
-		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken")) >
+		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken"))>
 		<cfif oLookUpToken.isEmpty()>
 			<cfset oTestRToken = oDataStore.newToken(
-						oConsumer = variables.oConsumer,
-						sTokenType = "REQUEST",
-						sKey = variables.sTokenKey,
-						sSecret = variables.sTokenSecret)>
+				oConsumer = variables.oConsumer,
+				sTokenType = "REQUEST",
+				sKey = variables.sTokenKey,
+				sSecret = variables.sTokenSecret)>
 		<cfelse>
 			<cfset oTestRToken = oLookUpToken>
 		</cfif>		
-		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken") AND NOT oReqToken.isEmpty()) >
+		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken") AND NOT oReqToken.isEmpty())>
 	</cffunction>
 	
 	<cffunction name="testaddSignatureMethod" returntype="void" access="public" output="false">
 		<cfset var oTempSignature = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
 		<cfset var stTemp = StructNew()>				
-		<cfset variables.oServer.addSignatureMethod(oTempSignature) >		
+		<cfset variables.oServer.addSignatureMethod(oTempSignature)>		
 		<cfset StructAppend(stTemp, variables.oServer.getSupportedSignatureMethods())>
 		<cfset assertTrue(StructKeyExists(stTemp, oTempSignature.getName()))>
-	</cffunction>
-	
-	<cffunction name="testcheckTimestamp" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
-	</cffunction>
-	
-	<cffunction name="testgetOAuthToken" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
-	</cffunction>
-	
-	<cffunction name="testgetConsumer" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
-	</cffunction>
-	
-	<cffunction name="testcheckNonce" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
 	</cffunction>
 	
 	<cffunction name="testinit" returntype="void" access="public" output="false">
@@ -140,33 +111,33 @@ limitations under the License.
 	<cffunction name="testfetchAccessToken" returntype="void" access="public" output="false">
 		<cfset var oReqToken = "">
 		<cfset var oAccToken = "">
-		<cfset var LookUpToken = "">
-		
+		<cfset var oLookUpToken = "">
+
 		<cfset oReqToken = CreateObject("component", "oauth.oauthtoken").init(
-						sKey = variables.sTokenKey,
-						sSecret = variables.sTokenSecret) />		
+			sKey = variables.sTokenKey,
+			sSecret = variables.sTokenSecret)>		
 		<cfset oLookUpToken = variables.oDataStore.lookUpToken(
-						oConsumer = variables.oConsumer,
-						sTokenType = "request",
-						oToken = oReqToken)>
+			oConsumer = variables.oConsumer,
+			sTokenType = "request",
+			oToken = oReqToken)>
 		<cfset variables.oRequest.setParameter("oauth_consumer_key",variables.oConsumer.getKey())>
 		<cfset variables.oRequest.setParameter("oauth_timestamp",getTickCount())>
 		<cfset oReqToken = variables.oServer.fetchRequestToken(variables.oRequest)>
-		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken") AND NOT oReqToken.isEmpty()) >
+		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken") AND NOT oReqToken.isEmpty())>
 		<cfif oLookUpToken.isEmpty()>
 			<cfset oReqToken = oDataStore.newToken(
-						oConsumer = variables.oConsumer,
-						sTokenType = "REQUEST",
-						sKey = variables.sTokenKey,
-						sSecret = variables.sTokenSecret)>
+				oConsumer = variables.oConsumer,
+				sTokenType = "REQUEST",
+				sKey = variables.sTokenKey,
+				sSecret = variables.sTokenSecret)>
 		<cfelse>
 			<cfset oReqToken = oLookUpToken>
 		</cfif>		
-		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken")) >
+		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken"))>
 		<cfset variables.oRequest.setParameter("oauth_token",oReqToken.getKey())>
 		<cfset variables.oRequest.setParameter("oauth_token_secret",oReqToken.getSecret())>
 		<cfset oAccToken = variables.oServer.fetchAccessToken(variables.oRequest)>
-		<cfset assertTrue(IsInstanceOf(oAccToken, "oauth.oauthtoken") AND NOT oAccToken.isEmpty()) >				
+		<cfset assertTrue(IsInstanceOf(oAccToken, "oauth.oauthtoken") AND NOT oAccToken.isEmpty())>				
 	</cffunction>
 	
 	<cffunction name="testverifyRequest" returntype="void" access="public" output="false">
@@ -175,37 +146,37 @@ limitations under the License.
 		<cfset var oLookUpToken = "">
 		
 		<cfset oReqToken = CreateObject("component", "oauth.oauthtoken").init(
-								sKey = variables.sTokenKey,
-								sSecret = variables.sTokenSecret) />				
+			sKey = variables.sTokenKey,
+			sSecret = variables.sTokenSecret)>				
 		<cfset oLookUpToken = variables.oDataStore.lookUpToken(
-								oConsumer = variables.oConsumer, 
-								sTokenType = "request",
-								oToken = oReqToken) />
+			oConsumer = variables.oConsumer, 
+			sTokenType = "request",
+			oToken = oReqToken)>
 		
 		<cfset variables.oRequest.setParameter("oauth_consumer_key",variables.oConsumer.getKey())>
 		<cfset variables.oRequest.setParameter("oauth_timestamp",getTickCount())>
 		<cfset oReqToken = variables.oServer.fetchRequestToken(variables.oRequest)>
-		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken")) >
+		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken"))>
 		<cfif oLookUpToken.isEmpty()>
 			<cfset oReqToken = oDataStore.newToken(
-								oConsumer = variables.oConsumer, 
-								sTokenType = "REQUEST", 
-								sKey = variables.sTokenKey, 
-								sSecret = variables.sTokenSecret)>
+				oConsumer = variables.oConsumer, 
+				sTokenType = "REQUEST", 
+				sKey = variables.sTokenKey, 
+				sSecret = variables.sTokenSecret)>
 		<cfelse>
 			<cfset oReqToken = oLookUpToken>
 		</cfif>		
-		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken") AND NOT oReqToken.isEmpty()) >
+		<cfset assertTrue(IsInstanceOf(oReqToken, "oauth.oauthtoken") AND NOT oReqToken.isEmpty())>
 		<cfset variables.oRequest.setParameter("oauth_token", oReqToken.getKey())>
 		<cfset variables.oRequest.setParameter("oauth_token_secret", oReqToken.getSecret())>
 		<cfset oAccToken = variables.oServer.fetchAccessToken(variables.oRequest)>
-		<cfset assertTrue(IsInstanceOf(oAccToken, "oauth.oauthtoken") AND NOT oAccToken.isEmpty()) >
+		<cfset assertTrue(IsInstanceOf(oAccToken, "oauth.oauthtoken") AND NOT oAccToken.isEmpty())>
 		<cfif oLookUpToken.isEmpty()>
 			<cfset oAccToken = oDataStore.newToken(
-								oConsumer = variables.oConsumer, 
-								sTokenType = "ACCESS", 
-								sKey = oReqToken.getKey(), 
-								sSecret = oReqToken.getSecret())>
+				oConsumer = variables.oConsumer, 
+				sTokenType = "ACCESS", 
+				sKey = oReqToken.getKey(), 
+				sSecret = oReqToken.getSecret())>
 		<cfelse>
 			<cfset oAccToken = oLookUpToken>
 		</cfif>
@@ -215,14 +186,8 @@ limitations under the License.
 	</cffunction>
 	
 	<cffunction name="testgetSupportedSignatureMethods" returntype="void" access="public" output="false">
-		<cfset assertTrue(IsStruct(variables.oServer.getSupportedSignatureMethods())) >
+		<cfset assertTrue(IsStruct(variables.oServer.getSupportedSignatureMethods()))>
 	</cffunction>
-	
-	<cffunction name="testgetSignatureMethod" returntype="void" access="public" output="false">
-		<!--- private --->
-		<cfset assertTrue(true)>
-	</cffunction>
-	
 	
 	<!--------------------------------------------------------------->
 	
