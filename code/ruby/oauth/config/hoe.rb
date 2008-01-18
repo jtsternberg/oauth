@@ -1,8 +1,8 @@
 require 'oauth/version'
 
-AUTHOR = 'Blaine Cook'  # can also be an array of Authors
-EMAIL = "romeda@gmail.com"
-DESCRIPTION = "OAuth Client Library"
+AUTHOR = ['Pelle Braendgaard','Blaine Cook','Larry Halff']  # can also be an array of Authors
+EMAIL = "pelleb@gmail.com"
+DESCRIPTION = "OAuth Core Ruby implementation"
 GEM_NAME = 'oauth' # what ppl will type to install your gem
 RUBYFORGE_PROJECT = 'oauth' # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
@@ -10,7 +10,7 @@ DOWNLOAD_PATH = "http://rubyforge.org/projects/#{RUBYFORGE_PROJECT}"
 
 @config_file = "~/.rubyforge/user-config.yml"
 @config = nil
-RUBYFORGE_USERNAME = "romeda"
+RUBYFORGE_USERNAME = "unknown"
 def rubyforge_username
   unless @config
     begin
@@ -58,8 +58,8 @@ hoe = Hoe.new(GEM_NAME, VERS) do |p|
   p.clean_globs |= ['**/.*.sw?', '*.gem', '.config', '**/.DS_Store']  #An array of file patterns to delete on clean.
   
   # == Optional
-  p.changes = p.paragraphs_of("History.txt", 0..1).join("\\n\\n")
-  #p.extra_deps = []     # An array of rubygem dependencies [name, version], e.g. [ ['active_support', '>= 1.3.1'] ]
+  p.changes = p.paragraphs_of("History.txt", 0..1).join("\n\n")
+  p.extra_deps = [['ruby-hmac','>= 0.3.1'] ]    # An array of rubygem dependencies [name, version], e.g. [ ['active_support', '>= 1.3.1'] ]
   
   #p.spec_extras = {}    # A hash of extra values to set in the gemspec.
   
@@ -68,3 +68,4 @@ end
 CHANGES = hoe.paragraphs_of('History.txt', 0..1).join("\\n\\n")
 PATH    = (RUBYFORGE_PROJECT == GEM_NAME) ? RUBYFORGE_PROJECT : "#{RUBYFORGE_PROJECT}/#{GEM_NAME}"
 hoe.remote_rdoc_dir = File.join(PATH.gsub(/^#{RUBYFORGE_PROJECT}\/?/,''), 'rdoc')
+hoe.rsync_args = '-av --delete --ignore-errors'
