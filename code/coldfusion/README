@@ -48,6 +48,6 @@ Installation
 
 5.	Copy the folder oauth into your webfolder or set a mapping called oauth for this folder
 
-6.	Create a consumer in "examples/admin_consumers.cfm" with the vales consumer key = CONSUMER_KEY and consumer secret = CONSUMER_SECRET
+6.	Create a consumer in "examples/admin_consumers.cfm" with the values consumer key = CONSUMER_KEY and consumer secret = CONSUMER_SECRET
 
 7.  Now you can browse through the example files (examples/index.cfm) and test the endpoints and token generation

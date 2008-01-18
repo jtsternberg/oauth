@@ -86,7 +86,7 @@ limitations under the License.
 		<cfif StructKeyExists(arguments, "oDataStore")>
 			<cfset setEditorID(arguments.oDataStore.lookUpEditorID(sConsumerKey = getKey()))>
 		</cfif>
-		<cfreturn variables.iConsumerID>
+		<cfreturn variables.iEditorID>
 	</cffunction>
 	<cffunction name="setEditorID" access="public" returntype="void">
 		<cfargument name="iEditorID" required="true" type="numeric">
