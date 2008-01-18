@@ -1,0 +1,62 @@
+<cfsilent>
+<!--- 
+Description:
+============
+	analyze request
+
+License:
+============
+Copyright 2008 CONTENS Software GmbH
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--->
+</cfsilent>
+
+<cfoutput>
+<html>
+<head>
+	<title>Echo</title>
+</head>
+<body>
+
+<cfinclude template="common.cfm">
+
+<!--- create dao --->
+<cfset oReqDataStore = CreateObject("component", "oauth.OAuthTest").init(sDataSource, true)>
+
+<!--- create server --->
+<cfset oReqServer = CreateObject("component", "oauth.OAuthServer").init(oReqDataStore)>
+
+<!--- register signature methods --->
+<cfset oReqSigMethodSHA = CreateObject("component", "oauth.OAuthSignatureMethod_HMAC_SHA1")>
+<cfset oReqSigMethodPLAIN = CreateObject("component", "oauth.OAuthSignatureMethod_PLAINTEXT")>
+<cfset oReqServer.addSignatureMethod(oReqSigMethodSHA)>
+<cfset oReqServer.addSignatureMethod(oReqSigMethodPLAIN)>
+
+<!--- analyze request --->
+<cfset oReq = CreateObject("component", "oauth.OAuthRequest").fromRequest()>
+<cfdump var="#oReq.getParameters()#">
+<cfset oReqServer.verifyRequest(oReq)>
+<cfset aEchoParams = ArrayNew(1)>
+<cfset stParams = oReq.getParameters()>
+<cfloop collection="#stParams#" item="sItem">
+	<cfif NOT Left(sItem, 5) EQ "oauth">
+		<cfset ArrayAppend(aEchoParams, sItem & "=" & StructFind(stParams, sItem))>
+	</cfif>
+</cfloop>
+<cfset ArraySort(aEchoParams, "textnocase", "asc")>
+
+non-OAuth parameters:<br>#ArrayToList(aEchoParams, "&")#
+</body>
+</html>
+</cfoutput>
