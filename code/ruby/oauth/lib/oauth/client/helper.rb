@@ -19,7 +19,7 @@ module OAuth::Client
     end
 
     def nonce
-      options[:nonce] ||= generate_nonce
+      options[:nonce] ||= generate_key
     end
 
     def timestamp
@@ -28,10 +28,6 @@ module OAuth::Client
 
     def generate_timestamp
       Time.now.to_i.to_s
-    end
-
-    def generate_nonce
-      rand(2**128).to_s
     end
 
     def oauth_parameters

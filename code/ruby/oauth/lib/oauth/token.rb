@@ -1,10 +1,10 @@
-require 'oauth/key'
+require 'oauth/helper'
 module OAuth
   
   # Superclass for the various tokens used by OAuth
   
   class Token
-    include OAuth::Key
+    include OAuth::Helper
     
     attr_accessor :token, :secret
 
