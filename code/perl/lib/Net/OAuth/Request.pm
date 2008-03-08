@@ -5,7 +5,7 @@ use base qw/Class::Data::Inheritable Class::Accessor/;
 use URI::Escape;
 use UNIVERSAL::require;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 __PACKAGE__->mk_classdata(required_request_params => [qw/
     consumer_key
