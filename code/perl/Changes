@@ -14,3 +14,6 @@ Revision history for Net-OAuth
 
 0.05    Mon, 19 Nov 2007 03:30:05 UTC
         Integrated patch from Nobuo Danjou, for Draft 6 spec compliance
+
+0.06    Sat, 08 Mar 2008 00:57:40 UTC
+        Removed live test that stopped working
