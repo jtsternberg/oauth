@@ -173,14 +173,13 @@ namespace OAuth {
         /// Generate the signature base that is used to produce the signature
         /// </summary>
         /// <param name="url">The full url that needs to be signed including its non OAuth url parameters</param>
-        /// <param name="consumerKey">The consumer key</param>
-        /// <param name="consumerSecret">The consumer seceret</param>
+        /// <param name="consumerKey">The consumer key</param>        
         /// <param name="token">The token, if available. If not available pass null or an empty string</param>
         /// <param name="tokenSecret">The token secret, if available. If not available pass null or an empty string</param>
         /// <param name="httpMethod">The http method used. Must be a valid HTTP method verb (POST,GET,PUT, etc)</param>
         /// <param name="signatureType">The signature type. To use the default values use <see cref="OAuthBase.SignatureTypes">OAuthBase.SignatureTypes</see>.</param>
         /// <returns>The signature base</returns>
-        public string GenerateSignatureBase(Uri url, string consumerKey, string consumerSecret, string token, string tokenSecret, string httpMethod, string timeStamp, string nonce, string signatureType) {
+        public string GenerateSignatureBase(Uri url, string consumerKey, string token, string tokenSecret, string httpMethod, string timeStamp, string nonce, string signatureType) {
             if (token == null) {
                 token = string.Empty;
             }
@@ -191,10 +190,6 @@ namespace OAuth {
 
             if (string.IsNullOrEmpty(consumerKey)) {
                 throw new ArgumentNullException("consumerKey");
-            }
-
-            if (string.IsNullOrEmpty(consumerSecret)) {
-                throw new ArgumentNullException("consumerSecret");
             }
 
             if (string.IsNullOrEmpty(httpMethod)) {
@@ -269,7 +264,7 @@ namespace OAuth {
                     return HttpUtility.UrlEncode(string.Format("{0}&{1}", consumerSecret, tokenSecret));
 
                 case SignatureTypes.HMACSHA1:
-                    string signatureBase = GenerateSignatureBase(url, consumerKey, consumerSecret, token, tokenSecret, httpMethod, timeStamp, nonce, HMACSHA1SignatureType);
+                    string signatureBase = GenerateSignatureBase(url, consumerKey, token, tokenSecret, httpMethod, timeStamp, nonce, HMACSHA1SignatureType);
 
                     HMACSHA1 hmacsha1 = new HMACSHA1();
                     hmacsha1.Key = Encoding.ASCII.GetBytes(string.Format("{0}&{1}", UrlEncode(consumerSecret), UrlEncode(tokenSecret)));
