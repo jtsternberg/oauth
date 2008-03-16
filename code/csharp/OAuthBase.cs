@@ -220,12 +220,10 @@ namespace OAuth {
 
             string normalizedRequestParameters = NormalizeRequestParameters(parameters);
 
-            StringBuilder signatureBase = new StringBuilder();
+            StringBuilder signatureBase = new StringBuilder();			
             signatureBase.AppendFormat("{0}&", httpMethod.ToUpper());
             signatureBase.AppendFormat("{0}&", UrlEncode(string.Format("{0}://{1}{2}", url.Scheme, url.Host, url.AbsolutePath)));
-            signatureBase.AppendFormat("{0}&", UrlEncode(normalizedRequestParameters));
-            signatureBase.AppendFormat("{0}&", UrlEncode(consumerSecret));
-            signatureBase.AppendFormat("{0}", UrlEncode(tokenSecret));
+            signatureBase.AppendFormat("{0}", UrlEncode(normalizedRequestParameters));
 
             return signatureBase.ToString();
         }
@@ -242,7 +240,7 @@ namespace OAuth {
 
         /// <summary>
         /// Generates a signature using the HMAC-SHA1 algorithm
-        /// </summary>
+        /// </summary>		
         /// <param name="url">The full url that needs to be signed including its non OAuth url parameters</param>
         /// <param name="consumerKey">The consumer key</param>
         /// <param name="consumerSecret">The consumer seceret</param>
@@ -256,7 +254,7 @@ namespace OAuth {
 
         /// <summary>
         /// Generates a signature using the specified signatureType 
-        /// </summary>
+        /// </summary>		
         /// <param name="url">The full url that needs to be signed including its non OAuth url parameters</param>
         /// <param name="consumerKey">The consumer key</param>
         /// <param name="consumerSecret">The consumer seceret</param>
