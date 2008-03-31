@@ -5,7 +5,7 @@
 <rfc category="info" ipr="full3978" docName="oauth-discovery-1_0.xml">
 
   <?rfc toc="yes" ?>
-  <?rfc tocdepth="2" ?>
+  <?rfc tocdepth="3" ?>
   <?rfc symrefs="yes" ?>
   <?rfc sortrefs="yes"?>
   <?rfc strict="yes" ?>
@@ -13,16 +13,16 @@
   <?rfc private="Implementers' Draft" ?>
 
   <front>
-    <title>OAuth Discovery 1.0 Draft X</title>
+    <title>OAuth Discovery 1.0 Draft 2</title>
 
-    <author initials="E" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav">
-      <organization>Hueniverse, LLC</organization>
+    <author initials="E.HL" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav">
+      <organization>Hueniverse</organization>
       <address>
         <email>eran@hueniverse.com</email>
       </address>
     </author>
 
-    <date day="5" month="January" year="2008"/>
+    <date day="31" month="March" year="2008"/>
 
     <abstract>
       <t>
@@ -55,8 +55,7 @@
         The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
         document are to be interpreted as described in <xref target="RFC2119" />.
-        Domain name examples use <xref target="RFC2606" /> and OAuth extension
-        examples use the URI prefix <spanx style="verb">http://oauth.net/example/</spanx>.
+        Domain name examples use <xref target="RFC2606" />.
       </t>
       <t>
         Unless otherwise noted, this specification is written as a direct
@@ -71,31 +70,17 @@
           <t hangText="OAuth Discovery:">
             A general name for the workflow described in this specification.
           </t>
+          <t hangText="OAuth Configuration:">
+            The information needed by Consumers to perform the workflow defined in  
+            <xref target="OAuth Core 1.0" /> successfully and access Protected Resources.
+          </t>
+          <t hangText="OAuth Descriptor">
+            The XRDS-Simple <spanx style="verb">XRD</spanx> element containing the
+            OAuth Configuration, located by performing discovery on the Protected Resource URI.
+          </t>
           <t hangText="Consumer Identity:">
             The Consumer Key, Consumer Secret, and any other information used
             to establish an identity for the Consumer such as public key.
-          </t>
-          <t hangText="Realm:">
-            An absolute HTTP(S) URL used to group Protected Resources together
-            by associating them to the URL. Realms allow sharing information
-            and credentials across multiple Protected Resources.
-          </t>
-          <t hangText="Realm Definition:">
-            An <spanx style="verb">XRD</spanx> element containing the Service
-            Provider OAuth configuration, in a machine-readable format.
-          </t>
-          <t hangText="Discovery Definition Document:">
-            An XRDS document which binds together Realm Definitions and other
-            optional services, in a machine-readable format.
-          </t>
-          <t hangText="OAuth Endpoints:">
-            The group of four request endpoints defined by
-            <xref target="OAuth Core 1.0" /> (Request Token, User
-            authorization, Access Token, and Protected Resource).
-          </t>
-          <t hangText="Type Identifier:">
-            An absolute HTTP(S) URL used to uniquely identify an OAuth Endpoint,
-            a service extension, or any other property of dicoverable infomation.
           </t>
         </list>
       </t>
@@ -104,7 +89,7 @@
     <section title="Scope and Limitations">
       <t>
         While a fully automated discovery process of authentication,
-        authorization, and services is a highly desired objective, OAuth
+        authorization, and service utilization is a highly desirable, OAuth
         Discovery is inheritably limited. OAuth does not address the methods in
         which Protected Resources are accessed. Without clear standards of the
         Protected Resources methods, any discovery protocol will eventually
@@ -117,23 +102,22 @@
       </t>
       <t>
         However, combined with other specifications, the entire process can be
-        fully automated from authentication, through authorization, to services.
-        While OAuth Discovery alone cannot provide fully automated workflow, it
-        strognly enables it.
+        fully automated from authentication, through authorization, to service utilization.
+        While OAuth Discovery alone cannot provide a fully automated workflow, it
+        strongly enables it.
       </t>
       <t>
-        OAuth Discovery is designed to address two scenarios:
+        OAuth Discovery is designed to address two workflows:
 
         <list style="symbols">
           <t>
-            Automatic Initiation - When the Protected Resource endpoint is
+            Automatic initiation - When the Protected Resource endpoint is
             known, the Consumer attempts accessing it without any authorization
             credentials, causing the request to fail. The failure reply
-            contains the information needed to perform discovery. This scenario
-            is similar to <xref target="RFC2617">HTTP Basic Authentication</xref>.
+            contains the information needed to perform discovery.
           </t>
           <t>
-            Manual Initiation - The information needed to perform discovery is
+            Out-of-band initiation - The information needed to perform discovery is
             provided by the Service Provider in ways not specified by this
             specification. This information allows the Consumer to configure
             its resources automatically instead of hard-coding the OAuth
@@ -142,1087 +126,314 @@
         </list>
       </t>
       <t>
-        Service Providers MUST support Automated Initiation, and MAY support
-        Manual Initiation by providing the information needed through
+        Service Providers MUST support automatic initiation, and MAY support
+        out-of-band initiation by providing the information needed through
         documentation or other means.
       </t>
     </section>
 
-    <section title="Realms">
-      <t>
-        Each Protected Resource MUST be associated with a Realm. Service
-        Providers are likely to offer multiple Protected Resources, and MAY
-        choose to partition access to by assigning them different Realms.
-      </t>
-      <t>
-        A Realm MUST be a valid endpoint URL pointing to an accessible resource
-        using HTTP requests. Service Providers MAY put access restrictions on
-        the Realm URL. Realms are valid values of the <spanx style="verb">realm</spanx>
-        parameter as defined in <xref target="RFC2617" /> section 1.2, but are
-        more restrictive in their requirements and syntax.
-      </t>
-      <t>
-        The first step when performing OAuth Discovery is identifying the Realm
-        of the requested resource. The Realm provides both an association
-        between the resource and its OAuth configuration, and a mean to locate
-        that configuration.
-      </t>
-    </section>
-
-    <section title="Service Types" anchor="service_types">
-      <t>
-        The Discovery Definition Documents define services which provide the
-        neccesary information needed to interact with an OAuth-enabled Service
-        Provider. Each services is assigned Type Identifiers used to lookup the
-        required information in the document.
-      </t>
-      <t>
-        To identify the OAuth Endpoints, each is given a unique Type Identifier
-        URI:
-
-        <list style="hanging">
-          <t hangText="Request Token:">
-            <spanx style="verb">http://oauth.net/core/1.0/endpoint/request</spanx> - <xref target="OAuth Core 1.0" /> section 6.1.1.
-          </t>
-          <t hangText="User Authorization:">
-            <spanx style="verb">http://oauth.net/core/1.0/endpoint/authorize</spanx> - <xref target="OAuth Core 1.0" /> section 6.2.1.
-          </t>
-          <t hangText="Access Token:">
-            <spanx style="verb">http://oauth.net/core/1.0/endpoint/access</spanx> - <xref target="OAuth Core 1.0" /> section 6.3.1.
-          </t>
-          <t hangText="Protected Resource:">
-            <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx> - <xref target="OAuth Core 1.0" /> section 7.
-          </t>
-        </list>
-      </t>
-      <t>
-        In most cases, the OAuth Endpoints share the same configuration, such
-        as supported signature methods. To simplify the discovery process and
-        reduce the need to repeat the same configuration information, OAuth
-        Discovery provides a Type Identifier for OAuth Endpoints configuration
-        defaults: <spanx style="verb">http://oauth.net/core/1.0/endpoint/defaults</spanx>.
-      </t>
-      <t>
-        OAuth requires a pre-arranged Consumer Identity in order to obtain
-        access. OAuth discovery defines three service types for documenting
-        the methods in which Consumer Identity can be obtained:
-        
-        <list style="hanging">
-          <t hangText="Static allocation:">
-            <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/static</spanx>
-            - Includes the Consumer Identity within the Discovery Definition
-            Document, as defined in <xref target="static_alloc" />.
-          </t>
-          <t hangText="Dynamic allocation:">
-            <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/dynamic</spanx>
-            - Provides an endpoint where a Consumer Identity can be obtained
-            as defined in <xref target="dynamic_alloc" />.
-          </t>
-          <t hangText="Manual allocation:">
-            <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/manual</spanx>
-            - Documents a human-accessible endpoint through which a Consumer
-            Identity MAY be obtained as defined in <xref target="manual_alloc" />.
-          </t>
-        </list>
-      </t>
-    </section>
-    
-    <section title="Discovery Definition Document">
-      <t>
-        The Discovery Definition Document is an XRDS-formatted document
-        providing a machine-readable representation of the OAuth
-        configuration needed to enable Consumers to gain access using
-        <xref target="OAuth Core 1.0" />. OAuth Discovery uses the
-        <xref target="xrds_simple">XRDS-Simple</xref> format, and unless
-        otherwise noted, any references to XRDS elements and attributes
-        use the <xref target="xrds_simple">XRDS-Simple</xref> rules and
-        workflow.
-      </t>
-
-      <section title="Document Structure">
-        <t>
-          The Discovery Definition Document is a valid XRDS document and
-          contains a single <spanx style="verb">XRDS</spanx> root element.
-          The document MUST define the <spanx style="verb">oauth</spanx>
-          XML namespace as <spanx style="verb">http://oauth.net/discovery/1.0</spanx>.
-          For example:
-
-          <figure>
-            <artwork>
-      &lt;XRDS xmlns:oauth="http://oauth.net/discovery/1.0" xmlns="xri://$xrds"&gt;
-            </artwork>
-          </figure>
-        </t>
-        <t>
-          The XRDS element MUST include at least one Realm Definition and MAY
-          include other non-Realm Definition <spanx style="verb">XRD</spanx>
-          elements. The order in which <spanx style="verb">XRD</spanx>
-          elements appear in the document MUST NOT affect its meaning.
-        </t>
-        <t>
-          Each Realm Definition describes a single Realm and contains
-          <spanx style="verb">Service</spanx> elements describing OAuth
-          endpoints and other services. The document MUST NOT include more
-          than one Realm Definition per Realm, and MAY include one and only
-          one Realm Definition unbounded to a named Realm, which serves as a
-          catch-all definition. 
-        </t>
-      </section>
-
-      <section title="Elements and Attributes">
-        
-        <section title="Realm Definition Element" anchor="realm_def">
-          <t>
-            A Realm Definition is an <spanx style="verb">XRD</spanx> element
-            containing the REQUIRED Type Identifier
-            <spanx style="verb">http://oauth.net/discovery/1.0/realm</spanx>.
-            The Type Identifier MUST NOT be used for any other purpose other
-            than to define a Realm Definition element (except when
-            <xref target="deviation">deviation</xref> is indicated).
-            For example:
-
-            <figure>
-              <artwork>
-      &lt;XRD xmlns="xri://$XRD*($v*2.0)" version="2.0"&gt;
-        &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
-        &lt;Type&gt;http://oauth.net/discovery/1.0/realm&lt;/Type&gt;
-              </artwork>
-            </figure>
-          </t>
-          <t>
-            The definition uses the <spanx style="verb">Query</spanx> element
-            to bind it to a specific Realm by setting its value to the Realm
-            URL. If no <spanx style="verb">Query</spanx> element is found, or
-            if it is empty, the Realm Definition is treated as a catch-all and
-            is used if no other exact match is found for a given Realm. A
-            Discovery Definition Document MUST NOT contain more than one Realm
-            Definition with a missing or empty
-            <spanx style="verb">Query</spanx> element.
-          </t>
-          <t>
-            Realm Definitions MAY include the following elements:
-            
-            <list style="hanging">
-              <t hangText="&lt;Query&gt;">
-                0 or 1 per Realm Definition as defined above. Contains the
-                Realm URL described by the Realm Definition. If element is
-                missing or empty, it is used as a catch-all for any Realms
-                not explicitly defined by the Discovery Definition Document.
-              </t>
-              <t hangText="&lt;Expires&gt;">
-                0 or 1 per Realm Definition as defined in
-                <xref target="xrds_simple">XRDS-Simple</xref>. Used to indicate
-                how long the definition can be cached and reused. 
-              </t>
-              <t hangText="&lt;Redirect&gt;">
-                0 or more per Realm Definition as defined in
-                <xref target="xrds_simple">XRDS-Simple</xref>. Redirection
-                allows definition reusability while still maintaining
-                seperate Realm association. When one Realm Definition redirects
-                to another, the two share the same configuration but maintain
-                their seperate Realms. Credentials obtained for one Realm MUST
-                NOT be used for the other, even if they both use the same OAuth
-                configuration.
-              </t>
-              <t hangText="&lt;Ref&gt;">
-                0 or more per Realm Definition as defined in
-                <xref target="xrds_simple">XRDS-Simple</xref>. Reference allows
-                partitioning of resources using Realms, without partitioning of
-                their OAuth configuration. When one Realm Definition references
-                another, they are considered equal and credentials obtained by
-                the definition being referenced SHOULD be used with the
-                referencing Realm. For the purpose of OAuth Discovery, the
-                Consumer MUST associate the resource with the Realm being
-                referenced instead of the Realm indicated by the resource
-                as identified in <xref target="realm_id" />.
-              </t>
-              <t hangText="&lt;Service&gt;">
-                0 or more per Realm Definition as defined in
-                <xref target="service_element" />. Provides the actual
-                discovery information needed for OAuth interaction.
-              </t>
-              <t hangText="&lt;oauth:Include&gt;">
-                0 or more per Realm Definition as defined in
-                <xref target="include_element" />. Used to include
-                <spanx style="verb">Service</spanx> elements from another Realm
-                Definition. When one Realm includes another, credentials
-                obtained through the included Realm SHOULD be used with the
-                including Realm.
-              </t>
-            </list>
-          </t>
-          <t>
-            Each Realm Definition MUST contain one and only one of three
-            options:
-            
-            <list style="symbols">
-              <t>
-                1 or more <spanx style="verb">Redirect</spanx> elements.
-              </t>
-              <t>
-                1 or more <spanx style="verb">Ref</spanx> elements.
-              </t>
-              <t>
-                0 or more <spanx style="verb">Service</spanx> elements with
-                0 or more <spanx style="verb">oauth:Include</spanx> elements,
-                as long as it contain at least one element of either type.
-              </t>
-            </list>
-          </t>
-          <t>
-            For a Realm Definition to be used in association with a Protected
-            Resource (as opposed to being used for inclusion in another Realm),
-            it MUST contain directly or through redirects, references, or
-            inclusions, <spanx style="verb">Service</spanx> elements for these
-            <xref target="service_types">Type Identifiers</xref> as follows:
-
-            <list style="symbols">
-              <t>
-                One and only one <spanx style="verb">Service</spanx> element
-                for each:
-
-                <list style="symbols">
-                  <t>
-                    <spanx style="verb">http://oauth.net/core/1.0/endpoint/request</spanx>.
-                  </t>
-                  <t>
-                    <spanx style="verb">http://oauth.net/core/1.0/endpoint/authorize</spanx>.
-                  </t>
-                  <t>
-                    <spanx style="verb">http://oauth.net/core/1.0/endpoint/access</spanx>.
-                  </t>
-                </list>
-              </t>
-              <t>
-                At least one but MAY include both:
-
-                <list style="symbols">
-                  <t>
-                    One and only one <spanx style="verb">Service</spanx> element for
-                    <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx>.
-                  </t>
-                  <t>
-                    One and only one <spanx style="verb">Service</spanx> element for
-                    <spanx style="verb">http://oauth.net/core/1.0/endpoint/defaults</spanx>.
-                  </t>
-                </list>
-              </t>
-              <t>
-                At least one <spanx style="verb">Service</spanx> element for
-                obtaining a Consumer Identity:
-
-                <list style="symbols">
-                  <t>
-                    <spanx style="verb">http://oauth.net/core/1.0/consumer-identity/static</spanx>.
-                  </t>
-                  <t>
-                    <spanx style="verb">http://oauth.net/core/1.0/consumer-identity/dynamic</spanx>.
-                  </t>
-                  <t>
-                    <spanx style="verb">http://oauth.net/core/1.0/consumer-identity/manual</spanx>.
-                  </t>
-                </list>
-              </t>
-            </list>
-          </t>
-
-        </section>
-
-        <section title="Service Element" anchor="service_element">
-          <t>
-            The Service element contains the OPTIONAL 
-            <spanx style="verb">priority</spanx> attribute and the following
-            elements:
-            
-            <list style="hanging">
-              <t hangText="&lt;Type&gt;">
-                1 or more per <spanx style="verb">Service</spanx> element with
-                type <spanx style="verb">xs:anyURI</spanx> as defined in
-                <xref target="service_types" />. The
-                <spanx style="verb">Type</spanx> element supports an OPTIONAL
-                <spanx style="verb">oauth:required</spanx> attribute with type
-                <spanx style="verb">xs:boolean</spanx> and default value
-                <spanx style="verb">false</spanx> if omitted. The
-                <spanx style="verb">oauth:required</spanx> attribute MUST NOT
-                be used with service types defined in this specification and is
-                provided for <xref target="extensions"> discovery extensions</xref>.
-              </t>
-              <t hangText="&lt;URI&gt;">
-                0 or 1 per <spanx style="verb">Service</spanx> element with
-                type <spanx style="verb">xs:anyURI</spanx>. The value is the
-                URL the Consumer uses in the <xref target="OAuth Core 1.0" /> protocol.
-                <spanx style="verb">Service</spanx> elements for the OAuth
-                Endpoints MUST include a <spanx style="verb">URI</spanx>
-                element expect for <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx>
-                which MUST NOT.
-              </t>
-              <t hangText="&lt;oauth:HttpMethod&gt;">
-                0 or 1 per <spanx style="verb">Service</spanx> element with
-                type <spanx style="verb">xs:string</spanx>.
-                <spanx style="verb">oauth:HttpMethod</spanx> elements MUST
-                be present and have a non-empty value when, and only when, the
-                <spanx style="verb">URI</spanx> element is non-empty, except
-                for <spanx style="verb">http://oauth.net/core/1.0/endpoint/authorize</spanx>
-                which MUST NOT have an <spanx style="verb">oauth:HttpMethod</spanx>
-                element. The value is the HTTP method used to request the URL
-                provided in the <spanx style="verb">URI</spanx> element. The
-                <spanx style="verb">oauth:HttpMethod</spanx> element supports an
-                OPTIONAL <spanx style="verb">source</spanx> attribute with type
-                <spanx style="verb">xs:anyURI</spanx> which indicates the source of
-                the HTTP method definition. If omitted, the
-                <spanx style="verb">source</spanx> attribute defaults to
-                <spanx style="verb">http://www.ietf.org/rfc/rfc2616</spanx>
-                which enables using the methods defined in <xref target="RFC2616" />
-                as values for the <spanx style="verb">oauth:HttpMethod</spanx>
-                element: OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, and CONNECT.
-              </t>
-              <t hangText="&lt;oauth:CustomParameters&gt;">
-                0 or 1 per <spanx style="verb">Service</spanx> element as
-                defined in <xref target="custom_param_element" />. MUST NOT
-                appear with services of type
-                <spanx style="verb">http://oauth.net/core/1.0/endpoint/access</spanx>.
-              </t>
-              <t hangText="&lt;oauth:RequestParameterMethods&gt;">
-                0 or 1 per <spanx style="verb">Service</spanx> element as
-                defined in <xref target="request_param_element" />.
-                MUST be included in <spanx style="verb">Service</spanx>
-                elements for the OAuth Endpoints, if the parent Realm
-                Definition does not contain an
-                <spanx style="verb">oauth:RequestParameterMethods</spanx> element.
-              </t>
-              <t hangText="&lt;oauth:RequestSignature&gt;">
-                0 or 1 per <spanx style="verb">Service</spanx> element as
-                defined in <xref target="req_sig_element" />. REQUIRED if
-                the parent Realm Definition does not contain an
-                <spanx style="verb">oauth:RequestSignature</spanx>
-                element and the service type is
-                <spanx style="verb">http://oauth.net/core/1.0/endpoint/request</spanx>,
-                <spanx style="verb">http://oauth.net/core/1.0/endpoint/access</spanx>,
-                or <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx>.
-              </t>
-            </list>
-          </t>
-          <t>
-            <spanx style="verb">Service</spanx> elements MAY contain
-            multiple <spanx style="verb">Type</spanx> elements as follows:
-
-            <list style="symbols">
-              <t>
-                Each <spanx style="verb">Service</spanx> element MAY
-                contain one, but MUST NOT contain more than one
-                <spanx style="verb">Type</spanx> element with an OAuth
-                Endpoint URI as defined in <xref target="service_types" />.
-              </t>
-              <t>
-                To speed up discovery, if more than one
-                <spanx style="verb">Type</spanx> element is defined for that
-                service, Service Providers SHOULD list the
-                <spanx style="verb">Type</spanx> element for the OAuth
-                Endpoints URI first.
-              </t>
-            </list>
-          </t>
-        </section>
-
-        <section title="oauth:Include Element" anchor="include_element">
-          <t>
-
-          </t>
-        </section>
-
-        <section title="oauth:CustomParameters Element" anchor="custom_param_element">
-          <t>
-            The <spanx style="verb">oauth:CustomParameters</spanx> element is
-            used to document Service Provider specific request parameters.
-            Since <xref target="OAuth Core 1.0" /> allows Service Providers to
-            extent the list of parameters, the element provides the ability to
-            list the parameters added. The element MUST NOT include OAuth
-            Protocol Parameters or parameters implicitly defined by the
-            inclusion of a service extension via a <spanx style="verb">Type</spanx>
-            element as defined in <xref target="extensions" />.
-          </t>
-          <t>
-            The <spanx style="verb">oauth:CustomParameters</spanx> element
-            contains 1 or more <spanx style="verb">oauth:Parameter</spanx>
-            elements with type <spanx style="verb">xs:string</spanx>. The
-            element MUST contain a <spanx style="verb">source</spanx> attribute
-            with type <spanx style="verb">xs:anyURI</spanx> which indicates the
-            source of the parameter definition.
-        </t>
-        </section>
-
-        <section title="oauth:RequestParameterMethods Element" anchor="request_param_element">
-          <t>
-            The <spanx style="verb">oauth:RequestParameterMethods</spanx> element is
-            used to document the request parameters methods supported by the
-            Service Provider as defined in <xref target="OAuth Core 1.0" /> section 5.2.
-            Since <xref target="OAuth Core 1.0" /> allows Service Providers to extent the
-            list of supported methods, the element provides the ability to add
-            methods that were not listed in the specification.
-          </t>
-          <t>
-            The <spanx style="verb">oauth:RequestParameterMethods</spanx> element
-            contains 1 or more <spanx style="verb">oauth:Method</spanx>
-            elements with type <spanx style="verb">xs:string</spanx> listed in
-            decreasing preference. While <xref target="OAuth Core 1.0" /> declares an
-            order of preference, Service Providers MAY choose to override it,
-            for example when adding new methods.
-          </t>
-          <t>
-            The <spanx style="verb">oauth:Method</spanx> element supports an
-            OPTIONAL <spanx style="verb">source</spanx> attribute with type
-            <spanx style="verb">xs:anyURI</spanx> which indicates the source of
-            the method definition. If omitted, the
-            <spanx style="verb">source</spanx> attribute defaults to
-            <spanx style="verb">http://oauth.net/core/1.0</spanx> which enables
-            using the methods defined in <xref target="OAuth Core 1.0" /> as values for
-            the <spanx style="verb">oauth:Method</spanx> element: AUTH-HEADER,
-            POST-BODY, and URL-QUERY.
-          </t>
-          <t>
-            The <spanx style="verb">oauth:RequestParameterMethods</spanx> element MAY
-            be used in both the Realm Definition and
-            <spanx style="verb">Service</spanx> elements. If present in both,
-            the values of the child element are applied to the values of the
-            parent element based on the OPTIONAL
-            <spanx style="verb">merge</spanx> attribute of the child's
-            <spanx style="verb">oauth:RequestParameterMethods</spanx> element as
-            defined in <xref target="append_attribute" />.
-          </t>
-        </section>
-
-        <section title="oauth:RequestSignature Element" anchor="req_sig_element">
-          <t>
-            The <spanx style="verb">oauth:RequestSignature</spanx> element is
-            used to document the signature methods supported by the Service
-            Provider as defined in <xref target="OAuth Core 1.0" /> section 9. Since
-            <xref target="OAuth Core 1.0" /> allows Service Providers to extent the
-            list of supported methods, the element provides the ability to add
-            methods that were not listed in the specification.
-          </t>
-          <t>
-            The <spanx style="verb">oauth:RequestSignature</spanx> element
-            contains 1 or more <spanx style="verb">oauth:Method</spanx>
-            elements with type <spanx style="verb">xs:string</spanx> listed in
-            decreasing preference.
-          </t>
-          <t>
-            The <spanx style="verb">oauth:Method</spanx> element supports an
-            OPTIONAL <spanx style="verb">source</spanx> attribute with type
-            <spanx style="verb">xs:anyURI</spanx> which indicates the source of
-            the signature method definition. If omitted, the
-            <spanx style="verb">source</spanx> attribute defaults to
-            <spanx style="verb">http://oauth.net/core/1.0</spanx> which enables
-            using the methods defined in <xref target="OAuth Core 1.0" /> as values for
-            the <spanx style="verb">oauth:Method</spanx> element: HMAC-SHA1,
-            RSA-SHA1, and PLAINTEXT.
-          </t>
-          <t>
-            The <spanx style="verb">oauth:RequestSignature</spanx> element MAY
-            be used in both the Realm Definition and
-            <spanx style="verb">Service</spanx> elements. If present in both,
-            the values of the child element are applied to the values of the
-            parent element based on the OPTIONAL
-            <spanx style="verb">merge</spanx> attribute of the child's
-            <spanx style="verb">oauth:RequestSignature</spanx> element as
-            defined in <xref target="append_attribute" />.
-          </t>
-        </section>
-
-        <section title="oauth:merge Attribute" anchor="append_attribute">
-          <t>
-            The <spanx style="verb">merge</spanx> attribute with type
-            <spanx style="verb">xs:string</spanx> defines how two configuration
-            lists are merged together into a single list in decreasing
-            preference order. If the attribute is supported but omitted, it
-            defaults to <spanx style="verb">override</spanx>. The attribute
-            values are:
-
-            <list style="hanging">
-              <t hangText="override">
-                Only the child's values are used. The parent's values are
-                ignored.
-              </t>
-              <t hangText="head">
-                The values of the child and parent are merged with any
-                duplicates removed from the parent's list. Preference is
-                given to the child's values in their order and then to the
-                remaining parent's values in their order. Child's values MAY be
-                prefixed with an '!' character (ASCII code 33) indicating the
-                value MUST be removed from both parent and child lists.
-              </t>
-              <t hangText="tail">
-                The values of the child and parent are merged with any
-                duplicates removed from the child's list. Preference is
-                given to the parent's values in their order and then to the
-                remaining child's values in their order. Child's values MAY be
-                prefixed with an '!' character (ASCII code 33) indicating the
-                value MUST be removed from both parent and child lists.
-              </t>
-            </list>
-          </t>
-        </section>
-
-      </section>
-
-      <section title="Extension and Deviation">
-        <t>
-          Extensions and Deviations allows Service Providers to modify the
-          way in which services are used and discovery is performed. It is
-          important to note the difference between extensions and deviations.
-          Extensions add context, properties, and definition to services but
-          do not affect the discovery workflow itself. Deviations change the
-          meaning and and workflow defined in this specification and affect
-          the way discovery itself is performed.
-        </t>
-
-        <section title="Service Extensions" anchor="extensions">
-          <t>
-            OAuth extensions MAY define additional service type URIs used to
-            indicate support or property of an existing service type, or as
-            a standalone service. The following example demonstrate using the
-            <spanx style="verb">http://oauth.net/example/language/1.0</spanx>
-            URI to indicate the authorization endpoint supports a language
-            parameter extension:
-
-            <figure>
-              <artwork>
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/authorize&lt;/Type&gt;
-        &lt;Type&gt;http://oauth.net/example/language/1.0&lt;/Type&gt;
-        &lt;URI&gt;https://api.example.com/session/login&lt;/URI&gt;
-      &lt;/Service&gt;
-              </artwork>
-            </figure>
-          </t>
-          <t>
-            Extensions to an OAuth Endpoint are OPTIONAL and MAY be used
-            by the Consumer if supported. If an extension to an OAuth Endpoint
-            is REQUIRED by the Service Provider, it MUST be identified using the
-            <spanx style="verb">oauth:required</spanx> attribute. for example:
-
-            <figure>
-              <artwork>
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/authorize&lt;/Type&gt;
-        &lt;Type oauth:required="true"&gt;http://oauth.net/example/language/1.0&lt;/Type&gt;
-        &lt;URI&gt;https://api.example.com/session/login&lt;/URI&gt;
-      &lt;/Service&gt;
-              </artwork>
-            </figure>
-          </t>
-          <t>
-            In the following example, a new service is defined which provides
-            the Service Provider's terms of service:
-
-            <figure>
-              <artwork>
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/example/tos/1.0&lt;/Type&gt;
-        &lt;URI&gt;https://api.example.com/tos&lt;/URI&gt;
-        &lt;oauth:HttpMethod&gt;GET&lt;/oauth:HttpMethod&gt;
-      &lt;/Service&gt;
-              </artwork>
-            </figure>
-          </t>
-          <t>
-            The <spanx style="verb">oauth:Method</spanx> and
-            <spanx style="verb">oauth:HttpMethod</spanx> elements provide
-            extendibility through the <spanx style="verb">source</spanx>
-            attribute which also uses URIs to identify the type of extension
-            used. If the Consumer is unfamiliar with the value of the
-            <spanx style="verb">source</spanx> attribute, it SHOULD look for
-            other familiar methods listed. In order to use existing
-            specifications that do not define a namespace URI, the official
-            specification URL SHOULD be used when possible. For RFCs, the URI
-            is the RFC number prefixed by 
-            <spanx style="verb">http://www.ietf.org/rfc/rfc</spanx>.
-          </t>
-          <t>
-            In this example, the Service Provider's terms of service
-            are available using the WebDAV HTTP method
-            <spanx style="verb">PROPFIND</spanx>:
-
-            <figure>
-              <artwork>
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/example/tos/1.0&lt;/Type&gt;
-        &lt;URI&gt;https://api.example.com/tos&lt;/URI&gt;
-        &lt;oauth:HttpMethod source="http://www.ietf.org/rfc/rfc4918"&gt;PROPFIND&lt;/oauth:HttpMethod&gt;
-      &lt;/Service&gt;
-              </artwork>
-            </figure>
-          </t>
-        </section>
-
-        <section title="Deviation" anchor="deviation">
-          <t>
-            Discovery Definition Documents MAY include other elements and
-            attributes not mentioned in this specification. In most cases,
-            the additions add more information but do not change the meaning
-            or workflow defined in this specification. However, if such
-            additions affect the meaning of any Realm Definition from an
-            OAuth Discovery standpoint, it SHALL be considered a deviation
-            and MUST be indicated using the OAuth Realm deviation Type Identifier
-            <spanx style="verb">http://oauth.net/discovery/1.0/deviation</spanx>.
-          </t>
-          <t>
-            Deviating Realm Definitions SHOULD include other Type Identifiers
-            to indicate the way in which they differ. Including the deviation
-            Type Identifier informs Consumers that attempting to parse the
-            document MAY result in unexpected and potential unsafe outcome.
-            For example:
-
-            <figure>
-             <artwork>
-     &lt;XRD xmlns="xri://$XRD*($v*2.0) version="2.0""&gt;
-       &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
-       &lt;Type&gt;http://oauth.net/discovery/1.0/realm&lt;/Type&gt;
-       &lt;Type&gt;http://oauth.net/discovery/1.0/deviation&lt;/Type&gt;
-       &lt;Type&gt;http://oauth.net/example/special/discovery&lt;/Type&gt;
-             </artwork>
-            </figure>
-          </t>
-        </section>
-
-      </section>
-      
-    </section>
-    
     <section title="Discovery Workflow">
       <t>
-        The OAuth Discovery workflow centers around the identification,
-        retrieval, and parsing of the Discovery Definition Document which is
-        a machine-readable formatted <xref target="OAuth Core 1.0" />
-        configuration. While both Service Providers and Consumers play a role
-        in the workflow, it is focused on actions performed by the Consumers.
-        The workflow includes the following steps:
+        The OAuth Discovery workflow follows the process defined in <xref target="XRDS-Simple 1.0" />
+        to locate and parse the machine-readable information containing the necessary OAuth Configuration.
+        Each Protected Resource supporting OAuth Discovery MUST identify the location of its
+        OAuth Configuration contained within a <xref target="XRDS-Simple 1.0">Resource Description Document</xref>.
+      </t>
+      <t>
+        Unless provided by the Service Provider out-of-band, the Consumer uses the Protected Resource URI to retrieve the resource's description which in turn
+        points to the location of the associated OAuth Configuration. The OAuth Configuration MAY reside in
+        the same document or in a separate document. While both Service Providers and Consumers play a role
+        in the workflow, it is focused on actions performed by Consumers. The workflow includes the following steps:
 
         <list style="numbers">
-          <t>Identify the Protected Realm.</t>
-          <t>Retrieve the Discovery Definition Document.</t>
-          <t>Parse the Discovery Definition Document.</t>
+          <t>Retrieve OAuth Configuration.</t>
+          <t>Parse OAuth Descriptor.</t>
           <t>Establish Consumer Identity.</t>
-          <t>Establish User Access.</t>
         </list>
       </t>
       <t>
         Once all steps have been performed, the Consumers have the required
-        OAuth credentials to access the Protected Resource following the
-        workflow defined in <xref target="OAuth Core 1.0" /> section 7.
+        information needed to obtain an Access Token as defined in <xref target="OAuth Core 1.0" /> sections 6
+        and access the Protected Resource following the workflow defined in <xref target="OAuth Core 1.0" /> sections 7.
+    </t>
+    </section>
+
+    <section title="Configuration Retrieval">
+      <t>
+        The Consumer retrieves the Resource Description Document using the
+        Protected Resource URI by following the retrieval protocol defined in <xref target="XRDS-Simple 1.0" />
+        section 5. If the retrieval protocol is successful, the Consumer retrieves
+        the Resource Description Document. If the retrieval protocol fails, it
+        SHALL be assumed that the Service Provider does not support OAuth Discovery.
+      </t>
+      <t>
+        Using the selection protocol defined in <xref target="XRDS-Simple 1.0" />
+        section 7.2, the Consumer finds the location of the OAuth Configuration, identified by the
+        service type <spanx style="verb">http://oauth.net/discovery/1.0</spanx>, and specified by
+        the <spanx style="verb">URI</spanx> element. The <spanx style="verb">URI</spanx> element MUST
+        include an absolute HTTP(S) URI or a URI fragment only. If the URI includes only a fragment,
+        it indicated an internal reference to an <spanx style="verb">XRD</spanx> element within the same document.
+      </t>
+      <t>
+        If the OAuth Configuration location is in another document, the Consumer retrieves the OAuth Configuration XRDS-Simple document following
+        the workflow defined in <xref target="XRDS-Simple 1.0" /> section 5.2. Once the OAuth Configuration document has been obtained, the Consumer
+        locates the referenced <spanx style="verb">XRD</spanx> element using the workflow defined in <xref target="XRDS-Simple 1.0" /> section 7.1.
+        The selected <spanx style="verb">XRD</spanx> element is referred to as the OAuth Descriptor.
+      </t>
+    </section>
+    
+    <section title="Descriptor Structure">
+      <t>
+        The OAuth Descriptor - a valid XRDS-Simple <spanx style="verb">XRD</spanx> element - contains the OAuth Configuration
+        indentifying the OAuth endpoints and their attributes. The OAuth Descriptor define services which provide the
+        necessary information needed to interact with an OAuth-enabled Service Provider. 
+      </t>
+      <t>
+        Each OAuth endpoint and property is assigned a type identifier used by Service Providers to document their OAuth implementation, and
+        by Consumers to lookup endpoints and their properties. XRDS-Simple provide a simple mechanism for
+        specifying the type and characteristics of resources, which in this case are the OAuth endpoints.
+      </t>
+      <t>
+        The OAuth Descriptor MUST include at least one <spanx style="verb">Service</spanx> element for each of the
+        <xref target="oauth_endpoints_types">OAuth Endpoints</xref>. The OAuth Descriptor MUST include at least one of the two types
+        defined in <xref target="consumer_identity_types" />, unless another method of obtaining a Consumer Identity is specified using
+        and extension type. The types defined in <xref target="oauth_endpoints_types" /> and
+        <xref target="consumer_identity_types" /> are all mutually exclusive, and <spanx style="verb">Service</spanx> elements MUST NOT
+        include more than one of these types. Other types MAY be combined with the types defined in the two sections.
+      </t>
+      <t>
+        <spanx style="verb">Service</spanx> elements for each of the <xref target="oauth_endpoints_types">OAuth Endpoints</xref> MUST include
+        at least one type from <xref target="request_parameter_types" /> and one type from <xref target="request_signature_types" />, unless
+        otherwise specific, or other request parameter methods and request signature methods are specified using an extension type.
       </t>
 
-      <section title="Identify the Protected Realm" anchor="realm_id">
+      <section title="OAuth Endpoints" anchor="oauth_endpoints_types">
         <t>
-          Service Providers identify the Realm of each Protected Resource.
-          Each Realm has its own Realm Definition which is contained within a
-          Discovery Definition Document. The Realm URL is used by the Consumers
-          locate the Discovery Definition Document for that Realm.
-        </t>
+          To identify the OAuth endpoints, each is given a unique type identifier:
 
-        <section title="Service Providers" anchor="realm_container">
-          <t>
-            Service Providers MUST identify the Realm of each Protected Resource
-            when denying Consumer access due to lack of OAuth credentials.
-            Service Providers MAY provide the Protected Resouces Realm
-            association via other means to enable Manual Initiation.
-          </t>
-          <t>
-            The Realm is provided by at least one of the following methods in
-            decreasing preference:
-
-            <list style="numbers">
-              <t>
-                In the OAuth HTTP <spanx style="verb">WWW-Authenticate</spanx>
-                header as defined in <xref target="OAuth Core 1.0" /> section
-                5.4.2, using the <spanx style="verb">xoauth_realm</spanx>
-                parameter.
-              </t>
-              <t>
-                In the OAuth HTTP <spanx style="verb">WWW-Authenticate</spanx>
-                header <spanx style="verb">realm</spanx> parameter as defined
-                in <xref target="RFC2617" />.
-              </t>
-              <t>
-                In the <spanx style="verb">xoauth_realm</spanx> parameter sent
-                as part of the HTTP response body as defined in
-                <xref target="OAuth Core 1.0" /> section 5.3.
-               </t>
-              <t>
-                In the HTTP response body contained within a
-                <spanx style="verb">&lt;link&gt;</spanx> element as follow:
-                <spanx style="verb">&lt;link rel="auth" type="application/xrds+xml" href="http://sp.example.com/" /&gt;</spanx>,
-                where the <spanx style="verb">href</spanx> attributes is the Realm.
-              </t>
-            </list>
-          </t>
-          <t>
-            In case the Service Provider supports the OAuth HTTP Authorization
-            Scheme, but does not support OAuth Discovery, the Consumer will
-            fail to locate a valid Discovery Definition Document by requesting
-            the resource at the Realm URL.
-          </t>
-        </section>
-
-        <section title="Consumers">
-          <t>
-            When attempting to access a Protected Resource using OAuth, the
-            Consumer MUST first identify the Realm. This allows the
-            Consumer to check if it has already performed OAuth Discovery on
-            that Realm and can reused that configuration. Consumers MUST NOT
-            use configuration obtained for one Realm with another. [Insert
-            warning / restriction regarding cross-domain resource / realm
-            security risks].
-          </t>
-          <t>
-            To identify the Realm, if it has not been provided as part
-            of a Manual Initiation process, the Consumer attempts to access the
-            Protected Resource by requesting it without any OAuth credentials.
-            The request will fail with the Service Provider indicating the
-            Realm in its response.
-          </t>
-          <t>
-            To extract the Realm, the Consumer MUST analyze the Service
-            Provider response by searching in order, the
-            <xref target="realm_container">list of supported Realm containers</xref>
-            for a Realm value, and MUST stop as soon as the first Realm is found.
-          </t>
-        </section>
-        
-      </section>
-
-      <section title="Retrieve the Discovery Definition Document" anchor="yadis">
-        <t>
-          The Consumer retrieves the Discovery Definition Document from the
-          Realm URL using the Yadis protocol as defined in <xref target="XRI Resolution 2.0" />
-          section 6. If the Yadis protocol is successful, the Consumer retrieves
-          the Discovery Definition Document. If the Yadis protocol fails, it
-          SHALL be assumed that the Service Provider does not support OAuth
-          Discovery.
-        </t>
-      </section>
-
-      <section title="Parse the Discovery Definition Document">
-        <t>
-          Parsing the Discovery Definition Document includes the following
-          steps:
-
-          <list style="numbers">
-            <t>
-              Find the Realm Definition for the Realm -
-              When parsing a Discovery Definition Document, the Consumer MUST
-              find a Realm Definition with an exact match to the Realm
-              by comparing it to the value of the
-              <spanx style="verb">Query</spanx> element. If no match is
-              found, the Consumer looks for a Realm Definition without a
-              <spanx style="verb">Query</spanx> element. If none found, or
-              if the Realm Definition is incomplete, invalid, or expired,
-              discovery fails.
+          <list style="hanging">
+            <t hangText="Request Token:">
+              <spanx style="verb">http://oauth.net/core/1.0/endpoint/request</spanx> - <xref target="OAuth Core 1.0" /> section 6.1.1.
+              <spanx style="verb">Service</spanx> elements of this type MUST include at least one <spanx style="verb">URI</spanx> child element,
+              and their HTTP method defaults to <spanx style="verb">POST</spanx> unless a <spanx style="verb">simple:httpMethod</spanx> attribute provided.
             </t>
-            <t>
-              Follow one level of references - If the Realm Definition contains an
-              <spanx style="verb">oauth:Reference</spanx> element, the Consumer
-              MUST perform discovery on the referenced Realm value per
-              <xref target="yadis" />, retrieve the Discovery Definition Document,
-              and locate the referenced Realm by looking for an exact match. The
-              referenced Realm MUST NOT contain another
-              <spanx style="verb">oauth:Reference</spanx> element, and if it
-              does, the Consumer MUST NOT retrieve it and discovery fails.
-              Catch-all Realm Definitions do not match against a referenced Realm.
-              Using a reference does not change the Protected Realm
-              association.
+            <t hangText="User Authorization:">
+              <spanx style="verb">http://oauth.net/core/1.0/endpoint/authorize</spanx> - <xref target="OAuth Core 1.0" /> section 6.2.1.
+              <spanx style="verb">Service</spanx> elements of this type MUST include at least one <spanx style="verb">URI</spanx> child element,
+              and use HTTP <spanx style="verb">GET</spanx> even if no <spanx style="verb">simple:httpMethod</spanx> attribute provided. MUST NOT
+              specify other HTTP methods. The User Authorization endpoint does not support signature methods and types from <xref target="request_signature_types" />
+              SHOULD be omitted or ignored.
             </t>
-            <t>
-              Identify the User Realm and Consumer Realm - If the Realm
-              Definition does not include <spanx style="verb">oauth:Realm</spanx>
-              elements for User Realm or Consumer Realm, they default to the
-              value of the Realm. Otherwise, the Consumer MUST use
-              the <spanx style="verb">oauth:Realm</spanx> element with highest
-              priority for each Realm type. If using the highest priority Realm
-              ends in failed discovery, the Consumer SHOULD attempt to use
-              the next Realm in priority order, and repeat until successful or
-              tried all Realms.
+            <t hangText="Access Token:">
+              <spanx style="verb">http://oauth.net/core/1.0/endpoint/access</spanx> - <xref target="OAuth Core 1.0" /> section 6.3.1.
+              <spanx style="verb">Service</spanx> elements of this type MUST include at least one <spanx style="verb">URI</spanx> child element,
+              and their HTTP method defaults to <spanx style="verb">POST</spanx> unless a <spanx style="verb">simple:httpMethod</spanx> attribute provided.
             </t>
-            <t>
-              Retrieve the Realm Definition for the User Realm and Consumer
-              Realm - If the Realms are not identical to the Realm,
-              the Consumer MUST perform discovery on the identified Realms
-              following the same workflow as the Realm discovery.
-              If the Realm Definition referenced contains other
-              <spanx style="verb">oauth:Realm</spanx> elements, they MUST be
-              ignored.
-            </t>
-            <t>
-              Find the endpoints configuration - Using the Realm Definition
-              the Consumer locates the <spanx style="verb">Service</spanx>
-              element with the highest priority for each endpoint. If for any
-              reason the Consumer cannot use the discovered configuration
-              (for example in case of an unknown signature method) or fails
-              to use it, it SHOULD look for the
-              <spanx style="verb">Service</spanx> element with the next
-              highest priority for that service type. Consumers SHOULD
-              repeat this process until successful or all
-              <spanx style="verb">Service</spanx> elements have been tried.
+            <t hangText="Protected Resource:">
+              <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx> - <xref target="OAuth Core 1.0" /> section 7. If
+              a <spanx style="verb">Service</spanx> element of this type contains any <spanx style="verb">URI</spanx> child elements,
+              they SHALL be ignored for the purpose of OAuth Discovery.
             </t>
           </list>
         </t>
       </section>
 
-      <section title="Establish Consumer Identity">
+      <section title="Consumer Identity" anchor="consumer_identity_types">
         <t>
-          The Consumer SHOULD check to see if it already has a valid Consumer
-          Identity for the discovered Consumer Realm of the Protected Resource.
-          If true, the Consumer MAY use that identity. In this case, the
-          Consumer does not need to discover or parse the Realm Definition of
-          the Consumer Realm.
+          OAuth requires a pre-arranged Consumer Identity in order to obtain
+          access. OAuth Discovery defines two service types for documenting
+          the methods in which Consumer Identity can be obtained:
+
+          <list style="hanging">
+            <t hangText="Static allocation:">
+              <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/static</spanx>
+              - Includes the Consumer Identity within the OAuth Descriptor,
+              as defined in <xref target="static_alloc" />.
+            </t>
+            <t hangText="Out-of-band allocation:">
+              <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/oob</spanx>
+              - Documents a human-accessible endpoint through which a Consumer
+              Identity MAY be obtained as defined in <xref target="manual_alloc" />.
+            </t>
+          </list>
         </t>
-        <t>
-          If the Consumer does not have a valid Consumer Identity, it MUST use
-          the discovered information contained in the Realm Definition of the
-          Consumer Realm to obtain an identity.
-        </t>
-        <t>
-          <xref target="OAuth Core 1.0" /> requires Consumers to establish an
-          Consumer Identity prior to making OAuth requests, and leaves the
-          methods of establishing the Consumer Identity unspecified. The process
-          of establishing a Consumer Key and Consumer Secret can be complex
-          and can also require manual human interaction for legal, compliance,
-          and other reasons. However, there are some cases in which a simple
-          Consumer Identity is sufficient or not needed at all.
-        </t>
-        <t>
-          OAuth Discovery defines three Consumer Identity allocation scenarios:
-          static, dynamic, and manual.
-        </t>
-
-        <section title="Static Allocation" anchor="static_alloc">
-          <t>
-            Static Consumer Identity allocation is used when no Consumer Identity is
-            needed. In this case the Service Provider does not desire
-            tracking individual Consumers, or might provide limited
-            accessibility to unidentified Consumers. In this scenario, the
-            Service Provider assigns a default Consumer Identity in the
-            Realm Definition of the Consumer Realm.
-          </t>
-          <t>
-            Static allocation is identified using the service type URI:
-            <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/static</spanx>.
-            The Realm Definition MUST include a <spanx style="verb">Service</spanx>
-            element with the type URI and an <spanx style="verb">oauth:ConsumerKey</spanx>
-            element with the Consumer Key encoded per <xref target="OAuth Core 1.0" />
-            section 5.1. Static allocation does not include a Consumer Secret
-            which is an empty string. For example:
-            
-            <figure>
-              <artwork>
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/static&lt;/Type&gt;
-        &lt;oauth:ConsumerKey&gt;0685bd9184jfhq22&lt;/oauth:ConsumerKey&gt;
-      &lt;/Service&gt;
-              </artwork>
-            </figure>
-          </t>
-        </section>
-
-        <section title="Dynamic Allocation" anchor="dynamic_alloc">
-          <t>
-            Dynamic Consumer Identity allocation is used when a basic Consumer profile is
-            needed. The Service Provider allows Consumer to automatically apply
-            and receive a Consumer Identity by providing some information. In
-            this scenario, the Service Provider provides an endpoint the
-            Consumer uses to request a Consumer Identity with a simple set of
-            parameters to establish identity.
-          </t>
-          <t>
-            Dynamic allocation is identified using the service type URI:
-            <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/dynamic</spanx>.
-            The Realm Definition MUST include a <spanx style="verb">Service</spanx>
-            element with the type URI, <spanx style="verb">URI</spanx> element, and
-            <spanx style="verb">oauth:HttpMethod</spanx> element. The
-            <spanx style="verb">Service</spanx> element MAY include the OPTIONAL
-            <spanx style="verb">oauth:RequestParameterMethods</spanx> and
-            <spanx style="verb">oauth:CustomParameters</spanx> elements. The
-            HTTP response of the request uses <xref target="OAuth Core 1.0" />
-            section 5.3 and include the <spanx style="verb">oauth_consumer_key</spanx>
-            and <spanx style="verb">xoauth_consumer_secret</spanx> parameters.
-            For example:
-
-            <figure>
-              <artwork>
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/dynamic&lt;/Type&gt;
-        &lt;URI&gt;http://sp.example.com/register&lt;/Type&gt;
-        &lt;oauth:HttpMethod&gt;GET&lt;/oauth:HttpMethod&gt;
-        &lt;oauth:RequestParameter&gt;
-          &lt;oauth:Method&gt;URL-QUERY&lt;/oauth:Method&gt;
-        &lt;/oauth:RequestParameter&gt;
-        &lt;oauth:CustomParameters&gt;
-          &lt;oauth:Parameter source="http://oauth.net/example/consumer_identity&gt;name&lt;/oauth:Parameter&gt;
-          &lt;oauth:Parameter source="http://oauth.net/example/consumer_identity&gt;description&lt;/oauth:Parameter&gt;
-          &lt;oauth:Parameter source="http://oauth.net/example/consumer_identity&gt;url&lt;/oauth:Parameter&gt;
-        &lt;/oauth:CustomParameters&gt;
-      &lt;/Service&gt;
-              </artwork>
-            </figure>
-          </t>
-        </section>
-
-        <section title="Manual Allocation" anchor="manual_alloc">
-          <t>
-            Manual Consumer Identity allocation is used when the Service Provider requires
-            a Consumer registration process that cannot be performed
-            automatically or has unique requirements the Consumer Developer needs
-            to address. OAuth Discovery does not address this scenario expect
-            for enabling the Service Provider to provide a human-readable
-            endpoint, and associating Consumer Identities obtained via that
-            endpoint to a Consumer Realm. This allows Consumer to use OAuth
-            Discovery with manually pre-established Consumer Identities.
-            Type:
-          </t>
-          <t>
-            Manual allocation is identified using the service type URI:
-            <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/manual</spanx>.
-            The Realm Definition MUST include a <spanx style="verb">Service</spanx>
-            element with the type URI, <spanx style="verb">URI</spanx> element, and
-            <spanx style="verb">oauth:HttpMethod</spanx> element. The result value
-            of the request is undefined. For example:
-            
-            <figure>
-              <artwork>
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/manual&lt;/Type&gt;
-        &lt;URI&gt;http://sp.example.com/consumer_apply&lt;/Type&gt;
-        &lt;oauth:HttpMethod&gt;GET&lt;/oauth:HttpMethod&gt;
-      &lt;/Service&gt;
-              </artwork>
-            </figure>
-          </t>
-        </section>
-
-        <section title="Complex Consumer Realm">
-          <t>
-            In cases where a Service Provider offers multiple Consumer Realms,
-            and allows access to its Protected Resources using different
-            combinations of those Realms, the Service Provider MAY include
-            multiple Consumer Realms per Realm. The Service Provider
-            MAY also include multiple Consumer Identity services for a single
-            Consumer Realm, allowing Consumers to use one of multiple methods
-            to obtain a Consumer Identity.
-          </t>
-        </section>
-    
       </section>
 
-      <section title="Establish User Access">
+      <section title="Request Parameter Methods" anchor="request_parameter_types">
         <t>
-          The Consumer SHOULD check to see if it already has a valid Access
-          Token for the discovered User Realm of the Protected Resource. If
-          true, the Consumer MAY use that Token together with the Consumer
-          Identity established in the previous step to access the Protected
-          Resource. In this case, the Consumer does not need to discover or
-          parse the Realm Definition of the User Realm.
+          These types are used to document the request parameters methods supported by the
+          Service Provider as defined in <xref target="OAuth Core 1.0" /> section 5.2:
+
+          <list style="hanging">
+            <t hangText="Authentication Header:">
+              <spanx style="verb">http://oauth.net/core/1.0/parameters/auth-header</spanx>.
+            </t>
+            <t hangText="HTTP POST Body:">
+              <spanx style="verb">http://oauth.net/core/1.0/parameters/post-body</spanx>.
+            </t>
+            <t hangText="URI Query Parameters:">
+              <spanx style="verb">http://oauth.net/core/1.0/parameters/uri-query</spanx>.
+            </t>
+          </list>
         </t>
+      </section>
+
+      <section title="Request Signature Methods" anchor="request_signature_types">
         <t>
-          If the Consumer does not have a valid Access Token, it MUST use the
-          discovered information contained in the Realm Definition of the User
-          Realm to perform the OAuth protocol and obtain access. The Realm
-          Definition contains all the documentation required to successfully
-          complete the Oauth workflow.
+          These types are used to document the signature methods supported by the Service
+          Provider:
+
+          <list style="hanging">
+            <t hangText="HMAC-SHA1:">
+              <spanx style="verb">http://oauth.net/core/1.0/signature/HMAC-SHA1</spanx> - <xref target="OAuth Core 1.0" /> section 9.2.
+            </t>
+            <t hangText="RSA-SHA1:">
+              <spanx style="verb">http://oauth.net/core/1.0/signature/RSA-SHA1</spanx> - <xref target="OAuth Core 1.0" /> section 9.3.
+            </t>
+            <t hangText="PLAINTEXT:">
+              <spanx style="verb">http://oauth.net/core/1.0/signature/PLAINTEXT</spanx> - <xref target="OAuth Core 1.0" /> section 9.4.
+            </t>
+          </list>
         </t>
       </section>
       
     </section>
 
-    <appendix title="Appendix A - Examples">
+    <section title="Establish Consumer Identity" anchor="consumer_identity">
       <t>
-        The examples in this section demonstrate some of the capabilities of
-        the OAuth Discovery and try to provide a usable template for both
-        simple and complex scenarios.
+        <xref target="OAuth Core 1.0" /> requires Consumers to establish an
+        Consumer Identity prior to making OAuth requests, and leaves the
+        methods of establishing the Consumer Identity unspecified. The process
+        of establishing a Consumer Key and Consumer Secret can be complex
+        and can also require manual human interaction for legal, compliance,
+        and other reasons. However, there are some cases in which a simple
+        Consumer Identity is sufficient or not needed at all.
+      </t>
+      <t>
+        OAuth Discovery defines two Consumer Identity allocation scenarios: a statically allocated Consumer Identity or an endpoint through-which a
+        Consumer Identity MAY be established out-of-band. If a Consumer Identity has been established using the out-of-band method, the Consumer
+        SHOULD note the URI used, and check in future requests if other Protected Resources point to the same URI for obtaining a Consumer
+        Identity. If the same URI used to obtain a Consumer Identity is referenced by another Protected Resource, the Consumer MAY
+        use that identity to obtain an Access Token for the other resource.
       </t>
 
-      <appendix title="Simple Discovery Definition Document">
+      <section title="Static Allocation" anchor="static_alloc">
         <t>
-          This example demonstrate a Discovery Definition Document where
-          the Realm contains the services configuration for both
-          the User Realm and Consumer Realm. The Service Provider also
-          support static Consumer Identity allocation.
+          Static Consumer Identity allocation is used when no Consumer Identity is
+          needed. In this case the Service Provider does not desire
+          tracking individual Consumers, or might provide limited
+          accessibility to unidentified Consumers. In this scenario, the
+          Service Provider assigns a default Consumer Identity in the
+          OAuth Descriptor.
+        </t>
+        <t>
+          Static allocation is identified using the service type:
+          <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/static</spanx>.
+          The <spanx style="verb">Service</spanx> element MUST include at least one <spanx style="verb">LocalID</spanx> element
+          with the Consumer Key encoded per <xref target="OAuth Core 1.0" /> section 5.1. Any <spanx style="verb">URI</spanx> element
+          included SHALL be ignored. Static allocation does not include a Consumer Secret which is defined as an empty string. For example:
 
           <figure>
             <artwork>
-  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-  &lt;XRDS xmlns="xri://$xrds"&gt;
-    &lt;XRD xmlns:oauth="http://oauth.net/discovery/1.0" xmlns="xri://$xrd*($v*2.0)"&gt;
-      &lt;Query&gt;http://api.example.com/&lt;/Query&gt;
-      &lt;Expires&gt;2007-12-31T23:59:59Z&lt;/Expires&gt;
-      &lt;oauth:RequestParameterMethods&gt;
-        &lt;oauth:Method&gt;AUTH-HEADER&lt;/oauth:Method&gt;
-        &lt;oauth:Method&gt;POST-BODY&lt;/oauth:Method&gt;
-        &lt;oauth:Method&gt;URL-QUERY&lt;/oauth:Method&gt;
-      &lt;/oauth:RequestParameterMethods&gt;
-      &lt;oauth:RequestSignature&gt;
-        &lt;oauth:Method&gt;HMAC-SHA1&lt;/oauth:Method&gt;
-      &lt;/oauth:RequestSignature&gt;
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/request&lt;/Type&gt;
-        &lt;URI&gt;https://api.example.com/session/request&lt;/URI&gt;
-        &lt;oauth:HttpMethod&gt;POST&lt;/oauth:HttpMethod&gt;
-        &lt;oauth:RequestSignature merge="head"&gt;
-          &lt;oauth:Method&gt;PLAINTEXT&lt;/oauth:Method&gt;
-        &lt;/oauth:RequestSignature&gt;
-      &lt;/Service&gt;
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/authorize&lt;/Type&gt;
-        &lt;URI&gt;https://api.example.com/session/login&lt;/URI&gt;
-        &lt;oauth:RequestParameterMethods merge="override"&gt;
-          &lt;oauth:Method&gt;URL-QUERY&lt;/oauth:Method&gt;
-        &lt;/oauth:RequestParameterMethods&gt;
-      &lt;/Service&gt;
-      &lt;Service&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/access&lt;/Type&gt;
-        &lt;oauth:HttpMethod&gt;POST&lt;/oauth:HttpMethod&gt;
-        &lt;URI&gt;https://api.example.com/session/activate&lt;/URI&gt;
-        &lt;oauth:RequestSignature merge="head"&gt;
-          &lt;oauth:Method&gt;PLAINTEXT&lt;/oauth:Method&gt;
-        &lt;/oauth:RequestSignature&gt;
-      &lt;/Service&gt;
       &lt;Service&gt;
         &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/static&lt;/Type&gt;
-        &lt;oauth:ConsumerKey&gt;0685bd9184jfhq22&lt;/oauth:ConsumerKey&gt;
+        &lt;LocalID&gt;0685bd9184jfhq22&lt;/LocalID&gt;
       &lt;/Service&gt;
-    &lt;/XRD&gt;
-  &lt;/XRDS&gt;
             </artwork>
           </figure>
         </t>
-      </appendix>
-      
-    </appendix>
+      </section>
 
-    <appendix title="Appendix B - XRDS-Simple" anchor="xrds_simple">
+      <section title="Out-of-band Allocation" anchor="manual_alloc">
+        <t>
+          Out-of-band Consumer Identity allocation is used when the Service Provider requires
+          a Consumer registration process that cannot be performed
+          automatically or has unique requirements the Consumer Developer must comply with.
+          OAuth Discovery does not address this scenario expect
+          for enabling the Service Provider to provide a human-readable
+          endpoint, and associating Consumer Identities obtained via that
+          endpoint to its URI, enabling Consumer Identity reusability. This allows Consumer to use OAuth
+          Discovery with manually pre-established Consumer Identities.
+        </t>
+        <t>
+          Out-of-band allocation is identified using the service type:
+          <spanx style="verb">http://oauth.net/discovery/1.0/consumer-identity/oob</spanx>.
+          The <spanx style="verb">Service</spanx> element MUST include at least one <spanx style="verb">URI</spanx> element.
+          If no HTTP method is specified, the URI method defaults to GET. The result value of the request is undefined. For example:
+
+          <figure>
+            <artwork>
+      &lt;Service&gt;
+        &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/oob&lt;/Type&gt;
+        &lt;URI&gt;http://sp.example.com/consumer_apply&lt;/Type&gt;
+      &lt;/Service&gt;
+            </artwork>
+          </figure>
+        </t>
+      </section>
+
+    </section>
+    
+    <appendix title="Appendix A - Example">
       <t>
-        &lt;XRDS&gt;
-          &lt;XRD xml:id version&gt;
-            &lt;Query&gt;
-            &lt;Expires&gt;
-            &lt;Redirect priority&gt;
-            &lt;Ref priority&gt;
-            &lt;Type&gt;
-            &lt;Service priority&gt;
-              &lt;LocalID&gt;
-              &lt;URI priority&gt;
-              &lt;Type&gt;
-              &lt;Path&gt;
-              &lt;MediaType&gt;
-      </t>
-      <t>
-        If multiple <spanx style="verb">Service</spanx> elements are
-        present for the same endpoint type, they SHOULD contain the
-        OPTIONAL <spanx style="verb">priority</spanx> attribute and
-        differ in their priority value.
+        This example demonstrate a simple Resource Description Document in which the Protected Resource's descriptor points to the 
+        OAuth Configuration contained within the same document, and Consumer Identity allocation is provided statically. Each of the
+        OAuth HTTP endpoints support the <spanx style="verb">HMAC-SHA1</spanx> signature method, while HTTPS endpoints use the
+        <spanx style="verb">PLAINTEXT</spanx> signature method. The Service Provider in this example supports sending request parameters
+        via URI query and the <spanx style="verb">Authorization</spanx> header, except for requesting User authorization which only supports
+        the URI query method. The Service Provider does not support parameters in the HTTP body.
+
+        <figure>
+          <artwork>
+  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;XRDS xmlns="xri://$xrds"&gt;
+    &lt;XRD xml:id="oauth" xmlns:simple="http://xrds-simple.net/core/1.0" xmlns="xri://$XRD*($v*2.0)" version="2.0"&gt;
+      &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
+      &lt;Expires&gt;2008-12-31T23:59:59Z&lt;/Expires&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/request&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/auth-header&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/uri-query&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/signature/PLAINTEXT&lt;/Type&gt;
+        &lt;URI&gt;https://api.example.com/session/request&lt;/URI&gt;
+      &lt;/Service&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/authorize&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/uri-query&lt;/Type&gt;
+        &lt;URI&gt;https://api.example.com/session/login&lt;/URI&gt;
+      &lt;/Service&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/access&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/auth-header&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/uri-query&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/signature/PLAINTEXT&lt;/Type&gt;
+        &lt;URI&gt;https://api.example.com/session/activate&lt;/URI&gt;
+      &lt;/Service&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/endpoint/resource&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/auth-header&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/uri-query&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/signature/HMAC-SHA1&lt;/Type&gt;
+      &lt;/Service&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/static&lt;/Type&gt;
+        &lt;LocalID&gt;0685bd9184jfhq22&lt;/LocalID&gt;
+      &lt;/Service&gt;
+    &lt;/XRD&gt;
+    &lt;XRD xmlns="xri://$XRD*($v*2.0)" version="2.0"&gt;
+      &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/discovery/1.0&lt;/Type&gt;
+        &lt;URI&gt;#oauth&lt;/URI&gt;
+      &lt;/Service&gt;
+    &lt;/XRD&gt;
+  &lt;/XRDS&gt;
+          </artwork>
+        </figure>
       </t>
     </appendix>
     
-    </middle>
+  </middle>
 
   <back>
 
@@ -1236,6 +447,16 @@
           </author>
         </front>
         <format type="HTML" target="http://oauth.net/core/1.0" />
+      </reference>
+
+      <reference anchor="XRDS-Simple 1.0">
+        <front>
+          <title>XRDS-Simple 1.0</title>
+          <author initials="E.HL" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav (Editor)">
+            <organization>Hueniverse</organization>
+          </author>
+        </front>
+        <format type="HTML" target="http://xrds-simple.net/core/1.0" />
       </reference>
 
       <reference anchor="RFC2606">
@@ -1259,99 +480,6 @@
           </author>
         </front>
         <seriesInfo name="RFC" value="2119" />
-      </reference>
-      <reference anchor="SHA1">
-        <front>
-          <title>Finding SHA-1 Characteristics: General Results and Applications</title>
-          <author initials="C.DC" surname="De Canniere" fullname="Christophe De Canniere">
-            <organization />
-          </author>
-          <author initials="C.R" surname="Rechberger" fullname="Christian Rechberger">
-            <organization />
-          </author>
-        </front>
-        <format type="HTML" target="http://dx.doi.org/10.1007/11935230_1" />
-      </reference>
-
-      <reference anchor="RFC2616">
-        <front>
-          <title>Hypertext Transfer Protocol -- HTTP/1.1</title>
-          <author initials="R.F" surname="Fielding" fullname="R. Fielding">
-            <organization>UC Irvine</organization>
-          </author>
-          <author initials="J.G" surname="Gettys" fullname="J. Gettys">
-            <organization>Compaq/W3C</organization>
-          </author>
-          <author initials="J.M" surname="Mogul" fullname="J. Mogul">
-            <organization>Compaq</organization>
-          </author>
-          <author initials="H.F" surname="Frystyk" fullname="H. Frystyk">
-            <organization>W3C/MIT</organization>
-          </author>
-          <author initials="L.M" surname="Masinter" fullname="L. Masinter">
-            <organization>Xerox</organization>
-          </author>
-          <author initials="P.L" surname="Leach" fullname="P. Leach">
-            <organization>Microsoft</organization>
-          </author>
-          <author initials="T.L" surname="Berners-Lee" fullname="T. Berners-Lee">
-            <organization>W3C/MIT</organization>
-          </author>
-        </front>
-        <seriesInfo name="RFC" value="2616" />
-      </reference>
-
-      <reference anchor="RFC2617">
-        <front>
-          <title>
-            HTTP Authentication: Basic and Digest Access Authentication
-          </title>
-          <author initials="J.F" surname="Franks" fullname="J. Franks">
-            <organization />
-          </author>
-          <author initials="P.HB" surname="Hallam-Baker" fullname="P. Hallam-Baker">
-            <organization />
-          </author>
-          <author initials="J.H" surname="Hostetler" fullname="J. Hostetler">
-            <organization />
-          </author>
-          <author initials="S.L" surname="Lawrence" fullname="S. Lawrence">
-            <organization />
-          </author>
-          <author initials="P.L" surname="Leach" fullname="P. Leach">
-            <organization />
-          </author>
-          <author initials="A.L" surname="Luotonen" fullname="A. Luotonen">
-            <organization />
-          </author>
-          <author initials="L.S" surname="Stewart" fullname="L. Stewart">
-            <organization />
-          </author>
-        </front>
-        <seriesInfo name="RFC" value="2617" />
-      </reference>
-      
-      <reference anchor="XRI Resolution 2.0" target="http://www.oasis-open.org/committees/download.php/17293" >
-        <front>
-          <title>Extensible Resource Identifier (XRI) Resolution V2.0 - Committee Draft 02</title>
-          <author initials='G.W' surname='Wachob' fullname="Gabe Wachob">
-            <organization>Visa International</organization>
-          </author>
-          <author initials='D.R' surname='Reed' fullname="Drummond Reed">
-            <organization>Cordance</organization>
-          </author>
-          <author initials='L.C' surname='Chasen' fullname="Les Chasen">
-            <organization>NeuStar</organization>
-          </author>
-          <author initials='W.T' surname='Tan' fullname="William Tan">
-            <organization>NeuStar</organization>
-          </author>
-          <author initials='S.C' surname='Churchill' fullname="Steve Churchill">
-            <organization>XDI.ORG</organization>
-          </author>
-        </front>
-        <format type="HTML" target="http://docs.oasis-open.org/xri/2.0/specs/cd02/xri-resolution-V2.0-cd-02.html" />
-        <format type="PDF" target="http://docs.oasis-open.org/xri/2.0/specs/cd02/xri-resolution-V2.0-cd-02.pdf" />
       </reference>
 
     </references>
