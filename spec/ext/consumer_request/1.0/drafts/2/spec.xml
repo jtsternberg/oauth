@@ -114,17 +114,17 @@
     <section title="Consumer Request">
       <t>
         The Consumer requests the Protected Resource by making an HTTP request
-        to the Service Provider. The request HTTP method and URL are provided by
+        to the Service Provider. The request HTTP method and URI are provided by
         the Service Provider by means not specified in this memo. This workflow
-        has been designed to imitate the flow used to obtain a Request Token in
+        has been based on the step used to access a Protected Resource in
         a three-legged OAuth flow as defined in <xref target="OAuth Core 1.0" />
-        section 6.1.
+        section 7.
       </t>
 
       <section title="Consumer Sends Request">
         <t>
           To access a Protected Resource, the Consumer sends an HTTP request to
-          the Service Provider's resource endpoint URL. The request MUST be
+          the Service Provider's resource endpoint URI. The request MUST be
           signed as defined in <xref target="OAuth Core 1.0" /> section 9 with an
           empty Token Secret. The request contains the following REQUIRED
           parameters, unless otherwise noted:
@@ -132,6 +132,9 @@
           <list style="hanging">
             <t hangText="oauth_consumer_key:">
               The Consumer Key.
+            </t>
+            <t hangText="oauth_token:">
+              MUST be included with an empty value to indicate this is a two-legged request.
             </t>
             <t hangText="oauth_signature_method:">
               The signature method the Consumer used to sign the request.
@@ -200,10 +203,10 @@
       </t>
       <t>
         The Service Provider allows Consumers to see their profile at the
-        following endpoint URL:
+        following endpoint URI:
 
         <list style="hanging">
-          <t hangText="Profile Request URL:">
+          <t hangText="Profile Request URI:">
             <spanx style="verb">http://provider.example.net/profile</spanx>, using HTTP <spanx style="verb">GET</spanx>
           </t>
         </list>
@@ -237,6 +240,9 @@
           <t hangText="oauth_consumer_key:">
             <spanx style="verb">dpf43f3p2l4k3l03</spanx>
           </t>
+          <t hangText="oauth_token:">
+            (Empty value)
+          </t>
           <t hangText="oauth_signature_method:">
             <spanx style="verb">HMAC-SHA1</spanx>
           </t>
@@ -258,11 +264,11 @@
           <t hangText="The HTTP request method:">
             <spanx style="verb">GET</spanx>
           </t>
-          <t hangText="The request URL:">
+          <t hangText="The request URI:">
             <spanx style="verb">http://provider.example.net/profile</spanx>
           </t>
           <t hangText="The encoded normalized request parameters string:">
-            <spanx style="verb">oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_version=1.0</spanx>
+            <spanx style="verb">oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_token=&amp;oauth_version=1.0</spanx>
           </t>
         </list>
       </t>
@@ -271,7 +277,7 @@
 
         <figure>
           <artwork>
-    GET&amp;http%3A%2F%2Fprovider.example.net%2Fprofile&amp;oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_version%3D1.0
+    GET&amp;http%3A%2F%2Fprovider.example.net%2Fprofile&amp;oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3D%26oauth_version%3D1.0
           </artwork>
         </figure>
       </t>
@@ -283,7 +289,7 @@
 
         <figure>
           <artwork>
-    SGtGiOrgTGF5Dd4RUMguopweOSU=
+    IxyYZfG2BaKh8JyEGuHCOin/4bA=
           </artwork>
         </figure>
       </t>
@@ -292,15 +298,15 @@
 
         <figure>
           <artwork>
-    http://provider.example.net/profile
+            http://provider.example.net/profile
 
-    Authorization: OAuth realm="http://provider.example.net/",
-                    oauth_consumer_key="dpf43f3p2l4k3l03",
-                    oauth_signature_method="HMAC-SHA1",
-                    oauth_signature="SGtGiOrgTGF5Dd4RUMguopweOSU%3D",
-                    oauth_timestamp="1191242096",
-                    oauth_nonce="kllo9940pd9333jh",
-                    oauth_version="1.0"
+            Authorization: OAuth realm="http://provider.example.net/",
+            oauth_consumer_key="dpf43f3p2l4k3l03",
+            oauth_signature_method="HMAC-SHA1",
+            oauth_signature="IxyYZfG2BaKh8JyEGuHCOin%2F4bA%3D",
+            oauth_timestamp="1191242096",
+            oauth_nonce="kllo9940pd9333jh",
+            oauth_version="1.0"
           </artwork>
         </figure>
       </t>
@@ -312,11 +318,58 @@
 
     <appendix title="Appendix B - Discovery">
       <t>
-        When using OAuth Discovery as defined in <xref target="OAuth Discovery 1.0" />,
-        the Consumer Request 1.0 extension service type URI is:
-        <spanx style="verb">http://oauth.net/ext/consumer_request/1.0</spanx>.
-        It follows the same rules and workflow as the
-        <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx> service type.
+        Resources protected by the method defined in this specification MAY be associated with the service type
+        URI: <spanx style="verb">http://oauth.net/ext/consumer_request/1.0</spanx>. Consumers performing discovery
+        MAY look for the type URI in order to identify the type of access control used, and successfully access the resource.
+      </t>
+      <t>
+        <xref target="OAuth Discovery 1.0" /> defines a method used to document the OAuth configuration needed
+        to access these Protected Resources using OAuth. However, when protecting resources using the method described
+        in this specification, the OAuth Endpoints as defined in <xref target="OAuth Discovery 1.0" /> section 6.1 are not
+        relevant. To apply the OAuth Discovery workflow to resources protected using the Consumer Request method,
+        the service type URI <spanx style="verb">http://oauth.net/ext/consumer_request/1.0/endpoint</spanx> is defined.
+      </t>
+      <t>
+        The service type URI <spanx style="verb">http://oauth.net/ext/consumer_request/1.0/endpoint/resource</spanx> can be used
+        alongside the types defined in <xref target="OAuth Discovery 1.0" /> section 6.1 or replace them. It obides by the
+        same rules and requirements as the <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx> type URI.
+      </t>
+      <t>
+        For example, a resource protected by the method described in this specification and uses the OAuth Discovery workflow
+        will point to an XRDS-Simple document as defined in <xref target="OAuth Discovery 1.0" /> section 5, detailing that it
+        can be accessed using the <spanx style="verb">HMAC-SHA1</spanx> signature
+        method, with parameters delivered via the <spanx style="verb">Authentication</spanx> header or URI query. It also provides
+        a URI for obtaining a Consumer Key.
+
+        <figure>
+          <artwork>
+  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;XRDS xmlns="xri://$xrds"&gt;
+    &lt;XRD xml:id="oauth_consumer_request" xmlns:simple="http://xrds-simple.net/core/1.0" xmlns="xri://$XRD*($v*2.0)" version="2.0"&gt;
+      &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
+      &lt;Expires&gt;2008-12-31T23:59:59Z&lt;/Expires&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/ext/consumer_request/1.0/endpoint/resource&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/auth-header&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/parameters/uri-query&lt;/Type&gt;
+        &lt;Type&gt;http://oauth.net/core/1.0/signature/HMAC-SHA1&lt;/Type&gt;
+      &lt;/Service&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/oob&lt;/Type&gt;
+        &lt;URI&gt;http://sp.example.com/consumer_key_application&lt;/Type&gt;
+      &lt;/Service&gt;
+    &lt;/XRD&gt;
+    &lt;XRD xmlns="xri://$XRD*($v*2.0)" version="2.0"&gt;
+      &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
+      &lt;Service priority="10"&gt;
+        &lt;Type&gt;http://oauth.net/discovery/1.0&lt;/Type&gt;
+        &lt;simple:MustSupport&gt;http://oauth.net/ext/consumer_request/1.0&lt;/simple:MustSupport&gt;
+        &lt;URI&gt;#oauth_consumer_request&lt;/URI&gt;
+      &lt;/Service&gt;
+    &lt;/XRD&gt;
+  &lt;/XRDS&gt;
+          </artwork>
+        </figure>
       </t>
     </appendix>
 
@@ -340,10 +393,10 @@
         <front>
           <title>OAuth Discovery 1.0</title>
           <author initials="E.HL" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav">
-            <organization>Hueniverse, LLC</organization>
+            <organization>Hueniverse</organization>
           </author>
         </front>
-        <format type="HTML" target="http://oauth.net/core/1.0" />
+        <format type="HTML" target="http://oauth.net/discovery/1.0" />
       </reference>
 
       <reference anchor="RFC2606">
@@ -367,48 +420,6 @@
           </author>
         </front>
         <seriesInfo name="RFC" value="2119" />
-      </reference>
-      <reference anchor="SHA1">
-        <front>
-          <title>Finding SHA-1 Characteristics: General Results and Applications</title>
-          <author initials="C.DC" surname="De Canniere" fullname="Christophe De Canniere">
-            <organization />
-          </author>
-          <author initials="C.R" surname="Rechberger" fullname="Christian Rechberger">
-            <organization />
-          </author>
-        </front>
-        <format type="HTML" target="http://dx.doi.org/10.1007/11935230_1" />
-      </reference>
-
-      <reference anchor="RFC2617">
-        <front>
-          <title>
-            HTTP Authentication: Basic and Digest Access Authentication
-          </title>
-          <author initials="J.F" surname="Franks" fullname="J. Franks">
-            <organization />
-          </author>
-          <author initials="P.HB" surname="Hallam-Baker" fullname="P. Hallam-Baker">
-            <organization />
-          </author>
-          <author initials="J.H" surname="Hostetler" fullname="J. Hostetler">
-            <organization />
-          </author>
-          <author initials="S.L" surname="Lawrence" fullname="S. Lawrence">
-            <organization />
-          </author>
-          <author initials="P.L" surname="Leach" fullname="P. Leach">
-            <organization />
-          </author>
-          <author initials="A.L" surname="Luotonen" fullname="A. Luotonen">
-            <organization />
-          </author>
-          <author initials="L.S" surname="Stewart" fullname="L. Stewart">
-            <organization />
-          </author>
-        </front>
-        <seriesInfo name="RFC" value="2617" />
       </reference>
 
     </references>
