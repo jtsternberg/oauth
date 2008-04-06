@@ -13,23 +13,24 @@
   <?rfc private="Implementers' Draft" ?>
 
   <front>
-    <title>OAuth Consumer Request 1.0 Draft 1</title>
+    <title>OAuth Consumer Request 1.0 Draft 2</title>
 
     <author initials="E" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav">
-      <organization>Hueniverse, LLC</organization>
+      <organization>Hueniverse</organization>
       <address>
         <email>eran@hueniverse.com</email>
       </address>
     </author>
 
-    <date day="14" month="December" year="2007"/>
+    <date day="6" month="April" year="2008"/>
 
     <abstract>
       <t>
         This memo describes a method for using the OAuth flow to sign
-        a request made between a Consumer and Service Provider where no User
-        is involved. This enables OAuth to be used as a replacement to HTTP
-        Basic authentication, which is not as complex as HTTP Digest
+        a request made between a Consumer and Service Provider without User
+        involvement, which is either absant or handled by other means.
+        It enables OAuth to be used as a replacement to HTTP
+        Basic authentication, but without the complexity of HTTP Digest
         authentication, and extends the capabilities of the OAuth Consumer
         credentials.
       </t>
@@ -39,7 +40,7 @@
         The protocol centers on a three-legged scenario, delegating User
         access to a Consumer for resources held by a Service Provider. In
         some cases, a two-legged scenario is needed, in which the Consumer
-        is acting on behalf of itself, without a User involvement.
+        is acting on behalf of itself, without a direct or any User involvement.
       </t>
       <t>
         OAuth was created to solve the problem of sharing two-legged credentials
@@ -47,7 +48,7 @@
         might still need to communicate with the Service Provider using requests
         that are Consumer-specific. Since the Consumers already established a
         Consumer Key and Consumer Secret, there is value in being able to use
-        them for requests where the Consumer identity is verified.
+        them for requests where the Consumer identity is important.
       </t>
     </abstract>
 
