@@ -138,13 +138,13 @@
         of smaller applications ("gadgets"). In that case, the consumer
         application may make OAuth requests on behalf of one of its hosted
         gadgets.
-      
+
 </p>
 <p>
         This draft specifies a mechanism in which a consumer can express
         on behalf of which of its hosted gadgets OAuth requests are being
         made to a service provider.
-      
+
 </p><a name="toc"></a><br /><hr />
 <h3>Table of Contents</h3>
 <p class="toc">
@@ -173,7 +173,7 @@ Author's Address<br />
 <p>Dirk Balfanz (dirk@balfanz.net)
 </p>
 </blockquote><p>
-      
+
 </p>
 <a name="anchor2"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -184,13 +184,13 @@ Author's Address<br />
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
         document are to be interpreted as described in <a class="info" href="#RFC2119">[RFC2119]<span> (</span><span class="info">Bradner, B., &ldquo;Key words for use in RFCs to Indicate Requirement Levels,&rdquo; .</span><span>)</span></a>.
         Domain name examples use <a class="info" href="#RFC2606">[RFC2606]<span> (</span><span class="info">Eastlake, D. and A. Panitz, &ldquo;Reserved Top Level DNS Names,&rdquo; .</span><span>)</span></a>.
-      
+
 </p>
 <p>
         Unless otherwise noted, this specification is written as a direct
         continuation of <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>, inheriting the
         definitions and guidelines set by it.
-      
+
 </p>
 <a name="anchor3"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -203,14 +203,14 @@ Author's Address<br />
 <dd>
             The Consumer Key, Consumer Secret, and any other information used
             to establish an identity for the Consumer such as public key.
-          
+
 </dd>
 <dt>Gadget Server:</dt>
 <dd>
             An OAuth consumer, with its own consumer identity, that hosts a
             number of smaller applications ("gadgets"), which don't have their
             own consumer identity.
-          
+
 </dd>
 <dt>Gadget:</dt>
 <dd>
@@ -220,10 +220,10 @@ Author's Address<br />
             A gadget doesn't have its own consumer identity. Instead, the
             gadget server's consumer identity will be used when making the
             OAuth requests on behalf of the gadget.
-          
+
 </dd>
 </dl></blockquote><p>
-      
+
 </p>
 <a name="anchor4"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -237,10 +237,10 @@ Author's Address<br />
 <dt>xoauth_app_url:</dt>
 <dd>
             The URL of the gadget originating the OAuth request.
-          
+
 </dd>
 </dl></blockquote><p>
-      
+
 </p>
 <p>
         A consumer MUST include the <span class="verb">xoauth_app_url</span>
@@ -249,7 +249,7 @@ Author's Address<br />
         <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>). The consumer MUST also include
         the <span class="verb">xoauth_app_url</span> parameter when accessing
         protected resources (see Section 7 of <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>).
-      
+
 </p>
 <a name="rfc.references1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -272,4 +272,13 @@ Author's Address<br />
 <tr><td class="author" align="right">Email:&nbsp;</td>
 <td class="author-text"><a href="mailto:spec@oauth.net">spec@oauth.net</a></td></tr>
 </table>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-1192567-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
 </body></html>

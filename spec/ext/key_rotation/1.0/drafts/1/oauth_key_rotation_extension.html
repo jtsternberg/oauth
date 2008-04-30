@@ -137,7 +137,7 @@
         Some consumer applications use the RSA_SHA1 signature method. To
         verify RSA_SHA1 signatures, Service Providers need to be in possession
         of an authentic copy of the consumer application's public key.
-      
+
 </p>
 <p>
         Whenever a consumer application changes the private key it uses to sign
@@ -145,7 +145,7 @@
         key they use to verify the requests. This draft specifies a mechanism
         that allows consumers to signal which public key should be used to
         verify requests they sign.
-      
+
 </p><a name="toc"></a><br /><hr />
 <h3>Table of Contents</h3>
 <p class="toc">
@@ -180,7 +180,7 @@ Author's Address<br />
 <p>Brian Eaton (beaton@google.com)
 </p>
 </blockquote><p>
-      
+
 </p>
 <a name="anchor2"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -191,13 +191,13 @@ Author's Address<br />
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
         document are to be interpreted as described in <a class="info" href="#RFC2119">[RFC2119]<span> (</span><span class="info">Bradner, B., &ldquo;Key words for use in RFCs to Indicate Requirement Levels,&rdquo; .</span><span>)</span></a>.
         Domain name examples use <a class="info" href="#RFC2606">[RFC2606]<span> (</span><span class="info">Eastlake, D. and A. Panitz, &ldquo;Reserved Top Level DNS Names,&rdquo; .</span><span>)</span></a>.
-      
+
 </p>
 <p>
         Unless otherwise noted, this specification is written as a direct
         continuation of <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>, inheriting the
         definitions and guidelines set by it.
-      
+
 </p>
 <a name="anchor3"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -215,10 +215,10 @@ Author's Address<br />
             signature methods defined in future OAuth extensions. The public
             key identified by the Public Key Identifier can be used to
             verify OAuth requests.
-          
+
 </dd>
 </dl></blockquote><p>
-      
+
 </p>
 <a name="anchor4"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -233,10 +233,10 @@ Author's Address<br />
 <dd>
             The Public Key Identifier of the public key to be used to verify
             an OAuth request signed by the OAuth Consumer.
-          
+
 </dd>
 </dl></blockquote><p>
-      
+
 </p>
 <p>
         If a consumer uses the RSA_SHA1 signature method (or another
@@ -247,7 +247,7 @@ Author's Address<br />
         <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>). If the consumer does not use a
         public-key-based signature method, then it MUST NOT include the
         <span class="verb">xoauth_public_key</span> parameter.
-      
+
 </p>
 <p>
         If a consumer uses the RSA_SHA1 signature method (or another
@@ -258,7 +258,7 @@ Author's Address<br />
         <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>). If the consumer does not use a
         public-key-based signature method, then it MUST NOT include the
         <span class="verb">xoauth_public_key</span> parameter.
-      
+
 </p>
 <p>
         If a consumer uses the RSA_SHA1 signature method (or another
@@ -269,7 +269,7 @@ Author's Address<br />
         <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>). If the consumer does not use a
         public-key-based signature method, then it MUST NOT include the
         <span class="verb">xoauth_public_key</span> parameter.
-      
+
 </p>
 <a name="anchor5"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -279,7 +279,7 @@ Author's Address<br />
         It is up to the OAuth Consumer to define how Service Providers can,
         given a Public Key Identifier, obtain a copy of the public key to which
         the identifier refers.
-      
+
 </p>
 <p>
         The Service Provider SHALL obtain a copy of the public key identified
@@ -288,7 +288,7 @@ Author's Address<br />
         Section 9.3.2 of <a class="info" href="#OAuth Core 1.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a> (if the signature
         method is RSA_SHA1) or other suitable mechanisms (if the signature type
         is a different yet-to-be-defined public-key signature method).
-      
+
 </p>
 <a name="anchor6"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -298,14 +298,14 @@ Author's Address<br />
         It is up to the OAuth Consumer to define how Service Providers can,
         given a Public Key Identifier, obtain a copy of the public key to which
         the identifier refers.
-      
+
 </p>
 <p>
         The OAuth Consumer SHOULD NOT use Public Key Identifiers that can
         by themselves (i.e., without additional information) be used to locate
         the public key. For example, the OAuth Consumer SHOULD NOT use URLs
         that point to the public key as Public Key Identifiers.
-      
+
 </p>
 <p>
         The format of the Public Key Identifier SHOULD be chosen such that
@@ -318,12 +318,12 @@ Author's Address<br />
         <span class="verb">https://www.example.com/pubkeys</span> URL. When
         obtaining the public key, the Service Provider SHOULD use TLS to
         authenticate the Consumer.
-      
+
 </p>
 <p>
         It is RECOMMENDED that the public key be distributed in form of X.509
         certificates, either self-signed or issued by a certification authority.
-      
+
 </p>
 <p>
         The rationale behind these recommended best practices is that it should
@@ -331,7 +331,7 @@ Author's Address<br />
         private key and trick the Service Provider into automatically downloading
         the attacker's public key. Instead, a Service Provider should always
         get an authentic copy of the real OAuth Consumer's public key.
-      
+
 </p>
 <a name="rfc.references1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="bug" align="right"><tr><td class="bug"><a href="#toc" class="link2">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -354,4 +354,13 @@ Author's Address<br />
 <tr><td class="author" align="right">Email:&nbsp;</td>
 <td class="author-text"><a href="mailto:spec@oauth.net">spec@oauth.net</a></td></tr>
 </table>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-1192567-2");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
 </body></html>
