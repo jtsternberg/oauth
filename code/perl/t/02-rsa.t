@@ -1,4 +1,4 @@
-#!perl -T
+#!perl
 
 use strict;
 use warnings;
@@ -14,7 +14,7 @@ sub slurp {
 }
 
 SKIP: {
-    
+
     skip "Crypt::OpenSSL::RSA not installed", 2 unless Crypt::OpenSSL::RSA->require;
 
     my $publickey;
@@ -49,4 +49,3 @@ SKIP: {
     ok($request->verify($publickey));
 
 }
-

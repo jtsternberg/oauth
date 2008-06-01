@@ -1,8 +1,8 @@
-#!perl -T
+#!perl
 
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 17;
 
 BEGIN {
     use_ok( 'Net::OAuth::Request' );
@@ -28,6 +28,10 @@ $request->sign;
 ok($request->verify);
 
 is($request->to_post_body, 'oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0');
+
+is($request->to_url, 'https://photos.example.net/request_token?oauth_signature=kd94hf93k423kf44%26&oauth_timestamp=1191242090&oauth_nonce=hsu94j3884jdopsl&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_version=1.0&oauth_signature_method=PLAINTEXT');
+
+is($request->to_url('https://someothersite.example.com/request_token'), 'https://someothersite.example.com/request_token?oauth_signature=kd94hf93k423kf44%26&oauth_timestamp=1191242090&oauth_nonce=hsu94j3884jdopsl&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_version=1.0&oauth_signature_method=PLAINTEXT');
 
 $request = Net::OAuth::AccessTokenRequest->new(
         consumer_key => 'dpf43f3p2l4k3l03',
@@ -98,4 +102,3 @@ ok($request->verify);
 
 is($request->signature_base_string, 'POST&https%3A%2F%2Fphotos.example.net%2Frequest_token&oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dhsu94j3884jdopsl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242090%26oauth_version%3D1.0');
 is($request->signature, 'mBRi0bX78DgCdolSsSYibIGen7U=');
-
