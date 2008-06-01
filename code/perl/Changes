@@ -17,3 +17,12 @@ Revision history for Net-OAuth
 
 0.06    Sat, 08 Mar 2008 00:57:40 UTC
         Removed live test that stopped working
+
+0.07    Sun, 01 Jun 2008 16:04:26 UTC
+        Added a factory class, Net::OAuth
+	Added several 'Response' classes
+	Added UserAuthRequest and UserAuthResponse
+	Created a Message base class from which Request and Response inherit
+	Added some introductory documentation
+	Added more tests
+	Phew!
