@@ -8,18 +8,24 @@ use UNIVERSAL::require;
 sub add_required_message_params {
     my $class = shift;
     $class->required_message_params([@{$class->required_message_params}, @_]);
+	$class->all_message_params([@{$class->all_message_params}, @_]);
+	$class->all_params([@{$class->all_params}, @_]);
     $class->mk_accessors(@_);
 }
 
 sub add_optional_message_params {
     my $class = shift;
     $class->optional_message_params([@{$class->optional_message_params}, @_]);
+	$class->all_message_params([@{$class->all_message_params}, @_]);
+	$class->all_params([@{$class->all_params}, @_]);
     $class->mk_accessors(@_);
 }
 
 sub add_required_api_params {
     my $class = shift;
     $class->required_api_params([@{$class->required_api_params}, @_]);
+	$class->all_api_params([@{$class->all_api_params}, @_]);
+	$class->all_params([@{$class->all_params}, @_]);
     $class->mk_accessors(@_);
 }
 
@@ -31,11 +37,12 @@ sub add_to_signature {
 sub new {
     my $proto = shift;
     my $class = ref $proto || $proto;
-    my %params = @_;
-    $params{version} = '1.0' unless defined $params{version};
-    my $msg = bless \%params, $class;
-    $msg->check;
-    return $msg;
+	my %params = @_;
+	my $self = bless \%params, $class;
+	$self->{extra_params} ||= {};
+	$self->{version} ||= '1.0';
+    $self->check;
+    return $self;
 }
 
 sub check {
@@ -76,7 +83,7 @@ sub gather_message_parameters {
     $opts{params} ||= [];
     my %params;
     foreach my $k (@{$self->required_message_params}, @{$self->optional_message_params}, @{$opts{add}}) {
-        next if $k eq 'signature' and !$self->sign_message;
+        next if $k eq 'signature' and (!$self->sign_message or !grep ($_ eq 'signature', @{$opts{add}}));
         $params{"oauth_$k"} = $self->$k;
     }
     if ($self->{extra_params} and !$opts{no_extra} and $self->allow_extra_params) {
@@ -135,26 +142,76 @@ sub to_authorization_header {
 sub from_authorization_header {
     my $proto = shift;
     my $class = ref $proto || $proto;
-    my $header = shift;
-    my %extra_params = @_;
-    my @header = split /[\s]*,[\s]*/, $header;
+    my @header = split /[\s]*,[\s]*/, shift;
     shift @header;
-    my %params;
-    foreach my $pair (@header) {
+    return $class->_from_pairs(\@header, @_)
+}
+
+sub _from_pairs() {
+	my $class = shift;
+	my $pairs = shift;
+	if (ref $pairs ne 'ARRAY') {
+		die 'Expected an array!';
+	}
+	my %params;
+	foreach my $pair (@$pairs) {
         my ($k,$v) = split /=/, $pair;
         if (defined $k and defined $v) {
             $v =~ s/(^"|"$)//g;
             ($k,$v) = map decode($_), $k, $v;
-            $k =~ s/^oauth_//;
             $params{$k} = $v;
         }
     }
-    return $class->new(%params, %extra_params);
+    return $class->from_hash(\%params, @_);
+}
+
+sub from_hash {
+    my $proto = shift;
+    my $class = ref $proto || $proto;
+    my $hash = shift;
+	if (ref $hash ne 'HASH') {
+		die 'Expected a hash!';
+	}
+    my %api_params = @_;
+    my %msg_params;
+	foreach my $k (keys %$hash) {
+		if ($k =~ s/^oauth_//) {
+			if (!grep ($_ eq $k, @{$class->all_message_params})) {
+				die "Parameter oauth_$k not valid for a message of type $class\n";
+			}
+			else {
+				$msg_params{$k} = $hash->{"oauth_$k"};
+			}
+		}
+		else {
+			$msg_params{extra_params}->{$k} = $hash->{$k};
+		}
+	}
+    return $class->new(%msg_params, %api_params);
+}
+
+sub from_url {
+	my $proto = shift;
+    my $class = ref $proto || $proto;
+    my $url = shift;
+	require URI;
+	require URI::QueryParam;
+    if (!UNIVERSAL::isa($url, 'URI')) {
+		$url = URI->new($url);
+	}
+	return $class->from_hash($url->query_form_hash, @_);
 }
 
 sub to_post_body {
     my $self = shift;
     return join('&', $self->gather_message_parameters(add => [qw/signature/]));
+}
+
+sub from_post_body {
+	my $proto = shift;
+    my $class = ref $proto || $proto;
+    my @pairs = split '&', shift;
+	return $class->_from_pairs(\@pairs, @_);
 }
 
 sub to_hash {
@@ -173,8 +230,8 @@ sub to_url {
 		require URI::QueryParam;
 		$uri = URI->new("$uri");
 		my $params = $self->to_hash;
-		while (my($k,$v) = each %$params) {
-			$uri->query_param($k, $v);	
+		foreach my $k (sort keys %$params) {
+			$uri->query_param($k, $params->{$k});
 		}
 		return $uri;
 	}

@@ -12,6 +12,7 @@ __PACKAGE__->mk_classdata(required_message_params => [qw/
 
 __PACKAGE__->mk_classdata(optional_message_params => [qw/
     version
+	signature
     /]);
 
 __PACKAGE__->mk_classdata(required_api_params => [qw/
@@ -20,17 +21,35 @@ __PACKAGE__->mk_classdata(required_api_params => [qw/
     consumer_secret
     /]);
 
+__PACKAGE__->mk_classdata(optional_api_params => [qw/
+    signature_key
+    token_secret
+    extra_params
+    /]);
+
 __PACKAGE__->mk_classdata(signature_elements => [qw/
     request_method
     request_url
     normalized_message_parameters
     /]);
 
-__PACKAGE__->mk_accessors(
+__PACKAGE__->mk_classdata(all_message_params => [
     @{__PACKAGE__->required_message_params},
     @{__PACKAGE__->optional_message_params},
+	]);
+
+__PACKAGE__->mk_classdata(all_api_params => [
     @{__PACKAGE__->required_api_params},
-    qw/extra_params signature signature_key token_secret/
+    @{__PACKAGE__->optional_api_params},	
+	]);
+
+__PACKAGE__->mk_classdata(all_params => [
+    @{__PACKAGE__->all_api_params},
+    @{__PACKAGE__->all_message_params},	
+	]);
+
+__PACKAGE__->mk_accessors(
+    @{__PACKAGE__->all_params},
     );
 
 sub signature_key {

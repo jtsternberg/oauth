@@ -3,27 +3,26 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 sub request {
     my $self = shift;
 	my $what = shift;
-    return $self->message($what . ' Request', @_);
+    return $self->message($what . ' Request');
 }
 
 sub response {
     my $self = shift;
 	my $what = shift;
-    return $self->message($what . ' Response', @_);
+    return $self->message($what . ' Response');
 }
 
 sub message {
     my $self = shift;
     my $type = camel(shift);
     my $class = 'Net::OAuth::' . $type;
-    $class->require;
-    my $msg = $class->new(@_);
-    return $msg;
+	$class->require;
+    return $class;
 }
 
 sub camel {
@@ -46,8 +45,10 @@ Net::OAuth - OAuth protocol support
 	# Consumer sends Request Token Request
 
 	use Net::OAuth;
+	use HTTP::Request::Common;
+	my  $ua = LWP::UserAgent->new;
 
-	my $request = Net::OAuth->request("request token"
+	my $request = Net::OAuth->request("request token")->new(
         consumer_key => 'dpf43f3p2l4k3l03',
         consumer_secret => 'kd94hf93k423kf44',
         request_url => 'https://photos.example.net/request_token',
@@ -63,14 +64,30 @@ Net::OAuth - OAuth protocol support
 
 	$request->sign;
 
-	$response = POST($request->to_url); # Post message to the Service Provider
+	my $res = $ua->request(POST $request->to_url); # Post message to the Service Provider
+	
+	if ($res->is_success) {
+		my $response = Net::OAuth->response('request token')->from_post_body($res->content);
+		print "Got Request Token ", $response->token, "\n";
+		print "Got Request Token Secret ", $response->token_secret, "\n";
+	}
+	else {
+		die "Something went wrong";
+	}
+	
+	# Etc..
 
 	# Service Provider receives Request Token Request
 	
 	use Net::OAuth;
 	use CGI;
-
-	my $request = Net::OAuth->request("request token", %{$q->Vars});
+	my $q = new CGI;
+	
+	my $request = Net::OAuth->request("request token")->from_hash($q->Vars,
+		request_url => 'https://photos.example.net/request_token',
+		request_method => $q->request_method,
+		consumer_secret => 'kd94hf93k423kf44',
+	);
 
 	if (!$request->verify) {
 		die "Signature verification failed";
@@ -78,7 +95,7 @@ Net::OAuth - OAuth protocol support
 	else {
 		# Service Provider sends Request Token Response
 
-		my $response = Net::OAuth->response("request token", 
+		my $response = Net::OAuth->response("request token")->new( 
 			token => 'abcdef',
 			token_secret => '0123456',
 		);
@@ -152,24 +169,31 @@ Responses
 
 =back
 
-Each OAuth message type has one or more REQUIRED parameters, zero or more OPTIONAL parameters, and most allow arbitrary parameters.
+Each OAuth message type has one or more required parameters, zero or more optional parameters, and most allow arbitrary parameters.
 
-All OAuth requests must be signed by the Consumer.  Responses, however, are not signed.
+All OAuth requests must be signed by the Consumer.  Responses from the Service Provider, however, are not signed.
 
 To create a message, the easiest way is to use the factory methods (Net::OAuth->request, Net::OAuth->response, Net::OAuth->message).  The following method invocations are all equivalent:
 
- $request = Net::OAuth->request('user authentication', %params);
- $request = Net::OAuth->request('user_auth', %params);
- $request = Net::OAuth->request('UserAuth', %params);
- $request = Net::OAuth->message('UserAuthRequest', %params);
+ $request = Net::OAuth->request('user authentication')->new(%params);
+ $request = Net::OAuth->request('user_auth')->new(%params);
+ $request = Net::OAuth->request('UserAuth')->new(%params);
+ $request = Net::OAuth->message('UserAuthRequest')->new(%params);
 
-You can also instantiate the class directly:
+The more verbose way is to use the class directly:
 
+ use Net::OAuth::UserAuthRequest; 
  $request = Net::OAuth::UserAuthRequest->new(%params);
 
-Or parse an OAuth Authorization header:
+You can also create a message by deserializing it from a Authorization header, URL, query hash, or POST body
 
- $request = Net::OAuth::ProtectedResourceRequest->from_authorization_header($header);
+ $request = Net::OAuth->request('protected resource')->from_authorization_header($header, %api_params);
+ $request = Net::OAuth->request('protected resource')->from_url($url, %api_params);
+ $request = Net::OAuth->request('protected resource')->from_hash($q->Vars, %api_params); # CGI
+ $request = Net::OAuth->request('protected resource')->from_hash($c->request->params, %api_params); # Catalyst
+ $response = Net::OAuth->response('request token')->from_post_body($response_content, %api_params);
+
+Note that the deserialization methods (as opposed to new()) expect OAuth protocol parameters to be prefixed with 'oauth_', as you would expect in a valid OAuth message.
 
 Before sending a request, the Consumer must first sign it:
 
@@ -179,13 +203,52 @@ When receiving a request, the Service Provider should first verify the signature
 
  $request->verify;
 
-When sending a message the next step is to serialize it and send it to wherever it needs to go.  The following serialization methods are available:
+When sending a message the last step is to serialize it and send it to wherever it needs to go.  The following serialization methods are available:
 
- $message->to_post_body # a application/x-www-form-urlencoded POST body
+ $response->to_post_body # a application/x-www-form-urlencoded POST body
 
- $message->to_url # the query string of a URL
+ $request->to_url # the query string of a URL
 
- $message->to_authorization_header # the value of an HTTP Authorization header
+ $request->to_authorization_header # the value of an HTTP Authorization header
+
+ $request->to_hash # a hash that could be used for some other serialization
+
+=head2 API PARAMETERS vs MESSAGE PARAMETERS
+
+Net::OAuth defines 'message parameters' as parameters that are part of the transmitted OAuth message.  These include any protocol parameter (prefixed with 'oauth_' in the message), and any additional message parameters (the extra_params hash).
+
+'API parameters' are parameters required to build a message object that are not transmitted with the message, e.g. consumer_secret, token_secret, request_url, request_method.
+
+There are various methods to inspect a message class to see what parameters are defined:
+
+ $request->required_message_params;
+ $request->optional_message_params;
+ $request->all_message_params;
+ $request->required_api_params;
+ $request->optional_api_params;
+ $request->all_api_params;
+ $request->all_params;
+
+E.g.
+
+ use Net::OAuth;
+ use Data::Dumper;
+ print Dumper(Net::OAuth->request("protected resource")->required_message_params);
+
+ $VAR1 = [
+          'consumer_key',
+          'signature_method',
+          'timestamp',
+          'nonce',
+          'token'
+        ];
+
+=head2 ACCESSING PARAMETERS
+
+All parameters can be get/set using accessor methods. E.g.
+
+ my $consumer_key = $request->consumer_key;
+ $request->request_method('POST');
 
 =head2 SIGNATURE METHODS
 
@@ -215,7 +278,7 @@ This method is available if you have Digest::HMAC_SHA1 installed.  This is by fa
 
 =head3 RSA_SHA1 SIGNATURES
 
-To use RSA_SHA1 signatures, pass in a Crypt::OpenSSL::RSA object (or any object that can do $o->sign($str) and $o->verify($str, $sig))
+To use RSA_SHA1 signatures, pass in a Crypt::OpenSSL::RSA object (or any object that can do $o->sign($str) and/or $o->verify($str, $sig))
 
 E.g.
 
@@ -224,7 +287,7 @@ Consumer:
  use Crypt::OpenSSL::RSA;
  use File::Slurp qw(slurp);
  $privkey = Crypt::OpenSSL::RSA->new_private_key(slurp('rsakey'));
- $request = Net::OAuth->request('request token', %params);
+ $request = Net::OAuth->request('request token')->new(%params);
  $request->sign($privkey);
  
 Service Provider:
@@ -232,7 +295,7 @@ Service Provider:
  use Crypt::OpenSSL::RSA;
  use File::Slurp qw(slurp);
  $publickey = Crypt::OpenSSL::RSA->new_public_key(slurp("rsakey.pub"));
- $request = Net::OAuth->request('request token', %params);
+ $request = Net::OAuth->request('request token')->new(%params);
  if (!$request->verify($publickey)) {
  	die "Signature verification failed";
  }
