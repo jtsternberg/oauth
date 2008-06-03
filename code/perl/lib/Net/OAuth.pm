@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 sub request {
     my $self = shift;

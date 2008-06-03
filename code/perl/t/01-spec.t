@@ -29,7 +29,14 @@ ok($request->verify);
 
 is($request->to_post_body, 'oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0');
 
-is($request->to_url, 'https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0');
+sub sort_uri {
+	my $uri = shift;
+	my @uri = split /\?/, $uri;
+	my @query = sort(split(/&/, pop @uri));
+	return join('?', @uri, join('&', @query));
+}
+
+is(sort_uri($request->to_url), sort_uri('https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0&oauth_nonce=hsu94j3884jdopsl'));
 
 # fanciness
 $request = $request->from_url($request->to_url, 
@@ -38,7 +45,7 @@ $request = $request->from_url($request->to_url,
     request_method => 'POST',
 );
 
-is($request->to_url('https://someothersite.example.com/request_token'), 'https://someothersite.example.com/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0');
+is(sort_uri($request->to_url('https://someothersite.example.com/request_token')), sort_uri('https://someothersite.example.com/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0'));
 
 $request = Net::OAuth::AccessTokenRequest->new(
         consumer_key => 'dpf43f3p2l4k3l03',
