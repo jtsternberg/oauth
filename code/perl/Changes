@@ -33,3 +33,6 @@ Revision history for Net-OAuth
         Added more deserialization methods.
         Changed factory invocation from message('foo') to message('foo')->new(), to allow
         deserialization methods to be used instead of new().
+
+0.09		Tue, 03 Jun 2008 03:46:32 UTC
+				Fixed another annoying test failure
