@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
-our $VERSION = '0.09';
+our $VERSION = '0.1';
 
 sub request {
     my $self = shift;
@@ -46,14 +46,14 @@ Net::OAuth - OAuth protocol support
 
 	use Net::OAuth;
 	use HTTP::Request::Common;
-	my  $ua = LWP::UserAgent->new;
+	my $ua = LWP::UserAgent->new;
 
 	my $request = Net::OAuth->request("request token")->new(
         consumer_key => 'dpf43f3p2l4k3l03',
         consumer_secret => 'kd94hf93k423kf44',
         request_url => 'https://photos.example.net/request_token',
         request_method => 'POST',
-        signature_method => 'PLAINTEXT',
+        signature_method => 'HMAC-SHA1',
         timestamp => '1191242090',
         nonce => 'hsu94j3884jdopsl',
 		extra_params => {
@@ -285,22 +285,28 @@ E.g.
 Consumer:
 
  use Crypt::OpenSSL::RSA;
- use File::Slurp qw(slurp);
- $privkey = Crypt::OpenSSL::RSA->new_private_key(slurp('rsakey'));
+ use File::Slurp;
+ $keystring = read_file('private_key.pem');
+ $private_key = Crypt::OpenSSL::RSA->new_private_key($keystring);
  $request = Net::OAuth->request('request token')->new(%params);
- $request->sign($privkey);
+ $request->sign($private_key);
  
 Service Provider:
 
  use Crypt::OpenSSL::RSA;
- use File::Slurp qw(slurp);
- $publickey = Crypt::OpenSSL::RSA->new_public_key(slurp("rsakey.pub"));
+ use File::Slurp;
+ $keystring = read_file('public_key.pem');
+ $public_key = Crypt::OpenSSL::RSA->new_public_key($keystring);
  $request = Net::OAuth->request('request token')->new(%params);
- if (!$request->verify($publickey)) {
+ if (!$request->verify($public_key)) {
  	die "Signature verification failed";
  }
 
 Note that you can pass the key in as a parameter called 'signature_key' to the message constructor, rather than passing it to the sign/verify method, if you like.
+
+=head1 DEMO
+
+There is a demo Consumer CGI in this package, also available online at L<http://oauth.kg23.com/>
 
 =head1 SEE ALSO
 
