@@ -1,5 +1,13 @@
 Build.PL
 Changes
+demo/config.yml
+demo/default.html
+demo/LICENSE.txt
+demo/oauth-demo.cgi
+demo/oauth-demo.zip
+demo/OAuthDemo.pm
+demo/README.txt
+demo/wrapper.html
 lib/Net/OAuth.pm
 lib/Net/OAuth/AccessTokenRequest.pm
 lib/Net/OAuth/AccessTokenResponse.pm
