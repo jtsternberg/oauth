@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
-our $VERSION = '0.1';
+our $VERSION = '0.11';
 
 sub request {
     my $self = shift;
@@ -258,9 +258,9 @@ The following signature methods are supported:
 
 =item * PLAINTEXT
 
-=item * HMAC_SHA1
+=item * HMAC-SHA1
 
-=item * RSA_SHA1
+=item * RSA-SHA1
 
 =back
 
@@ -272,13 +272,13 @@ If an unknown signature method is specified, the signing/verification will throw
 
 This method is a trivial signature which adds no security.  Not recommended.
 
-=head3 HMAC_SHA1 SIGNATURES
+=head3 HMAC-SHA1 SIGNATURES
 
 This method is available if you have Digest::HMAC_SHA1 installed.  This is by far the most commonly used method.
 
-=head3 RSA_SHA1 SIGNATURES
+=head3 RSA-SHA1 SIGNATURES
 
-To use RSA_SHA1 signatures, pass in a Crypt::OpenSSL::RSA object (or any object that can do $o->sign($str) and/or $o->verify($str, $sig))
+To use RSA-SHA1 signatures, pass in a Crypt::OpenSSL::RSA object (or any object that can do $o->sign($str) and/or $o->verify($str, $sig))
 
 E.g.
 
