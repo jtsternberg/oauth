@@ -139,15 +139,17 @@
 
          </section>
          <section anchor="processing" title="Processing Rules">
-            <t>The Consumer MAY specify the response data format by 
+		 
+			<t>If the response format value provided by the Consumer is not supported by the Service Provider, the Service Provider MUST format the response data as defined in the OAuth Core 1.0 Specification.<xref format="none" target="oauth_core_1_0">[OAuth Core 1.0]</xref></t>
+            
+			<t>The Consumer MAY specify the response data format by 
 	    adding the xoauth_response_format parameter to any Service Provider endpoints (both direct and indirect requests) that
-	    supports the extension.</t>
+	    supports the extension. However it is recommended that the Consumer SHOULD first determine if the Service Provider supports the extension before adding the parameter.</t>
 		
 			<t>
 			When requesting the response data format as "JSON", the Consumers MAY pass the 'oauth_callback' with the JSONP callback and the Service Provider MUST return a JSONP callback using the value from the 'oauth_callback' parameter.
-			</t>  
-			
-            <t>If the response format value provided by the Consumer is not supported by the Service Provider, the Service Provider MUST format the response data as defined in the OAuth Core 1.0 Specification.<xref format="none" target="oauth_core_1_0">[OAuth Core 1.0]</xref></t>
+			</t>  			
+            
 			<t> When returning response data in the format requested by the Consumer, the Service Provider MUST set the HTTP 'Content-Type' header with the appropriate value that corresponds to the response data format.
 			</t>
 			
@@ -156,13 +158,13 @@
 			<section anchor="indirect-requests" title="Indirect Requests">
 			<t>Service Providers MUST support "xoauth_response_format" parameter in the Indirect Requests only if the Consumer provides the "oauth_callback" parameter and HTTP POST method is used to redirect the user back to the Consumer. </t>
 			<list style="symbols">
-			<t>If the Service Provider is using a HTTP POST method to redirect user back to the Consumer's "oauth_callback" URL, then the response data in the requested format as specified in the "xoauth_response_format" parameter, goes in the HTTP POST body.</t>
+			<t>If the Service Provider is using a HTTP POST method to redirect the user back to the Consumer's "oauth_callback" URL, then the response data in the requested format as specified in the "xoauth_response_format" parameter, goes in the HTTP POST body.</t>
 			<t>If the Service Provider is using a HTTP GET method to redirect the user back to the Consumer's "oauth_callback" URL, the "xoauth_response_format" MUST be ignored and the response data SHOULD be returned in the default format (query string parameters) as defined in the <xref format="none" target="oauth_core_1_0">[OAuth Core 1.0]</xref></t>
 			</list>
 			</section>			
          </section>
 		 <section anchor="schema" title="Response Data Format">
-		 <t>The following sections define the format of the response data for different format types defines in <xref target="parameter-format">Response Data Format Type</xref> section. When the Consumer requests the response data in a different format than the default format specified in <xref format="none" target="oauth_core_1_0">OAuth Core 1.0</xref>, the Service Provider MUST return the response data as specified below. The Service Provider MAY add additional parameters in the response data but they MUST be included inside the 'response' object as per the given response data format. The Service Providers SHALL document the additional parameters if any in their own documentation. </t>
+		 <t>The following sections define the format of the response data for the different format types defined in the <xref target="parameter-format">Response Data Format Type</xref> section. When the Consumer requests the response data in a different format than the default format specified in <xref format="none" target="oauth_core_1_0">OAuth Core 1.0</xref>, the Service Provider (if it supports this extension) MUST return the response data as specified below. The Service Provider MAY add additional parameters in the response data but they MUST be included inside the 'response' object as per the given response data format. The Service Providers SHALL document the additional parameters if any in their own documentation. </t>
 		 <t>Below is the XML Schema representation of the response data format. The response data in other (non-xml) formats MUST follow the same schema and convert it to it's language specifics as described below.</t>
 		   
 		   <t><figure><artwork>
@@ -188,7 +190,7 @@
 			</artwork></figure></t>
 			
 			<section anchor="xml-schema" title="XML">
-			<t>The XML format directly derives from the XML Schema defined above. The Service Provider MAY add additional parameters in the &lt;response&gt; element as required. Service Providers may add their service specific parameters in the response.</t>
+			<t>The XML format directly derives from the XML Schema defined above. Service Providers may add their service specific parameters in the response. Please refer to <xref target="xml"/> for more information on XML format. </t>
 			<t><figure><artwork>
 &lt;response&gt;
 	&lt;oauth_parameter name="oauth_token"&gt;token&lt;/oauth_parameter&gt;
@@ -231,7 +233,7 @@
 			<section anchor="php-schema" title="PHP">
 				<t>Serialized PHP is a data encoding format for PHP programming language to easily store and transmit data. The Serialized PHP data can be directly evaluated by using the built in 'unserialize' function in PHP. The general format of the PHP data is:
 				<list style="hanging"><t>&lt;data type&gt;:&lt;length&gt;:&lt;value&gt;</t></list> 
-				Please refer to <xref target="serialized_php"/> for more information on Serialized PHP data encoding format.
+				Please refer to <xref target="serialized_php"/> and <xref target="serialized_php_yahoo"/> for more information on Serialized PHP data encoding format.
 				</t>
 				<t><figure><artwork>
 a:1:{s:14:"response";a:1:{s:14:"oauth_parameter";a:2:{s:11:"oauth_token";s:5:"token";s:18:"oauth_token_secret";s::"secret"}}
@@ -318,6 +320,16 @@ response (object) {
                         <date day="12" month="December" year="2007"/>
                      </front>
                      <format type="HTML" target="http://oauth.googlecode.com/svn/spec/discovery/1.0/drafts/1/spec.html" /></reference>
+					 
+					 <reference anchor="xml">
+               <front>
+                  <title>Action Message Format -- AMF3</title>
+                  <author initials="" surname="" fullname="">
+                     <organization>Adobe Systems Inc.</organization></author>                     
+                  </front>
+                  <format type="HTML" target="http://en.wikipedia.org/wiki/XML" />
+				</reference>
+					 
 					 <reference anchor="amf3_spec">
                <front>
                   <title>Action Message Format -- AMF3</title>
@@ -329,6 +341,14 @@ response (object) {
 					 <reference anchor="serialized_php">
                <front>
                   <title>Serialized PHP</title>
+                  <author initials="" surname="" fullname="">
+                     <organization></organization></author>                     
+                  </front>
+				  <format type="HTML" target="http://us3.php.net/serialize"/>
+				</reference>
+				<reference anchor="serialized_php_yahoo">
+               <front>
+                  <title>Using Serialized PHP with Yahoo! Web Services</title>
                   <author initials="" surname="" fullname="">
                      <organization></organization></author>                     
                   </front>
