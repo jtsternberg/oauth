@@ -38,29 +38,29 @@
     </author>
 
 
-    <date day="16" month="July" year="2008"/>
+    <date day="8" month="August" year="2008"/>
     <abstract>
       <t>
-	This specification extends the OAuth workflow to enable Consumers to update 
-        their credentials after being authorized by the End User.
+	This specification defines the concept of an Authorization Session which 
+	represents the authorization granted to the Consumer to access Protected Resources
+	on behalf of the End User. OAuth Core 1.0 assumes that the Authorization Session lifetime
+	and the Access Token lifetime are equal. This specification defines a mechanism for 
+	Service Providers to issue Access Tokens with shorter lifetimes than the Authorization 
+	Session, along with a way for Consumers to refresh their Access Tokens while the 
+	Authorization Session is valid.
+	</t>
+      <t>
+	This specification also defines a mechanism for Consumers to request additional 
+	privileges  to be added to their Authorization Session after being initially authorized
+	by the End User, without having to manage multiple sets of Access Tokens for the 
+	same Service Provider.
       </t>
       <t>
-	OAuth assumes that the lifetime of the Access Token is equal to 
-	the lifetime of the authorization. This specification defines a mechanism for Service 
-	Providers to issue Access Tokens that expire and a mechanism for 
-	Consumers to automatically refresh their Access Token and Secret without interaction with the End User.
-      </t>
-      <t>
-	Consumers may wish to access additional Protected Resources after being authorized by the End User. This 
-	specification defines a mechanism for Consumers to request additional priveleges to be added to their 
-	credentials to eliminate the need to manage multiple sets of credentials for the same Service Provider.
-      </t>
-      <t>
-	This specification defines a mechanism for Consumers to invalidate their credentials with the
-	Service Provider.
+	Finally, this specification defines an interface for Consumers to terminate their
+	Authorization Session with the Service Provider when the Consumer no longer
+	needs to access Protected Resources.
       </t>
     </abstract>
-    
   </front>
   <middle>
     
@@ -89,12 +89,17 @@
     <section title="Definitions">
       <t>
         <list style="hanging">
-          <t hangText="OAuth enabled Identity Provider:">
-	    An Identity Provider that supports the OAuth protocol
+          <t hangText="Authorization Session:">
+	    The period during which a Consumer has authenticated with the Service Provider, and has been authorized to access 
+	    Protected Resources on behalf of the End User. 
           </t>
-          <t hangText="Authentication Session Handle:">
-Session information used by the Service Provider to verify the consumer when updating a previously issued Access Token and Access Token Secret.
+          <t hangText="Authorization Session Handle:">
+	    Information used by the Consumer to identify its Authorization Session with the Service Provider.
           </t>
+	  <t hangText="OAuth Enabled Identity Provider:">
+	    A Service Provider's identity and authorization service, which is separate from the other Protected Resources offered 
+	    by a Service Provider.
+	  </t>
         </list>
       </t>
     </section>
@@ -104,11 +109,10 @@ Session information used by the Service Provider to verify the consumer when upd
         The features defined in this extension are:
 	
 	<list style="numbers">
-	  <t>A method for Consumers to request the Identity Provider to renew its Access Token and Secret</t>
-	  <t>A method for Consumers to request additional authorization from the End User to access additional Protected Resources provided by the same Service Provider wihtout requiring Consumers to request and manage multiple Access Tokens </t>
-	  <t>A method for consumers to request the Service Provider to invalidate its Access Token and Secret</t>
-	  <t>A new oauth_scope parameter added to the Request Token and Access Token requests </t>
-	  <t>A new oauth_expires_in attribute to describe the lifetime of an Access Token</t>
+	  <t>A method for Consumers to request the Service Provider to renew its Access Token and Secret, provided that the Consumer still has a valid Authorization Session with the Service Provider.</t>
+	  <t>A method for Consumers that have already been authorized by the End User to request additional authorization from the End User to access additional Protected Resources provided by the same Service Provider without requiring Consumers to manage multiple Access Tokens </t>
+	  <t>A method for consumers to request the Service Provider to invalidate its credentials</t>
+	  <t>A new oauth_expires_in response parameter to describe the lifetime of an Access Token</t>
 	</list>
       </t>
       <t>
@@ -118,17 +122,23 @@ Session information used by the Service Provider to verify the consumer when upd
 	or to update the Access Token if the Consumer needs to request additional priveleges.
       </t>
       <t>
-	Consumers access Protected Resources as defined in <xref target="OAuth Core 1.0" /> Section 7. If the Access Token expires 
-	and the Consumer is still authorized, the Consumer can refresh its Access Token.
+	Consumers access Protected Resources as defined in <xref target="OAuth Core 1.0" /> Section 7. Consumers accessing
+	a Protected Resource using an expired access token are informed using the Problem Reporting Extension that 
+	they should refresh their Access Token, provided that they still have a valid Authorization Session with the 
+	Service Provider.
       </t>
     </section>
     <section title="Access Token Renewal">
       <t>
-	Service Providers MAY wish to authorize Consumers for a longer duration than the lifetime of their Access Tokens. 
+	Service Providers MAY wish to grant Authorization Sessions to Consumers with longer lifetimes than the
+	lifetime of the Access Token. This section defines a workflow for Consumers to update their Access Token
+	without user intervention while the Consumer has a valid Authorization Session with the Service Provider.
       </t>
 
-      <t>Service Providers should NOT implement the Access Token Renewal 
-      workflow if the lifetime of their Access Tokens is equal to the duration of authorization.
+      <t>
+	Service Providers should NOT implement the Access Token Renewal 
+	workflow if the lifetime of their Access Tokens is equal to the lifetime of the
+	Authorization Session.
       </t>
       <section title="Consumer Obtains an Access Token and Session Handle" anchor="request_access_token">
 	<t>
@@ -138,13 +148,12 @@ Session information used by the Service Provider to verify the consumer when upd
 	<t>
 	  <list style="hanging"> 
 	    <t hangText="oauth_session_handle:">
-	      OPTIONAL. The Session information used by the Service Provider to verify the consumer when 
-	      updating a previously issued Access Token and Access Token Secret.
+	      REQUIRED. Used to identify the instance of the Consumer after it has been authorized by the End User.
 	    </t>
 	    <t hangText="oauth_authorization_expires_in:">
 	      OPTIONAL. The duration that the Consumer is authorized to access Protected Resources on behalf 
 	      of the user. The Service Provider MAY revoke access to the Consumer prior to the expected 
-	      exiration time as deemed necessary for reasons specific to the Service Provider. 
+	      expiration time as deemed necessary for reasons specific to the Service Provider. 
 	    </t>
 	    <t hangText="oauth_expires_in:">
 	      OPTIONAL. The lifetime of the Access Token in seconds. If the Access Token lifetime
@@ -176,7 +185,7 @@ Session information used by the Service Provider to verify the consumer when upd
       </section>
       <section title="Consumer Requests to Update Access Token" anchor="update_access_token">
 	<t>
-	Consumers should attempt to update their Access Token proactively before the token expires, 
+	Consumers SHOULD attempt to update their Access Token proactively before the token expires, 
 	or when denied a protected resource due to the access_token_expired problem.
 	To update an Access Token, the Consumer makes an HTTP request to the Service Provider's 
 	Access Token URL, with the following parameters:
@@ -202,7 +211,7 @@ Session information used by the Service Provider to verify the consumer when upd
 	      As defined in <xref target="OAuth Core 1.0" /> Section 8: Nonce and Timestamp.
 	    </t>
 	    <t hangText="oauth_session_handle:">
-	      REQUIRED IF the Service Provider returned an oauth_session_handle value with the Access Token.
+	      REQUIRED. The Authentication Session Handle obtained previously.
 	    </t>
 	  </list>
 	</t>
@@ -214,7 +223,7 @@ Session information used by the Service Provider to verify the consumer when upd
 	  response defined in 
 	  <xref target="request_access_token">Consumer Obtains an Access Token and Session Handle</xref>.
 	  The Consumer MUST replace its previous copy of the Access Token, Access Token Secret, and 
-	  Authentication Session Handle (if present) with the new values. 
+	  Authentication Session Handle with the new values. 
 	</t>
 	<t>
 	  After obtaining the new Access Token, the Consumer can access Protected Resources using 
@@ -228,7 +237,7 @@ Session information used by the Service Provider to verify the consumer when upd
 	same OAuth enabled Identity Provider. Over time, Consumers may want to access 
 	additional Protected Resources than what was originally authorized by the End User. This 
 	section defines a workflow for Consumers to upgrade their credentials to access 
-	additional Protected Resources without having to manage multiple sets of credentals.
+	additional Protected Resources without having to manage multiple sets of credentials.
       </t>
       <t>
 	This workflow assumes that the Consumer has obtained an Access Token, Access Token Secret, and
@@ -266,19 +275,26 @@ Session information used by the Service Provider to verify the consumer when upd
 
 	<t>
 	  In order for the Consumer to obtain additional authorization, the Consumer repeats
-	  <xref target="OAuth Core 1.0" /> Sections 6.1  and 6.2. However, the Consumer upgrades
-	  its credentials using the mechanism defined in <xref target="update_access_token">Consumer
-	    Requests to Update Access Token</xref> to update its credentials, substituting the Request Token
-	  for the Access Token.
+	  <xref target="OAuth Core 1.0" /> Sections 6.1  and 6.2. The Consumer obtains an unauthorized
+	  Request Token and directs the End User to the Service Provider to authorize the Request Token. However, 
+	  when exchanging the Request Token for the Access Token, the Consumer submits the 
+	  Authentication Session Handle that was obtained previously in addition to the Request Token. The Service
+	  Provider responds with an Access Token that is authorized for the new set of privileges, as well as 
+	  the Access Token Secret, and Authentication Session Handle. The previously issued Access Token, Access Token
+	  Secret, and Authentication Session Handle MUST be discarded.
 	</t>
-
+	<t>
+	  Service Providers MAY choose to re-issue the same Access Token, Access Token Secret, and Authentication Session Handle
+	  as long as the new set of credentials are authorized to access the new set of protected resources that were authorized
+	  by the End User.
+	</t>
       </section>
     </section>
     <section title="Authorization Revocation">
       <t>
 	Consumers MAY provide a session termination or Sign Out functionality in which the 
-	Consumer requests the OAuth enabled IDP to invalidate the user's session, Access Token and Secret 
-	and deletes its local copies of the same. Service Providers MUST invalidate the 
+	Consumer requests the OAuth enabled IDP to terminate the Consumer's Authentication Session, and to invalidate
+	the Access Token and Secret. Service Providers MUST invalidate the 
 	Consumer's Access Token after receiving this request. The Access Token Invalidation end point is 
 	defined in the OAuth Discovery Information as "http://oauth.net/oauth_token_invalidation_request" 
 	(TODO - correct the namespace).
@@ -318,21 +334,21 @@ Session information used by the Service Provider to verify the consumer when upd
 	Service Providers may want to issue Access Tokens with relatively short lifetimes
 	for a variety of reasons. Issuing permanent credentials can be risky if the credentials 
 	are stolen due to a compromised Protected Resource or Consumer. The Authentication Session 
-	Handle that is shared by the Consumer and the Service Provider's Authentication Service,
+	Handle that is shared by the Consumer and the Service Provider's Identity Provider,
 	but not with the Protected Resource helps defend against the scenario where 
 	the Protected Resource is compromised. 
       </t>
       <t>
 	Allowing Access Tokens to be revoked before they expire requires Service Providers to 
-	do a database lookup before serving a Protected Resource. For performance reasons, Service
+	perform a database lookup before serving a Protected Resource. For performance reasons, Service
 	Providers may want to issue Access Tokens that can be validated without a database lookup, 
 	provided that the Access Token lifetime is less than then the Service Provider's allowable 
 	latency for Access Token revocation.
       </t>
       <t>
-	Over time, new versions of Consumers may be released which require additional priveleges than
+	Over time, new versions of Consumers may be released which require additional privileges than
 	what their users originally granted. Users SHOULD have the opportunity to either approve or deny 
-	additional priveleges for a Consumer after the initial authorization.
+	additional privileges for a Consumer after the initial authorization.
       </t>
       <t>
 	All secrets and the Authentication Session Handle SHOULD only be transmitted using HTTPS.
