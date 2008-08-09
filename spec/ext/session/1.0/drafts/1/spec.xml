@@ -242,7 +242,7 @@
       <t>
 	This workflow assumes that the Consumer has obtained an Access Token, Access Token Secret, and
 	an Authentication Session Handle as defined in <xref target="request_access_token">
-	  Consumer Obtrains an Access Token and Session Handle</xref>.
+	  Consumer Obtains an Access Token and Session Handle</xref>.
       </t>
 
       <section title="Additional Authorization Required">
