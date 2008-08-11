@@ -39,14 +39,14 @@ Installation
 ------------------------------------------------
 1.	Create a empty database and ColdFusion DSN called "oauth"
 
-2.	If you are using a MSSQL database, you don't have to modifiy the variables in the file "database/create_tables.cfm".
+2.	If you are using a MSSQL database, you don't have to modify the variables in the file "database/create_tables.cfm".
 	Otherwise you have to modify the variable "sDbsys" for the database platform in use.
 
 3.	Execute "database/create_tables.cfm"
 
 4.	Configure the base URL and endpoint links in the file "examples/common.cfm"
 
-5.	Copy the folder oauth into your webfolder or set a mapping called oauth for this folder
+5.	Copy the folder oauth into your web folder or set a mapping called oauth for this folder
 
 6.	Create a consumer in "examples/admin_consumers.cfm" with the values consumer key = CONSUMER_KEY and consumer secret = CONSUMER_SECRET
 

@@ -82,7 +82,7 @@ limitations under the License.
 		AND	Len(sConsumerKey) GT 0
 		AND	Len(sConsumerSecret) GT 0>
 			
-		<cfset oConsumerDAO = CreateObject("component", "oauth.OAuthConsumerDAO").init(sDataSource)>
+		<cfset oConsumerDAO = CreateObject("component", "oauth.oauthconsumerdao").init(sDataSource)>
 		<cftransaction>		
 		<cftry>							
 			<cfset stCreateData = StructNew()>
@@ -132,7 +132,7 @@ limitations under the License.
 	<cfset sConsumerKey = Hash( iTime & iRandom, "SHA")>
 </cfif>
 
-<cfset oDAO = CreateObject("component", "oauth.OAuthConsumerDAO").init(sDataSource = sDataSource)>
+<cfset oDAO = CreateObject("component", "oauth.oauthconsumerdao").init(sDataSource = sDataSource)>
 
 <cfif IsDefined('FORM.editconsumerid')>
 
@@ -241,7 +241,7 @@ limitations under the License.
 				
 		<cfif IsDefined('FORM.listexisting')>
 			<cfif NOT IsDefined('oDAO')>			
-				<cfset oDAO = CreateObject("component", "oauth.OAuthConsumerDAO").init(sDataSource = sDataSource)>
+				<cfset oDAO = CreateObject("component", "oauth.oauthconsumerdao").init(sDataSource = sDataSource)>
 			</cfif>
 			<cfif iSortColumnID GT 0 AND iSortColumnID LT 10>
 				<cfset qListAll = oDAO.listAll(iSortColumnID)>

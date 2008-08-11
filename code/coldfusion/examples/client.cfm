@@ -35,14 +35,14 @@ limitations under the License.
 <form action="#CGI.SCRIPT_NAME#" method="POST">
 
 <!--- create dao --->
-<cfset oReqDataStore = CreateObject("component", "oauth.OAuthTest").init(sDataSource, true)>
+<cfset oReqDataStore = CreateObject("component", "oauth.oauthtest").init(sDataSource, true)>
 
 <!--- create server --->
-<cfset oReqServer = CreateObject("component", "oauth.OAuthServer").init(oReqDataStore)>
+<cfset oReqServer = CreateObject("component", "oauth.oauthserver").init(oReqDataStore)>
 
 <!--- register signature methods --->
-<cfset oReqSigMethodSHA = CreateObject("component", "oauth.OAuthSignatureMethod_HMAC_SHA1")>
-<cfset oReqSigMethodPLAIN = CreateObject("component", "oauth.OAuthSignatureMethod_PLAINTEXT")>
+<cfset oReqSigMethodSHA = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
+<cfset oReqSigMethodPLAIN = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
 <cfset oReqServer.addSignatureMethod(oReqSigMethodSHA)>
 <cfset oReqServer.addSignatureMethod(oReqSigMethodPLAIN)>
 
@@ -66,16 +66,16 @@ limitations under the License.
 <cfset sAction = stRequest["ACTION"]>
 <cfset sDump = stRequest["DUMP"]>
 
-<cfset oTestConsumer = CreateObject("component", "oauth.OAuthConsumer").init(sKey = sClientKey, sSecret = sClientSecret)>
-<cfset oEmptyToken = CreateObject("component", "oauth.OAuthToken").createEmptyToken()>
-<cfset oTestToken = CreateObject("component", "oauth.OAuthToken").createEmptyToken()>
+<cfset oTestConsumer = CreateObject("component", "oauth.oauthconsumer").init(sKey = sClientKey, sSecret = sClientSecret)>
+<cfset oEmptyToken = CreateObject("component", "oauth.oauthtoken").createEmptyToken()>
+<cfset oTestToken = CreateObject("component", "oauth.oauthtoken").createEmptyToken()>
 
 <cfif NOT Len(sClientToken) IS 0>
-	<cfset oTestToken = CreateObject("component", "oauth.OAuthToken").init(sKey = sClientToken, sSecret = sClientTokenSecret)>
+	<cfset oTestToken = CreateObject("component", "oauth.oauthtoken").init(sKey = sClientToken, sSecret = sClientTokenSecret)>
 </cfif>
 
 <cfif Compare(LCase(sAction), "request_token") IS 0>
-	<cfset oReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(				
+	<cfset oReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(				
 		oConsumer = oTestConsumer, 
 		oToken = oEmptyToken, 
 		sHttpMethod = "GET", 
@@ -109,7 +109,7 @@ limitations under the License.
 	</cfif>
 	
 <cfelseif Compare(LCase(sAction), "access_token") IS 0>
-	<cfset oReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(				
+	<cfset oReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(				
 		oConsumer = oTestConsumer, 
 		oToken = oTestToken, 
 		sHttpMethod = "GET", 
@@ -129,11 +129,11 @@ limitations under the License.
 
 </cfif>
 
-<cfset oAccessToken = CreateObject("component", "oauth.OAuthConsumer").init(sKey = "accesskey", sSecret = "accesssecret")>
+<cfset oAccessToken = CreateObject("component", "oauth.oauthconsumer").init(sKey = "accesskey", sSecret = "accesssecret")>
 
 <cfset sTempURL = sBaseURL & "/" & sRequestTokenURL>
 <cfset sOptRequestURL = sTempURL>
-<cfset oRReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(
+<cfset oRReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
 	oConsumer = oTestConsumer, 
 	oToken = oEmptyToken,
 	sHttpMethod = "GET",
@@ -145,7 +145,7 @@ limitations under the License.
 								
 <cfset sTempURL = sBaseURL & "/" & sAccessTokenURL>
 <cfset sOptAccessURL = sTempURL>
-<cfset oAReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(
+<cfset oAReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
 	oConsumer = oTestConsumer, 
 	oToken = oTestToken,
 	sHttpMethod = "GET",
@@ -160,7 +160,7 @@ limitations under the License.
 <cfset stDummyParams = StructNew()>
 <cfset stDummyParams.dummy = "v_a^lue$">
 <cfset stDummyParams.anotherdummy = "ß?other _%§value~">
-<cfset oEReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(
+<cfset oEReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
 	oConsumer = oTestConsumer, 
 	oToken = oTestToken,
 	sHttpMethod = "GET",
