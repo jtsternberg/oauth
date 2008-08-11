@@ -136,7 +136,7 @@ limitations under the License.
 		<cfset assertEqualsString(sTemp, sResult)>
 		<cfset oTempSig = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
 		<cfset sResult = oTempSig.buildSignature(variables.oRequest, variables.oConsumer, variables.oToken)>
-		<cfset sTemp = "40D0hePIGuTzR9QvXVoEhy545Sc=">
+		<cfset sTemp = "Y8E4YtXHc5Ca6bPptiZ+XYHfDxY=">
 		<cfset assertEqualsString(sTemp, sResult)>
 	</cffunction>
 
@@ -203,7 +203,7 @@ limitations under the License.
 		<cfset assertEqualsString(sTemp, variables.oRequest.getParameter("oauth_signature"))>
 		
 		<cfset oTempSig = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
-		<cfset sTemp = "sPxNK4Y2Tm07QW3ck23Yf3ttrFA=">
+		<cfset sTemp = "ml+HYq0MwAdWnwJ+MZwYQP/8xT0=">
 		<cfset variables.oRequest.signRequest(oTempSig, variables.oConsumer, variables.oToken)>
 		<cfset assertEqualsString(sTemp, variables.oRequest.getParameter("oauth_signature"))>
 	</cffunction>

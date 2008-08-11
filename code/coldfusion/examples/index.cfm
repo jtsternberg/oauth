@@ -34,17 +34,17 @@ limitations under the License.
 <cfinclude template="common.cfm">
 <cfinclude template="navimenu.cfm">
 
-<cfset oTestDataStore = CreateObject("component", "oauth.OAuthTest").init(sDataSource, false)>
-<cfset oTestServer = CreateObject("component", "oauth.OAuthServer").init(oTestDataStore)>
+<cfset oTestDataStore = CreateObject("component", "oauth.oauthtest").init(sDataSource, false)>
+<cfset oTestServer = CreateObject("component", "oauth.oauthserver").init(oTestDataStore)>
 
 <cfset sTestConsumerKey = "CONSUMER_KEY">
 <cfset sTestConsumerSecret = "CONSUMER_SECRET">
-<cfset oTestConsumer = CreateObject("component", "oauth.OAuthConsumer").init(sKey = sTestConsumerKey, sSecret = sTestConsumerSecret)>
+<cfset oTestConsumer = CreateObject("component", "oauth.oauthconsumer").init(sKey = sTestConsumerKey, sSecret = sTestConsumerSecret)>
 
 <cfset sRTKey = "RequestTokenKey">
 <cfset sRTSecret = "RequestTokenSecret">
 
-<cfset oTempToken = CreateObject("component", "oauth.OAuthToken").init(sKey = sRTKey, sSecret = sRTSecret)>
+<cfset oTempToken = CreateObject("component", "oauth.oauthtoken").init(sKey = sRTKey, sSecret = sRTSecret)>
 <cfset oLookUpToken = oTestDataStore.lookUpToken(oConsumer = oTestConsumer, sTokenType = "request", oToken = oTempToken)>
 <cfif oLookUpToken.isEmpty()>
 	<cfset oTestRToken = oTestDataStore.newToken(oConsumer = oTestConsumer, sTokenType = "REQUEST", sKey = sRTKey, sSecret = sRTSecret)>
@@ -55,7 +55,7 @@ limitations under the License.
 <cfset sATKey = "AccessTokenKey">
 <cfset sATSecret = "AccessTokenSecret">
 
-<cfset oTempToken = CreateObject("component", "oauth.OAuthToken").init(sKey = sATKey, sSecret = sATSecret)>
+<cfset oTempToken = CreateObject("component", "oauth.oauthtoken").init(sKey = sATKey, sSecret = sATSecret)>
 <cfset oLookUpToken = oTestDataStore.lookUpToken(oConsumer = oTestConsumer, sTokenType = "access", oToken = oTempToken)>
 <cfif oLookUpToken.getKey() EQ "" AND oLookUpToken.getSecret() EQ "">
 	<cfset oTestAToken = oTestDataStore.newToken(oConsumer = oTestConsumer, sTokenType = "ACCESS", sKey = sATKey, sSecret = sATSecret)>
@@ -63,15 +63,15 @@ limitations under the License.
 	<cfset oTestAToken = oLookUpToken>
 </cfif>
 
-<cfset oEmptyToken = CreateObject("component", "oauth.OAuthToken").createEmptyToken()>
+<cfset oEmptyToken = CreateObject("component", "oauth.oauthtoken").createEmptyToken()>
 
-<cfset oSigMethodSHA = CreateObject("component", "oauth.OAuthSignatureMethod_HMAC_SHA1")>
-<cfset oSigMethodPLAIN = CreateObject("component", "oauth.OAuthSignatureMethod_PLAINTEXT")>
+<cfset oSigMethodSHA = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
+<cfset oSigMethodPLAIN = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
 <cfset oTestServer.addSignatureMethod(oSigMethodSHA)>
 <cfset oTestServer.addSignatureMethod(oSigMethodPLAIN)>
 
 <cfset sTemp = sBaseURL & "/" & sRequestTokenURL>
-<cfset oRequestReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(
+<cfset oRequestReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
 	oConsumer = oTestConsumer, 
 	oToken = oEmptyToken, 
 	sHttpMethod = "GET", 
@@ -83,7 +83,7 @@ limitations under the License.
 
 <cfset sTempURL = sBaseURL & "/" & sAccessTokenURL>
 
-<cfset oAccessReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(
+<cfset oAccessReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
 	oConsumer = oTestConsumer, 
 	oToken = oTestRToken, 
 	sHttpMethod = "GET", 
@@ -99,7 +99,7 @@ limitations under the License.
 <cfset stEchoParams = StructNew()>
 <cfset stEchoParams.method = "f o o b_a_r">
 <cfset stEchoParams.warn_msg = "MiNd_the!%&gA+*p">
-<cfset oEchoReq = CreateObject("component", "oauth.OAuthRequest").fromConsumerAndToken(
+<cfset oEchoReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
 	oConsumer = oTestConsumer, 
 	oToken = oTestAToken, 
 	sHttpMethod = "GET", 

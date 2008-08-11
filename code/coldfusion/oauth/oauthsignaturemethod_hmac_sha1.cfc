@@ -20,6 +20,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Changes:
+============
+08/11/08 - Chris Blackwell: added java.net.URLEncoder code, see
+	http://code.google.com/p/oauth/issues/detail?id=35
 --->
 
 <cfcomponent extends="OAuthSignatureMethod" displayname="OAuthSignatureMethod_HMAC_SHA1" hint="signature method using HMAC-SHA1">
@@ -40,10 +45,14 @@ limitations under the License.
 		<cfset var sResult = "">
 		<cfset var sHashed = "">
 		<cfset var digest = "">
+		<cfset var encoder = CreateObject("java","java.net.URLEncoder")>
 
-		<cfset ArrayAppend(aSignature, arguments.oRequest.getNormalizedHttpMethod())>
-		<cfset ArrayAppend(aSignature, arguments.oRequest.getNormalizedHttpURL())>
-		<cfset ArrayAppend(aSignature, arguments.oRequest.getSignableParameters())>
+		<cfset ArrayAppend(	aSignature, 
+							encoder.encode(arguments.oRequest.getNormalizedHttpMethod()) )>
+		<cfset ArrayAppend(	aSignature, 
+							encoder.encode(arguments.oRequest.getNormalizedHttpURL()) )>
+		<cfset ArrayAppend(	aSignature,
+							encoder.encode(arguments.oRequest.getSignableParameters()) )>
 
 		<cfset sKey = arguments.oConsumer.getSecret() & "&">
 		<cfset sKey = sKey & arguments.oToken.getSecret()>

@@ -32,19 +32,19 @@ limitations under the License.
 <cfinclude template="common.cfm">
 
 <!--- create dao --->
-<cfset oReqDataStore = CreateObject("component", "oauth.OAuthTest").init(sDataSource, true)>
+<cfset oReqDataStore = CreateObject("component", "oauth.oauthtest").init(sDataSource, true)>
 
 <!--- create server --->
-<cfset oReqServer = CreateObject("component", "oauth.OAuthServer").init(oReqDataStore)>
+<cfset oReqServer = CreateObject("component", "oauth.oauthserver").init(oReqDataStore)>
 
 <!--- register signature methods --->
-<cfset oReqSigMethodSHA = CreateObject("component", "oauth.OAuthSignatureMethod_HMAC_SHA1")>
-<cfset oReqSigMethodPLAIN = CreateObject("component", "oauth.OAuthSignatureMethod_PLAINTEXT")>
+<cfset oReqSigMethodSHA = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
+<cfset oReqSigMethodPLAIN = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
 <cfset oReqServer.addSignatureMethod(oReqSigMethodSHA)>
 <cfset oReqServer.addSignatureMethod(oReqSigMethodPLAIN)>
 
 <!--- analyze request --->
-<cfset oReq = CreateObject("component", "oauth.OAuthRequest").fromRequest()>
+<cfset oReq = CreateObject("component", "oauth.oauthrequest").fromRequest()>
 <cfdump var="#oReq.getParameters()#">
 <cfset oReqServer.verifyRequest(oReq)>
 <cfset aEchoParams = ArrayNew(1)>
