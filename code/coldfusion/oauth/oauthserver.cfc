@@ -238,7 +238,7 @@ limitations under the License.
 	<cffunction name="checkTimestamp" access="private">
 		<cfargument name="iTimestamp" required="true" type="numeric">
 
-		<cfset var iNow = GetTickCount()>
+		<cfset var iNow = CreateObject("component", "oauthrequest").generateTimestamp()>
 		<cfset var sErrorMsg = "">
 		<cfset var iDiff = 0>
 

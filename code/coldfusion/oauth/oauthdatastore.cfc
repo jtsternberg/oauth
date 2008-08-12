@@ -192,12 +192,14 @@ limitations under the License.
 
 	<cffunction name="generateTokenKey" access="private" returntype="string">
 		<!--- encode current tickcount using SHA-1 --->
-		<cfreturn Hash(GetTickCount() & RandRange(1,1024), "SHA")> 
+		<cfset var timestamp = CreateObject("component", "oauthrequest").generateTimestamp()>
+		<cfreturn Hash(timestamp & RandRange(1,1024), "SHA")>
 	</cffunction>
 
 	<cffunction name="generateTokenSecret" access="private" returntype="string">
 		<!--- double hashed, additional random data needed ? --->
-		<cfreturn Hash(Hash(GetTickCount() + GetTickCount(), "SHA"), "SHA")>
+		<cfset var timestamp = CreateObject("component", "oauthrequest").generateTimestamp()>
+		<cfreturn Hash(Hash(timestamp + timestamp, "SHA"), "SHA")>
 	</cffunction>
 
 	<cffunction name="newToken" access="public" returntype="OAuthToken">

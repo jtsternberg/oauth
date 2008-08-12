@@ -21,7 +21,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Changes:
+History:
 ============
 08/11/08 - Chris Blackwell: added java.net.URLEncoder code, see
 	http://code.google.com/p/oauth/issues/detail?id=35
