@@ -20,6 +20,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+History:
+============
+08/12/08 - Chris Blackwell: changed generateTimestamp()
+	use CreateObject("java", "java.util.Date").getTime() instead of getTickCount (OpenBlueDragon compatibility)
 --->
 
 <cfcomponent displayname="OAuthRequest">
@@ -174,7 +179,7 @@ limitations under the License.
 
 		<cfset stDefault["oauth_version"] = getVersion()>
 		<cfset stDefault["oauth_nonce"] = generateNonce()>
-		<cfset stDefault["oauth_timestamp"] = GetTickCount()>
+		<cfset stDefault["oauth_timestamp"] = generateTimestamp()>
 		<cfset stDefault["oauth_consumer_key"] = arguments.oConsumer.getKey()>
 
 		<cfset stNewParameters = arguments.stParameters>
@@ -329,15 +334,16 @@ limitations under the License.
 	</cffunction>
 
 	<!--- util function: current timestamp --->
-	<cffunction name="generateTimestamp" access="private" returntype="numeric">
-		<cfreturn GetTickCount()>
+	<cffunction name="generateTimestamp" access="public" returntype="numeric">
+		<cfset var tc = CreateObject("java", "java.util.Date").getTime()>
+		<cfreturn Int(tc / 1000)>
 	</cffunction>
 
 	<!--- util function: current nonce --->
 	<cffunction name="generateNonce" access="public" returntype="string" output="false" hint="generate nonce value">
 		<cfset var iMin = 0>
 		<cfset var iMax = CreateObject("java","java.lang.Integer").MAX_VALUE>
-		<cfset var sToEncode = GetTickCount() & RandRange(iMin, iMax)>
+		<cfset var sToEncode = generateTimestamp() & RandRange(iMin, iMax)>
 
 		<cfreturn Hash(sToEncode, "SHA")/>
 	</cffunction>
