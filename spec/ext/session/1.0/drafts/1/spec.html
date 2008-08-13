@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en"><head><title>Implementers' Draft: OAuth Session 1.0 Draft 1</title>
 
-<meta http-equiv="Expires" content="Sat, 09 Aug 2008 03:51:13 +0000">
+<meta http-equiv="Expires" content="Wed, 13 Aug 2008 00:42:13 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="OAuth Session 1.0 Draft 1">
 <meta name="generator" content="xml2rfc v1.33 (http://xml.resource.org/)">
@@ -146,7 +146,7 @@
 <tr><td class="header">&nbsp;</td><td class="header">P. Alavilli</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">G. George Fletcher</td></tr>
 <tr><td class="header">&nbsp;</td><td class="header">AOL</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">August 8, 2008</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">August 12, 2008</td></tr>
 </tbody></table></td></tr></tbody></table>
 <h1><br>OAuth Session 1.0 Draft 1</h1>
 
@@ -207,7 +207,7 @@ Security Considerations<br>
 Workflow Diagram<br>
 <a href="#rfc.references1">8.</a>&nbsp;
 References<br>
-<a href="#rfc.authors">�</a>&nbsp;
+<a href="#rfc.authors">§</a>&nbsp;
 Authors' Addresses<br>
 </p>
 <br clear="all">
@@ -235,7 +235,7 @@ Acknowledgements</h3>
       
 </p>
 <p>
-      This extension depends on the <a class="info" href="#OAuth%20Problem%20Reporting%20Extension">[OAuth Problem Reporting Extension]<span> (</span><span class="info">Kristian, J., &#8220;OAuth Problem Reporting Extension,&#8221; .</span><span>)</span></a> by John Kristian. 
+      This extension depends on the <a class="info" href="#OAuth%20Problem%20Reporting%20Extension">[OAuth Problem Reporting Extension]<span> (</span><span class="info">Kristian, J., “OAuth Problem Reporting Extension,” .</span><span>)</span></a> by John Kristian. 
       
 </p>
 <a name="anchor2"></a><br><hr>
@@ -292,14 +292,14 @@ without requiring Consumers to manage multiple Access Tokens </li>
       
 </p>
 <p>
-	Consumers request access to Protected Resources as specified in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Sections 6.1, 
-	6.2, and 6.3. Consumers obtain an Access Token, as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 6.3.2 and also 
+	Consumers request access to Protected Resources as specified in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Sections 6.1, 
+	6.2, and 6.3. Consumers obtain an Access Token, as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 6.3.2 and also 
 	an optional Authentication Session Handle that can be used to refresh the Access Token if it expires, 
 	or to update the Access Token if the Consumer needs to request additional priveleges.
       
 </p>
 <p>
-	Consumers access Protected Resources as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 7. Consumers accessing
+	Consumers access Protected Resources as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 7. Consumers accessing
 	a Protected Resource using an expired access token are informed using the Problem Reporting Extension that 
 	they should refresh their Access Token, provided that they still have a valid Authorization Session with the 
 	Service Provider.
@@ -329,7 +329,7 @@ Consumer Obtains an Access Token and Session Handle</h3>
 
 <p>
 	  Consumers obtain an Access Token and Access Token Secret as defined in 
-	  <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a>
+	  <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a>
 Section 6. In addition to the oauth_token and oauth_token_secret
 parameters, the Service Provider MAY return three additional
 parameters: </p>
@@ -366,9 +366,9 @@ parameters: </p>
 Accessing Protected Resources</h3>
 
 <p>
-	  Consumers access Protected Resources as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 7. If the
+	  Consumers access Protected Resources as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 7. If the
 	  Service Provider denies the request because the Access Token has expired the Service Provider SHOULD respond
-	  with HTTP 401 and use the <a class="info" href="#OAuth%20Problem%20Reporting%20Extension">[OAuth Problem Reporting Extension]<span> (</span><span class="info">Kristian, J., &#8220;OAuth Problem Reporting Extension,&#8221; .</span><span>)</span></a> to inform the Consumer 
+	  with HTTP 401 and use the <a class="info" href="#OAuth%20Problem%20Reporting%20Extension">[OAuth Problem Reporting Extension]<span> (</span><span class="info">Kristian, J., “OAuth Problem Reporting Extension,” .</span><span>)</span></a> to inform the Consumer 
 	  to go through the  Reauthorization workflow.
 	
 </p><div style="display: table; width: 0pt; margin-left: 3em; margin-right: auto;"><pre>	    HTTP/1.1 401 Unauthorized
@@ -409,17 +409,17 @@ Consumer Requests to Update Access Token</h3>
 </dd>
 <dt>oauth_signature:</dt>
 <dd>
-	      The signature as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 9: Signing Requests.
+	      The signature as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 9: Signing Requests.
 	    
 </dd>
 <dt>oauth_timestamp:</dt>
 <dd>
-	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 8: Nonce and Timestamp.
+	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 8: Nonce and Timestamp.
 	    
 </dd>
 <dt>oauth_nonce:</dt>
 <dd>
-	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 8: Nonce and Timestamp.
+	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 8: Nonce and Timestamp.
 	    
 </dd>
 <dt>oauth_session_handle:</dt>
@@ -449,6 +449,17 @@ Service Provider Updates Access Token</h3>
 	  the new Access Token.
 	
 </p>
+<p>
+	  If the Consumer is no longer authorized to access the Protected Resources, the Service Provider
+	  should return the HTTP 401 and the "permission_denied" problem to the Consumer.
+	  
+	
+</p><div style="display: table; width: 0pt; margin-left: 3em; margin-right: auto;"><pre>	    HTTP/1.1 401 Unauthorized
+	    WWW-Authenticate: OAuth oauth_problem=permission_denied
+	    Content-type: application/x-www-form-urlencoded
+
+            oauth_problem=permission_denied
+</pre></div>
 <a name="anchor7"></a><br><hr>
 <table summary="layout" class="TOCbug" align="right" cellpadding="0" cellspacing="2"><tbody><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></tbody></table>
 <a name="rfc.section.5"></a><h3>5.&nbsp;
@@ -501,7 +512,7 @@ Consumer Requests User Authorization</h3>
 </p>
 <p>
 	  In order for the Consumer to obtain additional authorization, the Consumer repeats
-	  <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Sections 6.1  and 6.2. The Consumer obtains an unauthorized
+	  <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Sections 6.1  and 6.2. The Consumer obtains an unauthorized
 	  Request Token and directs the End User to the Service Provider to authorize the Request Token. However, 
 	  when exchanging the Request Token for the Access Token, the Consumer submits the 
 	  Authentication Session Handle that was obtained previously in addition to the Request Token. The Service
@@ -551,17 +562,17 @@ Authorization Revocation</h3>
 </dd>
 <dt>oauth_signature:</dt>
 <dd>
-	      The signature as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 9: Signing Requests.
+	      The signature as defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 9: Signing Requests.
 	    
 </dd>
 <dt>oauth_timestamp:</dt>
 <dd>
-	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 8: Nonce and Timestamp.
+	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 8: Nonce and Timestamp.
 	    
 </dd>
 <dt>oauth_nonce:</dt>
 <dd>
-	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, &#8220;OAuth Core 1.0,&#8221; .</span><span>)</span></a> Section 8: Nonce and Timestamp.
+	      As defined in <a class="info" href="#OAuth%20Core%201.0">[OAuth Core 1.0]<span> (</span><span class="info">OAuth Core Workgroup, “OAuth Core 1.0,” .</span><span>)</span></a> Section 8: Nonce and Timestamp.
 	    
 </dd>
 <dt>oauth_session_handle:</dt>
@@ -618,13 +629,13 @@ Workflow Diagram</h3>
 <h3>8.&nbsp;References</h3>
 <table border="0" width="99%">
 <tbody><tr><td class="author-text" valign="top"><a name="OAuth Core 1.0">[OAuth Core 1.0]</a></td>
-<td class="author-text">OAuth Core Workgroup, &#8220;<a href="http://oauth.net/core/1.0">OAuth Core 1.0</a>.&#8221;</td></tr>
+<td class="author-text">OAuth Core Workgroup, “<a href="http://oauth.net/core/1.0">OAuth Core 1.0</a>.”</td></tr>
 <tr><td class="author-text" valign="top"><a name="OAuth Problem Reporting Extension">[OAuth Problem Reporting Extension]</a></td>
-<td class="author-text">Kristian, J., &#8220;<a href="http://oauth.pbwiki.com/ProblemReporting">OAuth Problem Reporting Extension</a>.&#8221;</td></tr>
+<td class="author-text">Kristian, J., “<a href="http://oauth.pbwiki.com/ProblemReporting">OAuth Problem Reporting Extension</a>.”</td></tr>
 <tr><td class="author-text" valign="top"><a name="RFC2119">[RFC2119]</a></td>
-<td class="author-text">Bradner, B., &#8220;<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>,&#8221; RFC&nbsp;2119.</td></tr>
+<td class="author-text">Bradner, B., “<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>,” RFC&nbsp;2119.</td></tr>
 <tr><td class="author-text" valign="top"><a name="RFC2606">[RFC2606]</a></td>
-<td class="author-text">Eastlake, D. and A. Panitz, &#8220;<a href="http://tools.ietf.org/html/rfc2606">Reserved Top Level DNS Names</a>,&#8221; RFC&nbsp;2606.</td></tr>
+<td class="author-text">Eastlake, D. and A. Panitz, “<a href="http://tools.ietf.org/html/rfc2606">Reserved Top Level DNS Names</a>,” RFC&nbsp;2606.</td></tr>
 </tbody></table>
 
 <a name="rfc.authors"></a><br><hr>
