@@ -38,7 +38,7 @@
     </author>
 
 
-    <date day="8" month="August" year="2008"/>
+    <date day="12" month="August" year="2008"/>
     <abstract>
       <t>
 	This specification defines the concept of an Authorization Session which 
@@ -229,6 +229,20 @@
 	  After obtaining the new Access Token, the Consumer can access Protected Resources using 
 	  the new Access Token.
 	</t>
+	<t>
+	  If the Consumer is no longer authorized to access the Protected Resources, the Service Provider
+	  should return the HTTP 401 and the "permission_denied" problem to the Consumer.
+	  
+	</t>
+	<figure>
+	  <artwork>
+	    HTTP/1.1 401 Unauthorized
+	    WWW-Authenticate: OAuth oauth_problem=permission_denied
+	    Content-type: application/x-www-form-urlencoded
+
+            oauth_problem=permission_denied
+	  </artwork>
+	</figure>
       </section>
     </section>
     <section title="Multiple Resource Authorization">
