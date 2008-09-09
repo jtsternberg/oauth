@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en"><head><title>Draft 1: OAuth Extension for Response Data Format - Draft 1</title>
-<meta http-equiv="Expires" content="Mon, 04 Aug 2008 15:12:34 +0000">
+<meta http-equiv="Expires" content="Tue, 09 Sep 2008 16:49:40 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="description" content="OAuth Extension for Response Data Format - Draft 1">
 <meta name="keywords" content="OAuth, Extension, Response Data Format, Draft">
@@ -188,7 +188,9 @@ AMF0<br />
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#amf3-schema">8.6.</a>&nbsp;
 AMF3<br />
 <a href="#anchor1">Appendix&nbsp;A.</a>&nbsp;
-Appendix A - Response Data in XML Format with Service Specific Parameters<br />
+Response Data in XML Format with Service Specific Parameters<br />
+<a href="#anchor2">Appendix&nbsp;B.</a>&nbsp;
+Security considerations for xoauth_json_callback<br />
 <a href="#rfc.references1">9.</a>&nbsp;
 References<br />
 <a href="#rfc.authors">&#167;</a>&nbsp;
@@ -267,7 +269,7 @@ Description</h3>
 </p>
 <p>The most common use case is a Javascript based Consumer running in a browser on a domain (Ex. sampleblog.com) that's not the same as the Service Provider's domain (Ex. example.provider.com). In this case usually the Javascript Consumers use the &lt;SCRIPT&gt; tag injection mechanism (called 'JSONP') to make cross domain requests to the Service Provider. One of the side effects of using the JSONP mechanism is to have the response data also returned in 'JSON' <a class='info' href='#RFC4627'>[RFC4627]<span> (</span><span class='info'>Crockford, D., &ldquo;The application/json Media Type for JavaScript Object Notation (JSON),&rdquo; July&nbsp;2006.</span><span>)</span></a>format. Similar to 'JSON' there have been other data serialization formats defined to help applications built in other technologies like Flash, PHP, Java, C/C++, etc.. Some of them include 'amf0', 'amf3', and 'php' targeting specific technologies and some are more generic formats like 'yaml' and 'xml'.
 </p>
-<p>This Response Data Format Specification addresses such requirements so a Consumer can request the Service Provider to return data in a specific format instead of the default format (a query string format using '&amp;' and '=' signs to separate name-value pairs) encoded as specified in the OAuth Core 1.0 Specification.<a class='info' href='#oauth_core_1_0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; December&nbsp;2007.</span><span>)</span></a>
+<p>This Response Data Format Specification addresses such requirements so a Consumer can request the Service Provider to return data in a specific format instead of the default format (a form-encoded string using '&amp;' and '=' signs to separate name-value pairs) encoded as specified in the OAuth Core 1.0 Specification.<a class='info' href='#oauth_core_1_0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; December&nbsp;2007.</span><span>)</span></a>
 </p>
 <a name="parameter"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -354,10 +356,10 @@ Processing Rules</h3>
 	    supports the extension. However it is recommended that the Consumer SHOULD first determine if the Service Provider supports the extension before adding the parameter.
 </p>
 <p>
-			When requesting the response data format as "JSON", the Consumers MAY pass the 'oauth_callback' with the JSONP callback and the Service Provider MUST return a JSONP callback using the value from the 'oauth_callback' parameter.
+			When requesting the response data format as "JSON", the Consumers MAY pass the 'xoauth_json_callback' with the JSONP callback and the Service Provider MUST return a JSONP callback using the value from the 'xoauth_json_callback' parameter.
 			
 </p>
-<p> When returning response data in the format requested by the Consumer, the Service Provider MUST set the HTTP 'Content-Type' header with the appropriate value that corresponds to the response data format.
+<p> When returning response data in the format requested by the Consumer, the Service Provider MUST set the HTTP 'Content-Type' header with the appropriate value that corresponds to the response data format. The 'Content-Type' header SHOULD also include a 'CharSet' to let the Consumer know which character set is used in the response data.
 			
 </p>
 <p> It is RECOMMENDED that the Service Providers SHOULD also return the response data in the same format in case of errors and MAY return Service Provider specific data in the same format to make it easy for the Consumers to handle the response data in a consistent way.
@@ -367,12 +369,12 @@ Processing Rules</h3>
 <a name="rfc.section.7.1"></a><h3>7.1.&nbsp;
 Indirect Requests</h3>
 
-<p>Service Providers MUST support "xoauth_response_format" parameter in the Indirect Requests only if the Consumer provides the "oauth_callback" parameter and HTTP POST method is used to redirect the user back to the Consumer. 
+<p>Service Providers MUST support "xoauth_response_format" parameter in the Indirect Requests only if the Consumer provides the "oauth_callback" parameter and HTTP POST method (not using 301/302/303 redirects) is used to redirect the user back to the Consumer. 
 </p>
 <ul class="text">
 <li>If the Service Provider is using a HTTP POST method to redirect the user back to the Consumer's "oauth_callback" URL, then the response data in the requested format as specified in the "xoauth_response_format" parameter, goes in the HTTP POST body.
 </li>
-<li>If the Service Provider is using a HTTP GET method to redirect the user back to the Consumer's "oauth_callback" URL, the "xoauth_response_format" MUST be ignored and the response data SHOULD be returned in the default format (query string parameters) as defined in the <a class='info' href='#oauth_core_1_0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; December&nbsp;2007.</span><span>)</span></a>
+<li>If the Service Provider is using a HTTP GET method (a redirect based on HTTP status codes 301/302/303) to redirect the user back to the Consumer's "oauth_callback" URL, the "xoauth_response_format" MUST be ignored and the response data SHOULD be returned in the default format (form encoded parameters) as defined in the <a class='info' href='#oauth_core_1_0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth, OCW., &ldquo;OAuth Core 1.0,&rdquo; December&nbsp;2007.</span><span>)</span></a>
 </li>
 </ul>
 <a name="schema"></a><br /><hr />
@@ -413,7 +415,7 @@ Response Data Format</h3>
 <a name="rfc.section.8.1"></a><h3>8.1.&nbsp;
 XML</h3>
 
-<p>The XML format directly derives from the XML Schema defined above. Service Providers may add their service specific parameters in the response. Please refer to <a class='info' href='#xml'>[xml]<span> (</span><span class='info'>Adobe Systems Inc., &ldquo;Action Message Format -- AMF3,&rdquo; .</span><span>)</span></a> for more information on XML format. 
+<p>The XML format directly derives from the XML Schema defined above. Service Providers may add their service specific parameters in the response. Please refer to <a class='info' href='#xml'>[xml]<span> (</span><span class='info'>, &ldquo;XML,&rdquo; .</span><span>)</span></a> for more information on XML format. 
 </p>
 <p></p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
@@ -453,6 +455,10 @@ JSON</h3>
 <p></p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>Content-Type: text/json</pre></div><p>
 
+</p>
+				
+				
+<p>If the Consumer needs the response as a callback (JSONP), the xoauth_json_callback parameter MUST be passed as one of the input parameter as defined in the <a class='info' href='#processing'>Processing Rules section<span> (</span><span class='info'>Processing Rules</span><span>)</span></a>. 
 </p>
 			
 
@@ -570,7 +576,7 @@ response (object) {
 <a name="anchor1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.A"></a><h3>Appendix A.&nbsp;
-Appendix A - Response Data in XML Format with Service Specific Parameters</h3>
+Response Data in XML Format with Service Specific Parameters</h3>
 
 <p> This is an example of sample response data in XML format from a Service Provider with some provider specific parameters.
 			  
@@ -587,6 +593,14 @@ Appendix A - Response Data in XML Format with Service Specific Parameters</h3>
 &lt;/response&gt;
 </pre></div><p>
 
+</p>
+<a name="anchor2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.B"></a><h3>Appendix B.&nbsp;
+Security considerations for xoauth_json_callback</h3>
+
+<p> Service Providers SHOULD apply necessary security filters on the xoauth_json_callback parameter value provided by the Consumers to prevent XSS attacks. 
+			  
 </p>
 <a name="rfc.references1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
@@ -613,7 +627,7 @@ Appendix A - Response Data in XML Format with Service Specific Parameters</h3>
 <tr><td class="author-text" valign="top"><a name="serialized_php_yahoo">[serialized_php_yahoo]</a></td>
 <td class="author-text">&ldquo;<a href="http://developer.yahoo.com/common/phpserial.html">Using Serialized PHP with Yahoo! Web Services</a>.&rdquo;</td></tr>
 <tr><td class="author-text" valign="top"><a name="xml">[xml]</a></td>
-<td class="author-text">Adobe Systems Inc., &ldquo;<a href="http://en.wikipedia.org/wiki/XML">Action Message Format -- AMF3</a>.&rdquo;</td></tr>
+<td class="author-text">&ldquo;<a href="http://en.wikipedia.org/wiki/XML">XML</a>.&rdquo;</td></tr>
 <tr><td class="author-text" valign="top"><a name="yaml">[yaml]</a></td>
 <td class="author-text">&ldquo;<a href="http://yaml.org/">YAML</a>.&rdquo;</td></tr>
 </table>

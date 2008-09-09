@@ -77,7 +77,7 @@
 			</t>
 			
 			<t>The most common use case is a Javascript based Consumer running in a browser on a domain (Ex. sampleblog.com) that's not the same as the Service Provider's domain (Ex. example.provider.com). In this case usually the Javascript Consumers use the &lt;SCRIPT&gt; tag injection mechanism (called 'JSONP') to make cross domain requests to the Service Provider. One of the side effects of using the JSONP mechanism is to have the response data also returned in 'JSON' <xref target="RFC4627"/>format. Similar to 'JSON' there have been other data serialization formats defined to help applications built in other technologies like Flash, PHP, Java, C/C++, etc.. Some of them include 'amf0', 'amf3', and 'php' targeting specific technologies and some are more generic formats like 'yaml' and 'xml'.</t>
-			<t>This Response Data Format Specification addresses such requirements so a Consumer can request the Service Provider to return data in a specific format instead of the default format (a query string format using '&amp;' and '=' signs to separate name-value pairs) encoded as specified in the OAuth Core 1.0 Specification.<xref format="none" target="oauth_core_1_0">[OAuth Core 1.0]</xref></t>
+			<t>This Response Data Format Specification addresses such requirements so a Consumer can request the Service Provider to return data in a specific format instead of the default format (a form-encoded string using '&amp;' and '=' signs to separate name-value pairs) encoded as specified in the OAuth Core 1.0 Specification.<xref format="none" target="oauth_core_1_0">[OAuth Core 1.0]</xref></t>
 			   
 			
 		  </section>
@@ -147,19 +147,19 @@
 	    supports the extension. However it is recommended that the Consumer SHOULD first determine if the Service Provider supports the extension before adding the parameter.</t>
 		
 			<t>
-			When requesting the response data format as "JSON", the Consumers MAY pass the 'oauth_callback' with the JSONP callback and the Service Provider MUST return a JSONP callback using the value from the 'oauth_callback' parameter.
+			When requesting the response data format as "JSON", the Consumers MAY pass the 'xoauth_json_callback' with the JSONP callback and the Service Provider MUST return a JSONP callback using the value from the 'xoauth_json_callback' parameter.
 			</t>  			
             
-			<t> When returning response data in the format requested by the Consumer, the Service Provider MUST set the HTTP 'Content-Type' header with the appropriate value that corresponds to the response data format.
+			<t> When returning response data in the format requested by the Consumer, the Service Provider MUST set the HTTP 'Content-Type' header with the appropriate value that corresponds to the response data format. The 'Content-Type' header SHOULD also include a 'CharSet' to let the Consumer know which character set is used in the response data.
 			</t>
 			
 			<t> It is RECOMMENDED that the Service Providers SHOULD also return the response data in the same format in case of errors and MAY return Service Provider specific data in the same format to make it easy for the Consumers to handle the response data in a consistent way.</t>
 			 
 			<section anchor="indirect-requests" title="Indirect Requests">
-			<t>Service Providers MUST support "xoauth_response_format" parameter in the Indirect Requests only if the Consumer provides the "oauth_callback" parameter and HTTP POST method is used to redirect the user back to the Consumer. </t>
+			<t>Service Providers MUST support "xoauth_response_format" parameter in the Indirect Requests only if the Consumer provides the "oauth_callback" parameter and HTTP POST method (not using 301/302/303 redirects) is used to redirect the user back to the Consumer. </t>
 			<list style="symbols">
 			<t>If the Service Provider is using a HTTP POST method to redirect the user back to the Consumer's "oauth_callback" URL, then the response data in the requested format as specified in the "xoauth_response_format" parameter, goes in the HTTP POST body.</t>
-			<t>If the Service Provider is using a HTTP GET method to redirect the user back to the Consumer's "oauth_callback" URL, the "xoauth_response_format" MUST be ignored and the response data SHOULD be returned in the default format (query string parameters) as defined in the <xref format="none" target="oauth_core_1_0">[OAuth Core 1.0]</xref></t>
+			<t>If the Service Provider is using a HTTP GET method (a redirect based on HTTP status codes 301/302/303) to redirect the user back to the Consumer's "oauth_callback" URL, the "xoauth_response_format" MUST be ignored and the response data SHOULD be returned in the default format (form encoded parameters) as defined in the <xref format="none" target="oauth_core_1_0">[OAuth Core 1.0]</xref></t>
 			</list>
 			</section>			
          </section>
@@ -211,6 +211,8 @@
 				<t>
 			'Content-Type' HTTP response header value MUST be :
 				<t><figure><artwork>Content-Type: text/json</artwork></figure></t>
+				
+				<t>If the Consumer needs the response as a callback (JSONP), the xoauth_json_callback parameter MUST be passed as one of the input parameter as defined in the <xref target="processing">Processing Rules section</xref>. </t>
 			</t>
 				
 			</section>
@@ -278,7 +280,7 @@ response (object) {
 
 			</section>
 		 </section>
-              <appendix title="Appendix A - Response Data in XML Format with Service Specific Parameters">
+              <appendix title="Response Data in XML Format with Service Specific Parameters">
 			  <t> This is an example of sample response data in XML format from a Service Provider with some provider specific parameters.
 			  </t>
 			  <t><figure><artwork>
@@ -292,6 +294,10 @@ response (object) {
 &lt;/response&gt;				
 				</artwork></figure></t>
 			  </appendix>    
+			  <appendix title="Security considerations for xoauth_json_callback">
+			  <t> Service Providers SHOULD apply necessary security filters on the xoauth_json_callback parameter value provided by the Consumers to prevent XSS attacks. 
+			  </t>			  
+			  </appendix>  
       </middle>
       <back>
          <references>
@@ -323,9 +329,9 @@ response (object) {
 					 
 					 <reference anchor="xml">
                <front>
-                  <title>Action Message Format -- AMF3</title>
+                  <title>XML</title>
                   <author initials="" surname="" fullname="">
-                     <organization>Adobe Systems Inc.</organization></author>                     
+                     <organization></organization></author>                     
                   </front>
                   <format type="HTML" target="http://en.wikipedia.org/wiki/XML" />
 				</reference>
