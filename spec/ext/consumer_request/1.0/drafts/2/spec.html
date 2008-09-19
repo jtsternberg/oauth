@@ -1,9 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en"><head><title>Implementers' Draft: OAuth Consumer Request 1.0 Draft 1</title>
-<meta http-equiv="Expires" content="Fri, 14 Dec 2007 22:43:13 +0000">
+<html lang="en"><head><title>Implementers' Draft: Using OAuth for Consumer Requests</title>
+<meta http-equiv="Expires" content="Fri, 19 Sep 2008 17:17:03 +0000">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="OAuth Consumer Request 1.0 Draft 1">
-<meta name="generator" content="xml2rfc v1.32 (http://xml.resource.org/)">
+<meta name="description" content="Using OAuth for Consumer Requests">
+<meta name="generator" content="xml2rfc v1.33 (http://xml.resource.org/)">
 <style type='text/css'><!--
         body {
                 font-family: verdana, charcoal, helvetica, arial, sans-serif;
@@ -143,19 +143,19 @@
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
 <tr><td class="header">Implementers' Draft</td><td class="header">E. Hammer-Lahav</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">Hueniverse, LLC</td></tr>
-<tr><td class="header">&nbsp;</td><td class="header">December 14, 2007</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">Yahoo!</td></tr>
+<tr><td class="header">&nbsp;</td><td class="header">September 19, 2008</td></tr>
 </table></td></tr></table>
-<h1><br />OAuth Consumer Request 1.0 Draft 1</h1>
+<h1><br />Using OAuth for Consumer Requests</h1>
 
 <h3>Abstract</h3>
 
 <p>
         This memo describes a method for using the OAuth flow to sign
-        a request made between a Consumer and Service Provider where no User
-        is involved. This enables OAuth to be used as a replacement to HTTP
-        Basic authentication, which is not as complex as HTTP Digest
-        authentication, and extends the capabilities of the OAuth Consumer
+        a request made between a Consumer and Service Provider without User
+        involvement, which is either absent or handled by other means.
+        It enables OAuth to be used as a replacement to HTTP
+        Basic authentication and extends the capabilities of the OAuth Consumer
         credentials.
       
 </p>
@@ -164,8 +164,8 @@
         Consumer applications without sharing the user's private credentials.
         The protocol centers on a three-legged scenario, delegating User
         access to a Consumer for resources held by a Service Provider. In
-        some cases, a two-legged scenario is needed, in which the Consumer
-        is acting on behalf of itself, without a User involvement.
+        many cases, a two-legged scenario is needed, in which the Consumer
+        is acting on behalf of itself, without a direct or any User involvement.
       
 </p>
 <p>
@@ -174,7 +174,7 @@
         might still need to communicate with the Service Provider using requests
         that are Consumer-specific. Since the Consumers already established a
         Consumer Key and Consumer Secret, there is value in being able to use
-        them for requests where the Consumer identity is verified.
+        them for requests where the Consumer identity is being verified.
       
 </p><a name="toc"></a><br /><hr />
 <h3>Table of Contents</h3>
@@ -182,22 +182,18 @@
 <a href="#anchor1">1.</a>&nbsp;
 Notation and Conventions<br />
 <a href="#anchor2">2.</a>&nbsp;
-Definitions<br />
-<a href="#anchor3">3.</a>&nbsp;
 Consumer Identity<br />
-<a href="#anchor4">4.</a>&nbsp;
+<a href="#anchor3">3.</a>&nbsp;
 Consumer Request<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">4.1.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor4">3.1.</a>&nbsp;
 Consumer Sends Request<br />
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">4.2.</a>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">3.2.</a>&nbsp;
 Service Provider Replies<br />
-<a href="#anchor7">5.</a>&nbsp;
+<a href="#anchor6">4.</a>&nbsp;
 Security Considerations<br />
-<a href="#anchor8">Appendix&nbsp;A.</a>&nbsp;
+<a href="#anchor7">Appendix&nbsp;A.</a>&nbsp;
 Appendix A - Example<br />
-<a href="#anchor9">Appendix&nbsp;B.</a>&nbsp;
-Appendix B - Discovery<br />
-<a href="#rfc.references1">6.</a>&nbsp;
+<a href="#rfc.references1">5.</a>&nbsp;
 References<br />
 <a href="#rfc.authors">&#167;</a>&nbsp;
 Author's Address<br />
@@ -225,46 +221,6 @@ Notation and Conventions</h3>
 <a name="anchor2"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.2"></a><h3>2.&nbsp;
-Definitions</h3>
-
-<p>
-        </p>
-<blockquote class="text"><dl>
-<dt>Service Provider:</dt>
-<dd>
-            A web application that allows access via OAuth.
-          
-</dd>
-<dt>Consumer:</dt>
-<dd>
-            A website or application that uses OAuth to access resources
-            controlled by the Service Provider.
-          
-</dd>
-<dt>Protected Resource(s):</dt>
-<dd>
-            Data controlled by the Service Provider, which the Consumer can
-            access through authentication.
-          
-</dd>
-<dt>Consumer Key:</dt>
-<dd>
-            A value used by the Consumer to identify itself to the Service
-            Provider.
-          
-</dd>
-<dt>Consumer Secret:</dt>
-<dd>
-            A secret used by the Consumer to establish ownership of the
-            Consumer Key.
-          
-</dd>
-</dl></blockquote><p>
-      
-</p>
-<a name="anchor3"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.3"></a><h3>3.&nbsp;
 Consumer Identity</h3>
 
 <p>
@@ -282,28 +238,28 @@ Consumer Identity</h3>
         Public Key.
       
 </p>
-<a name="anchor4"></a><br /><hr />
+<a name="anchor3"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.4"></a><h3>4.&nbsp;
+<a name="rfc.section.3"></a><h3>3.&nbsp;
 Consumer Request</h3>
 
 <p>
-        The Consumer requests the Protected Resource by making an HTTP request
-        to the Service Provider. The request HTTP method and URL are provided by
+        The Consumer requests the Protected Resource by making an HTTP(S) request
+        to the Service Provider. The request HTTP method and URI are provided by
         the Service Provider by means not specified in this memo. This workflow
-        has been designed to imitate the flow used to obtain a Request Token in
+        is identical to the one used to access a Protected Resource in
         a three-legged OAuth flow as defined in <a class='info' href='#OAuth Core 1.0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth Core Workgroup, &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>
-        section 6.1.
+        section 7.
       
 </p>
-<a name="anchor5"></a><br /><hr />
+<a name="anchor4"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.4.1"></a><h3>4.1.&nbsp;
+<a name="rfc.section.3.1"></a><h3>3.1.&nbsp;
 Consumer Sends Request</h3>
 
 <p>
-          To access a Protected Resource, the Consumer sends an HTTP request to
-          the Service Provider's resource endpoint URL. The request MUST be
+          To access a Protected Resource, the Consumer sends an HTTP(S) request to
+          the Service Provider's resource endpoint URI. The request MUST be
           signed as defined in <a class='info' href='#OAuth Core 1.0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth Core Workgroup, &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a> section 9 with an
           empty Token Secret. The request contains the following REQUIRED
           parameters, unless otherwise noted:
@@ -313,6 +269,11 @@ Consumer Sends Request</h3>
 <dt>oauth_consumer_key:</dt>
 <dd>
               The Consumer Key.
+            
+</dd>
+<dt>oauth_token:</dt>
+<dd>
+              MUST be included with an empty value to indicate this is a two-legged request.
             
 </dd>
 <dt>oauth_signature_method:</dt>
@@ -354,9 +315,9 @@ Consumer Sends Request</h3>
 </dl></blockquote><p>
         
 </p>
-<a name="anchor6"></a><br /><hr />
+<a name="anchor5"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.4.2"></a><h3>4.2.&nbsp;
+<a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
 Service Provider Replies</h3>
 
 <p>
@@ -364,7 +325,7 @@ Service Provider Replies</h3>
           defined in <a class='info' href='#OAuth Core 1.0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth Core Workgroup, &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a> section 9. If successful,
           it replies with the appropriate response to the Consumer request. The
           format of the reply is left unspecified by this memo.
-      
+        
 </p>
 <p>
           If the request fails verification or is rejected for other reasons,
@@ -376,9 +337,9 @@ Service Provider Replies</h3>
           Provider Response Parameters.
         
 </p>
-<a name="anchor7"></a><br /><hr />
+<a name="anchor6"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.5"></a><h3>5.&nbsp;
+<a name="rfc.section.4"></a><h3>4.&nbsp;
 Security Considerations</h3>
 
 <p>
@@ -386,7 +347,7 @@ Security Considerations</h3>
         <a class='info' href='#OAuth Core 1.0'>[OAuth Core 1.0]<span> (</span><span class='info'>OAuth Core Workgroup, &ldquo;OAuth Core 1.0,&rdquo; .</span><span>)</span></a>.
       
 </p>
-<a name="anchor8"></a><br /><hr />
+<a name="anchor7"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
 <a name="rfc.section.A"></a><h3>Appendix A.&nbsp;
 Appendix A - Example</h3>
@@ -394,7 +355,7 @@ Appendix A - Example</h3>
 <p>
         In this example, the Service Provider <tt>provider.example.net</tt> is an
         OAuth-enabled website, and the Consumer <tt>consumer.example.com</tt> uses
-        resource offered by the Service Provider on behalf of its Users.
+        resources offered by the Service Provider on behalf of its Users.
         The Service Provider allows Consumers to manage their Consumer profile
         which includes their name and description using an API call, in
         addition to a manual HTML page. The Consumer profile is used by the
@@ -403,11 +364,11 @@ Appendix A - Example</h3>
 </p>
 <p>
         The Service Provider allows Consumers to see their profile at the
-        following endpoint URL:
+        following endpoint URI:
 
         </p>
 <blockquote class="text"><dl>
-<dt>Profile Request URL:</dt>
+<dt>Profile Request URI:</dt>
 <dd>
             <tt>http://provider.example.net/profile</tt>, using HTTP <tt>GET</tt>
           
@@ -454,6 +415,11 @@ Appendix A - Example</h3>
             <tt>dpf43f3p2l4k3l03</tt>
           
 </dd>
+<dt>oauth_token:</dt>
+<dd>
+            (Empty value)
+          
+</dd>
 <dt>oauth_signature_method:</dt>
 <dd>
             <tt>HMAC-SHA1</tt>
@@ -491,7 +457,7 @@ Appendix A - Example</h3>
           
 </li>
 <li>
-            <tt>oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_version=1.0</tt>
+            <tt>oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_token=&amp;oauth_version=1.0</tt>
           
 </li>
 </ol><p>
@@ -502,7 +468,7 @@ Appendix A - Example</h3>
 
         </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-    GET&amp;http%3A%2F%2Fprovider.example.net%2Fprofile&amp;oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_version%3D1.0
+    GET&amp;http%3A%2F%2Fprovider.example.net%2Fprofile&amp;oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3D%26oauth_version%3D1.0
 </pre></div><p>
 
       
@@ -515,7 +481,7 @@ Appendix A - Example</h3>
 
         </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-    SGtGiOrgTGF5Dd4RUMguopweOSU=
+    IxyYZfG2BaKh8JyEGuHCOin/4bA=
 </pre></div><p>
 
       
@@ -525,15 +491,16 @@ Appendix A - Example</h3>
 
         </p>
 <div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
-    http://provider.example.net/profile
+            http://provider.example.net/profile
 
-    Authorization: OAuth realm="http://provider.example.net/",
-                    oauth_consumer_key="dpf43f3p2l4k3l03",
-                    oauth_signature_method="HMAC-SHA1",
-                    oauth_signature="SGtGiOrgTGF5Dd4RUMguopweOSU%3D",
-                    oauth_timestamp="1191242096",
-                    oauth_nonce="kllo9940pd9333jh",
-                    oauth_version="1.0"
+            Authorization: OAuth realm="http://provider.example.net/",
+            oauth_consumer_key="dpf43f3p2l4k3l03",
+            oauth_signature_method="HMAC-SHA1",
+            oauth_signature="IxyYZfG2BaKh8JyEGuHCOin%2F4bA%3D",
+            oauth_timestamp="1191242096",
+            oauth_token="",
+            oauth_nonce="kllo9940pd9333jh",
+            oauth_version="1.0"
 </pre></div><p>
 
       
@@ -543,35 +510,16 @@ Appendix A - Example</h3>
         requested profile.
       
 </p>
-<a name="anchor9"></a><br /><hr />
-<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<a name="rfc.section.B"></a><h3>Appendix B.&nbsp;
-Appendix B - Discovery</h3>
-
-<p>
-        When using OAuth Discovery as defined in <a class='info' href='#OAuth Discovery 1.0'>[OAuth Discovery 1.0]<span> (</span><span class='info'>Hammer-Lahav, E., &ldquo;OAuth Discovery 1.0,&rdquo; .</span><span>)</span></a>,
-        the Consumer Request 1.0 extension service type URI is:
-        <tt>http://oauth.net/ext/consumer_request/1.0</tt>.
-        It follows the same rules and workflow as the
-        <tt>http://oauth.net/core/1.0/endpoint/resource</tt> service type.
-      
-</p>
 <a name="rfc.references1"></a><br /><hr />
 <table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
-<h3>6.&nbsp;References</h3>
+<h3>5.&nbsp;References</h3>
 <table width="99%" border="0">
 <tr><td class="author-text" valign="top"><a name="OAuth Core 1.0">[OAuth Core 1.0]</a></td>
 <td class="author-text">OAuth Core Workgroup, &ldquo;<a href="http://oauth.net/core/1.0">OAuth Core 1.0</a>.&rdquo;</td></tr>
-<tr><td class="author-text" valign="top"><a name="OAuth Discovery 1.0">[OAuth Discovery 1.0]</a></td>
-<td class="author-text">Hammer-Lahav, E., &ldquo;<a href="http://oauth.net/core/1.0">OAuth Discovery 1.0</a>.&rdquo;</td></tr>
 <tr><td class="author-text" valign="top"><a name="RFC2119">[RFC2119]</a></td>
-<td class="author-text">Bradner, B., &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc2119.txt">Key words for use in RFCs to Indicate Requirement Levels</a>,&rdquo; RFC&nbsp;2119.</td></tr>
+<td class="author-text">Bradner, B., &ldquo;<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>,&rdquo; RFC&nbsp;2119.</td></tr>
 <tr><td class="author-text" valign="top"><a name="RFC2606">[RFC2606]</a></td>
-<td class="author-text">Eastlake, D. and A. Panitz, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc2606.txt">Reserved Top Level DNS Names</a>,&rdquo; RFC&nbsp;2606.</td></tr>
-<tr><td class="author-text" valign="top"><a name="RFC2617">[RFC2617]</a></td>
-<td class="author-text">Franks, J., Hallam-Baker, P., Hostetler, J., Lawrence, S., Leach, P., Luotonen, A., and L. Stewart, &ldquo;<a href="ftp://ftp.isi.edu/in-notes/rfc2617.txt">HTTP Authentication: Basic and Digest Access Authentication</a>,&rdquo; RFC&nbsp;2617.</td></tr>
-<tr><td class="author-text" valign="top"><a name="SHA1">[SHA1]</a></td>
-<td class="author-text">De Canniere, C. and C. Rechberger, &ldquo;<a href="http://dx.doi.org/10.1007/11935230_1">Finding SHA-1 Characteristics: General Results and Applications</a>.&rdquo;</td></tr>
+<td class="author-text">Eastlake, D. and A. Panitz, &ldquo;<a href="http://tools.ietf.org/html/rfc2606">Reserved Top Level DNS Names</a>,&rdquo; RFC&nbsp;2606.</td></tr>
 </table>
 
 <a name="rfc.authors"></a><br /><hr />
@@ -581,7 +529,7 @@ Appendix B - Discovery</h3>
 <tr><td class="author-text">&nbsp;</td>
 <td class="author-text">Eran Hammer-Lahav</td></tr>
 <tr><td class="author-text">&nbsp;</td>
-<td class="author-text">Hueniverse, LLC</td></tr>
+<td class="author-text">Yahoo!</td></tr>
 <tr><td class="author" align="right">Email:&nbsp;</td>
 <td class="author-text"><a href="mailto:eran@hueniverse.com">eran@hueniverse.com</a></td></tr>
 </table>
