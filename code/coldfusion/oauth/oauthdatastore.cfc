@@ -22,18 +22,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent displayname="OAuthData">
+<cfcomponent displayname="oauthdatastore">
 	<cfset variables.sDataSource = "">
 
-	<cffunction name="init" returntype="OAuthDataStore" access="public" output="false">
+	<cffunction name="init" returntype="oauthdatastore" access="public" output="false">
 	  	<cfargument name="sDataSource" type="string" required="yes">
 
 		<cfset variables.sDataSource = arguments.sDataSource>
 		<cfreturn this>
 	</cffunction>
 
-	<cffunction name="lookUpConsumer" access="public" returntype="OAuthConsumer">
-		<cfargument name="sConsumerKey" required="true" type="string">	
+	<cffunction name="lookUpConsumer" access="public" returntype="oauthconsumer">
+		<cfargument name="sConsumerKey" required="true" type="string">
 		<cfset var qLookUpConsumer = 0>
 		<cfset var oResult = "">
 
@@ -44,19 +44,19 @@ limitations under the License.
 		</cfquery>
 
 		<cfif qLookUpConsumer.recordcount IS 1>
-			<cfset oResult = CreateObject("component", "OAuthConsumer").init(
-				sKey = qLookUpConsumer.ckey, 
-				sSecret = qLookUpConsumer.csecret, 
+			<cfset oResult = CreateObject("component", "oauthconsumer").init(
+				sKey = qLookUpConsumer.ckey,
+				sSecret = qLookUpConsumer.csecret,
 				iConsumerID = qLookUpConsumer.consumer_id)>
 		<cfelse>
-			<cfset oResult = CreateObject("component", "OAuthConsumer").createEmptyConsumer()>
+			<cfset oResult = CreateObject("component", "oauthconsumer").createEmptyConsumer()>
 		</cfif>
 
-		<cfreturn oResult>		
+		<cfreturn oResult>
 	</cffunction>
 
 	<cffunction name="lookUpConsumerID" access="public" returntype="numeric">
-		<cfargument name="sConsumerKey" required="true" type="string">					
+		<cfargument name="sConsumerKey" required="true" type="string">
 		<cfset var qLookUpConsumer = 0>
 		<cfset var iResult = 0/>
 
@@ -74,7 +74,7 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="lookUpEditorID" access="public" returntype="numeric">
-		<cfargument name="sConsumerKey" required="true" type="string">					
+		<cfargument name="sConsumerKey" required="true" type="string">
 		<cfset var qLookUpConsumer = 0>
 		<cfset var iResult = 0/>
 
@@ -92,9 +92,9 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="getTokenNonce" access="public" returntype="string">
-		<cfargument name="oToken"		required="true"	type="OAuthToken">
+		<cfargument name="oToken"		required="true"	type="oauthtoken">
 		<cfargument name="sTokenType"	required="true"	type="string">
-		
+
 		<cfset var sResult = "">
 		<cfset var qData = 0>
 		<cfquery name="qData" datasource="#variables.sDataSource#">
@@ -109,9 +109,9 @@ limitations under the License.
 		<cfreturn sResult>
 	</cffunction>
 
-	<cffunction name="lookUpToken" access="public" returntype="OAuthToken">
+	<cffunction name="lookUpToken" access="public" returntype="oauthtoken">
 		<cfargument name="sTokenType" 	required="true" type="string">
-		<cfargument name="oToken" 		required="true" type="OAuthToken">
+		<cfargument name="oToken" 		required="true" type="oauthtoken">
 
 		<cfset var oResult = "">
 		<cfset var qLookUpToken = 0>
@@ -127,21 +127,21 @@ limitations under the License.
 			WHERE	tkey = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.oToken.getKey()#">
 					AND	type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#UCase(arguments.sTokenType)#">
 		</cfquery>
-	
+
 		<cfif qLookUpToken.recordcount IS 1>
-			<cfset oResult = CreateObject("component", "OAuthToken").init(
-				sKey = qLookUpToken.tkey, 
+			<cfset oResult = CreateObject("component", "oauthtoken").init(
+				sKey = qLookUpToken.tkey,
 				sSecret = qLookUpToken.tsecret)>
 		<cfelse>
-			<cfset oResult = CreateObject("component", "OAuthToken").createEmptyToken()>
+			<cfset oResult = CreateObject("component", "oauthtoken").createEmptyToken()>
 		</cfif>
 
 		<cfreturn oResult>
 	</cffunction>
 
 	<cffunction name="lookUpNonce" access="public" returntype="boolean" hint="check if nonce already exists">
-		<cfargument name="oConsumer" 	required="true" type="OAuthConsumer">
-		<cfargument name="oToken" 		required="true" type="OAuthToken">
+		<cfargument name="oConsumer" 	required="true" type="oauthconsumer">
+		<cfargument name="oToken" 		required="true" type="oauthtoken">
 		<cfargument name="sNonce" 		required="true" type="string">
 		<cfargument name="timestamp" 	required="true" type="numeric">
 
@@ -166,7 +166,7 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="lookUpNonceValue" access="public" returntype="string" hint="check if nonce already exists return value, else emtpy string">
-		<cfargument name="oToken" 		required="true" type="OAuthToken">
+		<cfargument name="oToken" 		required="true" type="oauthtoken">
 		<cfargument name="sNonce" 		required="true" type="string">
 
 		<cfset var sResult = "">
@@ -202,11 +202,11 @@ limitations under the License.
 		<cfreturn Hash(Hash(timestamp + timestamp, "SHA"), "SHA")>
 	</cffunction>
 
-	<cffunction name="newToken" access="public" returntype="OAuthToken">
-		<cfargument name="oConsumer" 	required="true" type="OAuthConsumer">
-		<cfargument name="sTokenType"	required="false" type="string" default="REQUEST">
-		<cfargument name="sKey"			required="false" type="string" default="">
-		<cfargument name="sSecret"		required="false" type="string" default="">
+	<cffunction name="newToken" access="public" returntype="oauthtoken">
+		<cfargument name="oConsumer" required="true" type="oauthconsumer">
+		<cfargument name="sTokenType" required="false" type="string" default="REQUEST">
+		<cfargument name="sKey" required="false" type="string" default="">
+		<cfargument name="sSecret" required="false" type="string" default="">
 
 		<cfset var sErrorMsg = "">
 		<cfset var oResult = 0>
@@ -221,18 +221,18 @@ limitations under the License.
 		<cfif Len(sGeneratedSecret) IS 0>
 			<cfset sGeneratedSecret = generateTokenSecret()>
 		</cfif>
-		<cfset oResult = CreateObject("component", "OAuthToken").init(
-			sKey = sGeneratedKey, 
+		<cfset oResult = CreateObject("component", "oauthtoken").init(
+			sKey = sGeneratedKey,
 			sSecret = sGeneratedSecret)>
 
 		<!--- consumerkey replaced tokenkey --->
 		<cftransaction>
-			<cftry>			
-				<cfset oDAO = CreateObject("component", "OAuthTokenDAO").init(variables.sDataSource)>
+			<cftry>
+				<cfset oDAO = CreateObject("component", "oauthtokendao").init(variables.sDataSource)>
 
 				<cfset stCreateData.consumerid = oConsumer.getConsumerID(this)>
 				<cfset stCreateData.tokentype = arguments.sTokenType>
-				<cfset stCreateData.nonce = CreateObject("component", "OAuthRequest").generateNonce()>
+				<cfset stCreateData.nonce = CreateObject("component", "oauthrequest").generateNonce()>
 				<cfset stCreateData.tokensecret = oResult.getSecret()>
 				<cfset stCreateData.tokenkey = oResult.getKey()>
 
@@ -252,8 +252,8 @@ limitations under the License.
 	</cffunction>
 
 	<!--- return a new token attached to this consumer --->
-	<cffunction name="newRequestToken" access="public" returntype="OAuthToken">
-		<cfargument name="oConsumer" 	required="true" type="OAuthConsumer" >
+	<cffunction name="newRequestToken" access="public" returntype="oauthtoken">
+		<cfargument name="oConsumer" 	required="true" type="oauthconsumer" >
 		<cfset var oResult = newToken(oConsumer = arguments.oConsumer, sTokenType = "REQUEST")>
 		<cfreturn oResult>
 	</cffunction>
@@ -261,11 +261,11 @@ limitations under the License.
 	<!--- return a new access token attached to this consumer
 		for the user associated with this token if the request token is authorized
 		should also invalidate the request token --->
-	<cffunction name="newAccessToken" access="public" returntype="OAuthToken">
-		<cfargument name="oToken" 		required="true" type="OAuthToken">
-		<cfargument name="oConsumer" 	required="true" type="OAuthConsumer">
+	<cffunction name="newAccessToken" access="public" returntype="oauthtoken">
+		<cfargument name="oToken" 		required="true" type="oauthtoken">
+		<cfargument name="oConsumer" 	required="true" type="oauthconsumer">
 
-		<cfset var oResult = CreateObject("component", "OAuthToken").createEmptyToken()>
+		<cfset var oResult = CreateObject("component", "oauthtoken").createEmptyToken()>
 		<cfset deleteToken(	sTokenKey = arguments.oToken.getKey(), sTokenType = "REQUEST")>
 		<cfset oResult = newToken(oConsumer = arguments.oConsumer, sTokenType = "ACCESS")>
 		<cfreturn oResult>
@@ -280,7 +280,7 @@ limitations under the License.
 
 		<cftransaction>
 			<cftry>
-				<cfset oDAO = CreateObject("component", "OAuthTokenDAO").init(variables.sDataSource)>
+				<cfset oDAO = CreateObject("component", "oauthtokendao").init(variables.sDataSource)>
 				<cfset oDAO.delete(sTokenType = arguments.sTokenType, sTokenKey = arguments.sTokenKey)>
 
 				<cfcatch type="database">

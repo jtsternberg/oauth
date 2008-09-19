@@ -22,24 +22,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent extends="OAuthDataStore" output="false" displayname="OAuthTest">
+<cfcomponent extends="oauthdatastore" output="false" displayname="oauthtest">
 	<cfset variables.oTestConsumer = 0>
 	<cfset variables.oTestRequestToken = 0>
 	<cfset variables.oTestAccessToken = 0>
 	<cfset variables.sNonce = "">
-	<cfset variables.bUseSuper = false>
+	<cfset variables.bUseSuper = true>
 
-	<cffunction name="init" access="public" returntype="OAuthTest">
+	<cffunction name="init" access="public" returntype="oauthtest">
 		<cfargument name="sDataSource" 	type="string" 	required="true">
 		<cfargument name="bUseSuper"	type="boolean" 	required="false" default="true">
 		<cfset super.init(arguments.sDataSource)>
-		<cfset variables.oTestConsumer = CreateObject("component", "OAuthConsumer").init(
+		<cfset variables.oTestConsumer = CreateObject("component", "oauthconsumer").init(
 			sKey = "CONSUMER_KEY",
-			sSecret = "CONSUMER_SECRET")>						
-		<cfset variables.oTestRequestToken = CreateObject("component", "OAuthToken").init(
+			sSecret = "CONSUMER_SECRET")>
+		<cfset variables.oTestRequestToken = CreateObject("component", "oauthtoken").init(
 			sKey = "RequestTokenKey",
 			sSecret = "RequestTokenSecret")>
-		<cfset variables.oTestAccessToken = CreateObject("component", "OAuthToken").init(
+		<cfset variables.oTestAccessToken = CreateObject("component", "oauthtoken").init(
 			sKey = "AccessTokenKey",
 			sSecret = "AccessTokenSecret")>
 		<cfset variables.oNonce = "testnonce">
@@ -48,15 +48,15 @@ limitations under the License.
 		<cfreturn this>
 	</cffunction>
 
-	<cffunction name="lookUpConsumer" returntype="OAuthConsumer">
+	<cffunction name="lookUpConsumer" returntype="oauthconsumer">
 		<cfargument name="sConsumerKey" required="true" type="string">
 
 		<cfset var oResult = "">
 		<cfif variables.bUseSuper>
-			<cfset oResult = super.lookUpConsumer(sConsumerKey)>
+			<cfset oResult = super.lookUpConsumer(arguments.sConsumerKey)>
 		<cfelse>
-			<cfset oResult = CreateObject("component", "OAuthConsumer").createEmptyConsumer()>
-			<cfif Compare(arguments.sConsumerKey, variables.oTestConsumer.getKey()) IS 0>	
+			<cfset oResult = CreateObject("component", "oauthconsumer").createEmptyConsumer()>
+			<cfif Compare(arguments.sConsumerKey, variables.oTestConsumer.getKey()) IS 0>
 				<cfset oResult = variables.oTestConsumer>
 			</cfif>
 		</cfif>
@@ -64,23 +64,23 @@ limitations under the License.
 		<cfreturn oResult>
 	</cffunction>
 
-	<cffunction name="lookUpToken" returntype="OAuthToken">
-		<cfargument name="oConsumer"	type="OAuthConsumer"	required="true">
-		<cfargument name="sTokenType" 	type="string" 			required="true">
-		<cfargument name="oToken" 		type="OAuthToken" 		required="true">
+	<cffunction name="lookUpToken" returntype="oauthtoken">
+		<cfargument name="oConsumer" type="oauthconsumer" required="true">
+		<cfargument name="sTokenType" type="string" required="true">
+		<cfargument name="oToken" type="oauthtoken" required="true">
 
 		<cfset var oResult = "">
 		<cfif variables.bUseSuper>
 			<cfset oResult = super.lookUpToken(oConsumer = oConsumer, sTokenType = sTokenType, oToken = oToken)>
 		<cfelse>
-			<cfset oResult = CreateObject("component", "OAuthToken").createEmptyToken()>
+			<cfset oResult = CreateObject("component", "oauthtoken").createEmptyToken()>
 
 			<cfif Compare(arguments.oConsumer.getKey(), variables.oTestConsumer.getKey()) IS 0>
-				<cfif Compare(UCase(arguments.sTokenType), "ACCESS") IS 0 AND 
+				<cfif Compare(UCase(arguments.sTokenType), "ACCESS") IS 0 AND
 				  Compare(variables.oTestAccessToken.getKey(), arguments.oToken.getKey()) IS 0>
 					<cfset oResult = variables.oTestAccessToken>
 				</cfif>
-				<cfif Compare(UCase(arguments.sTokenType), "REQUEST") IS 0 AND 
+				<cfif Compare(UCase(arguments.sTokenType), "REQUEST") IS 0 AND
 				  Compare(variables.oTestRequestToken.getKey(), arguments.oToken.getKey()) IS 0>
 					<cfset oResult = variables.oTestRequestToken>
 				</cfif>
@@ -91,15 +91,15 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="lookUpNonce" returntype="string" access="public">
-		<cfargument name="oConsumer" type="OAuthConsumer" required="true">
-		<cfargument name="oToken"	type="OAuthToken" required="true">
-		<cfargument name="sNonce"	type="string" required="true">
+		<cfargument name="oConsumer" type="oauthconsumer" required="true">
+		<cfargument name="oToken" type="oauthtoken" required="true">
+		<cfargument name="sNonce" type="string" required="true">
 		<cfargument name="iTimestamp" type="numeric" required="true">
 
 		<cfset var sResult = "">
-		<cfif Compare(arguments.oConsumer.getKey(), variables.oTestConsumer.getKey()) IS 0 
+		<cfif Compare(arguments.oConsumer.getKey(), variables.oTestConsumer.getKey()) IS 0
 		  AND (
-			Compare(oToken.getKey(), variables.oTestRequestToken.getKey()) IS 0 OR 
+			Compare(oToken.getKey(), variables.oTestRequestToken.getKey()) IS 0 OR
 			Compare(oToken.getKey(), variables.oTestAccessToken.getKey()) IS 0
 		  )
 		  AND Compare(arguments.sNonce, variables.sNonce) IS 0>
@@ -108,14 +108,14 @@ limitations under the License.
 		<cfreturn sResult>
 	</cffunction>
 
-	<cffunction name="newRequestToken" access="public" returntype="OAuthToken">
-		<cfargument name="oConsumer" required="true" type="OAuthConsumer">
+	<cffunction name="newRequestToken" access="public" returntype="oauthtoken">
+		<cfargument name="oConsumer" required="true" type="oauthconsumer">
 
 		<cfset var oResult = "">
 		<cfif variables.bUseSuper>
 			<cfset oResult = super.newRequestToken(oConsumer)>
 		<cfelse>
-			<cfset oResult = CreateObject("component", "OAuthToken").createEmptyToken()>
+			<cfset oResult = CreateObject("component", "oauthtoken").createEmptyToken()>
 			<cfif Compare(arguments.oConsumer.getKey(), variables.oTestConsumer.getKey()) IS 0>
 				<cfset oResult = variables.oTestRequestToken>
 			</cfif>
@@ -124,15 +124,15 @@ limitations under the License.
 		<cfreturn oResult>
 	</cffunction>
 
-	<cffunction name="newAccessToken" access="public" returntype="OAuthToken">
-		<cfargument name="oToken" required="true" type="OAuthToken">
-		<cfargument name="oConsumer" required="true" type="OAuthConsumer">
+	<cffunction name="newAccessToken" access="public" returntype="oauthtoken">
+		<cfargument name="oToken" required="true" type="oauthtoken">
+		<cfargument name="oConsumer" required="true" type="oauthconsumer">
 
 		<cfset var oResult = "">
 		<cfif variables.bUseSuper>
 			<cfset oResult = super.newAccessToken(oToken, oConsumer)>
 		<cfelse>
-			<cfset oResult = CreateObject("component", "OAuthToken").createEmptyToken()>
+			<cfset oResult = CreateObject("component", "oauthtoken").createEmptyToken()>
 			<cfif Compare(arguments.oConsumer.getKey(), variables.oTestConsumer.getKey()) IS 0 AND
 			  Compare(arguments.oToken.getKey(), variables.oTestRequestToken.getKey() IS 0)>
 				<cfset oResult = variables.oTestAccessToken>

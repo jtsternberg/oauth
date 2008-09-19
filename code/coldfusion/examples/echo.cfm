@@ -1,5 +1,5 @@
 <cfsilent>
-<!--- 
+<!---
 Description:
 ============
 	analyze request
@@ -46,12 +46,17 @@ limitations under the License.
 <!--- analyze request --->
 <cfset oReq = CreateObject("component", "oauth.oauthrequest").fromRequest()>
 <cfdump var="#oReq.getParameters()#">
-<cfset oReqServer.verifyRequest(oReq)>
+<!--- <cfset oReqServer.verifyRequest(oReq)> --->
+<cfset test = oReqServer.verifyRequest(oReq)>
+<!--- <cfdump var="#test#"> --->
 <cfset aEchoParams = ArrayNew(1)>
-<cfset stParams = oReq.getParameters()>
-<cfloop collection="#stParams#" item="sItem">
-	<cfif NOT Left(sItem, 5) EQ "oauth">
-		<cfset ArrayAppend(aEchoParams, sItem & "=" & StructFind(stParams, sItem))>
+
+<cfset aParamKeys = oReq.getParameterKeys()>
+<cfset aParamValues = oReq.getParameterValues()>
+
+<cfloop from="1" to="#ArrayLen(aParamKeys)#" index="i">
+	<cfif NOT Left(aParamKeys[i], 5) EQ "oauth">
+		<cfset ArrayAppend(aEchoParams, aParamKeys[i] & "=" & aParamValues[i])>
 	</cfif>
 </cfloop>
 <cfset ArraySort(aEchoParams, "textnocase", "asc")>

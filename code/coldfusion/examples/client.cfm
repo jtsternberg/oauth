@@ -1,5 +1,5 @@
 <cfsilent>
-<!--- 
+<!---
 Description:
 ============
 	client testpage
@@ -43,6 +43,7 @@ limitations under the License.
 <!--- register signature methods --->
 <cfset oReqSigMethodSHA = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
 <cfset oReqSigMethodPLAIN = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
+<cfset oUtil = CreateObject("component", "oauth.oauthutil").init()>
 <cfset oReqServer.addSignatureMethod(oReqSigMethodSHA)>
 <cfset oReqServer.addSignatureMethod(oReqSigMethodPLAIN)>
 
@@ -75,54 +76,54 @@ limitations under the License.
 </cfif>
 
 <cfif Compare(LCase(sAction), "request_token") IS 0>
-	<cfset oReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(				
-		oConsumer = oTestConsumer, 
-		oToken = oEmptyToken, 
-		sHttpMethod = "GET", 
+	<cfset oReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
+		oConsumer = oTestConsumer,
+		oToken = oEmptyToken,
+		sHttpMethod = "GET",
 		sHttpURL = sEndpoint )>
-	<cfset oReq.signRequest(	
-		oSignatureMethod = oReqSigMethodSHA, 
-		oConsumer = oTestConsumer, 
+	<cfset oReq.signRequest(
+		oSignatureMethod = oReqSigMethodSHA,
+		oConsumer = oTestConsumer,
 		oToken = oEmptyToken)>
 
 	<cfif NOT Len(sDump) IS 0>
 		<cfheader name="Content-type" value="text/plain">
 		request_url : #oReq.getString()#<br>
-		<cfdump var="#oReq.getParameters()#">		
+		<cfdump var="#oReq.getParameters()#">
 	<cfelse>
 		<cflocation url="#oReq.getString()#">
 	</cfif>
 
 <cfelseif Compare(LCase(sAction), "authorize") IS 0>
-	<cfset sCallbackURL = sBaseURL & CGI.SCRIPT_NAME & "?" & 
-		"key=" & sClientKey & 
+	<cfset sCallbackURL = sBaseURL & CGI.SCRIPT_NAME & "?" &
+		"key=" & sClientKey &
 		"&" & "secret=" & sClientSecret &
 		"&" & "token=" & sClientToken &
 		"&" & "token_secret=" & sClientTokenSecret &
-		"&" & "endpoint=" & URLEncodedFormat(sEndpoint)>
-	<cfset sAuthURL = sEndpoint & "?oauth_token=" & sClientToken & "&" & "oauth_callback=" & URLEncodedFormat(sCallbackURL)>
+		"&" & "endpoint=" & oUtil.encodePercent(sEndpoint)>
+	<cfset sAuthURL = sEndpoint & "?oauth_token=" & sClientToken & "&" & "oauth_callback=" & oUtil.encodePercent(sCallbackURL)>
 	<cfif NOT Len(sDump) IS 0>
 		<cfheader name="Content-type" value="text/plain">
-		auth_url : #sAuthURL#<br>		
+		auth_url : #sAuthURL#<br>
 	<cfelse>
 		<cflocation url="#sAuthURL#">
 	</cfif>
-	
+
 <cfelseif Compare(LCase(sAction), "access_token") IS 0>
-	<cfset oReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(				
-		oConsumer = oTestConsumer, 
-		oToken = oTestToken, 
-		sHttpMethod = "GET", 
+	<cfset oReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
+		oConsumer = oTestConsumer,
+		oToken = oTestToken,
+		sHttpMethod = "GET",
 		sHttpURL = sEndpoint )>
-	<cfset oReq.signRequest(	
-		oSignatureMethod = oReqSigMethodSHA, 
-		oConsumer = oTestConsumer, 
+	<cfset oReq.signRequest(
+		oSignatureMethod = oReqSigMethodSHA,
+		oConsumer = oTestConsumer,
 		oToken = oTestToken)>
 
 	<cfif NOT Len(sDump) IS 0>
 		<cfheader name="Content-type" value="text/plain">
 		request_url : #oReq.getString()#<br>
-		<cfdump var="#oReq.getParameters()#">		
+		<cfdump var="#oReq.getParameters()#">
 	<cfelse>
 		<cflocation url="#oReq.getString()#">
 	</cfif>
@@ -134,45 +135,45 @@ limitations under the License.
 <cfset sTempURL = sBaseURL & "/" & sRequestTokenURL>
 <cfset sOptRequestURL = sTempURL>
 <cfset oRReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
-	oConsumer = oTestConsumer, 
+	oConsumer = oTestConsumer,
 	oToken = oEmptyToken,
 	sHttpMethod = "GET",
 	sHttpURL = sTempURL)>
 <cfset oRReq.signRequest(
-	oSignatureMethod = oReqSigMethodSHA, 
-	oConsumer = oTestConsumer, 
+	oSignatureMethod = oReqSigMethodSHA,
+	oConsumer = oTestConsumer,
 	oToken = oEmptyToken)>
-								
+
 <cfset sTempURL = sBaseURL & "/" & sAccessTokenURL>
 <cfset sOptAccessURL = sTempURL>
 <cfset oAReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
-	oConsumer = oTestConsumer, 
+	oConsumer = oTestConsumer,
 	oToken = oTestToken,
 	sHttpMethod = "GET",
 	sHttpURL = sTempURL)>
 <cfset oAReq.signRequest(
-	oSignatureMethod = oReqSigMethodSHA, 
-	oConsumer = oTestConsumer, 
+	oSignatureMethod = oReqSigMethodSHA,
+	oConsumer = oTestConsumer,
 	oToken = oTestToken)>
-	
+
 <cfset sTempURL = sBaseURL & "/" & sEchoURL>
 <!--- some dummy parameters with dummy values, using different characters to test encoding too --->
 <cfset stDummyParams = StructNew()>
 <cfset stDummyParams.dummy = "v_a^lue$">
 <cfset stDummyParams.anotherdummy = "ß?other _%§value~">
 <cfset oEReq = CreateObject("component", "oauth.oauthrequest").fromConsumerAndToken(
-	oConsumer = oTestConsumer, 
+	oConsumer = oTestConsumer,
 	oToken = oTestToken,
 	sHttpMethod = "GET",
 	sHttpURL = sTempURL,
 	stParams = stDummyParams)>
 <cfset oEReq.signRequest(
-	oSignatureMethod = oReqSigMethodSHA, 
-	oConsumer = oTestConsumer, 
+	oSignatureMethod = oReqSigMethodSHA,
+	oConsumer = oTestConsumer,
 	oToken = oTestToken)>
 <cfset sAuthRequestURL = sBaseURL & "/" & "authorize.cfm">
 
-<div style="text-align:left;">	
+<div style="text-align:left;">
 <h1>OAuth Test Client</h1>
 <h2>Instructions for Use</h2>
 <p>This is a test client that will let you test your OAuth server code. Enter the appropriate information below to test.</p>
@@ -182,7 +183,7 @@ limitations under the License.
 	<th colspan="2">Enter The Endpoint to Test</th>
 </tr>
 <tr>
-	<td>endpoint:</td>	
+	<td>endpoint:</td>
 	<td>
 		<select name="endpoint">
 			<option value="#sRequestTokenURL#">#sRequestTokenURL#</option>
@@ -237,7 +238,7 @@ limitations under the License.
 
 <p>
 	<h3>Supported signature methods :</h3>
-	<cfloop collection="#oReqServer.getSupportedSignatureMethods()#" item="sItem">#sItem#<br></cfloop> 
+	<cfloop collection="#oReqServer.getSupportedSignatureMethods()#" item="sItem">#sItem#<br></cfloop>
 </p>
 </div>
 </form>
@@ -245,7 +246,7 @@ limitations under the License.
 <cfdump var="#FORM#" label="FORM">
 <cfdump var="#URL#" label="URL">
 <cfdump var="#stRequest#" label="parameters after append">
-								
+
 </body>
 </html>
 </cfoutput>

@@ -26,10 +26,10 @@ limitations under the License.
 	<cfset variables.sDataSource = "">
 
 	<!--- dao constructor --->
-	<cffunction name="init" access="public" returntype="OAuthConsumerDAO" output="false" hint="Constructor - initializes the DAO.">
-		<cfargument name="sDataSource" required="true" type="string" hint="database source">		
+	<cffunction name="init" access="public" returntype="oauthconsumerdao" output="false" hint="Constructor - initializes the DAO.">
+		<cfargument name="sDataSource" required="true" type="string" hint="database source">
 		<cfset variables.sDataSource = arguments.sDataSource>
-		<cfreturn this> 
+		<cfreturn this>
 	</cffunction>
 
 	<cffunction name="getNextConsumerID" access="private" returntype="numeric" hint="retrieves next valid consumer id">
@@ -93,14 +93,14 @@ limitations under the License.
 		</cfquery>
 
 		<cfif qData.recordCount IS 1>
-			<cfset stData.consumerID 		= qData.consumer_id>										
+			<cfset stData.consumerID 		= qData.consumer_id>
 			<cfset stData.consumername 		= qData.name>
 			<cfset stData.consumerfullname 	= qData.fullname>
 			<cfset stData.consumeremail 	= qData.email>
 			<cfset stData.consumerkey 		= qData.ckey>
 			<cfset stData.consumersecret 	= qData.csecret>
 			<cfset stData.editorid 			= qData.editor_id>
-			<cfset stData.datecreated 		= qData.datecreated>			
+			<cfset stData.datecreated 		= qData.datecreated>
 		</cfif>
 
 		<cfreturn stData>
@@ -115,7 +115,7 @@ limitations under the License.
 		<cfset var sComma = "">
 
 		<cfquery datasource="#variables.sDataSource#">
-		UPDATE oauth_consumers 
+		UPDATE oauth_consumers
 		SET
 			<cfif isToProcess(arguments.columnList, stData, "consumername")>
 				#sComma# name = <cfqueryparam value="#stData.consumername#"	cfsqltype="CF_SQL_VARCHAR">
@@ -156,7 +156,7 @@ limitations under the License.
 		<cfset var qData = 0>
 
 		<cfquery datasource="#variables.sDataSource#" name="qData">
-			DELETE 
+			DELETE
 			FROM	oauth_consumers
 			WHERE	consumer_id = <cfqueryparam value="#arguments.iConsumerID#" cfsqltype="CF_SQL_INTEGER">
 		</cfquery>

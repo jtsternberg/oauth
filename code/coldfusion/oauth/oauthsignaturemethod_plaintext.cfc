@@ -22,7 +22,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent extends="OAuthSignatureMethod" displayname="OAuthSignatureMethod_PLAINTEXT" hint="signature method using plaintext encoding">
+<cfcomponent extends="oauthsignaturemethod" displayname="oauthsignaturemethod_plaintext" hint="signature method using plaintext encoding">
 
 	<!--- returns the signature method name --->
 	<cffunction name="getName" access="public" returntype="string" output="false">
@@ -31,24 +31,27 @@ limitations under the License.
 
 	<!--- builds a plaintext signature	--->
 	<cffunction name="buildSignature" access="public" returntype="string">
-		<cfargument name="oRequest" 	required="true"	type="OAuthRequest">
-		<cfargument name="oConsumer" 	required="true" type="OAuthConsumer">
-		<cfargument name="oToken"		required="true"	type="OAuthToken">
+		<cfargument name="oRequest" 	required="true"	type="oauthrequest">
+		<cfargument name="oConsumer" 	required="true" type="oauthconsumer">
+		<cfargument name="oToken"		required="true"	type="oauthtoken">
 
 		<cfset var aSignature = ArrayNew(1)>
 		<cfset var sResult = "">
+		<cfset var encoder = CreateObject("component", "oauthutil").init()>
 
-		<cfset ArrayAppend(aSignature, URLEncodedFormat(arguments.oConsumer.getSecret()))>
+		<cfset ArrayAppend(aSignature, encoder.encodePercent(arguments.oConsumer.getSecret()))>
 
 		<cfif NOT arguments.oToken.isEmpty()>
-			<cfset ArrayAppend(aSignature, URLEncodedFormat(arguments.oToken.getSecret()))>
+			<cfset ArrayAppend(aSignature, encoder.encodePercent(arguments.oToken.getSecret()))>
 		<cfelse>
 			<cfset ArrayAppend(aSignature, "")>
 		</cfif>
 
 		<cfset sResult = ArrayToList(aSignature, "&")>
-
-		<cfreturn sResult>
+		<!---	PLAINTEXT encoding
+				9.4.1.  Generating Signature - concatenated encoded values of the Consumer Secret and Token Secret,
+				separated by a '&' character (ASCII code 38), The result MUST be encoded again.	--->
+		<cfreturn encoder.encodePercent(sResult)>
 	</cffunction>
 
 </cfcomponent>

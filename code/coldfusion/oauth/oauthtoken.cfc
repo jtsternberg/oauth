@@ -22,20 +22,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent displayname="OAuthToken">
+<cfcomponent displayname="oauthtoken">
 	<cfset variables.sKey = "">
 	<cfset variables.sSecret = "">
+	<cfset variables.oUtil = CreateObject("component","oauthutil").init()>
 
-	<cffunction name="init" access="public" returntype="OAuthToken">
-		<cfargument name="sKey" 	required="true" type="string">
-		<cfargument name="sSecret" 	required="true" type="string">
+	<cffunction name="init" access="public" returntype="oauthtoken">
+		<cfargument name="sKey" required="true" type="string">
+		<cfargument name="sSecret" required="true" type="string">
 
 		<cfset setKey(arguments.sKey)>
 		<cfset setSecret(arguments.sSecret)>
-				
+
 		<cfreturn this>
-	</cffunction>	
-	
+	</cffunction>
+
 	<cffunction name="getKey" access="public" returntype="string" output="false">
 		<cfreturn variables.sKey>
 	</cffunction>
@@ -52,7 +53,7 @@ limitations under the License.
 		<cfset variables.sSecret = arguments.sSecret>
 	</cffunction>
 
-	<cffunction name="createEmptyToken" access="public" returntype="OAuthToken">
+	<cffunction name="createEmptyToken" access="public" returntype="oauthtoken">
 		<cfset var oEmptyToken = init(sKey="", sSecret="")>
 		<cfreturn oEmptyToken>
 	</cffunction>
@@ -65,13 +66,13 @@ limitations under the License.
 		<cfreturn bResult>
 	</cffunction>
 
-	<!---	
+	<!---
 		generates the basic string serialization of a token that a server
-		would respond to request_token and access_token calls with	
+		would respond to request_token and access_token calls with
 	--->
 	<cffunction name="getString" access="public" returntype="string" output="false">
-		<cfset var sResult = "oauth_token=" & URLEncodedFormat(variables.sKey) & "&" &
-			"oauth_token_secret=" & URLEncodedFormat(variables.sSecret)>						 	 		
+		<cfset var sResult = "oauth_token=" & variables.oUtil.encodePercent(variables.sKey) & "&" &
+			"oauth_token_secret=" & variables.oUtil.encodePercent(variables.sSecret)>
 		<cfreturn sResult>
 	</cffunction>
 

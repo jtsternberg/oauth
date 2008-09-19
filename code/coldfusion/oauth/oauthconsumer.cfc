@@ -22,7 +22,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent displayname="OAuthConsumer">
+<cfcomponent displayname="oauthconsumer">
 
 	<cfset variables.sKey = "">
 	<cfset variables.sSecret = "">
@@ -30,7 +30,7 @@ limitations under the License.
 	<cfset variables.iConsumerID = 0>
 	<cfset variables.iEditorID = 1>
 
-	<cffunction name="init"	access="public" returntype="OAuthConsumer">
+	<cffunction name="init"	access="public" returntype="oauthconsumer">
 		<cfargument name="sKey"			required="true"		type="string"	hint="consumer key">
 		<cfargument name="sSecret" 		required="true" 	type="string" 	hint="consumer secret">
 		<cfargument name="sCallbackURL" required="false" 	type="string" 	hint="consumer callback URL" 	default="">
@@ -70,7 +70,7 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="getConsumerID" access="public" returntype="numeric">
-		<cfargument name="oDataStore" required="false" type="OAuthDataStore">
+		<cfargument name="oDataStore" required="false" type="oauthdatastore">
 		<cfif StructKeyExists(arguments, "oDataStore")>
 			<cfset setConsumerID(arguments.oDataStore.lookUpConsumerID(sConsumerKey = getKey()))>
 		</cfif>
@@ -82,7 +82,7 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="getEditorID" access="public" returntype="numeric">
-		<cfargument name="oDataStore" required="false" type="OAuthDataStore">
+		<cfargument name="oDataStore" required="false" type="oauthdatastore">
 		<cfif StructKeyExists(arguments, "oDataStore")>
 			<cfset setEditorID(arguments.oDataStore.lookUpEditorID(sConsumerKey = getKey()))>
 		</cfif>
@@ -94,10 +94,10 @@ limitations under the License.
 	</cffunction>
 
 
-	<cffunction name="createEmptyConsumer" access="public" returntype="OAuthConsumer">
+	<cffunction name="createEmptyConsumer" access="public" returntype="oauthconsumer">
 		<cfset var oResult = init(sKey = "", sSecret = "")>
 		<cfreturn oResult>
-	</cffunction>	
+	</cffunction>
 
 	<cffunction name="isEmpty" access="public" returntype="boolean">
 		<cfset var bResult = false>

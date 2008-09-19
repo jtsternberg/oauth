@@ -1,5 +1,5 @@
-<!---  
-Description: 
+<!---
+Description:
 ============
 	oauth.oauthrequest testcase
 
@@ -19,13 +19,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 --->
-<cfcomponent 
-	name="oauth.oauthrequest testcase" 
-	extends="cfcunit.framework.TestCase" 
-	output="false" 
+<cfcomponent
+	name="oauth.oauthrequest testcase"
+	extends="org.cfcunit.framework.TestCase"
+	output="false"
 	hint="oauth.oauthrequest testcase">
 
 	<cffunction name="setUp" returntype="void" access="private" output="false" hint="test fixture">
+		<cfset variables.oUtil = CreateObject("component", "oauth.oauthutil").init()>
 		<cfset variables.sHttpMethod = "GET">
 		<cfset variables.sHttpURL = "http://test.example.com">
 		<cfset variables.stParameters = StructNew()>
@@ -38,7 +39,7 @@ limitations under the License.
 			stParameters = variables.stParameters,
 			sOAuthVersion = variables.sOAuthVersion)>
 		<cfset variables.sConsumerKey = "ckey">
-		<cfset variables.sConsumerSecret = "csecret">						
+		<cfset variables.sConsumerSecret = "csecret">
 		<cfset variables.oConsumer = CreateObject("component", "oauth.oauthconsumer").init(
 			sKey = variables.sConsumerKey, sSecret = variables.sConsumerSecret )/>
 		<cfset variables.sTokenKey = "tkey">
@@ -53,38 +54,39 @@ limitations under the License.
 		<cfset var oTempRequest = CreateObject("component", "oauth.oauthrequest").init(
 			sHttpMethod = variables.sHttpMethod,
 			sHttpURL = variables.sHttpURL,
-			stParameters = variables.stParameters,						
+			stParameters = variables.stParameters,
 			sOAuthVersion = variables.sOAuthVersion)>
 		<cfset assertTrue(IsInstanceOf(oTempRequest, "oauth.oauthrequest"))>
 	</cffunction>
 
 	<cffunction name="testsetParameters" returntype="void" access="public" output="false">
 		<cfset var stTempParameters = StructNew()>
-		<cfset var stTemp = StructNew()>
 		<cfset var aKeys = ArrayNew(1)>
+		<cfset var aValues = ArrayNew(1)>
 		<cfset var i = "">
 
 		<cfset stTempParameters["test_param1"] = "test_one">
 		<cfset stTempParameters["test_param2"] = "test_two">
-		<cfset variables.oRequest.setParameters(stTempParameters)>
-		<cfset stTemp = variables.oRequest.getParameters()>
-		<cfset ArrayAppend(aKeys,StructKeyArray(stTemp))>
+		<cfset variables.oRequest.clearParameters()>
+		<cfset variables.oRequest.setParameters(stParameters = stTempParameters)>
+		<cfset aKeys = variables.oRequest.getParameterKeys()>
+		<cfset aValues = variables.oRequest.getParameterValues()>
 
-		<cfloop collection="#stTemp#" item="i">
-			<cfset AssertEqualsString(StructFind(stTempParameters, i), StructFind(stTemp, i))>
+		<cfloop from="1" to="#ArrayLen(aKeys)#" index="i">
+			<cfset AssertEqualsString(StructFind(stTempParameters, aKeys[i]), aValues[i])>
 		</cfloop>
 	</cffunction>
 
 	<cffunction name="testtoHeader" returntype="void" access="public" output="false">
-		<cfset var sTemp = """Authorization: OAuth realm=""""," & URLEncodedFormat("oauth_version") & "=""" & URLEncodedFormat(variables.sOAuthVersion) & """"/>
+		<cfset var sTemp = """Authorization: OAuth realm=""""," & variables.oUtil.encodePercent("oauth_version") & "=""" & variables.oUtil.encodePercent(variables.sOAuthVersion) & """"/>
 		<cfset assertEqualsString(sTemp, variables.oRequest.toHeader())>
 	</cffunction>
 
 	<cffunction name="testgetString" returntype="void" access="public" output="false">
 		<cfset var sReqTemp = variables.oRequest.getString()>
-		<cfset var sTemp = 	variables.sHttpURL & "?" & URLEncodedFormat("oauth_version") & "=" & URLEncodedFormat(variables.sOAuthVersion) & "&"
-							& URLEncodedFormat("test_param1") & "=" & variables.stParameters["test_param1"] & "&"
-							& URLEncodedFormat("test_param2") & "=" & variables.stParameters["test_param2"]>
+		<cfset var sTemp = 	variables.sHttpURL & "?" & variables.oUtil.encodePercent("oauth_version") & "=" & variables.oUtil.encodePercent(variables.sOAuthVersion) & "&"
+							& variables.oUtil.encodePercent("test_param1") & "=" & variables.stParameters["test_param1"] & "&"
+							& variables.oUtil.encodePercent("test_param2") & "=" & variables.stParameters["test_param2"]>
 		<cfset assertEqualsString(sTemp, sReqTemp)>
 	</cffunction>
 
@@ -108,7 +110,7 @@ limitations under the License.
 	<cffunction name="testfromConsumerAndToken" returntype="void" access="public" output="false">
 		<cfset var oTemp = variables.oRequest.fromConsumerAndToken(
 			oConsumer = variables.oConsumer,
-			oToken = variables.oToken, 
+			oToken = variables.oToken,
 			sHttpMethod = "GET",
 			sHttpURL = "http://test.example.com")>
 		<cfset assertFalse(oTemp.isEmpty())>
@@ -132,7 +134,7 @@ limitations under the License.
 	<cffunction name="testbuildSignature" returntype="void" access="public" output="false">
 		<cfset var oTempSig = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
 		<cfset var sResult = oTempSig.buildSignature(variables.oRequest, variables.oConsumer, variables.oToken)>
-		<cfset var sTemp = variables.sConsumerSecret & "&" & variables.sTokenSecret>
+		<cfset var sTemp = variables.sConsumerSecret & variables.oUtil.encodePercent("&") & variables.sTokenSecret>
 		<cfset assertEqualsString(sTemp, sResult)>
 		<cfset oTempSig = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
 		<cfset sResult = oTempSig.buildSignature(variables.oRequest, variables.oConsumer, variables.oToken)>
@@ -142,9 +144,9 @@ limitations under the License.
 
 	<cffunction name="testtoPostData" returntype="void" access="public" output="false">
 		<cfset var sReqTemp = variables.oRequest.toPostData()>
-		<cfset var sTemp =	URLEncodedFormat("oauth_version") & "=" & URLEncodedFormat(variables.sOAuthVersion) & "&" &
-							URLEncodedFormat("test_param1") & "=" & URLEncodedFormat(variables.stParameters["test_param1"]) & "&" & 
-							URLEncodedFormat("test_param2") & "=" & URLEncodedFormat(variables.stParameters["test_param2"])>
+		<cfset var sTemp =	variables.oUtil.encodePercent("oauth_version") & "=" & variables.oUtil.encodePercent(variables.sOAuthVersion) & "&" &
+							variables.oUtil.encodePercent("test_param1") & "=" & variables.oUtil.encodePercent(variables.stParameters["test_param1"]) & "&" &
+							variables.oUtil.encodePercent("test_param2") & "=" & variables.oUtil.encodePercent(variables.stParameters["test_param2"])>
 		<cfset assertEqualsString(sTemp,sReqTemp)>
 	</cffunction>
 
@@ -153,15 +155,15 @@ limitations under the License.
 		<cfset assertEqualsString("1.2.3", variables.oRequest.getVersion())>
 	</cffunction>
 
-	<cffunction name="testgetVersion" returntype="void" access="public" output="false">		
+	<cffunction name="testgetVersion" returntype="void" access="public" output="false">
 		<cfset assertTrue(variables.sOAuthVersion, variables.oRequest.getVersion())>
 	</cffunction>
 
 	<cffunction name="testsignatureBaseString" returntype="void" access="public" output="false">
-		<cfset var sResult = variables.sHttpMethod & "&" & URLEncodedFormat(variables.sHttpURL) & "&" &
-								URLEncodedFormat("oauth_version=" & variables.sOAuthVersion & "&")  &
-								URLEncodedFormat("test_param1=" & variables.stParameters["test_param1"] & "&")  &
-								URLEncodedFormat("test_param2=" & variables.stParameters["test_param2"])>
+		<cfset var sResult = variables.sHttpMethod & "&" & variables.oUtil.encodePercent(variables.sHttpURL) & "&" &
+								variables.oUtil.encodePercent("oauth_version=" & variables.sOAuthVersion & "&")  &
+								variables.oUtil.encodePercent("test_param1=" & variables.stParameters["test_param1"] & "&")  &
+								variables.oUtil.encodePercent("test_param2=" & variables.stParameters["test_param2"])>
 		<cfset var sTemp = variables.oRequest.signatureBaseString()>
 		<cfset assertEqualsString(sResult, sTemp, sTemp)>
 	</cffunction>
@@ -176,7 +178,7 @@ limitations under the License.
 		<cfset var oTemp = variables.oRequest.fromRequest(sHttpMethod="POST", sHttpURL="http://test.com")>
 		<cfset assertFalse(oTemp.isEmpty())>
 		<cfset assertEqualsString("POST", oTemp.getHttpMethod())>
-		<cfset assertEqualsString("http://test.com", oTemp.getHttpURL())>		
+		<cfset assertEqualsString("http://test.com", oTemp.getHttpURL())>
 	</cffunction>
 
 	<cffunction name="testgenerateNonce" returntype="void" access="public" output="false">
@@ -192,16 +194,16 @@ limitations under the License.
 		<cfset assertEqualsString(variables.sHttpURL, variables.oRequest.getHttpURL())>
 	</cffunction>
 
-	<cffunction name="testgetNormalizedHttpURL" returntype="void" access="public" output="false">		
+	<cffunction name="testgetNormalizedHttpURL" returntype="void" access="public" output="false">
 		<cfset assertEqualsString(variables.sHttpURL, variables.oRequest.getNormalizedHttpURL())>
 	</cffunction>
 
-	<cffunction name="testsignRequest" returntype="void" access="public" output="false">		
+	<cffunction name="testsignRequest" returntype="void" access="public" output="false">
 		<cfset var oTempSig = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
-		<cfset var sTemp = variables.sConsumerSecret & "&" & variables.sTokenSecret>			
-		<cfset variables.oRequest.signRequest(oTempSig, variables.oConsumer, variables.oToken)>		
+		<cfset var sTemp = variables.sConsumerSecret & variables.oUtil.encodePercent("&") & variables.sTokenSecret>
+		<cfset variables.oRequest.signRequest(oTempSig, variables.oConsumer, variables.oToken)>
 		<cfset assertEqualsString(sTemp, variables.oRequest.getParameter("oauth_signature"))>
-		
+
 		<cfset oTempSig = CreateObject("component", "oauth.oauthsignaturemethod_hmac_sha1")>
 		<cfset sTemp = "ml+HYq0MwAdWnwJ+MZwYQP/8xT0=">
 		<cfset variables.oRequest.signRequest(oTempSig, variables.oConsumer, variables.oToken)>
@@ -210,9 +212,14 @@ limitations under the License.
 
 	<cffunction name="testtoURL" returntype="void" access="public" output="false">
 		<cfset var sReqTemp = variables.oRequest.toURL()>
-		<cfset var sTemp = 	variables.sHttpURL & "?" & URLEncodedFormat("oauth_version") & "=" & URLEncodedFormat(variables.sOAuthVersion) & "&"
-							& URLEncodedFormat("test_param1") & "=" & variables.stParameters["test_param1"] & "&"
-							& URLEncodedFormat("test_param2") & "=" & variables.stParameters["test_param2"]>
+		<cfset var sTemp = 	variables.sHttpURL & "?"
+					& variables.oUtil.encodePercent("oauth_version") & "="
+					& variables.oUtil.encodePercent(variables.sOAuthVersion) & "&"
+					& variables.oUtil.encodePercent("test_param1") & "="
+					& variables.oUtil.encodePercent(variables.stParameters["test_param1"]) & "&"
+					& variables.oUtil.encodePercent("test_param2") & "="
+					& variables.oUtil.encodePercent(variables.stParameters["test_param2"])>
+
 		<cfset assertEqualsString(sTemp, sReqTemp)>
 	</cffunction>
 
@@ -225,16 +232,18 @@ limitations under the License.
 
 	<cffunction name="testgetParameters" returntype="void" access="public" output="false">
 		<cfset var stTemp = variables.oRequest.getParameters()>
-		<cfset var aKeys = StructKeyArray(stTemp)>
+		<cfset var aKeys = variables.oRequest.getParameterKeys()>
+		<cfset var aValues = variables.oRequest.getParameterValues()>
 		<cfset var i = 0>
-		<cfloop collection="#stTemp#" item="i">
-			<cfset AssertEqualsString(StructFind(variables.stParameters, i),StructFind(stTemp, i))>
+
+		<cfloop from="1" to="#ArrayLen(stTemp['paramKeys'])#" index="i">
+			<cfset AssertEqualsString(stTemp['paramKeys'][i], aKeys[i])>
 		</cfloop>
 	</cffunction>
 
 	<!--------------------------------------------------------------->
 
-	<cffunction name="tearDown" returntype="void" access="private" output="false" 
+	<cffunction name="tearDown" returntype="void" access="private" output="false"
 		hint="Tears down the fixture, for example, close a network connection.">
 	</cffunction>
 
