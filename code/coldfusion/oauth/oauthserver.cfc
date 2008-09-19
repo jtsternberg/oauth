@@ -22,34 +22,34 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent displayname="OAuthServer">
+<cfcomponent displayname="oauthserver">
 
 	<cfset variables.iTimestampThreshold = 600000>
 	<cfset variables.sOAuthVersion = "1.0">
 	<cfset variables.stSignatureMethods = StructNew()>
 	<cfset variables.oDataStore = 0>
 
-	<cffunction name="init" access="public" returntype="OAuthServer" output="false">
-		<cfargument name="oDataStore" 			required="true" 	type="OAuthDataStore">
-		<cfargument name="iTimestampThreshold"	required="false"	type="numeric">
+	<cffunction name="init" access="public" returntype="oauthserver" output="false">
+		<cfargument name="oDataStore" required="true" type="oauthdatastore">
+		<cfargument name="iTimestampThreshold" required="false" type="numeric">
 		<cfset variables.oDataStore = arguments.oDataStore>
 		<cfif IsDefined('arguments.iTimestampThreshold')>
 			<cfset setTimeout(arguments.iTimestampThreshold)>
-		</cfif>		
+		</cfif>
 		<cfreturn this>
 	</cffunction>
 
-	<cffunction name="setTimeout"	access="public" output="false" returntype="void">
+	<cffunction name="setTimeout" access="public" output="false" returntype="void">
 		<cfargument name="iTimestampThreshold"	required="true"	type="numeric">
 		<cfset variables.iTimestampThreshold = arguments.iTimestampThreshold>
 	</cffunction>
 
-	<cffunction name="getTimeout"	access="public" output="false" returntype="numeric">
+	<cffunction name="getTimeout" access="public" output="false" returntype="numeric">
 		<cfreturn variables.iTimestampThreshold>
 	</cffunction>
 
 	<cffunction name="addSignatureMethod" access="public" returntype="void">
-		<cfargument name="oSignatureMethod"	required="true" type="OAuthSignatureMethod">
+		<cfargument name="oSignatureMethod"	required="true" type="oauthsignaturemethod">
 		<cfset variables.stSignatureMethods[arguments.oSignatureMethod.getName()] = arguments.oSignatureMethod>
 	</cffunction>
 
@@ -59,14 +59,14 @@ limitations under the License.
 	</cffunction>
 
 	<!--- process a Request_Token request, returns the request token on success --->
-	<cffunction name="fetchRequestToken" access="public" returntype="OAuthToken">
-		<cfargument name="oRequest"	required="true"	type="OAuthRequest">
+	<cffunction name="fetchRequestToken" access="public" returntype="oauthtoken">
+		<cfargument name="oRequest"	required="true"	type="oauthrequest">
 
 		<cfset var oConsumer = 0>
-		<cfset var oEmptyToken = CreateObject("component", "OAuthToken").createEmptyToken()>
+		<cfset var oEmptyToken = CreateObject("component", "oauthtoken").createEmptyToken()>
 		<cfset var oNewToken = 0>
 
-		<cfset getVersion(arguments.oRequest)>		
+		<cfset getVersion(arguments.oRequest)>
 		<cfset oConsumer = getConsumer(arguments.oRequest)>
 		<!--- using emtpy token, no token required for the initial token request --->
 		<cfset checkSignature(arguments.oRequest, oConsumer, oEmptyToken)>
@@ -75,8 +75,8 @@ limitations under the License.
 	</cffunction>
 
 	<!--- process an access_token request, returns the access token on success --->
-	<cffunction name="fetchAccessToken"	access="public" returntype="OAuthToken">
-		<cfargument name="oRequest" required="true" type="OAuthRequest">
+	<cffunction name="fetchAccessToken"	access="public" returntype="oauthtoken">
+		<cfargument name="oRequest" required="true" type="oauthrequest">
 
 		<cfset var oConsumer = 0>
 		<cfset var oToken = 0>
@@ -93,7 +93,7 @@ limitations under the License.
 
 	<!--- verify an api call, checks all the parameters --->
 	<cffunction name="verifyRequest" access="public" returntype="array">
-		<cfargument name="oRequest" required="true" type="OAuthRequest">
+		<cfargument name="oRequest" required="true" type="oauthrequest">
 
 		<cfset var oConsumer = 0>
 		<cfset var oToken = 0>
@@ -113,26 +113,25 @@ limitations under the License.
 
 	<!--- get oauth version --->
 	<cffunction name="getVersion" access="private" returntype="string">
-		<cfargument name="oRequest" required="true" type="OAuthRequest">
+		<cfargument name="oRequest" required="true" type="oauthrequest">
 
 		<cfset var sVersion = arguments.oRequest.getParameter("oauth_version")>
 		<cfset var sErrorMsg = "">
-
-		<cfif Len(sVersion) IS 0>
+		<!--- prevent multiple versions --->
+		<cfif Len(sVersion) IS 0 OR ListLen(sVersion) GT 1>
 			<cfset sVersion = "1.0">
 		</cfif>
 
 		<cfif Len(sVersion) AND Compare(sVersion, variables.sOAuthVersion) NEQ 0>
 			<cfset sErrorMsg = "OAuth version [" & sVersion & "] not supported!">
-			<cfthrow message="#sErrorMeg#" type="OAuthException">
+			<cfthrow message="#sErrorMsg#" type="OAuthException">
 		</cfif>
-
-    	<cfreturn sVersion>    
+    	<cfreturn sVersion>
     </cffunction>
 
 	<!--- figure out the signature with some defaults --->
-	<cffunction name="getSignatureMethod" access="private" output="false" returntype="OAuthSignatureMethod">
-		<cfargument name="oRequest" type="OAuthRequest"	required="true">
+	<cffunction name="getSignatureMethod" access="private" output="false" returntype="oauthsignaturemethod">
+		<cfargument name="oRequest" type="oauthrequest"	required="true">
 
 		<cfset var oSignatureMethod = 0>
 		<cfset var sSignatureMethod = arguments.oRequest.getParameter("oauth_signature_method")>
@@ -154,12 +153,12 @@ limitations under the License.
 	</cffunction>
 
 	<!--- try to find the consumer for the provided request's consumer key --->
-	<cffunction name="getConsumer" access="private" returntype="OAuthConsumer">
-		<cfargument name="oRequest" required="true" type="OAuthRequest">
+	<cffunction name="getConsumer" access="private" returntype="oauthconsumer">
+		<cfargument name="oRequest" required="true" type="oauthrequest">
 
 		<cfset var sConsumerKey = arguments.oRequest.getParameter("oauth_consumer_key")>
 		<cfset var sErrorMsg = "">
-		<cfset var oConsumer = CreateObject("component", "OAuthConsumer").createEmptyConsumer()>
+		<cfset var oConsumer = CreateObject("component", "oauthconsumer").createEmptyConsumer()>
 
 		<cfif Len(sConsumerKey) IS 0>
 			<cfset sErrorMsg = "Invalid consumer key. Check request parameters.">
@@ -177,21 +176,21 @@ limitations under the License.
 	</cffunction>
 
 	<!--- try to find the token for the provided request's token key --->
-	<cffunction name="getOAuthToken" access="private" returntype="OAuthToken">
-		<cfargument name="oRequest" required="true" 	type="OAuthRequest">
-		<cfargument name="oConsumer" required="true" 	type="OAuthConsumer">
-		<cfargument name="sTokenType" required="false" 	type="string" default="ACCESS">
+	<cffunction name="getOAuthToken" access="private" returntype="oauthtoken">
+		<cfargument name="oRequest" required="true" type="oauthrequest">
+		<cfargument name="oConsumer" required="true" type="oauthconsumer">
+		<cfargument name="sTokenType" required="false" type="string" default="ACCESS">
 
 		<cfset var sErrorMsg = "">
 		<cfset var sTokenFieldValue = arguments.oRequest.getParameter("oauth_token")>
-		<cfset var oToken = CreateObject("component", "OAuthToken").createEmptyToken()>
+		<cfset var oToken = CreateObject("component", "oauthtoken").createEmptyToken()>
 
 		<cfif NOT Len(sTokenFieldValue) IS 0>
 			<cfset oToken = variables.oDataStore.lookUpToken(
-				oConsumer = arguments.oConsumer, 
-				sTokenType = arguments.sTokenType, 
-				oToken = CreateObject("component", "OAuthToken").init(
-					sKey = sTokenFieldValue,																			
+				oConsumer = arguments.oConsumer,
+				sTokenType = arguments.sTokenType,
+				oToken = CreateObject("component", "oauthtoken").init(
+					sKey = sTokenFieldValue,
 					sSecret = arguments.oConsumer.getSecret()))>
 		</cfif>
 
@@ -205,9 +204,9 @@ limitations under the License.
 
 	<!--- all-in-one function to check the signature on a request, should guess the signature method appropriately --->
 	<cffunction name="checkSignature" access="public" output="false">
-		<cfargument name="oRequest"	required="true" type="OAuthRequest">
-		<cfargument name="oConsumer" required="true" type="OAuthConsumer">
-		<cfargument name="oToken" required="true" type="OAuthToken">		
+		<cfargument name="oRequest"	required="true" type="oauthrequest">
+		<cfargument name="oConsumer" required="true" type="oauthconsumer">
+		<cfargument name="oToken" required="true" type="oauthtoken">
 
 		<cfset var iTimestamp = arguments.oRequest.getParameter("oauth_timestamp")>
 		<cfset var sNonce = arguments.oRequest.getParameter("oauth_nonce")>
@@ -244,7 +243,7 @@ limitations under the License.
 
 		<cfset iDiff = iNow - arguments.iTimestamp>
 		<cfif iDiff GT variables.iTimestampThreshold>
-			<cfset sErrorMsg = "Expired timestamp, yours [" & arguments.iTimestamp & "], ours [" & iNow 
+			<cfset sErrorMsg = "Expired timestamp, yours [" & arguments.iTimestamp & "], ours [" & iNow
 				& "], threshold=[" & variables.iTimestampThreshold & "], diff=[" & iDiff & "].">
 			<cfthrow message="#sErrorMsg#" type="OAuthException">
 		</cfif>
@@ -252,8 +251,8 @@ limitations under the License.
 
 	<!--- check that the nonce is not repeated, verify that the nonce is unique --->
 	<cffunction name="checkNonce" access="private">
-		<cfargument name="oConsumer" required="true" type="OAuthConsumer">
-		<cfargument name="oToken" required="true" type="OAuthToken">
+		<cfargument name="oConsumer" required="true" type="oauthconsumer">
+		<cfargument name="oToken" required="true" type="oauthtoken">
 		<cfargument name="sNonce" required="true" type="string">
 		<cfargument name="iTimestamp" required="true" type="numeric">
 

@@ -1,5 +1,5 @@
 <cfsilent>
-<!--- 
+<!---
 Description:
 ============
 	Request Token Endpoint
@@ -55,4 +55,4 @@ server response : <br>
 key = #oReqToken.getKey()#, secret = #oReqToken.getSecret()#<br>
 </body>
 </html>
-</cfoutput> 
+</cfoutput>

@@ -1,5 +1,5 @@
-<!---  
-Description: 
+<!---
+Description:
 ============
 	oauth.oauthsignaturemethod_hmac_sha1 testcase
 
@@ -19,10 +19,10 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 --->
-<cfcomponent 
-	name="oauth.oauthsignaturemethod_hmac_sha1 testcase" 
-	extends="cfcunit.framework.TestCase" 
-	output="false" 
+<cfcomponent
+	name="oauth.oauthsignaturemethod_hmac_sha1 testcase"
+	extends="org.cfcunit.framework.TestCase"
+	output="false"
 	hint="oauth.oauthsignaturemethod_hmac_sha1 testcase">
 
 	<cffunction name="setUp" returntype="void" access="private" output="false" hint="test fixture">
@@ -31,13 +31,13 @@ limitations under the License.
 		<cfset variables.sConsumerKey = "ckey">
 		<cfset variables.sConsumerSecret = "csecret">
 		<cfset variables.oConsumer = CreateObject("component", "oauth.oauthconsumer").init(
-			sKey = variables.sConsumerKey, 
+			sKey = variables.sConsumerKey,
 			sSecret = variables.sConsumerSecret)>
 
 		<cfset variables.sTokenKey = "tkey">
 		<cfset variables.sTokenSecret = "tsecret">
 		<cfset variables.oToken = CreateObject("component", "oauth.oauthtoken").init(
-			sKey = variables.sTokenKey, 
+			sKey = variables.sTokenKey,
 			sSecret = variables.sTokenSecret)>
 
 		<cfset variables.oRequest = CreateObject("component", "oauth.oauthrequest").init(
@@ -50,7 +50,7 @@ limitations under the License.
 
 	<cffunction name="testhmac_sha1" returntype="void" access="public" output="false">
 		<cfset var sTemp = variables.oSigMethod.hmac_sha1(
-			signKey = "csecret&tsecret", 
+			signKey = "csecret&tsecret",
 			signMessage = "GET&http://test.example.com&oauth_version=1.0&test_param1=123&test_param2=str")>
 		<cfset var sExpected = "40D0hePIGuTzR9QvXVoEhy545Sc=">
 
@@ -58,11 +58,16 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="testbuildSignature" returntype="void" access="public" output="false">
-		<cfset var sTemp = variables.oSigMethod.buildSignature(
+		<cfset var sTemp = "">
+		<cfset var sReqTemp = "">
+
+		<cfset sTemp = variables.oSigMethod.buildSignature(
 			oRequest = variables.oRequest,
 			oConsumer = variables.oConsumer,
 			oToken = variables.oToken)>
-		<cfset var sReqTemp = variables.oRequest.getParameter("oauth_signature")>
+		<cfset variables.oRequest.signRequest(variables.oSigMethod, variables.oConsumer, variables.oToken)>
+		<cfset sReqTemp = variables.oRequest.getParameter("oauth_signature")>
+
 		<cfset assertEqualsString(sTemp, sReqTemp)>
 	</cffunction>
 
@@ -72,8 +77,8 @@ limitations under the License.
 
 	<!--------------------------------------------------------------->
 
-	<cffunction name="tearDown" returntype="void" access="private" output="false" 
+	<cffunction name="tearDown" returntype="void" access="private" output="false"
 		hint="Tears down the fixture, for example, close a network connection.">
 	</cffunction>
-	
+
 </cfcomponent>

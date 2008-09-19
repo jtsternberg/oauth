@@ -24,7 +24,7 @@ limitations under the License.
 
 <!--- modify --->
 <cfset variables.sDataSource = "oauth">
-<cfset variables.sBaseURL = "http://localhost/oauth">
+<cfset variables.sBaseURL = "http://localhost/oauth_test/examples">
 
 <!--- links --->
 <cfset sRequestTokenURL = "request_token.cfm">

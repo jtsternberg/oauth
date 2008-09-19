@@ -26,10 +26,10 @@ limitations under the License.
 	<cfset variables.sDataSource = "">
 
 	<!--- dao constructor --->
-	<cffunction name="init" access="public" returntype="OAuthTokenDAO" output="false" hint="Constructor - initializes the DAO.">
+	<cffunction name="init" access="public" returntype="oauthtokendao" output="false" hint="Constructor - initializes the DAO.">
 		<cfargument name="sDataSource" required="true" type="string" hint="database source">
 		<cfset variables.sDataSource = arguments.sDataSource>
-		<cfreturn this> 
+		<cfreturn this>
 	</cffunction>
 
 	<!--- create new record --->
@@ -64,17 +64,17 @@ limitations under the License.
 		<cfset var stData = StructNew()>
 
 		<cfquery name="qData" datasource="#variables.sDataSource#" maxrows="1" blockfactor="1">
-			SELECT	tkey, tsecret, type, consumer_id, time_stamp, nonce 
+			SELECT	tkey, tsecret, type, consumer_id, time_stamp, nonce
 			FROM  	oauth_tokens
 			WHERE 	tkey = <cfqueryparam value="#arguments.sTokenKey#" cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
 
-		<cfif qData.recordCount IS 1>										
+		<cfif qData.recordCount IS 1>
 			<cfset stData.tokenkey		= qData.tkey>
 			<cfset stData.tokensecret 	= qData.tsecret>
 			<cfset stData.tokentype 	= qData.type>
-			<cfset stData.consumerID 	= qData.consumer_id>	
-			<cfset stData.timestamp 	= qData.time_stamp>							
+			<cfset stData.consumerID 	= qData.consumer_id>
+			<cfset stData.timestamp 	= qData.time_stamp>
 			<cfset stData.nonce 		= qData.nonce>
 		</cfif>
 
@@ -89,16 +89,16 @@ limitations under the License.
 		<cfset var qData = 0>
 
 		<cfquery datasource="#variables.sDataSource#" name="qData">
-			DELETE 
+			DELETE
 			FROM	oauth_tokens
-			WHERE	tkey = <cfqueryparam value="#arguments.sTokenKey#" cfsqltype="CF_SQL_VARCHAR"> AND 
+			WHERE	tkey = <cfqueryparam value="#arguments.sTokenKey#" cfsqltype="CF_SQL_VARCHAR"> AND
 					type = <cfqueryparam value="#UCase(arguments.sTokenType)#" cfsqltype="CF_SQL_VARCHAR">
 		</cfquery>
 
 	</cffunction>
 
 	<!--- list all tokens --->
-	<cffunction name="listAll" access="public" returntype="query" hint="returns all consumers">		
+	<cffunction name="listAll" access="public" returntype="query" hint="returns all consumers">
 		<cfset var qData = QueryNew("tkey,tsecret,type,consumer_id,time_stamp,nonce")>
 
 		<cfquery datasource="#variables.sDataSource#" name="qData">

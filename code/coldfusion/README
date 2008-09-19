@@ -37,7 +37,7 @@ limitations under the License.
 
 Installation
 ------------------------------------------------
-1.	Create a empty database and ColdFusion DSN called "oauth"
+1.	Create an empty database and ColdFusion DSN called "oauth"
 
 2.	If you are using a MSSQL database, you don't have to modify the variables in the file "database/create_tables.cfm".
 	Otherwise you have to modify the variable "sDbsys" for the database platform in use.

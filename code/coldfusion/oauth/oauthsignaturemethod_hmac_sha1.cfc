@@ -27,7 +27,7 @@ History:
 	http://code.google.com/p/oauth/issues/detail?id=35
 --->
 
-<cfcomponent extends="OAuthSignatureMethod" displayname="OAuthSignatureMethod_HMAC_SHA1" hint="signature method using HMAC-SHA1">
+<cfcomponent extends="oauthsignaturemethod" displayname="oauthsignaturemethod_hmac_sha1" hint="signature method using HMAC-SHA1">
 
 	<!--- returns the signature name --->
 	<cffunction name="getName" access="public" returntype="string" output="false">
@@ -36,26 +36,25 @@ History:
 
 	<!--- builds a SHA-1 signature --->
 	<cffunction name="buildSignature" access="public" returntype="string">
-		<cfargument name="oRequest"		required="true" type="OAuthRequest">
-		<cfargument name="oConsumer"	required="true" type="OAuthConsumer">
-		<cfargument name="oToken"		required="true" type="OAuthToken">	
+		<cfargument name="oRequest"		required="true" type="oauthrequest">
+		<cfargument name="oConsumer"	required="true" type="oauthconsumer">
+		<cfargument name="oToken"		required="true" type="oauthtoken">
 
 		<cfset var aSignature = ArrayNew(1)>
 		<cfset var sKey = "">
 		<cfset var sResult = "">
 		<cfset var sHashed = "">
 		<cfset var digest = "">
-		<cfset var encoder = CreateObject("java","java.net.URLEncoder")>
+		<cfset var encoder = CreateObject("component", "oauthutil").init()>
 
-		<cfset ArrayAppend(	aSignature, 
-							encoder.encode(arguments.oRequest.getNormalizedHttpMethod()) )>
-		<cfset ArrayAppend(	aSignature, 
-							encoder.encode(arguments.oRequest.getNormalizedHttpURL()) )>
 		<cfset ArrayAppend(	aSignature,
-							encoder.encode(arguments.oRequest.getSignableParameters()) )>
+							encoder.encodePercent(arguments.oRequest.getNormalizedHttpMethod()) )>
+		<cfset ArrayAppend(	aSignature,
+							encoder.encodePercent(arguments.oRequest.getNormalizedHttpURL()) )>
+		<cfset ArrayAppend(	aSignature,
+							encoder.encodePercent(arguments.oRequest.getSignableParameters()) )>
 
-		<cfset sKey = arguments.oConsumer.getSecret() & "&">
-		<cfset sKey = sKey & arguments.oToken.getSecret()>
+		<cfset sKey = arguments.oConsumer.getSecret() & "&" & arguments.oToken.getSecret()>
 		<cfset sResult = ArrayToList(aSignature, "&")>
 
 		<cfset sHashed = hmac_sha1(
