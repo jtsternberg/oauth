@@ -13,25 +13,24 @@
   <?rfc private="Implementers' Draft" ?>
 
   <front>
-    <title>OAuth Consumer Request 1.0 Draft 2</title>
+    <title>Using OAuth for Consumer Requests</title>
 
     <author initials="E" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav">
-      <organization>Hueniverse</organization>
+      <organization>Yahoo!</organization>
       <address>
         <email>eran@hueniverse.com</email>
       </address>
     </author>
 
-    <date day="6" month="April" year="2008"/>
+    <date day="19" month="September" year="2008"/>
 
     <abstract>
       <t>
         This memo describes a method for using the OAuth flow to sign
         a request made between a Consumer and Service Provider without User
-        involvement, which is either absant or handled by other means.
+        involvement, which is either absent or handled by other means.
         It enables OAuth to be used as a replacement to HTTP
-        Basic authentication, but without the complexity of HTTP Digest
-        authentication, and extends the capabilities of the OAuth Consumer
+        Basic authentication and extends the capabilities of the OAuth Consumer
         credentials.
       </t>
       <t>
@@ -39,7 +38,7 @@
         Consumer applications without sharing the user's private credentials.
         The protocol centers on a three-legged scenario, delegating User
         access to a Consumer for resources held by a Service Provider. In
-        some cases, a two-legged scenario is needed, in which the Consumer
+        many cases, a two-legged scenario is needed, in which the Consumer
         is acting on behalf of itself, without a direct or any User involvement.
       </t>
       <t>
@@ -48,7 +47,7 @@
         might still need to communicate with the Service Provider using requests
         that are Consumer-specific. Since the Consumers already established a
         Consumer Key and Consumer Secret, there is value in being able to use
-        them for requests where the Consumer identity is important.
+        them for requests where the Consumer identity is being verified.
       </t>
     </abstract>
 
@@ -66,32 +65,6 @@
         Unless otherwise noted, this specification is written as a direct
         continuation of <xref target="OAuth Core 1.0" />, inheriting the definitions and
         guidelines set by it.
-      </t>
-    </section>
-
-    <section title="Definitions">
-      <t>
-        <list style="hanging">
-          <t hangText="Service Provider:">
-            A web application that allows access via OAuth.
-          </t>
-          <t hangText="Consumer:">
-            A website or application that uses OAuth to access resources
-            controlled by the Service Provider.
-          </t>
-          <t hangText="Protected Resource(s):">
-            Data controlled by the Service Provider, which the Consumer can
-            access through authentication.
-          </t>
-          <t hangText="Consumer Key:">
-            A value used by the Consumer to identify itself to the Service
-            Provider.
-          </t>
-          <t hangText="Consumer Secret:">
-            A secret used by the Consumer to establish ownership of the
-            Consumer Key.
-          </t>
-        </list>
       </t>
     </section>
 
@@ -113,17 +86,17 @@
 
     <section title="Consumer Request">
       <t>
-        The Consumer requests the Protected Resource by making an HTTP request
+        The Consumer requests the Protected Resource by making an HTTP(S) request
         to the Service Provider. The request HTTP method and URI are provided by
         the Service Provider by means not specified in this memo. This workflow
-        has been based on the step used to access a Protected Resource in
+        is identical to the one used to access a Protected Resource in
         a three-legged OAuth flow as defined in <xref target="OAuth Core 1.0" />
         section 7.
       </t>
 
       <section title="Consumer Sends Request">
         <t>
-          To access a Protected Resource, the Consumer sends an HTTP request to
+          To access a Protected Resource, the Consumer sends an HTTP(S) request to
           the Service Provider's resource endpoint URI. The request MUST be
           signed as defined in <xref target="OAuth Core 1.0" /> section 9 with an
           empty Token Secret. The request contains the following REQUIRED
@@ -170,7 +143,7 @@
           defined in <xref target="OAuth Core 1.0" /> section 9. If successful,
           it replies with the appropriate response to the Consumer request. The
           format of the reply is left unspecified by this memo.
-      </t>
+        </t>
         <t>
           If the request fails verification or is rejected for other reasons,
           the Service Provider SHOULD respond with the appropriate response
@@ -195,7 +168,7 @@
       <t>
         In this example, the Service Provider <spanx style="verb">provider.example.net</spanx> is an
         OAuth-enabled website, and the Consumer <spanx style="verb">consumer.example.com</spanx> uses
-        resource offered by the Service Provider on behalf of its Users.
+        resources offered by the Service Provider on behalf of its Users.
         The Service Provider allows Consumers to manage their Consumer profile
         which includes their name and description using an API call, in
         addition to a manual HTML page. The Consumer profile is used by the
@@ -305,6 +278,7 @@
             oauth_signature_method="HMAC-SHA1",
             oauth_signature="IxyYZfG2BaKh8JyEGuHCOin%2F4bA%3D",
             oauth_timestamp="1191242096",
+            oauth_token="",
             oauth_nonce="kllo9940pd9333jh",
             oauth_version="1.0"
           </artwork>
@@ -313,63 +287,6 @@
       <t>
         <spanx style="verb">provider.example.net</spanx> checks the signature and responds with the
         requested profile.
-      </t>
-    </appendix>
-
-    <appendix title="Appendix B - Discovery">
-      <t>
-        Resources protected by the method defined in this specification MAY be associated with the service type
-        URI: <spanx style="verb">http://oauth.net/ext/consumer_request/1.0</spanx>. Consumers performing discovery
-        MAY look for the type URI in order to identify the type of access control used, and successfully access the resource.
-      </t>
-      <t>
-        <xref target="OAuth Discovery 1.0" /> defines a method used to document the OAuth configuration needed
-        to access these Protected Resources using OAuth. However, when protecting resources using the method described
-        in this specification, the OAuth Endpoints as defined in <xref target="OAuth Discovery 1.0" /> section 6.1 are not
-        relevant. To apply the OAuth Discovery workflow to resources protected using the Consumer Request method,
-        the service type URI <spanx style="verb">http://oauth.net/ext/consumer_request/1.0/endpoint</spanx> is defined.
-      </t>
-      <t>
-        The service type URI <spanx style="verb">http://oauth.net/ext/consumer_request/1.0/endpoint/resource</spanx> can be used
-        alongside the types defined in <xref target="OAuth Discovery 1.0" /> section 6.1 or replace them. It obides by the
-        same rules and requirements as the <spanx style="verb">http://oauth.net/core/1.0/endpoint/resource</spanx> type URI.
-      </t>
-      <t>
-        For example, a resource protected by the method described in this specification and uses the OAuth Discovery workflow
-        will point to an XRDS-Simple document as defined in <xref target="OAuth Discovery 1.0" /> section 5, detailing that it
-        can be accessed using the <spanx style="verb">HMAC-SHA1</spanx> signature
-        method, with parameters delivered via the <spanx style="verb">Authentication</spanx> header or URI query. It also provides
-        a URI for obtaining a Consumer Key.
-
-        <figure>
-          <artwork>
-  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-  &lt;XRDS xmlns="xri://$xrds"&gt;
-    &lt;XRD xml:id="oauth_consumer_request" xmlns:simple="http://xrds-simple.net/core/1.0" xmlns="xri://$XRD*($v*2.0)" version="2.0"&gt;
-      &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
-      &lt;Expires&gt;2008-12-31T23:59:59Z&lt;/Expires&gt;
-      &lt;Service priority="10"&gt;
-        &lt;Type&gt;http://oauth.net/ext/consumer_request/1.0/endpoint/resource&lt;/Type&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/parameters/auth-header&lt;/Type&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/parameters/uri-query&lt;/Type&gt;
-        &lt;Type&gt;http://oauth.net/core/1.0/signature/HMAC-SHA1&lt;/Type&gt;
-      &lt;/Service&gt;
-      &lt;Service priority="10"&gt;
-        &lt;Type&gt;http://oauth.net/discovery/1.0/consumer-identity/oob&lt;/Type&gt;
-        &lt;URI&gt;http://sp.example.com/consumer_key_application&lt;/Type&gt;
-      &lt;/Service&gt;
-    &lt;/XRD&gt;
-    &lt;XRD xmlns="xri://$XRD*($v*2.0)" version="2.0"&gt;
-      &lt;Type&gt;xri://$xrds*simple&lt;/Type&gt;
-      &lt;Service priority="10"&gt;
-        &lt;Type&gt;http://oauth.net/discovery/1.0&lt;/Type&gt;
-        &lt;simple:MustSupport&gt;http://oauth.net/ext/consumer_request/1.0&lt;/simple:MustSupport&gt;
-        &lt;URI&gt;#oauth_consumer_request&lt;/URI&gt;
-      &lt;/Service&gt;
-    &lt;/XRD&gt;
-  &lt;/XRDS&gt;
-          </artwork>
-        </figure>
       </t>
     </appendix>
 
@@ -387,16 +304,6 @@
           </author>
         </front>
         <format type="HTML" target="http://oauth.net/core/1.0" />
-      </reference>
-
-      <reference anchor="OAuth Discovery 1.0">
-        <front>
-          <title>OAuth Discovery 1.0</title>
-          <author initials="E.HL" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav">
-            <organization>Hueniverse</organization>
-          </author>
-        </front>
-        <format type="HTML" target="http://oauth.net/discovery/1.0" />
       </reference>
 
       <reference anchor="RFC2606">
