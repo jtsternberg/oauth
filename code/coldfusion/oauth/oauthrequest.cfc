@@ -345,6 +345,7 @@ History:
 			</cfif>
 		</cfloop>
 
+		<cfset ArraySort(aResult, "textnocase")>
 		<cfset sResult = ArrayToList(aResult, "&")>
 		<cfreturn sResult>
 	</cffunction>
@@ -358,6 +359,7 @@ History:
 		<cfset var stKeyValues = StructNew()>
 		<cfset var aResult = ArrayNew(1)>
 		<cfset var aTemp = ArrayNew(1)>
+		<cfset var aResultTemp = ArrayNew(1)>
 		<cfset var aSortedKeys = ArrayNew(1)>
 		<cfset var aParameterKeys = "">
 		<cfset var aParameterValues = "">
@@ -410,12 +412,16 @@ History:
 	<cffunction name="toPostData" access="public" returntype="string">
 		<cfset var aTotal = ArrayNew(1)>
 		<cfset var sResult = "">
+		<cfset var aResultTemp = ArrayNew(1)>
 		<cfset var aParameterKeys = getParameterKeys()>
 		<cfset var aParameterValues = getParameterValues()>
 		<cfset var stKeyValues = StructNew()>
 		<cfset var aSortedKeys = "">
 		<cfset var aTemp = "">
+		<cfset var sTemp = "">
 		<cfset var i = 0>
+		<cfset var outerCnt = 1>
+		<cfset var innerCnt = 1>
 
 		<!--- extract possible keys and their values --->
 		<cfloop from="1" to="#ArrayLen(aParameterKeys)#" index="outerCnt">
