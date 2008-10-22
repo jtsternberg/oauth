@@ -8,10 +8,10 @@ svn co https://oauth.googlecode.com/svn/code/maven maven
 Edit all of the pom.xml files in the java directories (there are five)
 and change the tags (all of them) to the current date in YYYYMMDD format.
 
-In java:
+In the java directory:
 mvn deploy
 svn commit # check in the pom.xml changes
 
-In maven:
+In the maven directory:
 find . -name YYYYMMDD | xargs svn add
 svn ci
