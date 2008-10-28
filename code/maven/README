@@ -10,8 +10,8 @@ and change the tags (all of them) to the source date in YYYYMMDD format.
 
 In the java directory:
 mvn deploy
-svn commit # the pom.xml changes
+svn commit -m "version YYYYMMDD" # the pom.xml changes
 
 In the maven directory:
 find . -name YYYYMMDD | xargs svn add
-svn commit # the build products
+svn commit -m "version YYYYMMDD" # the build products
