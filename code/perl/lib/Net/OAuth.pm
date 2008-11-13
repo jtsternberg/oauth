@@ -3,37 +3,38 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 sub request {
     my $self = shift;
-	my $what = shift;
+    my $what = shift;
     return $self->message($what . ' Request');
 }
 
 sub response {
     my $self = shift;
-	my $what = shift;
+    my $what = shift;
     return $self->message($what . ' Response');
 }
 
 sub message {
     my $self = shift;
+    my $base_class = ref $self || $self;
     my $type = camel(shift);
-    my $class = 'Net::OAuth::' . $type;
-	$class->require;
+    my $class = $base_class . '::' . $type;
+    $class->require;
     return $class;
 }
 
 sub camel {
-	my @words;
-	foreach (@_) {
-		while (/([A-Za-z0-9]+)/g) {
-			(my $word = $1) =~ s/authentication/auth/i;
-			push @words, $word;
-		}
-	}
-	my $name = join('', map("\u$_", @words));
+    my @words;
+    foreach (@_) {
+        while (/([A-Za-z0-9]+)/g) {
+            (my $word = $1) =~ s/authentication/auth/i;
+            push @words, $word;
+        }
+    }
+    my $name = join('', map("\u$_", @words));
 }
 
 =head1 NAME
