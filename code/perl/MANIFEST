@@ -11,6 +11,7 @@ demo/wrapper.html
 lib/Net/OAuth.pm
 lib/Net/OAuth/AccessTokenRequest.pm
 lib/Net/OAuth/AccessTokenResponse.pm
+lib/Net/OAuth/ConsumerRequest.pm
 lib/Net/OAuth/Message.pm
 lib/Net/OAuth/ProtectedResourceRequest.pm
 lib/Net/OAuth/Request.pm
@@ -32,5 +33,6 @@ t/03-header.t
 t/04-response.t
 t/05-auth.t
 t/06-factory.t
+t/07-consumer-request.t
 t/rsakey
 t/rsakey.pub

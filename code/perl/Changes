@@ -46,4 +46,6 @@ Revision history for Net-OAuth
 0.12    Fri, 04 Jul 2008 22:58:23 UTC
 	Added support for extensions - Net::OpenMicroBlogging in particular
 
+0.13    Thu, 13 Nov 2008 22:45:46 UTC
+	Added support for Consumer Request (token-less / two-legged) message type
 
