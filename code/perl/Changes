@@ -20,25 +20,30 @@ Revision history for Net-OAuth
 
 0.07    Sun, 01 Jun 2008 16:04:26 UTC
         Added a factory class, Net::OAuth
-				Added several 'Response' classes
-				Added UserAuthRequest and UserAuthResponse
-				Created a Message base class from which Request and Response inherit
-				Added some introductory documentation
-				Added more tests
-				Phew!
+        Added several 'Response' classes
+        Added UserAuthRequest and UserAuthResponse
+        Created a Message base class from which Request and Response inherit
+        Added some introductory documentation
+        Added more tests
+        Phew!
 
 0.08   	Mon, 02 Jun 2008 17:41:52 UTC
-  			Fixed test failures found in 0.07.
+  	Fixed test failures found in 0.07.
         More docs.
         Added more deserialization methods.
         Changed factory invocation from message('foo') to message('foo')->new(), to allow
         deserialization methods to be used instead of new().
 
-0.09		Tue, 03 Jun 2008 03:46:32 UTC
-				Fixed another annoying test failure
+0.09    Tue, 03 Jun 2008 03:46:32 UTC
+	Fixed another annoying test failure
 
-0.1			Wed, 04 Jun 2008 16:27:50 UTC
-				Added demo, fixed docs
-				
+0.1     Wed, 04 Jun 2008 16:27:50 UTC
+        Added demo, fixed docs
+
 0.11    Wed, 04 Jun 2008 16:50:14 UTC
-				Doc edits
+	Doc edits
+                                
+0.12    Fri, 04 Jul 2008 22:58:23 UTC
+	Added support for extensions - Net::OpenMicroBlogging in particular
+
+

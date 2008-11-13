@@ -5,28 +5,39 @@ use base qw/Class::Data::Inheritable Class::Accessor/;
 use URI::Escape;
 use UNIVERSAL::require;
 
+use constant OAUTH_PREFIX => 'oauth_';
+
+our $OAUTH_PREFIX_RE = do {my $p = OAUTH_PREFIX; qr/^$p/};
+
+__PACKAGE__->mk_classdata(extension_param_patterns => []);
+
 sub add_required_message_params {
     my $class = shift;
     $class->required_message_params([@{$class->required_message_params}, @_]);
-	$class->all_message_params([@{$class->all_message_params}, @_]);
-	$class->all_params([@{$class->all_params}, @_]);
+    $class->all_message_params([@{$class->all_message_params}, @_]);
+    $class->all_params([@{$class->all_params}, @_]);
     $class->mk_accessors(@_);
 }
 
 sub add_optional_message_params {
     my $class = shift;
     $class->optional_message_params([@{$class->optional_message_params}, @_]);
-	$class->all_message_params([@{$class->all_message_params}, @_]);
-	$class->all_params([@{$class->all_params}, @_]);
+    $class->all_message_params([@{$class->all_message_params}, @_]);
+    $class->all_params([@{$class->all_params}, @_]);
     $class->mk_accessors(@_);
 }
 
 sub add_required_api_params {
     my $class = shift;
     $class->required_api_params([@{$class->required_api_params}, @_]);
-	$class->all_api_params([@{$class->all_api_params}, @_]);
-	$class->all_params([@{$class->all_params}, @_]);
+    $class->all_api_params([@{$class->all_api_params}, @_]);
+    $class->all_params([@{$class->all_params}, @_]);
     $class->mk_accessors(@_);
+}
+
+sub add_extension_param_pattern {
+    my $class = shift;
+    $class->extension_param_patterns([@{$class->extension_param_patterns}, @_]);
 }
 
 sub add_to_signature {
@@ -37,12 +48,23 @@ sub add_to_signature {
 sub new {
     my $proto = shift;
     my $class = ref $proto || $proto;
-	my %params = @_;
-	my $self = bless \%params, $class;
-	$self->{extra_params} ||= {};
-	$self->{version} ||= '1.0';
+    my %params = @_;
+    my $self = bless \%params, $class;
+    $self->set_defaults;
     $self->check;
     return $self;
+}
+
+sub set_defaults {
+    my $self = shift;
+    $self->{extra_params} ||= {};
+    $self->{version} ||= '1.0';
+}
+
+sub is_extension_param {
+    my $self = shift;
+    my $param = shift;
+    return grep ($param =~ $_, @{$self->extension_param_patterns});
 }
 
 sub check {
@@ -54,7 +76,7 @@ sub check {
     }
     if ($self->{extra_params} and $self->allow_extra_params) {
         foreach my $k (keys %{$self->{extra_params}}) {
-            if ($k =~ /^oauth_/) {
+            if ($k =~ $OAUTH_PREFIX_RE) {
                 die "Parameter '$k' not allowed in arbitrary params"
             }
         }
@@ -84,7 +106,8 @@ sub gather_message_parameters {
     my %params;
     foreach my $k (@{$self->required_message_params}, @{$self->optional_message_params}, @{$opts{add}}) {
         next if $k eq 'signature' and (!$self->sign_message or !grep ($_ eq 'signature', @{$opts{add}}));
-        $params{"oauth_$k"} = $self->$k;
+        my $message_key = $self->is_extension_param($k) ? $k : OAUTH_PREFIX . $k;
+        $params{$message_key} = $self->$k;
     }
     if ($self->{extra_params} and !$opts{no_extra} and $self->allow_extra_params) {
         foreach my $k (keys %{$self->{extra_params}}) {
@@ -174,19 +197,27 @@ sub from_hash {
 	}
     my %api_params = @_;
     my %msg_params;
-	foreach my $k (keys %$hash) {
-		if ($k =~ s/^oauth_//) {
-			if (!grep ($_ eq $k, @{$class->all_message_params})) {
-				die "Parameter oauth_$k not valid for a message of type $class\n";
-			}
-			else {
-				$msg_params{$k} = $hash->{"oauth_$k"};
-			}
-		}
-		else {
-			$msg_params{extra_params}->{$k} = $hash->{$k};
-		}
-	}
+    foreach my $k (keys %$hash) {
+        if ($k =~ s/$OAUTH_PREFIX_RE//) {
+            if (!grep ($_ eq $k, @{$class->all_message_params})) {
+                die "Parameter ". OAUTH_PREFIX ."$k not valid for a message of type $class\n";
+            }
+            else {
+                $msg_params{$k} = $hash->{OAUTH_PREFIX . $k};
+            }
+        }
+        elsif ($class->is_extension_param($k)) {
+            if (!grep ($_ eq $k, @{$class->all_message_params})) {
+                die "Parameter $k not valid for a message of type $class\n";
+            }
+            else {
+                $msg_params{$k} = $hash->{$k};
+            }
+        }
+        else {
+            $msg_params{extra_params}->{$k} = $hash->{$k};
+        }
+    }
     return $class->new(%msg_params, %api_params);
 }
 
@@ -246,7 +277,7 @@ Net::OAuth::Message - base class for OAuth messages
 
 =head1 SEE ALSO
 
-L<http://oauth.net>
+L<Net::OAuth>, L<http://oauth.net>
 
 =head1 AUTHOR
 

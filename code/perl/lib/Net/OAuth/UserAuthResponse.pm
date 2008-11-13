@@ -11,7 +11,7 @@ Net::OAuth::UserAuthResponse - An OAuth protocol response for an Access Token
 
 =head1 SEE ALSO
 
-L<Net::OAuth::UserAuthResponse>, L<http://oauth.net>
+L<Net::OAuth>, L<http://oauth.net>
 
 =head1 AUTHOR
 

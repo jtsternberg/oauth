@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use base qw/Net::OAuth::Message/;
 
-our $VERSION = '0.1';
+our $VERSION = '0.12';
 
 __PACKAGE__->mk_classdata(required_message_params => [qw/
     consumer_key
@@ -14,7 +14,7 @@ __PACKAGE__->mk_classdata(required_message_params => [qw/
 
 __PACKAGE__->mk_classdata(optional_message_params => [qw/
     version
-	signature
+    signature
     /]);
 
 __PACKAGE__->mk_classdata(required_api_params => [qw/
@@ -71,7 +71,7 @@ Net::OAuth::Request - base class for OAuth requests
 
 =head1 SEE ALSO
 
-L<http://oauth.net>
+L<Net::OAuth>, L<http://oauth.net>
 
 =head1 AUTHOR
 

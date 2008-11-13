@@ -2,16 +2,17 @@
 
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 18;
 
 BEGIN {
-    use_ok( 'Net::OAuth::Request' );
+        use_ok( 'Net::OAuth' );
+        use_ok( 'Net::OAuth::Request' );
 	use_ok( 'Net::OAuth::RequestTokenRequest' );
 	use_ok( 'Net::OAuth::AccessTokenRequest' );
 	use_ok( 'Net::OAuth::ProtectedResourceRequest' );
 }
 
-diag( "Testing Net::OAuth $Net::OAuth::Request::VERSION, Perl $], $^X" );
+diag( "Testing Net::OAuth $Net::OAuth::VERSION, Perl $], $^X" );
 
 my $request = Net::OAuth::RequestTokenRequest->new(
         consumer_key => 'dpf43f3p2l4k3l03',

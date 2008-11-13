@@ -45,7 +45,7 @@ Net::OAuth::Response - base class for OAuth responses
 
 =head1 SEE ALSO
 
-L<http://oauth.net>
+L<Net::OAuth>, L<http://oauth.net>
 
 =head1 AUTHOR
 
