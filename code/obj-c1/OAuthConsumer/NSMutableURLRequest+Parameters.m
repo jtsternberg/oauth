@@ -38,6 +38,7 @@
     } else {
         // POST, PUT
         encodedParameters = [[NSString alloc] initWithData:[self HTTPBody] encoding:NSASCIIStringEncoding];
+        [encodedParameters autorelease];
     }
     
     if ((encodedParameters == nil) || ([encodedParameters isEqualToString:@""])) {
@@ -45,7 +46,7 @@
     }
     
     NSArray *encodedParameterPairs = [encodedParameters componentsSeparatedByString:@"&"];
-    NSMutableArray *requestParameters = [[NSMutableArray alloc] initWithCapacity:16];
+    NSMutableArray *requestParameters = [[[NSMutableArray alloc] initWithCapacity:16] autorelease];
     
     // Converted for loop to be Obj-c 1.x compliant
     int count, i;
@@ -56,6 +57,7 @@
         OARequestParameter *parameter = [[OARequestParameter alloc] initWithName:[[encodedPairElements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
                                                                            value:[[encodedPairElements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         [requestParameters addObject:parameter];
+        [parameter release];
     }
     
     return requestParameters;
@@ -86,6 +88,7 @@
         [self setValue:[NSString stringWithFormat:@"%d", [postData length]] forHTTPHeaderField:@"Content-Length"];
         [self setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     }
+    [encodedParameterPairs release];
 }
 
 @end

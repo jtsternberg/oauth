@@ -54,6 +54,7 @@
         [delegate performSelector:didFinishSelector
                        withObject:ticket
                        withObject:responseData];
+        [ticket release];
     }   
 }
 

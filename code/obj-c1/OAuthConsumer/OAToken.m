@@ -131,6 +131,13 @@
     return self;
 }
 
+- (void)dealloc;
+{
+    [self setKey:nil];
+    [self setSecret:nil];
+    [super dealloc];
+}
+
 #pragma mark Keychain
 
 - (int)storeInDefaultKeychainWithAppName:(NSString *)name serviceProviderName:(NSString *)provider {
