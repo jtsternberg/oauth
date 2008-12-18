@@ -39,6 +39,13 @@
     return self;
 }
 
+- (void)dealloc;
+{
+    [self setName:nil];
+    [self setValue:nil];
+    [super dealloc];
+}
+
 - (NSString *)URLEncodedName {
     return [[self name] encodedURLParameterString];
 }
