@@ -46,6 +46,9 @@ History:
 		<cfargument name="aParameterValues"	required="false" type="array" hint="request parameters"	default="#ArrayNew(1)#">
 		<cfargument name="sOAuthVersion" required="false"	type="string" hint="OAuth protocol version" default="1.0">
 
+		<cfset var bVersionParameterSupplied = false>
+		<cfset var iParamCounter = 0>
+
 		<cfset setHttpMethod(arguments.sHttpMethod)>
     	<cfset setHttpURL(arguments.sHttpURL)>
 		<!--- possible to initialize with struct or key/value-arrays --->
@@ -55,8 +58,29 @@ History:
 			<cfset setParameters(aKeys = arguments.aParameterKeys, aValues = arguments.aParameterValues)>
 		</cfif>
 
-		<cfset setVersion(arguments.sOAuthVersion)>
-		<cfset setParameter(sKey = "oauth_version", sValue = arguments.sOAuthVersion)>
+		<cfif IsDefined("arguments.stParameters") AND StructKeyExists(arguments.stParameters, "oauth_version")>
+			<cfset setVersion(arguments.stParameters.oauth_version)>
+			<cfset setParameter(sKey = "oauth_version", sValue = arguments.stParameters.oauth_version)>
+			<cfset bVersionParameterSupplied = true>
+		<!--- check for the oauth_version parameters in the array --->
+		<cfelseif IsDefined("arguments.aParameterKeys")	AND IsDefined("arguments.aParameterValues")
+					AND ArrayLen(arguments.aParameterKeys) GT 0
+					AND ArrayLen(arguments.aParameterKeys) EQ ArrayLen(arguments.aParameterValues)>
+			<cfloop from="1" to="#ArrayLen(arguments.aParameterKeys)#" index="iParamCounter">
+				<cfif arguments.aParameterKeys[iParamCounter] EQ "oaut_version"
+						AND Len(arguments.aParameterValues[iParamCounter])>
+					<cfset setVersion(arguments.aParameterValues[iParamCounter])>
+					<cfset setParameter(sKey = "oauth_version", sValue = arguments.aParameterValues[iParamCounter])>
+					<cfset bVersionParameterSupplied = true>
+					<cfbreak>
+				</cfif>
+			</cfloop>
+		</cfif>
+		<!--- set default oauth_version value --->
+		<cfif NOT bVersionParameterSupplied>
+			<cfset setVersion(arguments.sOAuthVersion)>
+			<cfset setParameter(sKey = "oauth_version", sValue = arguments.sOAuthVersion)>
+		</cfif>
 
 		<cfreturn this>
 	</cffunction>
