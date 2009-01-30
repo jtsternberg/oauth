@@ -39,11 +39,3 @@ U    branches/termie-somebranch/OAuth.php
 This will take the changes that `branches/termie-somebranch` has made compared to `code/php` and then apply them to your checked out code at `code/php`.
 
 The first two arguments can be repo urls but the last one always has to be a working copy path.
-
-
-
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
