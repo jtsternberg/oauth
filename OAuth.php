@@ -723,11 +723,11 @@ class SimpleOAuthDataStore extends OAuthDataStore {/*{{{*/
     return $token;
   }/*}}}*/
 
-  function new_request_token($consumer) {/*{{{*/
+  function fetch_request_token($consumer) {/*{{{*/
     return $this->new_token($consumer, "request");
   }/*}}}*/
 
-  function new_access_token($token, $consumer) {/*{{{*/
+  function fetch_access_token($token, $consumer) {/*{{{*/
 
     $token = $this->new_token($consumer, 'access');
     dba_delete("request_" . $token->key, $this->dbh);
@@ -737,9 +737,9 @@ class SimpleOAuthDataStore extends OAuthDataStore {/*{{{*/
 
 class OAuthUtil {/*{{{*/
   public static function urlencode_rfc3986($input) {/*{{{*/
-	if(is_array($input)) {
-		return array_map( array('OAuthUtil','urlencode_rfc3986'), $input);
-	} elseif(is_scalar($input )) {
+	if (is_array($input)) {
+		return array_map(array('OAuthUtil','urlencode_rfc3986'), $input);
+	} else if (is_scalar($input)) {
 		return str_replace('+', ' ',
 	                       str_replace('%7E', '~', rawurlencode($input)));
 	} else {
