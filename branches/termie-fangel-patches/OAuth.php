@@ -723,11 +723,11 @@ class SimpleOAuthDataStore extends OAuthDataStore {/*{{{*/
     return $token;
   }/*}}}*/
 
-  function fetch_request_token($consumer) {/*{{{*/
+  function new_request_token($consumer) {/*{{{*/
     return $this->new_token($consumer, "request");
   }/*}}}*/
 
-  function fetch_access_token($token, $consumer) {/*{{{*/
+  function new_access_token($token, $consumer) {/*{{{*/
 
     $token = $this->new_token($consumer, 'access');
     dba_delete("request_" . $token->key, $this->dbh);
