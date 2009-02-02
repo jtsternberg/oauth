@@ -169,6 +169,17 @@ class OAuthRequestTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('PLAINTEXT', $params['oauth_signature_method']);
     $this->assertEquals('kd94hf93k423kf44%26pfkkdhi9sl3r4s00', $params['oauth_signature']);
   }
+
+  public function testToPostdata() {
+    OAuthTestUtils::build_request('POST', 'http://testbed/test', array('foo'=>'bar', 'baz'=>'blargh'));
+    $r = OAuthRequest::from_request();
+    $this->assertEquals('foo=bar&baz=blargh', $r->to_postdata());
+
+    OAuthTestUtils::build_request('POST', 'http://testbed/test', array('foo'=>array('bar','tiki'), 'baz'=>'blargh'));
+    $r = OAuthRequest::from_request();
+    $this->assertEquals('foo[]=bar&foo[]=tiki&baz=blargh', $r->to_postdata());
+
+  }
 }
 
 ?>
