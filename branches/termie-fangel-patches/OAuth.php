@@ -351,11 +351,21 @@ class OAuthRequest {/*{{{*/
 
   /**
    * builds the data one would send in a POST request
+   *
+   * this function might be easily replaced with http_build_query()
+   * and corrections for rfc3986 compatibility.. but not sure
+   * -morten.fangel
    */
   public function to_postdata() {/*{{{*/
     $total = array();
     foreach ($this->parameters as $k => $v) {
-      $total[] = OAuthUtil::urlencode_rfc3986($k) . "=" . OAuthUtil::urlencode_rfc3986($v);
+      if (is_array($v)) {
+        foreach ($v AS $va) {
+          $total[] = OAuthUtil::urlencode_rfc3986($k) . "[]=" . OAuthUtil::urlencode_rfc3986($va);
+        }
+      } else {
+        $total[] = OAuthUtil::urlencode_rfc3986($k) . "=" . OAuthUtil::urlencode_rfc3986($v);
+      }
     }
     $out = implode("&", $total);
     return $out;
@@ -369,6 +379,7 @@ class OAuthRequest {/*{{{*/
     $total = array();
     foreach ($this->parameters as $k => $v) {
       if (substr($k, 0, 5) != "oauth") continue;
+      if (is_array($v)) throw new OAuthException('Arrays not supported in headers');
       $out .= ',' . OAuthUtil::urlencode_rfc3986($k) . '="' . OAuthUtil::urlencode_rfc3986($v) . '"';
     }
     return $out;
