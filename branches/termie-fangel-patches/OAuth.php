@@ -352,15 +352,15 @@ class OAuthRequest {/*{{{*/
   /**
    * builds the data one would send in a POST request
    *
+   * TODO(morten.fangel):
    * this function might be easily replaced with http_build_query()
    * and corrections for rfc3986 compatibility.. but not sure
-   * -morten.fangel
    */
   public function to_postdata() {/*{{{*/
     $total = array();
     foreach ($this->parameters as $k => $v) {
       if (is_array($v)) {
-        foreach ($v AS $va) {
+        foreach ($v as $va) {
           $total[] = OAuthUtil::urlencode_rfc3986($k) . "[]=" . OAuthUtil::urlencode_rfc3986($va);
         }
       } else {
