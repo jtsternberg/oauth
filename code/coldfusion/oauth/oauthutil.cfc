@@ -92,8 +92,10 @@
 		<!--- using javacast to call the appropriate encode method --->
 		<cfif Len(arguments.sValue)>
 			<cfset sResult = CreateObject("java","java.net.URLEncoder").
-								encode(JavaCast("String",arguments.sValue), JavaCast("String",arguments.sEncoding)).
-								replace("+", "%20").replace("*", "%2A").replace("%7E", "~")>
+								encode(JavaCast("String",arguments.sValue), JavaCast("String",arguments.sEncoding))>
+			<cfset sResult = Replace(sResult,"+","%20","all")>
+			<cfset sResult = Replace(sResult,"*","%2A","all")>
+			<cfset sResult = Replace(sResult,"%7E","~","all")>
 		</cfif>
 
 		<cfreturn sResult>
