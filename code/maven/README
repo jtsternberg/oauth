@@ -6,7 +6,7 @@ svn co https://oauth.googlecode.com/svn/code/java java
 svn co https://oauth.googlecode.com/svn/code/maven maven
 
 Edit all of the pom.xml files in the java directories (there are six)
-and change the tags (all of them) to the source date in YYYYMMDD format.
+and change tags to the source date in YYYYMMDD format.
 
 In the java directory:
 mvn deploy -DupdateReleaseInfo=true
