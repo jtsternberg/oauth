@@ -31,9 +31,9 @@ limitations under the License.
 
 	<cffunction name="init" access="public" returntype="oauthserver" output="false">
 		<cfargument name="oDataStore" required="true" type="oauthdatastore">
-		<cfargument name="iTimestampThreshold" required="false" type="numeric">
+		<cfargument name="iTimestampThreshold" required="false" type="numeric" default="0">
 		<cfset variables.oDataStore = arguments.oDataStore>
-		<cfif IsDefined('arguments.iTimestampThreshold')>
+		<cfif arguments.iTimestampThreshold>
 			<cfset setTimeout(arguments.iTimestampThreshold)>
 		</cfif>
 		<cfreturn this>
@@ -126,6 +126,7 @@ limitations under the License.
 			<cfset sErrorMsg = "OAuth version [" & sVersion & "] not supported!">
 			<cfthrow message="#sErrorMsg#" type="OAuthException">
 		</cfif>
+
     	<cfreturn sVersion>
     </cffunction>
 

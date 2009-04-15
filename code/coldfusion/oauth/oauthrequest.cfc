@@ -58,16 +58,14 @@ History:
 			<cfset setParameters(aKeys = arguments.aParameterKeys, aValues = arguments.aParameterValues)>
 		</cfif>
 
-		<cfif IsDefined("arguments.stParameters") AND StructKeyExists(arguments.stParameters, "oauth_version")>
+		<cfif StructKeyExists(arguments.stParameters, "oauth_version")>
 			<cfset setVersion(arguments.stParameters.oauth_version)>
 			<cfset setParameter(sKey = "oauth_version", sValue = arguments.stParameters.oauth_version)>
 			<cfset bVersionParameterSupplied = true>
 		<!--- check for the oauth_version parameters in the array --->
-		<cfelseif IsDefined("arguments.aParameterKeys")	AND IsDefined("arguments.aParameterValues")
-					AND ArrayLen(arguments.aParameterKeys) GT 0
-					AND ArrayLen(arguments.aParameterKeys) EQ ArrayLen(arguments.aParameterValues)>
+		<cfelseif ArrayLen(arguments.aParameterKeys) GT 0 AND ArrayLen(arguments.aParameterKeys) EQ ArrayLen(arguments.aParameterValues)>
 			<cfloop from="1" to="#ArrayLen(arguments.aParameterKeys)#" index="iParamCounter">
-				<cfif arguments.aParameterKeys[iParamCounter] EQ "oaut_version"
+				<cfif arguments.aParameterKeys[iParamCounter] EQ "oauth_version"
 						AND Len(arguments.aParameterValues[iParamCounter])>
 					<cfset setVersion(arguments.aParameterValues[iParamCounter])>
 					<cfset setParameter(sKey = "oauth_version", sValue = arguments.aParameterValues[iParamCounter])>
