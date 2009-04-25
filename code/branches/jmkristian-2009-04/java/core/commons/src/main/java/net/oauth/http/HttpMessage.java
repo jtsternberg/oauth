@@ -30,6 +30,8 @@ import net.oauth.client.ExcerptInputStream;
 import net.oauth.OAuth;
 import net.oauth.OAuthMessage;
 
+// TODO: move this class into oauth-core-consumer, together with ExcerptInputStream.
+// The difficult part is deleting the method OAuthMessage.toHttpRequest.
 /**
  * An HTTP request or response.
  * 
