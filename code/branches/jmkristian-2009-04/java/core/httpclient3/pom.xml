@@ -8,7 +8,7 @@
   </parent>
   <artifactId>oauth-core-httpclient3</artifactId>
   <packaging>jar</packaging>
-  <name>OAuth::Core:HttpClient3</name>
+  <name>OAuth::Core::HttpClient3</name>
   <dependencies>
     <dependency>
       <groupId>net.oauth.core</groupId>
