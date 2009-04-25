@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>net.oauth.example</groupId>
-    <artifactId>oauth-examples-parent</artifactId>
-    <version>20090105</version>
+    <groupId>net.oauth.samples</groupId>
+    <artifactId>oauth-samples</artifactId>
+    <version>20090425</version>
   </parent>
-  <artifactId>oauth-desktop</artifactId>
+  <artifactId>oauth-sample-desktop</artifactId>
   <packaging>jar</packaging>
-  <name>OAuth::Examples::Desktop Consumer</name>
+  <name>OAuth::Samples::Desktop Consumer</name>
   <build>
     <defaultGoal>package</defaultGoal>
     <plugins>
@@ -68,9 +68,9 @@
       <version>6.1.11</version>
     </dependency>
     <dependency>
-      <groupId>net.oauth</groupId>
+      <groupId>net.oauth.core</groupId>
       <artifactId>oauth-core</artifactId>
-      <version>20090121</version>
+      <version>20090425</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

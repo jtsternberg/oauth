@@ -3,13 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.oauth</groupId>
-    <artifactId>oauth-parent</artifactId>
-    <version>20090105</version>
+    <artifactId>oauth-all</artifactId>
+    <version>20090425</version>
   </parent>
-  <groupId>net.oauth.example</groupId>
-  <artifactId>oauth-examples-parent</artifactId>
+  <groupId>net.oauth.samples</groupId>
+  <artifactId>oauth-samples</artifactId>
+  <version>20090425</version>
   <packaging>pom</packaging>
-  <name>OAuth::Examples::Parent POM</name>
+  <name>OAuth::Samples</name>
   <modules>
     <module>desktop</module>
     <module>oauth-provider</module>
