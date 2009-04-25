@@ -227,8 +227,8 @@ public class OAuthClient {
             request.getHeaders().add(new OAuth.Parameter(HttpMessage.ACCEPT_ENCODING, accepted.toString()));
         }
         Object ps = accessor.consumer.getProperty(PARAMETER_STYLE);
-        ParameterStyle style = (ps == null) ? ParameterStyle.BODY
-                : Enum.valueOf(ParameterStyle.class, ps.toString());
+        HttpMessage.ParameterStyle style = (ps == null) ? ParameterStyle.BODY
+                : Enum.valueOf(HttpMessage.ParameterStyle.class, ps.toString());
         return invoke(request, style);
     }
 
@@ -271,7 +271,7 @@ public class OAuthClient {
      * @throws OAuthProblemException
      *             the HTTP response status code was not 200 (OK)
      */
-    public OAuthMessage invoke(OAuthMessage request, ParameterStyle style)
+    public OAuthMessage invoke(OAuthMessage request, HttpMessage.ParameterStyle style)
             throws IOException, OAuthException {
         OAuthResponseMessage response = access(request, style);
         if ((response.getHttpResponse().getStatusCode() / 100) != 2) {
@@ -284,16 +284,18 @@ public class OAuthClient {
      * Send a request and return the response. Don't try to decide whether the
      * response indicates success; merely return it.
      */
-    public OAuthResponseMessage access(OAuthMessage request, ParameterStyle style) throws IOException {
+    public OAuthResponseMessage access(OAuthMessage request, HttpMessage.ParameterStyle style) throws IOException {
         HttpMessage httpRequest = request.toHttpRequest(style);
         HttpResponseMessage httpResponse = http.execute(httpRequest, httpParameters);
         httpResponse = HttpMessageDecoder.decode(httpResponse);
         return new OAuthResponseMessage(httpResponse);
     }
 
-    /** Where to place parameters in an HTTP message. */
-    public enum ParameterStyle {
-        AUTHORIZATION_HEADER, BODY, QUERY_STRING;
+    /** @deprecated use HttpMessage.ParameterStyle. */
+    public static interface ParameterStyle {
+        static final HttpMessage.ParameterStyle AUTHORIZATION_HEADER = HttpMessage.ParameterStyle.AUTHORIZATION_HEADER;
+        static final HttpMessage.ParameterStyle BODY                 = HttpMessage.ParameterStyle.BODY;
+        static final HttpMessage.ParameterStyle QUERY_STRING         = HttpMessage.ParameterStyle.QUERY_STRING;
     };
 
     protected static final String PUT = OAuthMessage.PUT;
