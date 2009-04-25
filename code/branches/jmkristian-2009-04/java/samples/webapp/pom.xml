@@ -4,7 +4,7 @@
   <parent>
     <groupId>net.oauth.samples</groupId>
     <artifactId>oauth-samples</artifactId>
-    <version>20090105</version>
+    <version>20090425</version>
   </parent>
   <artifactId>oauth-consumer</artifactId>
   <packaging>war</packaging>
