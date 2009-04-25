@@ -2,13 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>net.oauth.example</groupId>
-    <artifactId>oauth-examples-parent</artifactId>
+    <groupId>net.oauth.samples</groupId>
+    <artifactId>oauth-samples</artifactId>
     <version>20090105</version>
   </parent>
   <artifactId>oauth-consumer</artifactId>
   <packaging>war</packaging>
-  <name>OAuth::Examples::Consumer webapp</name>
+  <name>OAuth::Samples::Consumer webapp</name>
   <dependencies>
     <dependency>
       <groupId>commons-httpclient</groupId>
@@ -22,9 +22,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>net.oauth</groupId>
+      <groupId>net.oauth.core</groupId>
       <artifactId>oauth-core</artifactId>
-      <version>20090315</version>
+      <version>20090425</version>
     </dependency>
   </dependencies>
   <build>
