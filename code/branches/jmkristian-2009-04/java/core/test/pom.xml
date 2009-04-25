@@ -12,13 +12,19 @@
   <dependencies>
     <dependency>
       <groupId>net.oauth.core</groupId>
-      <artifactId>httpclient3</artifactId>
+      <artifactId>oauth-core-httpclient3</artifactId>
       <version>20090425</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>net.oauth.core</groupId>
-      <artifactId>httpclient4</artifactId>
+      <artifactId>oauth-core-httpclient4</artifactId>
+      <version>20090425</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.oauth.core</groupId>
+      <artifactId>oauth-core-provider</artifactId>
       <version>20090425</version>
       <scope>test</scope>
     </dependency>
