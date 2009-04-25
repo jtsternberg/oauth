@@ -31,9 +31,9 @@ import net.oauth.OAuthAccessor;
 import net.oauth.OAuthConsumer;
 import net.oauth.OAuthMessage;
 import net.oauth.OAuthProblemException;
-import net.oauth.client.OAuthClient.ParameterStyle;
 import net.oauth.client.httpclient4.HttpClient4;
 import net.oauth.http.HttpMessage;
+import net.oauth.http.HttpMessage.ParameterStyle;
 import net.oauth.http.HttpMessageDecoder;
 import net.oauth.http.HttpResponseMessage;
 import net.oauth.signature.Echo;
@@ -52,12 +52,11 @@ public class OAuthClientTest extends TestCase {
         final String expectedLocation = "http://www.google.com/search?q=Java";
         for (OAuthClient client : clients) {
             try {
-                OAuthMessage response = client.invoke(request,
-                        OAuthClient.ParameterStyle.BODY);
+                OAuthMessage response = client.invoke(request, ParameterStyle.BODY);
                 fail(client.getHttpClient() + " response: " + response);
             } catch (OAuthProblemException e) {
                 Map<String, Object> parameters = e.getParameters();
-                assertEquals("status", expectedStatus, parameters.get(HttpResponseMessage.STATUS_CODE));
+                assertEquals("status", expectedStatus, parameters.get(HttpMessage.STATUS_CODE));
                 assertEquals("Location", expectedLocation, parameters.get(HttpResponseMessage.LOCATION));
             }
         }

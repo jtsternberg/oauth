@@ -125,7 +125,6 @@ public class HttpMessage
      * 
      * @param style
      *            where to put the OAuth parameters, within the HTTP request
-     * @deprecated use HttpMessage.toHttpRequest
      */
     public static HttpMessage toHttpRequest(OAuthMessage from, ParameterStyle style) throws IOException {
         final boolean isPost = OAuthMessage.POST.equalsIgnoreCase(from.method);

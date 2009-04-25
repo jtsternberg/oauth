@@ -285,7 +285,7 @@ public class OAuthClient {
      * response indicates success; merely return it.
      */
     public OAuthResponseMessage access(OAuthMessage request, HttpMessage.ParameterStyle style) throws IOException {
-        HttpMessage httpRequest = request.toHttpRequest(style);
+        HttpMessage httpRequest = HttpMessage.toHttpRequest(request, style);
         HttpResponseMessage httpResponse = http.execute(httpRequest, httpParameters);
         httpResponse = HttpMessageDecoder.decode(httpResponse);
         return new OAuthResponseMessage(httpResponse);
