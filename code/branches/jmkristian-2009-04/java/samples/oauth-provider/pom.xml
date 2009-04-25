@@ -6,7 +6,7 @@
     <artifactId>oauth-samples</artifactId>
     <version>20090425</version>
   </parent>
-  <artifactId>oauth-provider</artifactId>
+  <artifactId>oauth-sample-provider</artifactId>
   <version>20090425</version>
   <packaging>war</packaging>
   <name>OAuth::Samples::Provider webapp</name>
@@ -19,7 +19,7 @@
     </dependency>
     <dependency>
       <groupId>net.oauth.core</groupId>
-      <artifactId>oauth-core</artifactId>
+      <artifactId>oauth-core-provider</artifactId>
       <version>20090425</version>
     </dependency>
   </dependencies>

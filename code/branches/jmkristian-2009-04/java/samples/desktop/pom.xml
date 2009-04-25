@@ -69,7 +69,12 @@
     </dependency>
     <dependency>
       <groupId>net.oauth.core</groupId>
-      <artifactId>oauth-core</artifactId>
+      <artifactId>oauth-core-consumer</artifactId>
+      <version>20090425</version>
+    </dependency>
+    <dependency>
+      <groupId>net.oauth.core</groupId>
+      <artifactId>oauth-core-httpclient4</artifactId>
       <version>20090425</version>
     </dependency>
     <dependency>
