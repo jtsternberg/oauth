@@ -7,14 +7,14 @@
 
   <!-- override these ones -->
   <groupId>net.oauth</groupId>
-  <artifactId>oauth-parent</artifactId>
-  <version>20090105</version>
+  <artifactId>oauth-all</artifactId>
+  <version>20090425</version>
   <packaging>pom</packaging>
-  <name>OAuth::Parent POM</name>
+  <name>OAuth::All</name>
 
   <modules>
     <module>core</module>
-    <module>example</module>
+    <module>samples</module>
   </modules>
 
   <build>
