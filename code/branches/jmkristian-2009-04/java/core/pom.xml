@@ -16,6 +16,7 @@
     <module>consumer</module>
     <module>httpclient3</module>
     <module>httpclient4</module>
+    <module>provider</module>
     <module>test</module>
   </modules>
 </project>
