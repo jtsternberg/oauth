@@ -46,8 +46,8 @@ public abstract class HttpResponseMessage extends HttpMessage {
     /** The name of a dump entry whose value is the response Location header. */
     public static final String LOCATION = "Location";
 
-    /** The name of a dump entry whose value is the HTTP status code. */
-    public static final String STATUS_CODE = "HTTP status";
+    /** @deprecated use HttpMessage.STATUS_CODE */
+    public static final String STATUS_CODE = HttpMessage.STATUS_CODE;
 
     /** The statusCode that indicates a normal outcome. */
     public static final int STATUS_OK = 200;

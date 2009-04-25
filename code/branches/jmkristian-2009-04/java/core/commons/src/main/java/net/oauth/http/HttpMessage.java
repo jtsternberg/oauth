@@ -16,6 +16,7 @@
 
 package net.oauth.http;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -26,6 +27,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.oauth.client.ExcerptInputStream;
+import net.oauth.OAuth;
+import net.oauth.OAuthMessage;
 
 /**
  * An HTTP request or response.
@@ -117,6 +120,60 @@ public class HttpMessage
     {
     }
 
+    /**
+     * Construct an HTTP request from this OAuth message.
+     * 
+     * @param style
+     *            where to put the OAuth parameters, within the HTTP request
+     * @deprecated use HttpMessage.toHttpRequest
+     */
+    public static HttpMessage toHttpRequest(OAuthMessage from, ParameterStyle style) throws IOException {
+        final boolean isPost = OAuthMessage.POST.equalsIgnoreCase(from.method);
+        InputStream body = from.getBodyAsStream();
+        if (style == ParameterStyle.BODY && !(isPost && body == null)) {
+            style = ParameterStyle.QUERY_STRING;
+        }
+        String url = from.URL;
+        final List<Map.Entry<String, String>> headers = new ArrayList<Map.Entry<String, String>>(from.getHeaders());
+        switch (style) {
+        case QUERY_STRING:
+            url = OAuth.addParameters(url, from.getParameters());
+            break;
+        case BODY: {
+            byte[] form = OAuth.formEncode(from.getParameters()).getBytes(from.getBodyEncoding());
+            headers.add(new OAuth.Parameter(CONTENT_TYPE, OAuth.FORM_ENCODED));
+            headers.add(new OAuth.Parameter(CONTENT_LENGTH, form.length + ""));
+            body = new ByteArrayInputStream(form);
+            break;
+        }
+        case AUTHORIZATION_HEADER:
+            headers.add(new OAuth.Parameter("Authorization", from.getAuthorizationHeader(null)));
+            // Find the non-OAuth parameters:
+            List<Map.Entry<String, String>> others = from.getParameters();
+            if (others != null && !others.isEmpty()) {
+                others = new ArrayList<Map.Entry<String, String>>(others);
+                for (Iterator<Map.Entry<String, String>> p = others.iterator(); p.hasNext();) {
+                    if (p.next().getKey().startsWith("oauth_")) {
+                        p.remove();
+                    }
+                }
+                // Place the non-OAuth parameters elsewhere in the request:
+                if (isPost && body == null) {
+                    byte[] form = OAuth.formEncode(others).getBytes(from.getBodyEncoding());
+                    headers.add(new OAuth.Parameter(CONTENT_TYPE, OAuth.FORM_ENCODED));
+                    headers.add(new OAuth.Parameter(CONTENT_LENGTH, form.length + ""));
+                    body = new ByteArrayInputStream(form);
+                } else {
+                    url = OAuth.addParameters(url, others);
+                }
+            }
+            break;
+        }
+        HttpMessage httpRequest = new HttpMessage(from.method, new URL(url), body);
+        httpRequest.headers.addAll(headers);
+        return httpRequest;
+    }
+
     private static boolean equalsIgnoreCase(String x, String y)
     {
         if (x == null)
@@ -142,11 +199,19 @@ public class HttpMessage
         return DEFAULT_CHARSET;
     }
 
+    /** Where to place OAuth parameters in an HTTP message. */
+    public enum ParameterStyle {
+        AUTHORIZATION_HEADER, BODY, QUERY_STRING;
+    };
+
     /** The name of a dump entry whose value is the HTTP request. */
     public static final String REQUEST = "HTTP request";
 
     /** The name of a dump entry whose value is the HTTP response. */
     public static final String RESPONSE = "HTTP response";
+
+    /** The name of a dump entry whose value is the HTTP status code. */
+    public static final String STATUS_CODE = "HTTP status";
 
     public static final String ACCEPT_ENCODING = "Accept-Encoding";
     public static final String CONTENT_ENCODING = "Content-Encoding";

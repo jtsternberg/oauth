@@ -16,7 +16,6 @@
 
 package net.oauth;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,7 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.oauth.client.OAuthClient.ParameterStyle;
+import net.oauth.http.HttpMessage.ParameterStyle;
 import net.oauth.http.HttpMessage;
 import net.oauth.signature.OAuthSignatureMethod;
 
@@ -304,52 +303,10 @@ public class OAuthMessage {
      * 
      * @param style
      *            where to put the OAuth parameters, within the HTTP request
+     * @deprecated use HttpMessage.toHttpRequest
      */
     public HttpMessage toHttpRequest(ParameterStyle style) throws IOException {
-        final boolean isPost = POST.equalsIgnoreCase(method);
-        InputStream body = getBodyAsStream();
-        if (style == ParameterStyle.BODY && !(isPost && body == null)) {
-            style = ParameterStyle.QUERY_STRING;
-        }
-        String url = this.URL;
-        final List<Map.Entry<String, String>> headers = new ArrayList<Map.Entry<String, String>>(getHeaders());
-        switch (style) {
-        case QUERY_STRING:
-            url = OAuth.addParameters(url, getParameters());
-            break;
-        case BODY: {
-            byte[] form = OAuth.formEncode(getParameters()).getBytes(getBodyEncoding());
-            headers.add(new OAuth.Parameter(HttpMessage.CONTENT_TYPE, OAuth.FORM_ENCODED));
-            headers.add(new OAuth.Parameter(HttpMessage.CONTENT_LENGTH, form.length + ""));
-            body = new ByteArrayInputStream(form);
-            break;
-        }
-        case AUTHORIZATION_HEADER:
-            headers.add(new OAuth.Parameter("Authorization", getAuthorizationHeader(null)));
-            // Find the non-OAuth parameters:
-            List<Map.Entry<String, String>> others = getParameters();
-            if (others != null && !others.isEmpty()) {
-                others = new ArrayList<Map.Entry<String, String>>(others);
-                for (Iterator<Map.Entry<String, String>> p = others.iterator(); p.hasNext();) {
-                    if (p.next().getKey().startsWith("oauth_")) {
-                        p.remove();
-                    }
-                }
-                // Place the non-OAuth parameters elsewhere in the request:
-                if (isPost && body == null) {
-                    byte[] form = OAuth.formEncode(others).getBytes(getBodyEncoding());
-                    headers.add(new OAuth.Parameter(HttpMessage.CONTENT_TYPE, OAuth.FORM_ENCODED));
-                    headers.add(new OAuth.Parameter(HttpMessage.CONTENT_LENGTH, form.length + ""));
-                    body = new ByteArrayInputStream(form);
-                } else {
-                    url = OAuth.addParameters(url, others);
-                }
-            }
-            break;
-        }
-        HttpMessage httpRequest = new HttpMessage(method, new URL(url), body);
-        httpRequest.headers.addAll(headers);
-        return httpRequest;
+        return HttpMessage.toHttpRequest(this, style);
     }
 
     /**
