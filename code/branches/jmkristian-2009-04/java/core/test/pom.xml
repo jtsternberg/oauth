@@ -9,7 +9,7 @@
   <artifactId>oauth-core-test</artifactId>
   <version>20090425</version>
   <packaging>jar</packaging>
-  <name>OAuth::Core::Test</name>
+  <name>OAuth Core: Test</name>
   <dependencies>
     <dependency>
       <groupId>net.oauth.core</groupId>

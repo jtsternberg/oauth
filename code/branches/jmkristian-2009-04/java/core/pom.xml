@@ -10,7 +10,7 @@
   <artifactId>oauth-core</artifactId>
   <version>20090425</version>
   <packaging>pom</packaging>
-  <name>OAuth::Core</name>
+  <name>OAuth Core: Root</name>
   <modules>
     <module>commons</module>
     <module>consumer</module>
