@@ -9,7 +9,7 @@
   <artifactId>oauth-core-provider</artifactId>
   <version>20090425</version>
   <packaging>jar</packaging>
-  <name>OAuth::Core::Provider</name>
+  <name>OAuth Core: Provider</name>
   <dependencies>
     <dependency>
       <groupId>net.oauth.core</groupId>

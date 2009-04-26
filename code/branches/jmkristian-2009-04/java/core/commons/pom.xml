@@ -9,7 +9,7 @@
   <artifactId>oauth-core-commons</artifactId>
   <version>20090425</version>
   <packaging>jar</packaging>
-  <name>OAuth::Core::Commons</name>
+  <name>OAuth Core: Commons</name>
   <dependencies>
   </dependencies>
 </project>
