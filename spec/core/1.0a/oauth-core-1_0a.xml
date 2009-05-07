@@ -476,7 +476,7 @@
                 <xref target="auth_step2">Obtaining User Authorization</xref> step is completed. If the
                 Consumer is unable to receive callbacks or a callback URL has been established via other
                 means, the parameter value MUST be set to <spanx style="verb">oob</spanx> (case sensitive),
-                to indicates an out-of-band configuration.
+                to indicate an out-of-band configuration.
               </t>
               <t hangText="Additional parameters:">
                 Any additional parameters, as defined by the Service Provider.
@@ -726,8 +726,7 @@
                 The Request Token matches the Consumer Key.
               </t>
               <t>
-                The verification code received from the Consumer is identical to the verification
-                code provided to the User via the redirection or manually.
+                The verification code received from the Consumer has been successfully verified.
               </t>
             </list>
           </t>
