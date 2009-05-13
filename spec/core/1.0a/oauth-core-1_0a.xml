@@ -642,7 +642,7 @@
           <t>
             The callback URL MAY include Consumer provided query parameters.
             The Service Provider MUST retain them unmodified and append the
-            <spanx style="verb">oauth_token</spanx> parameter to the existing query.
+            OAuth parameters to the existing query.
           </t>
           <t>
             If the Consumer did not provide a callback URL, the Service Provider MUST display the value of the
