@@ -645,7 +645,7 @@
             OAuth parameters to the existing query.
           </t>
           <t>
-            If the Consumer did not provide a callback URL, the Service Provider MUST display the value of the
+            If the Consumer did not provide a callback URL, the Service Provider SHOULD display the value of the
             verification code, and instruct the User to manually inform the Consumer that authorization is completed. If the Service Provider
             knows a Consumer to be running on a mobile device or set-top box, the Service Provider
             SHOULD ensure that the verifier value is suitable for manual entry.
