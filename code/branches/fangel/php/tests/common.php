@@ -24,7 +24,7 @@ class OAuthTestUtils {
 	 * @param array $params What params should go with the request
 	 * @param string $auth_header What to set the Authorization header to
 	 */
-	public static function build_request( $method, $uri, $params, $auth_header = '' ) {
+	public static function build_request( $method, $uri, $post_data = '', $auth_header = '' ) {
 		self::reset_request_vars();
 
 		$method = strtoupper($method);
@@ -47,14 +47,15 @@ class OAuthTestUtils {
 		$_SERVER['HTTP_HOST'] = $host;
 		$_SERVER['SERVER_PORT'] = $port;
 		$_SERVER['REQUEST_URI'] = $path . '?' . $query;
+		$_SERVER['QUERY_STRING'] = $query.'';
+		parse_str($query, $_GET);
 
 		if( $method == 'POST' ) {
 			$_SERVER['HTTP_CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
-			$_POST = $params;
-		} else {
-			$_GET = $params;
-		}
-		
+			$_POST = parse_str($post_data);
+			OAuthRequest::$POST_INPUT = 'data:application/x-www-form-urlencoded,'.$post_data;
+		}	
+			
 		if( $auth_header != '' ) {
 			$_SERVER['HTTP_AUTHORIZATION'] = $auth_header;
 		}
