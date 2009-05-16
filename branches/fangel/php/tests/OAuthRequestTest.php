@@ -52,7 +52,17 @@ class OAuthRequestTest extends PHPUnit_Framework_TestCase {
 
 		$request->set_parameter('test', 'bar', false);
 		$this->assertEquals( 'bar', $request->get_parameter('test'), 'Failed to set single-entry parameter');
+	}
+	
+	public function testUnsetParameter() {
+		$request = new OAuthRequest('', '');
+		$this->assertEquals( NULL, $request->get_parameter('test'));
 
+		$request->set_parameter('test', 'foo');
+		$this->assertEquals( 'foo', $request->get_parameter('test'));
+
+		$request->unset_parameter('test');
+		$this->assertEquals( NULL, $request->get_parameter('test'), 'Failed to unset parameter');
 	}
 	
 	public function testCreateRequestFromConsumerAndToken() {
