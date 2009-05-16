@@ -259,6 +259,10 @@ class OAuthRequest {/*{{{*/
     return $this->parameters;
   }/*}}}*/
 
+  public function unset_parameter($name) {/*{{{*/
+    unset($this->parameters[$name]);
+  }/*}}}*/
+
   /**
    * The request parameters, sorted and concatenated into a normalized string.
    * @return string
