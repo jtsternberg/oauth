@@ -1,7 +1,7 @@
-#!/usr/bin/env perl
+#!/opt/local/bin/perl
 
 use strict;
-use lib qw(/home/kg23/local/share/perl/5.8.4 /home/kg23/local/lib/perl/5.8.4);
+use lib qw(/Users/keith/src/oauth/perl/lib);
 use CGI::Carp qw(fatalsToBrowser);
 use OAuthDemo;
 $ENV{OAUTH_DEMO_HOME} = '.' unless defined $ENV{OAUTH_DEMO_HOME};

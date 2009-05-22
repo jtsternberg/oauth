@@ -45,7 +45,7 @@ sub _default_request_params {
 
 sub default : StartRunmode {
 	my $self = shift;
-	my @contacts;
+	my $data;
 	if (defined $self->session->param('token')) {
 		my $request = Net::OAuth->request("protected resource")->new(
 		    $self->_default_request_params,
@@ -65,8 +65,9 @@ sub default : StartRunmode {
 		if (!$res->is_success) {
 		    die 'Could not get feed: ' . $res->status_line . ' ' . $res->content;
 		}
+		$data = $res->decoded_content;
 	}
-	return $self->tt_process('default.html', {c => $self, data => $res->decoded_content});
+	return $self->tt_process('default.html', {c => $self, data => $data});
 }
 
 sub login : Runmode {
@@ -79,7 +80,7 @@ sub login : Runmode {
 
 	#print "base_string:", $request->signature_base_string, "\n";
 
-	$request->sign();
+	$request->sign;
 
 	my  $ua = LWP::UserAgent->new;
 
