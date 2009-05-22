@@ -173,7 +173,7 @@ sub from_authorization_header {
     my $header = shift;
     my $class = ref $proto || $proto;
     die "Header must start with \"OAuth \"" unless $header =~ s/OAuth //;
-    my @header = split /[\s]*,[\s]*/, shift;
+    my @header = split /[\s]*,[\s]*/, $header;
     shift @header if $header[0] =~ /^realm=/i;
     return $class->_from_pairs(\@header, @_)
 }
