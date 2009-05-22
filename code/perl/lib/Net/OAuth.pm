@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 sub request {
     my $self = shift;
@@ -126,6 +126,8 @@ Net::OAuth provides:
 
 =item * message serialization and parsing.
 
+=item * 2-legged requests (aka. tokenless requests, aka. consumer requests), see L</"CONSUMER REQUESTS"> 
+
 =back
 
 Net::OAuth does not provide:
@@ -155,6 +157,8 @@ Requests
 =item * User Authentication (Net::OAuth::UserAuthRequest)
 
 =item * Protected Resource (Net::OAuth::ProtectedResourceRequest)
+
+=item * Consumer Request (Net::OAuth::ConsumerRequest) (2-legged / token-less request)
 
 =back
 
@@ -304,6 +308,24 @@ Service Provider:
  }
 
 Note that you can pass the key in as a parameter called 'signature_key' to the message constructor, rather than passing it to the sign/verify method, if you like.
+
+=head2 CONSUMER REQUESTS
+
+To send a request without including a token, use a Consumer Request:
+
+    my $request = Net::OAuth->request('consumer')->new(
+            consumer_key => 'dpf43f3p2l4k3l03',
+            consumer_secret => 'kd94hf93k423kf44',
+            request_url => 'http://provider.example.net/profile',
+            request_method => 'GET',
+            signature_method => 'HMAC-SHA1',
+            timestamp => '1191242096',
+            nonce => 'kllo9940pd9333jh',
+    );
+
+    $request->sign;
+
+See L<Net::OAuth::ConsumerRequest>
 
 =head1 DEMO
 

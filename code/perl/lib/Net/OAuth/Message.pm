@@ -158,15 +158,23 @@ sub to_authorization_header {
     my $self = shift;
     my $realm = shift;
     my $sep = shift || ",";
-    return join($sep, "OAuth realm=\"$realm\"",
-        $self->gather_message_parameters(quote => '"', add => [qw/signature/], no_extra => 1));
+    if (defined $realm) {
+        $realm = "realm=\"$realm\"$sep";
+    }
+    else {
+        $realm = "";
+    }
+    return "OAuth $realm" .
+        join($sep, $self->gather_message_parameters(quote => '"', add => [qw/signature/], no_extra => 1));
 }
 
 sub from_authorization_header {
     my $proto = shift;
+    my $header = shift;
     my $class = ref $proto || $proto;
+    die "Header must start with \"OAuth \"" unless $header =~ s/OAuth //;
     my @header = split /[\s]*,[\s]*/, shift;
-    shift @header;
+    shift @header if $header[0] =~ /^realm=/i;
     return $class->_from_pairs(\@header, @_)
 }
 
