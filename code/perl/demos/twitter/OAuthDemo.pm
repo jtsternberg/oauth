@@ -23,12 +23,6 @@ sub cgiapp_init {
 	$self->tt_include_path($ENV{OAUTH_DEMO_HOME});
 }
 
-sub _get_key {
-	my $self = shift;
-	my $ketstring = read_file($self->config_param('private_key'));
-	return Crypt::OpenSSL::RSA->new_private_key($ketstring);
-}
-
 sub _redirect {
 	my $self = shift;
 	my $url = shift || $self->config_param('base_url');
@@ -41,9 +35,9 @@ sub _default_request_params {
 	my $self = shift;
 	return (
 		consumer_key => $self->config_param('consumer_key'),
-		consumer_secret => '',
+		consumer_secret => $self->config_param('consumer_secret'),
 		request_method => 'GET',
-		signature_method => 'RSA-SHA1',
+		signature_method => 'HMAC-SHA1',
 		timestamp => time,
 		nonce => join('', rand_chars(size=>16, set=>'alphanumeric')),
 	);
@@ -55,14 +49,14 @@ sub default : StartRunmode {
 	if (defined $self->session->param('token')) {
 		my $request = Net::OAuth->request("protected resource")->new(
 		    $self->_default_request_params,
-		    request_url => $self->config_param('contacts_feed_url'),
+		    request_url => $self->config_param('resource_url'),
 		    token => $self->session->param('token'),
 		    token_secret => '',
 		);
 
 		#print "base_string:", $request->signature_base_string, "\n";
 
-		$request->sign($self->_get_key);
+		$request->sign();
 
 		my $ua = LWP::UserAgent->new;
 
@@ -71,15 +65,8 @@ sub default : StartRunmode {
 		if (!$res->is_success) {
 		    die 'Could not get feed: ' . $res->status_line . ' ' . $res->content;
 		}
-
-		my $parser = new XML::LibXML;
-		my $doc = $parser->parse_string($res->content);
-		my $xpc = XML::LibXML::XPathContext->new;
-		$xpc->registerNs('atom', 'http://www.w3.org/2005/Atom');
-		@contacts = shuffle($xpc->findnodes('//atom:entry/atom:title', $doc));
-
 	}
-	return $self->tt_process('default.html', {c => $self, contacts => \@contacts});
+	return $self->tt_process('default.html', {c => $self, data => $res->decoded_content});
 }
 
 sub login : Runmode {
@@ -88,14 +75,11 @@ sub login : Runmode {
 	my $request = Net::OAuth->request("request token")->new(
 	    $self->_default_request_params,
 	    request_url => $self->config_param('request_token_endpoint'),
-	    extra_params => {
-		scope=> $self->config_param('request_scope'),
-	    }
 	);
 
 	#print "base_string:", $request->signature_base_string, "\n";
 
-	$request->sign($self->_get_key);
+	$request->sign();
 
 	my  $ua = LWP::UserAgent->new;
 
@@ -126,7 +110,7 @@ sub callback : Runmode {
 	    $self->_default_request_params,
 	    request_url => $self->config_param('access_token_endpoint'),
 	    token => $response->token,
-	    token_secret => '',
+	    token_secret => $response->token_secret,
 	);
 
 	#print "base_string:", $request->signature_base_string, "\n";

@@ -1,10 +1,9 @@
 ---
-base_url: "http://oauth.kg23.com"
-private_key: "/home/kg23/oauth.pem"
-consumer_key: "oauth.kg23.com"
+base_url: "http://twitter.local"
+consumer_secret: "YB4MlyQYGJRFraHH1O9bDYO3QvbAkmDxTQOC5Rqb94w"
+consumer_key: "9QhX8vuFhhL896z5wQk5ew"
 # You probably dont need to change anything past this point
-contacts_feed_url: "http://www.google.com/m8/feeds/contacts/default/full"
-request_token_endpoint: "https://www.google.com/accounts/OAuthGetRequestToken"
-user_auth_endpoint: "https://www.google.com/accounts/OAuthAuthorizeToken"
-request_scope: "http://www.google.com/m8/feeds"
-access_token_endpoint: "https://www.google.com/accounts/OAuthGetAccessToken"
+request_token_endpoint: "http://twitter.com/oauth/request_token"
+access_token_endpoint: "http://twitter.com/oauth/access_token"
+user_auth_endpoint: "http://twitter.com/oauth/authorize"
+resource_url: "http://twitter.com/account/verify_credentials.xml"
