@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use base qw/Net::OAuth::Message/;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 __PACKAGE__->mk_classdata(required_message_params => [qw/
     consumer_key
