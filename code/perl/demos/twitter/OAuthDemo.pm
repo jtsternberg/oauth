@@ -16,11 +16,13 @@ use XML::LibXML;
 use XML::LibXML::XPathContext;
 use File::Spec;
 use List::Util 'shuffle';
+use Encode;
 
 sub cgiapp_init {
         my $self = shift;
 	$self->config_file(File::Spec->catfile($ENV{OAUTH_DEMO_HOME}, 'config.yml'));
 	$self->tt_include_path($ENV{OAUTH_DEMO_HOME});
+	$self->header_add(-type => 'text/html', -charset => 'utf-8');
 }
 
 sub _redirect {
@@ -51,7 +53,7 @@ sub default : StartRunmode {
 		    $self->_default_request_params,
 		    request_url => $self->config_param('resource_url'),
 		    token => $self->session->param('token'),
-		    token_secret => '',
+		    token_secret => $self->session->param('token_secret'),
 		);
 
 		#print "base_string:", $request->signature_base_string, "\n";
@@ -65,9 +67,45 @@ sub default : StartRunmode {
 		if (!$res->is_success) {
 		    die 'Could not get feed: ' . $res->status_line . ' ' . $res->content;
 		}
-		$data = $res->decoded_content;
+		my $parser = new XML::LibXML;
+		$data = $parser->parse_string($res->decoded_content);
 	}
 	return $self->tt_process('default.html', {c => $self, data => $data});
+}
+
+sub tweet : Runmode {
+	my $self = shift;
+	if (defined $self->session->param('token')) {
+		my $request = Net::OAuth->request("protected resource")->new(
+		    $self->_default_request_params,
+		    request_url => 'http://twitter.com/statuses/update.xml',
+		    token => $self->session->param('token'),
+		    token_secret => $self->session->param('token_secret'),
+		    request_method => 'POST',
+		    extra_params => {status => decode_utf8($self->query->param('status'))}
+		);
+
+		print STDERR "base_string:", $request->signature_base_string, "\n";
+		print STDERR "status:",$self->query->param('status'),"\n";
+
+		$request->sign;
+
+		my $ua = LWP::UserAgent->new;
+
+		my $msg = POST($request->request_url, Authorization => $request->to_authorization_header, 
+				Content => [status => $self->query->param('status')]);
+		print STDERR $msg->as_string;
+		my $res = $ua->request($msg);
+
+		if (!$res->is_success) {
+		    die 'Could not submit tweet: ' . $res->status_line . ' ' . $res->content;
+		}
+		my $parser = new XML::LibXML;
+		my $data = $parser->parse_string($res->decoded_content);
+		my @nodes = $data->findnodes('//id');
+		$self->session->param('status_id', $nodes[0]->textContent);
+	}
+	return $self->_redirect;
 }
 
 sub login : Runmode {
@@ -78,7 +116,7 @@ sub login : Runmode {
 	    request_url => $self->config_param('request_token_endpoint'),
 	);
 
-	#print "base_string:", $request->signature_base_string, "\n";
+	#print STDERR "base_string:", $request->signature_base_string, "\n";
 
 	$request->sign;
 
@@ -111,12 +149,12 @@ sub callback : Runmode {
 	    $self->_default_request_params,
 	    request_url => $self->config_param('access_token_endpoint'),
 	    token => $response->token,
-	    token_secret => $response->token_secret,
+	    token_secret => '',
 	);
 
 	#print "base_string:", $request->signature_base_string, "\n";
 
-	$request->sign($self->_get_key);
+	$request->sign;
 
 	my $ua = LWP::UserAgent->new;
 
@@ -130,6 +168,7 @@ sub callback : Runmode {
 	print STDERR "Got Access Token ", $response->token, "\n";
 	print STDERR "Got Access Token Secret ", $response->token_secret, "\n";
 	$self->session->param('token', $response->token);
+	$self->session->param('token_secret', $response->token_secret);
 	return $self->_redirect;
 }
 
