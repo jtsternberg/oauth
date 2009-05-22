@@ -15,21 +15,15 @@
 
 <p style="color:green">Got Access Token <a href="[% c.config_param('base_url') %]/logout">[Reset]</a></p>
 
-[% IF contacts.size %]
+[% IF data.defined %]
 
-<p>Contacts retrieved successfully!  Here is a random selection:</p>
+<p>Data retrieved successfully!</p>
 
-<ul>
-[% FOREACH item IN contacts %]
-<li>
-[% item.textContent %]
-[% BREAK IF loop.count > 10 %]
-</li>
-[% END %]
-</ul>
+[% data | html %]
+
 [% ELSE %]
 
-<p>No contacts found</p>
+<p>No data found</p>
 
 [% END %]
 
