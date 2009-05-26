@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>net.oauth</groupId>
-    <artifactId>oauth-all</artifactId>
+    <artifactId>oauth-parent</artifactId>
     <version>20090425</version>
   </parent> 
   <groupId>net.oauth.core</groupId>
-  <artifactId>oauth-core</artifactId>
+  <artifactId>parent</artifactId>
   <version>20090425</version>
   <packaging>pom</packaging>
   <name>OAuth Core: Root</name>
