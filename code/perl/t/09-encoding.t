@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 17;
+use Test::More tests => 18;
 
 BEGIN {
         use_ok( 'Net::OAuth::Message' );
@@ -33,4 +33,5 @@ is_encoding("\x{2708}", '%E2%9C%88');
 is_encoding("\x{00A0}", '%C2%A0');
 is_encoding("\x{00E7}", '%C3%A7');
 is_encoding("ç", '%C3%A7');
+is_encoding("æ", '%C3%A6');
 

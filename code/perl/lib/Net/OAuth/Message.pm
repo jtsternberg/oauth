@@ -4,6 +4,7 @@ use strict;
 use base qw/Class::Data::Inheritable Class::Accessor/;
 use URI::Escape;
 use UNIVERSAL::require;
+use Net::OAuth;
 
 use constant OAUTH_PREFIX => 'oauth_';
 
@@ -86,6 +87,18 @@ sub check {
 sub encode {
     my $str = shift;
     $str = "" unless defined $str;
+    unless($Net::OAuth::SKIP_UTF8_DOUBLE_ENCODE_CHECK) {
+        if ($str =~ /[\x80-\xFF]/) {
+            Encode->require;
+            no strict 'subs';
+            eval {
+                Encode::decode_utf8($str, 1);
+            };
+            unless ($@) {
+                warn "Warning: It looks like you are attempting to encode bytes that are already UTF-8 encoded.  You should probably use decode_utf8() first.  See the Net::OAuth manpage, I18N section";
+            }
+        }
+    }
     return URI::Escape::uri_escape_utf8($str,'^\w.~-');
 }
 
