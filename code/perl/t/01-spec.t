@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 18;
+use Test::More tests => 21;
 
 BEGIN {
         use_ok( 'Net::OAuth' );
@@ -117,3 +117,23 @@ ok($request->verify);
 
 is($request->signature_base_string, 'POST&https%3A%2F%2Fphotos.example.net%2Frequest_token&oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dhsu94j3884jdopsl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242090%26oauth_version%3D1.0');
 is($request->signature, 'mBRi0bX78DgCdolSsSYibIGen7U=');
+
+$request = Net::OAuth::ProtectedResourceRequest->new(
+        consumer_key => 'dpf43f3p2l4k3l03',
+        consumer_secret => 'kd94hf93k423kf44',
+        request_url => 'http://photos.example.net/photos?file=vacation.jpg&size=original',
+        request_method => 'GET',
+        signature_method => 'HMAC-SHA1',
+        timestamp => '1191242096',
+        nonce => 'kllo9940pd9333jh',
+        token => 'nnch734d00sl2jdk',
+        token_secret => 'pfkkdhi9sl3r4s00',
+);
+
+$request->sign;
+
+ok($request->verify);
+
+is($request->signature_base_string, 'GET&http%3A%2F%2Fphotos.example.net%2Fphotos&file%3Dvacation.jpg%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal');
+
+is($request->signature, 'tR3+Ty81lMeYAr/Fid0kMTYa/WM=');

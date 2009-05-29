@@ -36,11 +36,11 @@ Super simple:
 * Unzip files under the document root of a virtual host domain
 * Edit settings in config.yml
 ** If you have mod_rewrite, the base_url should be http://mydomain.example.com
-** If not, the base_url should be http://mydomain.example.com/oauth-demo.cgi
+** If not, the base_url should be http://mydomain.example.com/dispatch.cgi
 
 A little less simple:
 
-* Put oauth-demo.cgi under your document root (say, in a cgi-bin)
+* Put dispatch.cgi under your document root (say, in a cgi-bin)
 * Set the OAUTH_DEMO_HOME environment variable to point to the dir containing all the other files
 * Edit settings in config.yml
-** Your base url will be the URL to the wherever you put oauth-demo.cgi
+** Your base url will be the URL to the wherever you put dispatch.cgi

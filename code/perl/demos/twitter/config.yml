@@ -1,7 +1,7 @@
 ---
 base_url: "http://twitter.local"
-consumer_secret: "YB4MlyQYGJRFraHH1O9bDYO3QvbAkmDxTQOC5Rqb94w"
-consumer_key: "9QhX8vuFhhL896z5wQk5ew"
+consumer_secret: ""
+consumer_key: ""
 # You probably dont need to change anything past this point
 request_token_endpoint: "http://twitter.com/oauth/request_token"
 access_token_endpoint: "http://twitter.com/oauth/access_token"

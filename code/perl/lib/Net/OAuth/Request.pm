@@ -2,6 +2,8 @@ package Net::OAuth::Request;
 use warnings;
 use strict;
 use base qw/Net::OAuth::Message/;
+use URI;
+use URI::QueryParam;
 
 our $VERSION = '0.14';
 
@@ -64,6 +66,30 @@ sub signature_key {
     }
     return $key;
 }
+
+sub set {
+    my $self = shift;
+    my $key = shift;
+    
+    if ($key eq 'request_url') {
+        my $url = URI->new($_[0]);
+        for my $k ($url->query_param) {
+            for my $v ($url->query_param_delete($k)) {
+                $self->{extra_params}{$k} = $v;
+            }
+        }
+        $_[0] = $url;
+    }
+    
+    $self->SUPER::set($key, @_);
+}
+
+sub set_defaults {
+    my $self = shift;
+    $self->request_url($self->request_url); # trigger request_url modification on new()
+    $self->SUPER::set_defaults(@_);
+}
+
 
 =head1 NAME
 
