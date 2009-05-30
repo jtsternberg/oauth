@@ -31,7 +31,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.oauth.http.HttpMessage;
-import net.oauth.http.HttpMessage.ParameterStyle;
 import net.oauth.signature.OAuthSignatureMethod;
 
 /**
