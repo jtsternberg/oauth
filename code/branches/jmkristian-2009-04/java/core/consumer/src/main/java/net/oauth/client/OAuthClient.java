@@ -227,8 +227,8 @@ public class OAuthClient {
             request.getHeaders().add(new OAuth.Parameter(HttpMessage.ACCEPT_ENCODING, accepted.toString()));
         }
         Object ps = accessor.consumer.getProperty(PARAMETER_STYLE);
-        HttpMessage.ParameterStyle style = (ps == null) ? ParameterStyle.BODY
-                : Enum.valueOf(HttpMessage.ParameterStyle.class, ps.toString());
+        net.oauth.ParameterStyle style = (ps == null) ? net.oauth.ParameterStyle.BODY
+                : Enum.valueOf(net.oauth.ParameterStyle.class, ps.toString());
         return invoke(request, style);
     }
 
@@ -271,7 +271,7 @@ public class OAuthClient {
      * @throws OAuthProblemException
      *             the HTTP response status code was not 200 (OK)
      */
-    public OAuthMessage invoke(OAuthMessage request, HttpMessage.ParameterStyle style)
+    public OAuthMessage invoke(OAuthMessage request,  net.oauth.ParameterStyle style)
             throws IOException, OAuthException {
         OAuthResponseMessage response = access(request, style);
         if ((response.getHttpResponse().getStatusCode() / 100) != 2) {
@@ -284,19 +284,45 @@ public class OAuthClient {
      * Send a request and return the response. Don't try to decide whether the
      * response indicates success; merely return it.
      */
-    public OAuthResponseMessage access(OAuthMessage request, HttpMessage.ParameterStyle style) throws IOException {
+    public OAuthResponseMessage access(OAuthMessage request,  net.oauth.ParameterStyle style) throws IOException {
         HttpMessage httpRequest = HttpMessage.toHttpRequest(request, style);
         HttpResponseMessage httpResponse = http.execute(httpRequest, httpParameters);
         httpResponse = HttpMessageDecoder.decode(httpResponse);
         return new OAuthResponseMessage(httpResponse);
     }
 
-    /** @deprecated use HttpMessage.ParameterStyle. */
-    public static interface ParameterStyle {
-        static final HttpMessage.ParameterStyle AUTHORIZATION_HEADER = HttpMessage.ParameterStyle.AUTHORIZATION_HEADER;
-        static final HttpMessage.ParameterStyle BODY                 = HttpMessage.ParameterStyle.BODY;
-        static final HttpMessage.ParameterStyle QUERY_STRING         = HttpMessage.ParameterStyle.QUERY_STRING;
-    };
+    /**
+     * Where to place parameters in an HTTP message.
+     * 
+     * @deprecated use net.oauth.ParameterStyle.
+     */
+    public static enum ParameterStyle {
+        AUTHORIZATION_HEADER(net.oauth.ParameterStyle.AUTHORIZATION_HEADER),
+        BODY                (net.oauth.ParameterStyle.BODY),
+        QUERY_STRING        (net.oauth.ParameterStyle.QUERY_STRING);
+
+        public net.oauth.ParameterStyle getReplacement() {
+            return replacement;
+        }
+
+        private ParameterStyle(net.oauth.ParameterStyle replacement) {
+            this.replacement = replacement;
+        }
+
+        private final net.oauth.ParameterStyle replacement;
+    }
+
+    /** @deprecated */
+    public OAuthMessage invoke(OAuthMessage request, ParameterStyle style)
+    throws IOException, OAuthException {
+        return invoke(request, style.getReplacement());
+    }
+
+    /** @deprecated */
+    public OAuthResponseMessage access(OAuthMessage request, ParameterStyle style)
+    throws IOException {
+        return access(request, style.getReplacement());
+    }
 
     protected static final String PUT = OAuthMessage.PUT;
     protected static final String POST = OAuthMessage.POST;

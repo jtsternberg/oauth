@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import net.oauth.client.ExcerptInputStream;
 import net.oauth.OAuth;
 import net.oauth.OAuthMessage;
+import net.oauth.ParameterStyle;
 
 // TODO: move this class into oauth-core-consumer, together with ExcerptInputStream.
 // The difficult part is deleting the method OAuthMessage.toHttpRequest.
@@ -199,11 +200,6 @@ public class HttpMessage
         }
         return DEFAULT_CHARSET;
     }
-
-    /** Where to place OAuth parameters in an HTTP message. */
-    public enum ParameterStyle {
-        AUTHORIZATION_HEADER, BODY, QUERY_STRING;
-    };
 
     /** The name of a dump entry whose value is the HTTP request. */
     public static final String REQUEST = "HTTP request";
