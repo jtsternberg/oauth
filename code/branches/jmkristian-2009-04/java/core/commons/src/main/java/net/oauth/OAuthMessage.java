@@ -303,7 +303,7 @@ public class OAuthMessage {
      * @deprecated use HttpMessage.toHttpRequest
      */
     public HttpMessage toHttpRequest(ParameterStyle style) throws IOException {
-        return HttpMessage.toHttpRequest(this, style);
+        return HttpMessage.newRequest(this, style);
     }
 
     /**
