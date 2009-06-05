@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 our $SKIP_UTF8_DOUBLE_ENCODE_CHECK = 0;
 
 sub request {
@@ -207,7 +207,7 @@ Before sending a request, the Consumer must first sign it:
 
 When receiving a request, the Service Provider should first verify the signature:
 
- $request->verify;
+ die "Signature verification failed" unless $request->verify;
 
 When sending a message the last step is to serialize it and send it to wherever it needs to go.  The following serialization methods are available:
 
@@ -260,22 +260,22 @@ All parameters can be get/set using accessor methods. E.g.
 
 Any query parameters in the request_url are removed and added to the extra_params hash when generating the signature.
 
-E.g. the following requests are equivalent:
+E.g. the following requests are pretty much equivalent:
 
-    my $request = Net::OAuth->request('user auth')->new(
-        token => 'abcdef',
-        request_url => 'http://example.com/auth',
-        extra_params => {
-                foo => 'bar',
-        },
+    my $request = Net::OAuth->request('Request Token')->new(
+		%params,
+    	request_url => 'https://photos.example.net/request_token',
+    	extra_params => {
+    	    foo => 'bar'
+    	},
     );
 
-    my $request = Net::OAuth->request('user auth')->new(
-        token => 'abcdef',
-        request_url => 'http://example.com/auth?foo=bar',
+    my $request = Net::OAuth->request('Request Token')->new(
+		%params,
+    	request_url => 'https://photos.example.net/request_token?foo=bar',
     );
-
-If you want to get the request_url with the query parameters removed, you can do:
+    
+$request->request_url will still return whatever you gave it. If you want to get the request_url with the query parameters removed, you can do:
 
     my $url = $request->normalized_request_url;
 
@@ -353,24 +353,15 @@ See L<Net::OAuth::ConsumerRequest>
 
 =head2 I18N
 
-Per the OAuth spec, when making the signature Net::OAuth first encodes
-parameters to UTF-8. This means that any parameters you pass to Net::OAuth,
-if they are outside of ASCII character set, should be run through
-Encode::decode() (or an equivalent PerlIO layer) first to decode them to
-perl's internal character sructure.
+Per the OAuth spec, when making the signature Net::OAuth first encodes parameters to UTF-8. This means that any parameters you pass to Net::OAuth, if they are outside of ASCII character set, should be run through Encode::decode() (or an equivalent PerlIO layer) first to decode them to perl's internal character sructure.
 
-There is a check in Net::OAuth's parameter encoding function that guesses if
-the data you are passing in looks like it is already UTF-8 and warns that you
-should decode it first. This accidental double-encoding of UTF-8 may be a
-source of headaches - if you find that the signature check is failing when
-you send non-ASCII data, that is a likely cause. 
+There is a check in Net::OAuth's parameter encoding function that guesses if the data you are passing in looks like it is already UTF-8 and warns that you should decode it first. This accidental double-encoding of UTF-8 may be a source of headaches - if you find that the signature check is failing when you send non-ASCII data, that is a likely cause. 
 
 You can silence this warning by setting:
 
     $Net::OAuth::SKIP_UTF8_DOUBLE_ENCODE_CHECK = 1;
 
-Following is an example of decoding some UTF-8 form data before sending it in
-an OAuth messaage (from the Twitter demo included in the Net::OAuth package):
+Following is an example of decoding some UTF-8 form data before sending it in an OAuth messaage (from the Twitter demo included in the Net::OAuth package):
 
 my $request = Net::OAuth->request("protected resource")->new(
     $self->_default_request_params,
@@ -388,6 +379,12 @@ There is a demo Consumer CGI in this package, also available online at L<http://
 =head1 SEE ALSO
 
 L<http://oauth.net>
+
+Check out L<Net::OAuth::Simple> - it has a simpler API that may be more to your liking
+
+Check out L<Net::Twitter::OAuth> for a Twitter-specific OAuth API
+
+Check out L<WWW::Netflix::API> for a Netflix-specific OAuth API
 
 =head1 AUTHOR
 
