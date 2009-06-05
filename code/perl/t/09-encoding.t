@@ -2,7 +2,8 @@
 
 use strict;
 use warnings;
-use Test::More tests => 18;
+use Test::More tests => 20;
+use Encode;
 
 BEGIN {
         use_ok( 'Net::OAuth::Message' );
@@ -13,7 +14,6 @@ use utf8;
 sub is_encoding {
     my $orig = shift;
     my $encoded = shift;
-    utf8::upgrade($orig);
     is(Net::OAuth::Message::encode($orig), $encoded);
 }
 
@@ -35,3 +35,7 @@ is_encoding("\x{00E7}", '%C3%A7');
 is_encoding("ç", '%C3%A7');
 is_encoding("æ", '%C3%A6');
 
+my $warning = '';
+$SIG{__WARN__} = sub {$warning = shift};
+is_encoding(Encode::encode_utf8("\x{00E7}"), '%C3%83%C2%A7');
+ok($warning =~ /^Warning: It looks like you are attempting to encode bytes that are already UTF-8 encoded/);

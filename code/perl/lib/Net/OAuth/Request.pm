@@ -33,7 +33,7 @@ __PACKAGE__->mk_classdata(optional_api_params => [qw/
 
 __PACKAGE__->mk_classdata(signature_elements => [qw/
     request_method
-    request_url
+    normalized_request_url
     normalized_message_parameters
     /]);
 
@@ -67,27 +67,12 @@ sub signature_key {
     return $key;
 }
 
-sub set {
+sub normalized_request_url {
     my $self = shift;
-    my $key = shift;
-    
-    if ($key eq 'request_url') {
-        my $url = URI->new($_[0]);
-        for my $k ($url->query_param) {
-            for my $v ($url->query_param_delete($k)) {
-                $self->{extra_params}{$k} = $v;
-            }
-        }
-        $_[0] = $url;
-    }
-    
-    $self->SUPER::set($key, @_);
-}
-
-sub set_defaults {
-    my $self = shift;
-    $self->request_url($self->request_url); # trigger request_url modification on new()
-    $self->SUPER::set_defaults(@_);
+    my $url = $self->request_url;
+    Net::OAuth::Message::_ensure_uri_object($url);
+    $url->query(undef);
+    return $url;
 }
 
 

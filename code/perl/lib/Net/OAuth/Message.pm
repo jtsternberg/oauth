@@ -5,6 +5,8 @@ use base qw/Class::Data::Inheritable Class::Accessor/;
 use URI::Escape;
 use UNIVERSAL::require;
 use Net::OAuth;
+use URI;
+use URI::QueryParam;
 
 use constant OAUTH_PREFIX => 'oauth_';
 
@@ -126,6 +128,13 @@ sub gather_message_parameters {
         foreach my $k (keys %{$self->{extra_params}}) {
             $params{$k} = $self->{extra_params}{$k};
         }
+        if ($self->can('request_url')) {
+            my $url = $self->request_url;
+            _ensure_uri_object($url);         
+            foreach my $k ($url->query_param) {
+                $params{$k} = $url->query_param($k);
+            }
+        }
     }
     if ($opts{hash}) {
         return \%params;
@@ -242,15 +251,15 @@ sub from_hash {
     return $class->new(%msg_params, %api_params);
 }
 
+sub _ensure_uri_object {
+    $_[0] = UNIVERSAL::isa($_[0], 'URI') ? $_[0] : URI->new($_[0]);
+}
+
 sub from_url {
 	my $proto = shift;
     my $class = ref $proto || $proto;
     my $url = shift;
-	require URI;
-	require URI::QueryParam;
-    if (!UNIVERSAL::isa($url, 'URI')) {
-		$url = URI->new($url);
-	}
+	_ensure_uri_object($url);
 	return $class->from_hash($url->query_form_hash, @_);
 }
 
@@ -273,19 +282,19 @@ sub to_hash {
 
 sub to_url {
 	my $self = shift;
-	my $uri = shift;
-	if (!defined $uri and $self->can('request_url') and defined $self->request_url) {
-		$uri = $self->request_url;
+	my $url = shift;
+	if (!defined $url and $self->can('request_url') and defined $self->request_url) {
+		$url = $self->request_url;
 	}
-	if (defined $uri) {
-		require URI;
-		require URI::QueryParam;
-		$uri = URI->new("$uri");
+	if (defined $url) {
+        _ensure_uri_object($url);
+        $url = $url->clone; # don't modify the URL that was passed in
+        $url->query(undef); # remove any existing query params, as these may cause the signature to break	
 		my $params = $self->to_hash;
 		foreach my $k (sort keys %$params) {
-			$uri->query_param($k, $params->{$k});
+			$url->query_param($k, $params->{$k});
 		}
-		return $uri;
+		return $url;
 	}
 	else {
 		return $self->to_post_body;
