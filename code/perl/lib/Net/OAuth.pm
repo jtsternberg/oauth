@@ -256,6 +256,29 @@ All parameters can be get/set using accessor methods. E.g.
  my $consumer_key = $request->consumer_key;
  $request->request_method('POST');
 
+=head2 THE REQUEST_URL PARAMETER
+
+Any query parameters in the request_url are removed and added to the extra_params hash when generating the signature.
+
+E.g. the following requests are equivalent:
+
+    my $request = Net::OAuth->request('user auth')->new(
+        token => 'abcdef',
+        request_url => 'http://example.com/auth',
+        extra_params => {
+                foo => 'bar',
+        },
+    );
+
+    my $request = Net::OAuth->request('user auth')->new(
+        token => 'abcdef',
+        request_url => 'http://example.com/auth?foo=bar',
+    );
+
+If you want to get the request_url with the query parameters removed, you can do:
+
+    my $url = $request->normalized_request_url;
+
 =head2 SIGNATURE METHODS
 
 The following signature methods are supported:
