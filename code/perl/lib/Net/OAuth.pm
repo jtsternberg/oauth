@@ -44,13 +44,13 @@ Net::OAuth - OAuth protocol support
 
 =head1 SYNOPSIS
 
-	# Consumer sends Request Token Request
+    # Consumer sends Request Token Request
 
-	use Net::OAuth;
-	use HTTP::Request::Common;
-	my $ua = LWP::UserAgent->new;
+    use Net::OAuth;
+    use HTTP::Request::Common;
+    my $ua = LWP::UserAgent->new;
 
-	my $request = Net::OAuth->request("request token")->new(
+    my $request = Net::OAuth->request("request token")->new(
         consumer_key => 'dpf43f3p2l4k3l03',
         consumer_secret => 'kd94hf93k423kf44',
         request_url => 'https://photos.example.net/request_token',
@@ -58,54 +58,54 @@ Net::OAuth - OAuth protocol support
         signature_method => 'HMAC-SHA1',
         timestamp => '1191242090',
         nonce => 'hsu94j3884jdopsl',
-		extra_params => {
-			apple => 'banana',
-			kiwi => 'pear',
-		}
-	);
+        extra_params => {
+            apple => 'banana',
+            kiwi => 'pear',
+        }
+    );
 
-	$request->sign;
+    $request->sign;
 
-	my $res = $ua->request(POST $request->to_url); # Post message to the Service Provider
-	
-	if ($res->is_success) {
-		my $response = Net::OAuth->response('request token')->from_post_body($res->content);
-		print "Got Request Token ", $response->token, "\n";
-		print "Got Request Token Secret ", $response->token_secret, "\n";
-	}
-	else {
-		die "Something went wrong";
-	}
-	
-	# Etc..
+    my $res = $ua->request(POST $request->to_url); # Post message to the Service Provider
 
-	# Service Provider receives Request Token Request
-	
-	use Net::OAuth;
-	use CGI;
-	my $q = new CGI;
-	
-	my $request = Net::OAuth->request("request token")->from_hash($q->Vars,
-		request_url => 'https://photos.example.net/request_token',
-		request_method => $q->request_method,
-		consumer_secret => 'kd94hf93k423kf44',
-	);
+    if ($res->is_success) {
+        my $response = Net::OAuth->response('request token')->from_post_body($res->content);
+        print "Got Request Token ", $response->token, "\n";
+        print "Got Request Token Secret ", $response->token_secret, "\n";
+    }
+    else {
+        die "Something went wrong";
+    }
 
-	if (!$request->verify) {
-		die "Signature verification failed";
-	}
-	else {
-		# Service Provider sends Request Token Response
+    # Etc..
 
-		my $response = Net::OAuth->response("request token")->new( 
-			token => 'abcdef',
-			token_secret => '0123456',
-		);
+    # Service Provider receives Request Token Request
 
-		print $response->to_post_body;
-	}	
+    use Net::OAuth;
+    use CGI;
+    my $q = new CGI;
 
-	# Etc..
+    my $request = Net::OAuth->request("request token")->from_hash($q->Vars,
+        request_url => 'https://photos.example.net/request_token',
+        request_method => $q->request_method,
+        consumer_secret => 'kd94hf93k423kf44',
+    );
+
+    if (!$request->verify) {
+        die "Signature verification failed";
+    }
+    else {
+        # Service Provider sends Request Token Response
+
+        my $response = Net::OAuth->response("request token")->new( 
+            token => 'abcdef',
+            token_secret => '0123456',
+        );
+
+        print $response->to_post_body;
+    }    
+
+    # Etc..
 
 =head1 ABSTRACT
 
@@ -363,14 +363,14 @@ You can silence this warning by setting:
 
 Following is an example of decoding some UTF-8 form data before sending it in an OAuth messaage (from the Twitter demo included in the Net::OAuth package):
 
-my $request = Net::OAuth->request("protected resource")->new(
-    $self->_default_request_params,
-    request_url => 'http://twitter.com/statuses/update.xml',
-    token => $self->session->param('token'),
-    token_secret => $self->session->param('token_secret'),
-    request_method => 'POST',
-    extra_params => {status => decode_utf8($self->query->param('status'))}
-);
+    my $request = Net::OAuth->request("protected resource")->new(
+        $self->_default_request_params,
+        request_url => 'http://twitter.com/statuses/update.xml',
+        token => $self->session->param('token'),
+        token_secret => $self->session->param('token_secret'),
+        request_method => 'POST',
+        extra_params => {status => decode_utf8($self->query->param('status'))}
+    );
 
 =head1 DEMO
 
@@ -392,7 +392,7 @@ Keith Grennan, C<< <kgrennan at cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2007 Keith Grennan, all rights reserved.
+Copyright 2009 Keith Grennan, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
