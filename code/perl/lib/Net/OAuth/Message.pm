@@ -291,8 +291,10 @@ sub to_url {
         $url = $url->clone; # don't modify the URL that was passed in
         $url->query(undef); # remove any existing query params, as these may cause the signature to break	
 		my $params = $self->to_hash;
+		my $sep = '?';
 		foreach my $k (sort keys %$params) {
-			$url->query_param($k, $params->{$k});
+		    $url .= $sep . encode($k) . '=' . encode( $params->{$k} );
+            $sep = '&' if $sep eq '?';
 		}
 		return $url;
 	}
