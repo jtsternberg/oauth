@@ -2,14 +2,6 @@ package Net::OAuth::RequestTokenRequest;
 use warnings;
 use strict;
 use base 'Net::OAuth::Request';
-use Net::OAuth;
-
-if ($Net::OAuth::PROTOCOL_VERSION == Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
-    __PACKAGE__->add_optional_message_params(qw/callback/);
-}
-elsif ($Net::OAuth::PROTOCOL_VERSION > Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
-    __PACKAGE__->add_required_message_params(qw/callback/);
-}
 
 sub sign_message {1}
 

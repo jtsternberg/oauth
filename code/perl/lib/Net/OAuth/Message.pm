@@ -52,10 +52,24 @@ sub new {
     my $proto = shift;
     my $class = ref $proto || $proto;
     my %params = @_;
+    $class = get_versioned_class($class, \%params);
     my $self = bless \%params, $class;
     $self->set_defaults;
     $self->check;
     return $self;
+}
+
+sub get_versioned_class {
+    my $class = shift;
+    my $params = shift;
+    my $protocol_version = $params->{protocol_version} || $Net::OAuth::PROTOCOL_VERSION;
+    if (defined $protocol_version and $protocol_version == Net::OAuth::PROTOCOL_VERSION_1_0A) {
+        (my $versioned_class = $class) =~ s/::(\w+)$/::V1_0A::$1/;
+        if ($versioned_class->require) {
+            return $versioned_class;
+        }
+    }
+    return $class;
 }
 
 sub set_defaults {

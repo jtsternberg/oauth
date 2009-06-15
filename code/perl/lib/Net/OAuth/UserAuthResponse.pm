@@ -6,13 +6,6 @@ use Net::OAuth;
 
 sub allow_extra_params {1}
 
-if ($Net::OAuth::PROTOCOL_VERSION == Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
-    __PACKAGE__->add_optional_message_params(qw/verifier/);
-}
-elsif ($Net::OAuth::PROTOCOL_VERSION > Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
-    __PACKAGE__->add_required_message_params(qw/verifier/);
-}
-
 =head1 NAME
 
 Net::OAuth::UserAuthResponse - An OAuth protocol response for an Access Token

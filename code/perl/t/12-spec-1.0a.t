@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 22;
+use Test::More tests => 25;
 
 BEGIN {
     use Net::OAuth;
@@ -28,6 +28,8 @@ $request->sign;
 
 ok($request->verify);
 
+ok($request->isa('Net::OAuth::V1_0A::RequestTokenRequest'));
+
 eval {
     Net::OAuth::RequestTokenRequest->new(
             consumer_key => 'dpf43f3p2l4k3l03',
@@ -40,7 +42,24 @@ eval {
     );
 };
 
-ok($@);
+ok($@, 'should complain about missing callback parameter');
+
+my $v1req;
+eval {
+    $v1req = Net::OAuth::RequestTokenRequest->new(
+            consumer_key => 'dpf43f3p2l4k3l03',
+            consumer_secret => 'kd94hf93k423kf44',
+            request_url => 'https://photos.example.net/request_token',
+            request_method => 'POST',
+            signature_method => 'PLAINTEXT',
+            timestamp => '1191242090',
+            nonce => 'hsu94j3884jdopsl',
+            protocol_version => Net::OAuth::PROTOCOL_VERSION_1_0,
+    );
+};
+
+ok(!$@, 'override default protocol version to produce v1.0 message');
+ok(!$v1req->isa('Net::OAuth::V1_0A::RequestTokenRequest'));
 
 sub sort_uri {
 	my $uri = shift;
