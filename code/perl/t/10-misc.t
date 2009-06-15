@@ -1,9 +1,10 @@
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 4;
 
 BEGIN {
-    use_ok( 'Net::OAuth' );
+    use Net::OAuth;
+    $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0;
 }
 
 my $request = Net::OAuth->request('user auth')->new(
