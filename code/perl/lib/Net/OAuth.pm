@@ -51,6 +51,7 @@ Net::OAuth - OAuth protocol support
     # Consumer sends Request Token Request
 
     use Net::OAuth;
+    $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
     use HTTP::Request::Common;
     my $ua = LWP::UserAgent->new;
 
@@ -62,6 +63,7 @@ Net::OAuth - OAuth protocol support
         signature_method => 'HMAC-SHA1',
         timestamp => '1191242090',
         nonce => 'hsu94j3884jdopsl',
+        callback => 'http://printer.example.com/request_token_ready',
         extra_params => {
             apple => 'banana',
             kiwi => 'pear',
@@ -86,6 +88,7 @@ Net::OAuth - OAuth protocol support
     # Service Provider receives Request Token Request
 
     use Net::OAuth;
+    $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
     use CGI;
     my $q = new CGI;
 
@@ -104,6 +107,7 @@ Net::OAuth - OAuth protocol support
         my $response = Net::OAuth->response("request token")->new( 
             token => 'abcdef',
             token_secret => '0123456',
+            callback_confirmed => 'true',
         );
 
         print $response->to_post_body;
@@ -266,20 +270,20 @@ Any query parameters in the request_url are removed and added to the extra_param
 
 E.g. the following requests are pretty much equivalent:
 
-    my $request = Net::OAuth->request('Request Token')->new(
-		%params,
-    	request_url => 'https://photos.example.net/request_token',
-    	extra_params => {
-    	    foo => 'bar'
-    	},
-    );
+ my $request = Net::OAuth->request('Request Token')->new(
+  %params,
+  request_url => 'https://photos.example.net/request_token',
+  extra_params => {
+   foo => 'bar'
+  },
+);
 
-    my $request = Net::OAuth->request('Request Token')->new(
-		%params,
-    	request_url => 'https://photos.example.net/request_token?foo=bar',
-    );
-    
-$request->request_url will still return whatever you gave it. If you want to get the request_url with the query parameters removed, you can do:
+ my $request = Net::OAuth->request('Request Token')->new(
+  %params,
+  request_url => 'https://photos.example.net/request_token?foo=bar',
+ );
+
+Calling $request->request_url will still return whatever you set it to originally. If you want to get the request_url with the query parameters removed, you can do:
 
     my $url = $request->normalized_request_url;
 
@@ -375,6 +379,49 @@ Following is an example of decoding some UTF-8 form data before sending it in an
         request_method => 'POST',
         extra_params => {status => decode_utf8($self->query->param('status'))}
     );
+
+=head2 OAUTH 1.0A
+
+Background:
+
+L<http://mojodna.net/2009/05/20/an-idiots-guide-to-oauth-10a.html>
+
+L<http://oauth.googlecode.com/svn/spec/core/1.0a/drafts/3/oauth-core-1_0a.html>
+
+Net::OAuth defaults to OAuth 1.0 spec compliance, and supports OAuth 1.0 Rev A with an optional switch:
+
+ use Net::OAuth
+ $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
+
+It is recommended that any new projects use this switch if possible, and existing projects move to supporting this switch as soon as possible.  Probably the easiest way for existing projects to do this is to turn on the switch and run your test suite.  The Net::OAuth constructor will throw an exception where the new protocol parameters (callback, callback_confirmed, verifier) are missing.
+
+Internally, the Net::OAuth::Message constructor checks $Net::OAuth::PROTOCOL_VERSION and attempts to load the equivalent subclass in the Net::OAuth::V1_0A:: namespace.  So if you instantiate a Net::OAuth::RequestTokenRequest object, you will end up with a Net::OAuth::V1_0A::RequestTokenRequest (a subclass of Net::OAuth::RequestTokenRequest) if the protocol version is set to PROTOCOL_VERSION_1_0A.  You can also select a 1.0a subclass on a per-message basis by passing 
+    
+    protocol_version => Net::OAuth::PROTOCOL_VERSION_1_0A
+
+in the API parameters hash.
+
+If you are not sure whether the entity you are communicating with is 1.0A compliant, you can try instantiating a 1.0A message first and then fall back to 1.0 if that fails:
+
+    use Net::OAuth
+    $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
+    my $is_oauth_1_0 = 0;
+    my $response = eval{Net::OAuth->response('request token')->from_post_body($res->content)};
+    if ($@) {
+        if ($@ =~ /Missing required parameter 'callback_confirmed'/) {
+            # fall back to OAuth 1.0
+            $response = Net::OAuth->response('request token')->from_post_body(
+                $res->content, 
+                protocol_version => Net::OAuth::PROTOCOL_VERSION_1_0
+            );
+            $is_oauth_1_0 = 1; # from now on treat the server as OAuth 1.0 compliant
+        }
+        else {
+            die $@;
+        }
+    }
+
+At some point in the future, Net::OAuth will default to Net::OAuth::PROTOCOL_VERSION_1_0A.
 
 =head1 DEMO
 
