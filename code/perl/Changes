@@ -53,9 +53,11 @@ Revision history for Net-OAuth
 	Add POD for consumer requests
 
 0.15    Fri, 05 Jun 2009 00:48:07 UTC
-	Add Twitter demo consumer
+	Added Twitter demo consumer
 	Warn if message parameter is already UTF-8 that it will be double-encoded; see I18N section of Net::OAuth manpage
 	Better handling of missing 'realm' parameter in Authorization header methods
 	Better handling of request_url parameter; see REQUEST_URL PARAMETER section of Net::OAuth manpage
-	Fix http://rt.cpan.org/Public/Bug/Display.html?id=44699 - encode spaces to %20 rather than + in $message->to_url()
+	Fixed http://rt.cpan.org/Public/Bug/Display.html?id=44699 - encode spaces to %20 rather than + in $message->to_url()
 
+0.16   Mon, 15 Jun 2009 18:36:17 UTC
+  Added support for OAuth 1.0A - see POD section 'OAUTH 1.0A' for details - Net::OAuth still defaults to 1.0 for now

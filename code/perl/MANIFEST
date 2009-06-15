@@ -13,13 +13,10 @@ demos/twitter/.htaccess
 demos/twitter/config.yml
 demos/twitter/default.html
 demos/twitter/dispatch.cgi
-demos/twitter/ids.txt
-demos/twitter/ids2.txt
 demos/twitter/LICENSE.txt
 demos/twitter/oauth-demo.zip
 demos/twitter/OAuthDemo.pm
 demos/twitter/README.txt
-demos/twitter/toyota.xml
 demos/twitter/wrapper.html
 lib/Net/OAuth.pm
 lib/Net/OAuth/AccessTokenRequest.pm
@@ -36,6 +33,10 @@ lib/Net/OAuth/SignatureMethod/PLAINTEXT.pm
 lib/Net/OAuth/SignatureMethod/RSA_SHA1.pm
 lib/Net/OAuth/UserAuthRequest.pm
 lib/Net/OAuth/UserAuthResponse.pm
+lib/Net/OAuth/V1_0A/AccessTokenRequest.pm
+lib/Net/OAuth/V1_0A/RequestTokenRequest.pm
+lib/Net/OAuth/V1_0A/RequestTokenResponse.pm
+lib/Net/OAuth/V1_0A/UserAuthResponse.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
@@ -49,5 +50,6 @@ t/06-factory.t
 t/07-consumer-request.t
 t/09-encoding.t
 t/10-misc.t
+t/11-spec-1.0a.t
 t/rsakey
 t/rsakey.pub
