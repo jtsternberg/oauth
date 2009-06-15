@@ -5,6 +5,8 @@ use warnings;
 use Test::More tests => 6;
 
 BEGIN {
+    use Net::OAuth;
+    $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0;
     use_ok( 'Net::OAuth::Request' );
     use_ok( 'Net::OAuth::Response' );
     use_ok( 'Net::OAuth::UserAuthRequest' );

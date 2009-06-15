@@ -1,9 +1,13 @@
 package Net::OAuth::ProtectedResourceRequest;
 use warnings;
 use strict;
-use base 'Net::OAuth::AccessTokenRequest';
+use base 'Net::OAuth::Request';
 
+__PACKAGE__->add_required_message_params(qw/token/);
+__PACKAGE__->add_required_api_params(qw/token_secret/);
 sub allow_extra_params {1}
+sub sign_message {1}
+
 
 =head1 NAME
 

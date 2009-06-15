@@ -3,8 +3,13 @@ use warnings;
 use strict;
 use UNIVERSAL::require;
 
+sub PROTOCOL_VERSION_1_0() {1}
+sub PROTOCOL_VERSION_1_0A_COMPAT() {1.01}
+sub PROTOCOL_VERSION_1_0A() {1.02}
+
 our $VERSION = '0.15';
 our $SKIP_UTF8_DOUBLE_ENCODE_CHECK = 0;
+our $PROTOCOL_VERSION = PROTOCOL_VERSION_1_0A_COMPAT;
 
 sub request {
     my $self = shift;

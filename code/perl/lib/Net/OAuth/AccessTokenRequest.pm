@@ -2,6 +2,14 @@ package Net::OAuth::AccessTokenRequest;
 use warnings;
 use strict;
 use base 'Net::OAuth::Request';
+use Net::OAuth;
+
+if ($Net::OAuth::PROTOCOL_VERSION == Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
+    __PACKAGE__->add_optional_message_params(qw/verifier/);
+}
+elsif ($Net::OAuth::PROTOCOL_VERSION > Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
+    __PACKAGE__->add_required_message_params(qw/verifier/);
+}
 
 __PACKAGE__->add_required_message_params(qw/token/);
 __PACKAGE__->add_required_api_params(qw/token_secret/);

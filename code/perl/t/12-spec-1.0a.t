@@ -2,18 +2,16 @@
 
 use strict;
 use warnings;
-use Test::More tests => 20;
+use Test::More tests => 22;
 
 BEGIN {
     use Net::OAuth;
-    $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0;
+    $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
     use_ok( 'Net::OAuth::Request' );
 	use_ok( 'Net::OAuth::RequestTokenRequest' );
 	use_ok( 'Net::OAuth::AccessTokenRequest' );
 	use_ok( 'Net::OAuth::ProtectedResourceRequest' );
 }
-
-diag( "Testing Net::OAuth $Net::OAuth::VERSION, Perl $], $^X" );
 
 my $request = Net::OAuth::RequestTokenRequest->new(
         consumer_key => 'dpf43f3p2l4k3l03',
@@ -23,13 +21,26 @@ my $request = Net::OAuth::RequestTokenRequest->new(
         signature_method => 'PLAINTEXT',
         timestamp => '1191242090',
         nonce => 'hsu94j3884jdopsl',
+        callback => 'http://printer.example.com/request_token_ready',
 );
 
 $request->sign;
 
 ok($request->verify);
 
-is($request->to_post_body, 'oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0');
+eval {
+    Net::OAuth::RequestTokenRequest->new(
+            consumer_key => 'dpf43f3p2l4k3l03',
+            consumer_secret => 'kd94hf93k423kf44',
+            request_url => 'https://photos.example.net/request_token',
+            request_method => 'POST',
+            signature_method => 'PLAINTEXT',
+            timestamp => '1191242090',
+            nonce => 'hsu94j3884jdopsl',
+    );
+};
+
+ok($@);
 
 sub sort_uri {
 	my $uri = shift;
@@ -38,7 +49,9 @@ sub sort_uri {
 	return join('?', @uri, join('&', @query));
 }
 
-is(sort_uri($request->to_url), sort_uri('https://photos.example.net/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0&oauth_nonce=hsu94j3884jdopsl'));
+is(sort_uri($request->to_post_body), sort_uri('oauth_callback=http%3A%2F%2Fprinter.example.com%2Frequest_token_ready&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0'));
+
+is(sort_uri($request->to_url), sort_uri('https://photos.example.net/request_token?oauth_callback=http%3A%2F%2Fprinter.example.com%2Frequest_token_ready&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_signature_method=PLAINTEXT&oauth_signature=kd94hf93k423kf44%26&oauth_timestamp=1191242090&oauth_nonce=hsu94j3884jdopsl&oauth_version=1.0'));
 
 # fanciness
 $request = $request->from_url($request->to_url, 
@@ -47,7 +60,7 @@ $request = $request->from_url($request->to_url,
     request_method => 'POST',
 );
 
-is(sort_uri($request->to_url('https://someothersite.example.com/request_token')), sort_uri('https://someothersite.example.com/request_token?oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0'));
+is(sort_uri($request->to_url('https://someothersite.example.com/request_token')), sort_uri('https://someothersite.example.com/request_token?oauth_callback=http%3A%2F%2Fprinter.example.com%2Frequest_token_ready&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_signature_method=PLAINTEXT&oauth_signature=kd94hf93k423kf44%26&oauth_timestamp=1191242090&oauth_nonce=hsu94j3884jdopsl&oauth_version=1.0'));
 
 $request = Net::OAuth::AccessTokenRequest->new(
         consumer_key => 'dpf43f3p2l4k3l03',
@@ -59,13 +72,30 @@ $request = Net::OAuth::AccessTokenRequest->new(
         nonce => 'dji430splmx33448',
         token => 'hh5s93j4hdidpola',
         token_secret => 'hdhd0244k9j7ao03',
+        verifier => 'hfdp7dh39dks9884',
 );
 
 $request->sign;
 
 ok($request->verify);
 
-is($request->to_post_body, 'oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=dji430splmx33448&oauth_signature=kd94hf93k423kf44%26hdhd0244k9j7ao03&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242092&oauth_token=hh5s93j4hdidpola&oauth_version=1.0');
+eval {
+    Net::OAuth::AccessTokenRequest->new(
+            consumer_key => 'dpf43f3p2l4k3l03',
+            consumer_secret => 'kd94hf93k423kf44',
+            request_url => 'https://photos.example.net/access_token',
+            request_method => 'POST',
+            signature_method => 'PLAINTEXT',
+            timestamp => '1191242092',
+            nonce => 'dji430splmx33448',
+            token => 'hh5s93j4hdidpola',
+            token_secret => 'hdhd0244k9j7ao03',
+    );
+};
+
+ok($@);
+
+is(sort_uri($request->to_post_body), sort_uri('oauth_consumer_key=dpf43f3p2l4k3l03&oauth_token=hh5s93j4hdidpola&oauth_signature_method=PLAINTEXT&oauth_signature=kd94hf93k423kf44%26hdhd0244k9j7ao03&oauth_timestamp=1191242092&oauth_nonce=dji430splmx33448&oauth_verifier=hfdp7dh39dks9884&oauth_version=1.0'));
 
 $request = Net::OAuth::ProtectedResourceRequest->new(
         consumer_key => 'dpf43f3p2l4k3l03',
@@ -110,14 +140,15 @@ $request = Net::OAuth::RequestTokenRequest->new(
         signature_method => 'HMAC-SHA1',
         timestamp => '1191242090',
         nonce => 'hsu94j3884jdopsl',
+        callback => 'http://printer.example.com/request_token_ready',
 );
 
 $request->sign;
 
 ok($request->verify);
 
-is($request->signature_base_string, 'POST&https%3A%2F%2Fphotos.example.net%2Frequest_token&oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dhsu94j3884jdopsl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242090%26oauth_version%3D1.0');
-is($request->signature, 'mBRi0bX78DgCdolSsSYibIGen7U=');
+is($request->signature_base_string, 'POST&https%3A%2F%2Fphotos.example.net%2Frequest_token&oauth_callback%3Dhttp%253A%252F%252Fprinter.example.com%252Frequest_token_ready%26oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dhsu94j3884jdopsl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242090%26oauth_version%3D1.0');
+is($request->signature, 'Uzhous9sjMdWH6Gte4VToiNQtMc=');
 
 $request = Net::OAuth::ProtectedResourceRequest->new(
         consumer_key => 'dpf43f3p2l4k3l03',
