@@ -59,4 +59,3 @@ Revision history for Net-OAuth
 	Better handling of request_url parameter; see REQUEST_URL PARAMETER section of Net::OAuth manpage
 	Fix http://rt.cpan.org/Public/Bug/Display.html?id=44699 - encode spaces to %20 rather than + in $message->to_url()
 
-

@@ -2,21 +2,13 @@ package Net::OAuth::RequestTokenResponse;
 use warnings;
 use strict;
 use base 'Net::OAuth::Response';
-use Net::OAuth;
-
-if ($Net::OAuth::PROTOCOL_VERSION == Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
-    __PACKAGE__->add_optional_message_params(qw/callback_confirmed/);
-}
-elsif ($Net::OAuth::PROTOCOL_VERSION > Net::OAuth::PROTOCOL_VERSION_1_0A_COMPAT) {
-    __PACKAGE__->add_required_message_params(qw/callback_confirmed/);
-}
 
 __PACKAGE__->add_required_message_params(qw/token_secret/);
 sub allow_extra_params {1}
 
 =head1 NAME
 
-Net::OAuth::RequestTokenResponse - An OAuth protocol response for an Access Token
+Net::OAuth::RequestTokenResponse - An OAuth protocol response for an Request Token
 
 =head1 SEE ALSO
 
