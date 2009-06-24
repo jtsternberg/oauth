@@ -12,10 +12,10 @@
   <?rfc compact="yes" ?>
   <?rfc subcompact="no" ?>
   <?rfc iprnotified="no" ?>
-  <?rfc private="Implementer Draft" ?>
+  <?rfc private="Final" ?>
 
   <front>
-    <title>OAuth Core 1.0 Rev A (Draft 3)</title>
+    <title>OAuth Core 1.0 Revision A</title>
 
     <author initials="" surname="OAuth" fullname="OAuth Core Workgroup">
       <organization />
