@@ -61,3 +61,6 @@ Revision history for Net-OAuth
 
 0.16   Mon, 15 Jun 2009 18:36:17 UTC
   Added support for OAuth 1.0A - see POD section 'OAUTH 1.0A' for details - Net::OAuth still defaults to 1.0 for now
+
+0.17   Thu, 25 Jun 2009 16:59:50 UTC
+  Fixed https://rt.cpan.org/Public/Bug/Display.html?id=47293 - Message->from_hash was validating using the incorrect class, causing a 'Parameter X not valid for a message of type Y' message on V1.0a messages.  Thanks Jeff Dairiki!

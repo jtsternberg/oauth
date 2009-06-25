@@ -5,7 +5,7 @@ use base qw/Net::OAuth::Message/;
 use URI;
 use URI::QueryParam;
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 __PACKAGE__->mk_classdata(required_message_params => [qw/
     consumer_key

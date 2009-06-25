@@ -63,7 +63,7 @@ sub get_versioned_class {
     my $class = shift;
     my $params = shift;
     my $protocol_version = $params->{protocol_version} || $Net::OAuth::PROTOCOL_VERSION;
-    if (defined $protocol_version and $protocol_version == Net::OAuth::PROTOCOL_VERSION_1_0A) {
+    if (defined $protocol_version and $protocol_version == Net::OAuth::PROTOCOL_VERSION_1_0A and $class !~ /\::V1_0A\::/) {
         (my $versioned_class = $class) =~ s/::(\w+)$/::V1_0A::$1/;
         if ($versioned_class->require) {
             return $versioned_class;
@@ -240,13 +240,14 @@ sub from_hash {
 		die 'Expected a hash!';
 	}
     my %api_params = @_;
+    # need to do this earlier than Message->new because
+    # the below validation step needs the correct class.
+    # https://rt.cpan.org/Public/Bug/Display.html?id=47293
+    $class = get_versioned_class($class, \%api_params);
     my %msg_params;
     foreach my $k (keys %$hash) {
         if ($k =~ s/$OAUTH_PREFIX_RE//) {
-            if (!grep ($_ eq $k, @{$class->all_message_params})) {
-                die "Parameter ". OAUTH_PREFIX ."$k not valid for a message of type $class\n";
-            }
-            else {
+            if (grep ($_ eq $k, @{$class->all_message_params})) {
                 $msg_params{$k} = $hash->{OAUTH_PREFIX . $k};
             }
         }
