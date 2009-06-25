@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 26;
+use Test::More tests => 28;
 
 BEGIN {
     use Net::OAuth;
@@ -191,7 +191,20 @@ is($request->signature, 'tR3+Ty81lMeYAr/Fid0kMTYa/WM=');
 
 # Message->from_hash should validate the message using the correct class
 # https://rt.cpan.org/Public/Bug/Display.html?id=47293
+
+$Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0;
+
+my $response = eval { Net::OAuth->response('request token')
+                ->from_post_body('oauth_token=abc&oauth_token_secret=def&oauth_callback_confirmed=true') };
+ok($@);
+
+$response = Net::OAuth->response('request token')
+                ->from_post_body('oauth_token=abc&oauth_token_secret=def&oauth_callback_confirmed=true',
+                    protocol_version => Net::OAuth::PROTOCOL_VERSION_1_0A
+                );
+ok($response);
+
 $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
-my $response = Net::OAuth->response('request token')
+$response = Net::OAuth->response('request token')
                 ->from_post_body('oauth_token=abc&oauth_token_secret=def&oauth_callback_confirmed=true');
 ok($response);

@@ -64,3 +64,6 @@ Revision history for Net-OAuth
 
 0.17   Thu, 25 Jun 2009 16:59:50 UTC
   Fixed https://rt.cpan.org/Public/Bug/Display.html?id=47293 - Message->from_hash was validating using the incorrect class, causing a 'Parameter X not valid for a message of type Y' message on V1.0a messages.  Thanks Jeff Dairiki!
+
+0.18   Thu, 25 Jun 2009 17:18:04 UTC
+    Fixed accidental (though probably harmless) regression in 0.17
