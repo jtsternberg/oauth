@@ -247,7 +247,10 @@ sub from_hash {
     my %msg_params;
     foreach my $k (keys %$hash) {
         if ($k =~ s/$OAUTH_PREFIX_RE//) {
-            if (grep ($_ eq $k, @{$class->all_message_params})) {
+            if (!grep ($_ eq $k, @{$class->all_message_params})) {
+               die "Parameter ". OAUTH_PREFIX ."$k not valid for a message of type $class\n";
+            }
+            else {
                 $msg_params{$k} = $hash->{OAUTH_PREFIX . $k};
             }
         }
