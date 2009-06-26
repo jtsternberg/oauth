@@ -49,7 +49,8 @@ $request = Net::OAuth->request('Request Token')->from_hash(
 			oauth_consumer_key => 'dpf43f3p2l4k3l03',
         	oauth_signature_method => 'PLAINTEXT',
         	oauth_timestamp => '1191242090',
-        	oauth_nonce => 'hsu94j3884jdopsl'
+        	oauth_nonce => 'hsu94j3884jdopsl',
+        	oauth_version => '1.0',
 		},
     	consumer_secret => 'kd94hf93k423kf44',
     	request_url => 'https://photos.example.net/request_token',
@@ -70,6 +71,7 @@ $request = Net::OAuth->request('Protected Resource')->from_hash(
         oauth_nonce => 'kllo9940pd9333jh',
         oauth_token => 'nnch734d00sl2jdk',
 		oauth_signature => 'tR3+Ty81lMeYAr/Fid0kMTYa/WM=',
+    	oauth_version => '1.0',
         file => 'vacation.jpg',
         size => 'original',
 	},

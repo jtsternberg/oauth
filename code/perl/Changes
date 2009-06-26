@@ -67,3 +67,7 @@ Revision history for Net-OAuth
 
 0.18   Thu, 25 Jun 2009 17:18:04 UTC
     Fixed accidental (though probably harmless) regression in 0.17
+
+0.19   Fri, 26 Jun 2009 17:30:06 UTC
+    Fixed https://rt.cpan.org/Ticket/Display.html?id=47369 - Don't automatically set oauth_version parameter when message is created via from_hash (or from_url, from_post_body, etc).  Thanks COSIMO!
+    
