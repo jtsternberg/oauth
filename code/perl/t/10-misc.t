@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 BEGIN {
     use Net::OAuth;
@@ -35,5 +35,24 @@ $request = Net::OAuth->request('Request Token')->new(
     	},
 );
 
+$request->sign;
 
-is($request->to_url(), 'https://photos.example.net/request_token?foo=this%20value%20contains%20spaces&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0');
+is($request->to_url(), 'https://photos.example.net/request_token?foo=this%20value%20contains%20spaces&oauth_consumer_key=dpf43f3p2l4k3l03&oauth_nonce=hsu94j3884jdopsl&oauth_signature=kd94hf93k423kf44%26&oauth_signature_method=PLAINTEXT&oauth_timestamp=1191242090&oauth_version=1.0');
+
+
+# https://rt.cpan.org/Ticket/Display.html?id=47369
+# Make sure signature works without oauth_version
+$request = Net::OAuth->request('request_token')->from_hash(
+  {
+      "oauth_signature" => "lcdJGdH4NRntuelnX+pAoxtIcLY=",
+      "oauth_timestamp" => "1246037243",
+      "oauth_nonce" => "288f21",
+      "oauth_consumer_key" => "myKey",
+      "oauth_signature_method" => "HMAC-SHA1"  
+  },
+  consumer_secret => 'mySecret',
+  request_method => 'POST',
+  request_url => 'http://localhost/provider/request-token.cgi',
+);
+
+ok($request->verify);

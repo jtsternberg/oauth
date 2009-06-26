@@ -75,7 +75,7 @@ sub get_versioned_class {
 sub set_defaults {
     my $self = shift;
     $self->{extra_params} ||= {};
-    $self->{version} ||= '1.0';
+    $self->{version} ||= Net::OAuth::OAUTH_VERSION unless $self->{from_hash};
 }
 
 sub is_extension_param {
@@ -136,7 +136,8 @@ sub gather_message_parameters {
     foreach my $k (@{$self->required_message_params}, @{$self->optional_message_params}, @{$opts{add}}) {
         next if $k eq 'signature' and (!$self->sign_message or !grep ($_ eq 'signature', @{$opts{add}}));
         my $message_key = $self->is_extension_param($k) ? $k : OAUTH_PREFIX . $k;
-        $params{$message_key} = $self->$k;
+        my $v = $self->$k;
+        $params{$message_key} = $v if defined $v;
     }
     if ($self->{extra_params} and !$opts{no_extra} and $self->allow_extra_params) {
         foreach my $k (keys %{$self->{extra_params}}) {
@@ -157,7 +158,7 @@ sub gather_message_parameters {
     while (my ($k,$v) = each %params) {
         push @pairs, join('=', encode($k), $opts{quote} . encode($v) . $opts{quote});
     }
-    return sort(@pairs); # sort not required here but makes module more testable
+    return sort(@pairs);
 }
 
 sub normalized_message_parameters {
@@ -266,6 +267,7 @@ sub from_hash {
             $msg_params{extra_params}->{$k} = $hash->{$k};
         }
     }
+    $api_params{from_hash} = 1;
     return $class->new(%msg_params, %api_params);
 }
 
