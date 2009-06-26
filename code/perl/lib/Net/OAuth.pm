@@ -94,7 +94,7 @@ Net::OAuth - OAuth protocol support
     use CGI;
     my $q = new CGI;
 
-    my $request = Net::OAuth->request("request token")->from_hash($q->Vars,
+    my $request = Net::OAuth->request("request token")->from_hash({$q->Vars},
         request_url => 'https://photos.example.net/request_token',
         request_method => $q->request_method,
         consumer_secret => 'kd94hf93k423kf44',
@@ -203,9 +203,9 @@ The more verbose way is to use the class directly:
 
 You can also create a message by deserializing it from a Authorization header, URL, query hash, or POST body
 
- $request = Net::OAuth->request('protected resource')->from_authorization_header($header, %api_params);
+ $request = Net::OAuth->request('protected resource')->from_authorization_header($ENV{HTTP_AUTHORIZATION}, %api_params);
  $request = Net::OAuth->request('protected resource')->from_url($url, %api_params);
- $request = Net::OAuth->request('protected resource')->from_hash($q->Vars, %api_params); # CGI
+ $request = Net::OAuth->request('protected resource')->from_hash({$q->Vars}, %api_params); # CGI
  $request = Net::OAuth->request('protected resource')->from_hash($c->request->params, %api_params); # Catalyst
  $response = Net::OAuth->response('request token')->from_post_body($response_content, %api_params);
 
@@ -438,6 +438,27 @@ Check out L<Net::OAuth::Simple> - it has a simpler API that may be more to your 
 Check out L<Net::Twitter::OAuth> for a Twitter-specific OAuth API
 
 Check out L<WWW::Netflix::API> for a Netflix-specific OAuth API
+
+=head1 TODO
+
+=over
+
+=item * Support for repeating/multivalued parameters
+
+=item * Add convenience methods for SPs
+
+Something like:
+    
+    # direct from CGI.pm object
+    Net::OAuth->request('Request Token')->from_cgi_query($cgi, %api_params);
+    
+    # direct from Catalyst::Request object
+    Net::OAuth->request('Request Token')->from_catalyst_request($c->req, %api_params); 
+    
+    # from Auth header and GET/POST params in one
+    Net::OAuth->request('Request Token')->from_auth_and_params($ENV{HTTP_AUTHORIZATION}, $params, %api_params)
+
+=back
 
 =head1 AUTHOR
 
