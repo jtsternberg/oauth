@@ -252,7 +252,7 @@ History:
 			<cfset oResultRequest = CreateObject("component", "oauthrequest").init(
 				sHttpMethod = variables.sHttpMethod,
 				sHttpURL = variables.sHttpURL,
-				stParameters = variables.stParameters)>
+				stParameters = arguments.stParameters)>
 
 	    <!--- next check for the auth header, we need to do some extra stuff
 		    if that is the case, namely suck in the parameters from GET or POST
