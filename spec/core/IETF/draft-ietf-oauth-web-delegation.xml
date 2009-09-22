@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
+
+<rfc category="std" ipr="trust200902" docName="draft-ietf-oauth-web-delegation-02">
+
+  <?rfc strict="yes" ?>
+  <?rfc toc="yes" ?>
+  <?rfc tocdepth="3" ?>
+  <?rfc symrefs="yes" ?>
+  <?rfc sortrefs="yes" ?>
+  <?rfc compact="yes" ?>
+  <?rfc subcompact="no" ?>
+
+  <front>
+    
+    <title abbrev="OAuth">The OAuth Protocol: Web Delegation</title>
+
+    <author initials="E" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav" role="editor">
+      <organization>
+        Yahoo!
+      </organization>
+      <address>
+        <email>eran@hueniverse.com</email>
+        <uri>http://hueniverse.com</uri>
+      </address>
+    </author>
+
+    <date year="2009"/>
+
+    <abstract>
+      <t>
+        This document specifies the OAuth protocol web delegation method. OAuth allows clients
+        to access server resources on behalf of another party (such a different client or an end
+        user). This document defines a redirection-based user-agent process for end users to authorize
+        access to clients by substituting their credentials (typically, a username and password
+        pair) with a different set of delegation-specific credentials.
+      </t>
+    </abstract>
+
+  </front>
+  <middle>
+
+    <section title="Introduction">
+      <t>
+        The OAuth protocol provides a method for servers to allow third-party access to protected
+        resources, without forcing their end users to share their credentials. This pattern is
+		    common among services that allow third-party developers to extend the service functionality,
+		    by building applications using an open API.
+      </t>
+      <t>
+        For example, a web user (resource owner) can grant a printing service (client) access to
+        its private photos stored at a photo sharing service (server), without sharing its
+        credentials with the printing service. Instead, the user authenticates directly with
+        the photo sharing service and issue the printing service delegation-specific credentials.
+      </t>
+      <t>
+        OAuth introduces a third role to the traditional client-server authentication model: the
+        resource owner. In the OAuth model, the client requests access to resources hosted by the
+        server but not controlled by the client, but by the resource owner. In addition, OAuth
+        allows the server to verify not only the resource owner's credentials, but also those of
+        the client making the request.
+      </t>
+      <t>
+        In order for the client to access resources, it first has to obtain permission from the
+        resource owner. This permission is expressed in the form of a token and matching
+        shared-secret. The purpose of the token is to substitute the need for the resource owner to
+        share its server credentials (usually a username and password pair) with the client. Unlike
+        server credentials, tokens can be issued with a restricted scope and limited lifetime.
+      </t>
+      <t>
+        This specification consists of two parts. <xref target="draft-ietf-oauth-authentication" />
+        defines a method for making authenticated HTTP requests using two sets of credentials, one
+        identifying the client making the request, and a second identifying the resource owner on
+        whose behalf the request is being made.
+      </t>
+      <t>
+        This document defines a redirection-based user agent process for end users to authorize
+        client access to their resources, by authenticating directly with the server and
+        provisioning tokens to the client for use with the authentication method.
+      </t>
+
+      <section title="Terminology">
+        <t>
+          <list style="hanging" hangIndent="6">
+            <t hangText="client">
+              <vspace />
+              An HTTP client (per <xref target="RFC2616" />) capable of making
+              OAuth-authenticated requests per <xref target="draft-ietf-oauth-authentication" />.
+            </t>
+            <t hangText="server">
+              <vspace />
+              An HTTP server (per <xref target="RFC2616" />) capable of accepting
+              OAuth-authenticated requests per <xref target="draft-ietf-oauth-authentication" />.
+            </t>
+            <t hangText="protected resource">
+              <vspace />
+              An access-restricted resource (per <xref target="RFC2616" />) which can be obtained
+              from the server using an OAuth-authenticated request per
+              <xref target="draft-ietf-oauth-authentication" />.
+            </t>
+            <t hangText="resource owner">
+              <vspace />
+              An entity capable of accessing and controlling protected resources by using credentials
+              to authenticate with the server.
+            </t>
+            <t hangText="token">
+              <vspace />
+              An unique identifier issued by the server and used by the client to associate
+              authenticated requests with the resource owner whose authorization is requested or
+              has been obtained by the client. Tokens have a matching shared-secret that is used
+              by the client to establish its ownership of the token, and its authority to represent
+              the resource owner.
+            </t>
+          </list>
+        </t>
+      </section>
+      
+    </section>
+
+    <section title="Notational Conventions">
+      <t>
+        The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT",
+        "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in
+        <xref target="RFC2119" />.
+      </t>
+    </section>
+
+    <section title="Redirection-Based Authorization">
+      <t>
+        OAuth uses a set of token credentials to represent the authorization granted
+        to the client by the resource owner. Typically, token credentials are issued by the server
+        at the resource owner's request, after authenticating the resource owner's identity using
+        its server credentials (usually a username and password pair).
+      </t>
+      <t>
+        There are many ways in which a resource owner can facilitate the provisioning of token
+        credentials. This section defines one such way, using HTTP redirections and the resource
+        owner's user agent. This redirection-based authorization method includes three steps:
+
+        <list style="numbers">
+          <t>
+            The client obtains a set of temporary credentials from the server.
+          </t>
+          <t>
+            The resource owner authorizes the server to issue token credentials to the client
+            using the temporary credentials.
+          </t>
+          <t>
+            The client uses the temporary credentials to request a set of token credentials from
+            the server, which will enable it to access the resource owner's protected resources.
+            The temporary credentials discarded.
+          </t>
+        </list>
+      </t>
+      <t>
+        The temporary credentials MUST be revoked after being used once to obtain the token credentials.
+        It is RECOMMENDED that the temporary credentials have a limited lifetime. Servers SHOULD
+        enable resource owners to revoke token credentials after they have been issued to clients.
+      </t>
+      <t>
+        In order for the client to perform these steps, the server needs to advertise the URIs of
+        these three endpoints, as well as the HTTP method (GET, POST, etc.) used to make each requests.
+        To assist in communicating these endpoint, each is given a name:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="Temporary Credential Request">
+            <vspace />
+            The endpoint used by the client to obtain temporary credentials as described in
+            <xref target="auth_step1" />.
+          </t>
+          <t hangText="Resource Owner Authorization">
+            <vspace />
+            The endpoint to which the resource owner is redirected to grant authorization as
+            described in <xref target="auth_step2" />.
+          </t>
+          <t hangText="Token Request">
+            <vspace />
+            The endpoint used by the client to request a set of token credentials using the
+            temporary credentials as described in <xref target="auth_step3" />.
+          </t>
+        </list>
+      </t>
+      <t>
+        The three URIs MAY include a query component as defined by <xref target="RFC3986" />
+        section 3, but if present, the query MUST NOT contain any parameters beginning with the
+        <spanx style="verb">oauth_</spanx> prefix.
+      </t>
+      <t>
+        The method in which the server advertises its three endpoint is beyond the scope of this
+        specification.
+      </t>
+    </section>
+
+    <section title="Temporary Credentials" anchor="auth_step1">
+      <t>
+        The client obtains a set of temporary credentials from the server by making an
+        authenticated request per <xref target="draft-ietf-oauth-authentication" />.
+        The client MUST use the HTTP method advertised by the server. The HTTP POST method is RECOMMENDED.
+        The client constructs a request URI by adding the following parameter to the
+        Temporary Credential Request endpoint URI:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="oauth_callback:">
+            An absolute URL to which the server will redirect the resource owner back when the
+            Resource Owner Authorization step (<xref target="auth_step2" />) is completed. If the
+            client is unable to receive callbacks or a callback URI has been established via other
+            means, the parameter value MUST be set to <spanx style="verb">oob</spanx> (case sensitive),
+            to indicate an out-of-band configuration.
+          </t>
+          <t hangText="Servers MAY specify additional parameters.">
+          </t>
+        </list>
+      </t>
+      <t>
+        When making the request, the client authenticates using only the client credentials. The
+        client MUST omit the <spanx style="verb">oauth_token</spanx> protocol parameter from the
+        request and use an empty string as the token secret value.
+      </t>
+      <t>
+        The server MUST verify that the request is valid per <xref target="draft-ietf-oauth-authentication" />
+        and respond back to the client with a set of temporary credentials. The temporary credentials
+        are included in the HTTP response body using the
+        <spanx style="verb">application/x-www-form-urlencoded</spanx> content type as defined by
+        <xref target="W3C.REC-html40-19980424" />.
+      </t>
+      <t>
+        The response contains the following parameters:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="oauth_token">
+            <vspace />
+            The temporary credentials identifier.
+          </t>
+          <t hangText="oauth_token_secret">
+            <vspace />
+            The temporary credentials shared-secret.
+          </t>
+          <t hangText="oauth_callback_confirmed:">
+            MUST be present and set to <spanx style="verb">true</spanx>. The client
+            MAY use this to confirm that the server received the callback value.
+          </t>
+        </list>
+      </t>
+      <t>
+        Note that even though the parameter names include the term 'token', these credentials are
+        not token credentials, but are used in the next two steps in a similar manner to token
+        credentials.
+      </t>
+      <figure>
+        <preamble>
+          For example (line breaks are for display purposes only):
+        </preamble>
+        <artwork>
+  oauth_token=ab3cd9j4ks73hf7g&amp;oauth_token_secret=xyz4992k83j47x0b&amp;
+  oauth_callback_confirmed=true
+        </artwork>
+      </figure>
+    </section>
+
+    <section title="Resource Owner Authorization" anchor="auth_step2">
+      <t>
+        Before the client requests a set of token credentials from the server, it MUST send
+        the user to the server to authorize the request. The client constructs a request URI by
+        adding the following parameters to the Resource Owner Authorization endpoint URI:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="oauth_token">
+            <vspace />
+            REQUIRED. The temporary credentials identifier obtained in <xref target="auth_step1" />
+            in the <spanx style="verb">oauth_token</spanx> parameter. Servers MAY declare this
+            parameter as OPTIONAL, in which case they MUST provide a way for the resource owner
+            to indicate the identifier through other means.
+          </t>
+          <t hangText="Servers MAY specify additional parameters.">
+          </t>
+        </list>
+      </t>
+      <t>
+        The client redirects the resource owner to the constructed URI using an HTTP redirection
+        response, or by other means available to it via the resource owner's user agent. The
+        request MUST use the HTTP GET method.
+      </t>
+      <t>
+        The way in which the server handles the authorization request is beyond the scope of this
+        specification. However, the server MUST first verify the identity of the resource owner.
+	    </t>
+	    <t>
+        When asking the resource owner to authorize the requested access, the server SHOULD
+        present to the resource owner information about the client requesting access based on the
+        association of the temporary credentials with the client identity. When displaying any
+        such information, the server SHOULD indicate if the information has been verified.
+      </t>
+      <t>
+        After receiving an authorization decision from the resource owner, the server redirects
+        the resource owner to the callback URI if one was provided in the
+        <spanx style="verb">oauth_callback</spanx> parameter or by other means.
+      </t>
+      <t>
+        To make sure that the resource owner granting access is the same resource owner returning
+        back to the client to complete the process, the server MUST generate a verification code:
+        an unguessable value passed to the client via the resource owner and REQUIRED to complete
+        the process. The server constructs the request URI by adding the following parameter to the
+        callback URI query component:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="oauth_token">
+		        <vspace />
+            The temporary credentials identifier the resource owner authorized or denied access
+            to.
+          </t>
+          <t hangText="oauth_verifier:">
+            The verification code.
+          </t>
+        </list>
+        
+        If the callback URI already includes a query component, the server MUST append the
+        OAuth parameters to the end of the existing query.
+      </t>
+      <figure>
+        <preamble>
+          For example (line breaks are for display purposes only):
+        </preamble>
+        <artwork>
+  http://client.example.net/cb?state=1&amp;oauth_token=ab3cd9j4ks73hf7g&amp;
+  oauth_verifier=473829k9302sa
+        </artwork>
+      </figure>
+      <t>
+        If the client did not provide a callback URI, the server SHOULD display the value of the
+        verification code, and instruct the resource owner to manually inform the client that
+        authorization is completed. If the server knows a client to be running on a limited device
+        it SHOULD ensure that the verifier value is suitable for manual entry.
+      </t>
+    </section>
+
+    <section title="Token Credentials" anchor="auth_step3">
+      <t>
+        The client obtains a set of token credentials from the server by making an
+        authenticated request per <xref target="draft-ietf-oauth-authentication" />. The client
+        MUST use the HTTP method advertised by the server. The HTTP POST method is RECOMMENDED.
+        The client constructs a request URI by adding the following parameter to the
+        Token Request endpoint URI:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="oauth_verifier:">
+            The verification code received from the server in the previous step.
+          </t>
+        </list>
+      </t>
+      <t>
+        When making the request, the client authenticates using the client credentials as well as
+        the temporary credentials. The temporary credentials are used as a substitution for token
+        credentials in the authenticated request.
+      </t>
+      <t>
+        The server MUST verify the validity of the request per <xref target="draft-ietf-oauth-authentication" />,
+        ensure that the resource owner has authorized the provisioning of token credentials to
+        the client, and that the temporary credentials have not expired or used before. The server
+        MUST also verify the verification code received from the client. If the
+        request is valid and authorized, the token credentials are included in the HTTP response
+        body using the <spanx style="verb">application/x-www-form-urlencoded</spanx> content type
+        as defined by <xref target="W3C.REC-html40-19980424" />.
+      </t>
+      <t>
+        The response contains the following parameters:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="oauth_token">
+            <vspace />
+            The token identifier.
+          </t>
+          <t hangText="oauth_token_secret">
+            <vspace />
+            The token shared-secret.
+          </t>
+        </list>
+      </t>
+      <figure>
+        <preamble>
+          For example:
+        </preamble>
+        <artwork>
+  oauth_token=j49ddk933skd9dks&amp;oauth_token_secret=ll399dj47dskfjdk
+        </artwork>
+      </figure>
+      <t>
+        The token credentials issued by the server MUST reflect the exact scope, duration, and
+        other attributes approved by the resource owner.
+      </t>
+      <t>
+        Once the client receives the token credentials, it can proceed to access protected
+        resources on behalf of the resource owner by making an authenticated request per
+        <xref target="draft-ietf-oauth-authentication" /> using the client credentials and the
+        token credentials received.
+      </t>
+    </section>
+
+    <section title="IANA Considerations" anchor="IANA">
+      <t>
+        This memo includes no request to IANA.
+      </t>
+    </section>
+
+    <section title="Security Considerations" anchor="Security">
+      <t>
+        As stated in <xref target="RFC2617" />, the greatest sources of risks are usually found not
+        in the core protocol itself but in policies and procedures surrounding its use. Implementers
+        are strongly encouraged to assess how this protocol addresses their security requirements.
+      </t>
+
+      <section title="Credentials Transmission">
+        <t>
+          The OAuth specification does not describe any mechanism for protecting tokens and
+          shared-secrets from eavesdroppers when they are transmitted from the server to the
+          client during the authorization phase. Servers should ensure that these transmissions are
+          protected using transport-layer mechanisms such as TLS or SSL.
+        </t>
+      </section>
+
+      <section title="Phishing Attacks">
+        <t>
+          Wide deployment of OAuth and similar protocols may cause resource owners to become inured
+          to the practice of being redirected to websites where they are asked to enter their
+          passwords. If resource owners are not careful to verify the authenticity of these
+          websites before entering their credentials, it will be possible for attackers to exploit
+          this practice to steal resource owners' passwords.
+        </t>
+        <t>
+          Servers should attempt to educate resource owners about the risks phishing attacks pose,
+          and should provide mechanisms that make it easy for resource owners to confirm the
+          authenticity of their sites.
+        </t>
+      </section>
+
+      <section title="Scoping of Access Requests">
+        <t>
+          By itself, OAuth does not provide any method for scoping the access rights granted to a
+          client. However, most applications do require greater granularity of access rights. For
+          example, servers may wish to make it possible to grant access to some protected resources
+          but not others, or to grant only limited access (such as read-only access) to those
+          protected resources.
+        </t>
+        <t>
+          When implementing OAuth, servers should consider the types of access resource owners may
+          wish to grant clients, and should provide mechanisms to do so. Servers should also take
+          care to ensure that resource owners understand the access they are granting, as well as
+          any risks that may be involved.
+        </t>
+      </section>
+
+      <section title="Entropy of Secrets">
+        <t>
+          Unless a transport-layer security protocol is used, eavesdroppers will have full access
+          to OAuth requests and signatures, and will thus be able to mount offline brute-force
+          attacks to recover the credentials used. Servers should be careful to assign
+          shared-secrets which are long enough, and random enough, to resist such attacks for at
+          least the length of time that the shared-secrets are valid.
+        </t>
+        <t>
+          For example, if shared-secrets are valid for two weeks, servers should ensure that it is
+          not possible to mount a brute force attack that recovers the shared-secret in less than
+          two weeks. Of course, servers are urged to err on the side of caution, and use the longest
+          secrets reasonable.
+        </t>
+        <t>
+          It is equally important that the pseudo-random number generator (PRNG) used to generate
+          these secrets be of sufficiently high quality. Many PRNG implementations generate number
+          sequences that may appear to be random, but which nevertheless exhibit patterns or other
+          weaknesses which make cryptanalysis or brute force attacks easier. Implementers should be
+          careful to use cryptographically secure PRNGs to avoid these problems.
+        </t>
+      </section>
+
+      <section title="Denial of Service / Resource Exhaustion Attacks">
+        <t>
+          The OAuth protocol has a number of features which may make resource exhaustion attacks
+          against servers possible. For example, if a server includes a nontrivial amount of
+          entropy in token shared-secrets as recommended above, then an attacker may be able to
+          exhaust the server's entropy pool very quickly by repeatedly obtaining temporary credentials
+          from the server.
+        </t>
+        <t>
+          Similarly, OAuth requires servers to track used nonces. If an attacker is able to use
+          many nonces quickly, the resources required to track them may exhaust available capacity.
+          And again, OAuth can require servers to perform potentially expensive computations in
+          order to verify the signature on incoming requests. An attacker may exploit this to
+          perform a denial of service attack by sending a large number of invalid requests to the
+          server.
+        </t>
+        <t>
+          Resource Exhaustion attacks are by no means specific to OAuth. However, OAuth implementers
+          should be careful to consider the additional avenues of attack that OAuth exposes, and
+          design their implementations accordingly. For example, entropy starvation typically
+          results in either a complete denial of service while the system waits for new entropy or
+          else in weak (easily guessable) secrets. When implementing OAuth, servers should consider
+          which of these presents a more serious risk for their application and design accordingly.
+        </t>
+      </section>
+
+      <section title="Cross-Site Request Forgery (CSRF)">
+        <t>
+          Cross-Site Request Forgery (CSRF) is a web-based attack whereby HTTP requests
+          are transmitted from a user that the website trusts or has authenticated.
+          CSRF attacks on OAuth approvals can allow an attacker to obtain authorization to
+          protected resources without the consent of the User. Servers SHOULD strongly
+          consider best practices in CSRF prevention at all OAuth endpoints.
+        </t>
+        <t>
+          CSRF attacks on OAuth callback URIs hosted by client are also possible.
+          Clients should prevent CSRF attacks on OAuth callback URIs by verifying that
+          the resource owner at the client site intended to complete the OAuth negotiation with the
+          server.
+        </t>
+      </section>
+
+      <section title="User Interface Redress">
+        <t>
+          Servers should protect the authorization process against UI Redress attacks
+          (also known as "clickjacking"). As of the time of this writing, no complete defenses
+          against UI redress are available. Servers can mitigate the risk of UI
+          redress attacks through the following techniques:
+
+          <list style="symbols">
+            <t>Javascript frame busting.</t>
+            <t>Javascript frame busting, and requiring that browsers have javascript enabled on the authorization page.</t>
+            <t>Browser-specific anti-framing techniques.</t>
+            <t>Requiring password reentry before issuing OAuth tokens.</t>
+          </list>
+        </t>
+      </section>
+
+      <section title="Automatic Processing of Repeat Authorizations">
+        <t>
+          Servers may wish to automatically process authorization requests
+          (<xref target="auth_step2" />) from clients which have been previously
+          authorized by the resource owner. When the resource owner is redirected to the server
+          to grant access, the server detects that the resource owner has already granted
+          access to that particular client. Instead of prompting the resource owner for approval,
+          the server automatically redirects the resource owner back to the client.
+        </t>
+        <t>
+          If the client credentials are compromised, automatic processing creates additional
+          security risks. An attacker can use the stolen client credentials to redirect
+          the resource owner to the server with an authorization request. The server
+          will then grant access to the resource owner's data without the resource owner's
+          explicit approval, or even awareness of an attack. If no automatic approval is
+          implemented, an attacker must use social engineering to convince the resource owner to
+          approve access.
+        </t>
+        <t>
+          Servers can mitigate the risks associated with automatic processing by
+          limiting the scope of token credentials obtained through automated approvals. Tokens
+          credentials obtained through explicit resource owner consent can remain unaffected. clients
+          can mitigate the risks associated with automatic processing by protecting their client
+          credentials.
+        </t>
+      </section>
+
+    </section>
+
+    <appendix title="Examples">
+      <t>
+        In this example, photos.example.net is a photo sharing website (server), and
+        printer.example.com is a photo printing service (client). Jane (resource owner) would like
+        printer.example.com to print a private photo stored at photos.example.net.
+      </t>
+      <t>
+        When Jane signs-into photos.example.net using her username and password, she can access the
+        photo by requesting the URI <spanx style="verb">http://photos.example.net/photo?file=vacation.jpg</spanx>
+        (which also supports the optional <spanx style="verb">size</spanx> parameter).
+        Jane does not want to share her username and password with printer.example.com, but would
+        like it to access the photo and print it.
+      </t>
+      <t>
+        The server documentation advertises support for the <spanx style="verb">HMAC-SHA1</spanx>
+        and <spanx style="verb">PLAINTEXT</spanx> methods, with <spanx style="verb">PLAINTEXT</spanx>
+        restricted to secure (HTTPS) requests. It also advertises the following endpoint URIs:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="Temporary Credential Request">
+            <vspace />
+            https://photos.example.net/initiate, using HTTP POST
+          </t>
+          <t hangText="Resource Owner Authorization URI:">
+            <vspace />
+            http://photos.example.net/authorize, using HTTP GET
+          </t>
+          <t hangText="Token Request URI:">
+            <vspace />
+            https://photos.example.net/token, using HTTP POST
+          </t>
+        </list>
+      </t>
+      <t>
+        The printer.example.com has already established client credentials with photos.example.net:
+
+        <list style="hanging" hangIndent="6">
+          <t hangText="Client Identifier">
+            <vspace />
+            <spanx style="verb">dpf43f3p2l4k3l03</spanx>
+          </t>
+          <t hangText="Client Shared-Secret:">
+            <vspace />
+            <spanx style="verb">kd94hf93k423kf44</spanx>
+          </t>
+        </list>
+      </t>
+      <t>
+        When printer.example.com attempts to print the request photo, it receives an HTTP response
+        with a 401 (Unauthorized) status code, and a challenge to use OAuth:
+
+        <figure>
+          <artwork>
+  WWW-Authenticate: OAuth realm="http://photos.example.net/"
+          </artwork>
+        </figure>
+      </t>
+
+      <appendix title="Obtaining Temporary Credentials">
+        <t>
+          The client sends the following HTTPS POST request to the server:
+
+          <figure>
+            <artwork>
+  POST /initiate HTTP/1.1
+  Host: photos.example.net
+  Authorization: OAuth realm="http://photos.example.com/",
+     oauth_consumer_key="dpf43f3p2l4k3l03",
+     oauth_signature_method="PLAINTEXT",
+     oauth_signature="kd94hf93k423kf44%26",
+     oauth_timestamp="1191242090",
+     oauth_nonce="hsu94j3884jdopsl",
+     oauth_version="1.0",
+     oauth_callback="http%3A%2F%2Fprinter.example.com%2Fready"
+            </artwork>
+          </figure>
+        </t>
+        <t>
+          The server validates the request and replies with a set of temporary credentials in the body
+          of the HTTP response:
+
+          <figure>
+            <artwork>
+  oauth_token=hh5s93j4hdidpola&amp;oauth_token_secret=hdhd0244k9j7ao03&amp;
+  oauth_callback_confirmed=true
+            </artwork>
+          </figure>
+        </t>
+      </appendix>
+
+      <appendix title="Requesting Resource Owner Authorization">
+        <t>
+          The client redirects Jane's browser to the server's Resource Owner Authorization endpoint
+          URI to obtain Jane's approval for accessing her private photos.
+
+          <figure>
+            <artwork>
+  http://photos.example.net/authorize?oauth_token=hh5s93j4hdidpola
+            </artwork>
+          </figure>
+        </t>
+        <t>
+          The server asks Jane to sign-in using her username and password and if successful, asks
+          her if she approves granting printer.example.com access to her private photos. Jane approves
+          the request and is redirects her back to the client's callback URI:
+
+          <figure>
+            <artwork>
+  http://printer.example.com/ready?
+  oauth_token=hh5s93j4hdidpola&amp;oauth_verifier=hfdp7dh39dks9884
+            </artwork>
+          </figure>
+        </t>
+      </appendix>
+
+      <appendix title="Obtaining Token Credentials">
+        <t>
+          After being informed by the callback request that Jane approved authorized access,
+          printer.example.com requests a set of token credentials using its temporary credentials:
+
+          <figure>
+            <artwork>
+  POST /token HTTP/1.1
+  Host: photos.example.net
+  Authorization: OAuth realm="http://photos.example.com/",
+     oauth_consumer_key="dpf43f3p2l4k3l03",
+     oauth_token="hh5s93j4hdidpola",
+     oauth_signature_method="PLAINTEXT",
+     oauth_signature="kd94hf93k423kf44%26hdhd0244k9j7ao03",
+     oauth_timestamp="1191242092",
+     oauth_nonce="dji430splmx33448",
+     oauth_version="1.0"
+     oauth_verifier="hfdp7dh39dks9884"
+            </artwork>
+          </figure>
+        </t>
+        <t>
+          The server validates the request and replies with a set of token credentials in the body
+          of the HTTP response:
+
+          <figure>
+            <artwork>
+  oauth_token=nnch734d00sl2jdk&amp;oauth_token_secret=pfkkdhi9sl3r4s00
+            </artwork>
+          </figure>
+        </t>
+      </appendix>
+
+      <appendix title="Accessing protected resources">
+        <t>
+          The printer is now ready to request the private photo. Since the photo URI does not use
+          HTTPS, the <spanx style="verb">HMAC-SHA1</spanx> method is required.
+        </t>
+        
+        <appendix title="Generating Signature Base String" anchor="sig_base_example">
+          <t>
+            To generate the signature, it first needs to generate the signature base string. The
+            request contains the following parameters (<spanx style="verb">oauth_signature</spanx>
+            excluded) which need to be ordered and concatenated into a normalized string:
+
+            <list style="hanging" hangIndent="6">
+              <t hangText="oauth_consumer_key">
+                <vspace />
+                <spanx style="verb">dpf43f3p2l4k3l03</spanx>
+              </t>
+              <t hangText="oauth_token">
+                <vspace />
+                <spanx style="verb">nnch734d00sl2jdk</spanx>
+              </t>
+              <t hangText="oauth_signature_method">
+                <vspace />
+                <spanx style="verb">HMAC-SHA1</spanx>
+              </t>
+              <t hangText="oauth_timestamp">
+                <vspace />
+                <spanx style="verb">1191242096</spanx>
+              </t>
+              <t hangText="oauth_nonce">
+                <vspace />
+                <spanx style="verb">kllo9940pd9333jh</spanx>
+              </t>
+              <t hangText="oauth_version">
+                <vspace />
+                <spanx style="verb">1.0</spanx>
+              </t>
+              <t hangText="file">
+                <vspace />
+                <spanx style="verb">vacation.jpg</spanx>
+              </t>
+              <t hangText="size">
+                <vspace />
+                <spanx style="verb">original</spanx>
+              </t>
+            </list>
+          </t>
+          <t>
+            The following inputs are used to generate the signature base string:
+
+            <list style="numbers">
+              <t>
+                The HTTP request method: <spanx style="verb">GET</spanx>
+              </t>
+              <t>
+                The request URI: <spanx style="verb">http://photos.example.net/photos</spanx>
+              </t>
+              <t>
+                The encoded normalized request parameters string:                
+                <spanx style="verb">file=vacation.jpg&amp;oauth_consumer_key=dpf43f3p2l4k3l03&amp;oauth_nonce=kllo9940pd9333jh&amp;oauth_signature_method=HMAC-SHA1&amp;oauth_timestamp=1191242096&amp;oauth_token=nnch734d00sl2jdk&amp;oauth_version=1.0&amp;size=original</spanx>
+              </t>
+            </list>
+          </t>
+          <t>
+            The signature base string is (line breaks are for display purposes only):
+
+            <figure>
+              <artwork>
+  GET&amp;http%3A%2F%2Fphotos.example.net%2Fphotos&amp;file%3Dvacation.jpg%26
+  oauth_consumer_key%3Ddpf43f3p2l4k3l03%26oauth_nonce%3Dkllo9940pd933
+  3jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D119124
+  2096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%
+  3Doriginal
+              </artwork>
+            </figure>
+          </t>
+        </appendix>
+
+        <appendix title="Calculating Signature Value">
+          <t>
+            HMAC-SHA1 produces the following <spanx style="verb">digest</spanx> value as a base64-encoded
+            string (using the signature base string as <spanx style="verb">text</spanx> and
+            <spanx style="verb">kd94hf93k423kf44&amp;pfkkdhi9sl3r4s00</spanx> as <spanx style="verb">key</spanx>):
+
+            <figure>
+              <artwork>
+  tR3+Ty81lMeYAr/Fid0kMTYa/WM=
+              </artwork>
+            </figure>
+          </t>
+        </appendix>
+
+        <appendix title="Requesting protected resource">
+          <t>
+            All together, the client request for the photo is:
+
+            <figure>
+              <artwork>
+  GET /photos?file=vacation.jpg&amp;size=original HTTP/1.1
+  Host: photos.example.com
+  Authorization: OAuth realm="http://photos.example.net/",
+     oauth_consumer_key="dpf43f3p2l4k3l03",
+     oauth_token="nnch734d00sl2jdk",
+     oauth_signature_method="HMAC-SHA1",
+     oauth_signature="tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D",
+     oauth_timestamp="1191242096",
+     oauth_nonce="kllo9940pd9333jh",
+     oauth_version="1.0"
+              </artwork>
+            </figure>
+          </t>
+          <t>
+            The photos.example.net sever validates the request and responds with the requested
+            photo.
+          </t>
+        </appendix>
+
+      </appendix>
+
+    </appendix>
+
+    <appendix title="Acknowledgments">
+      <t>
+        This specification is directly based on the <xref target="OAuth Core 1.0 Revision A" /> community
+        specification which was the product of the OAuth community. OAuth was modeled after
+        existing proprietary protocols and best practices that have been independently implemented
+        by various web sites. This specification was orignially authored by: Mark Atwood,
+        Dirk Balfanz, Darren Bounds, Richard M. Conlan, Blaine Cook, Leah Culver, Breno de Medeiros,
+        Brian Eaton, Kellan Elliott-McCrea, Larry Halff, Eran Hammer-Lahav, Ben Laurie, Chris Messina,
+        John Panzer, Sam Quigley, David Recordon, Eran Sandler, Jonathan Sergent, Todd Sieling,
+        Brian Slesinsky, and Andy Smith.
+      </t>
+    </appendix>
+
+    <appendix title="Document History">
+      <t>
+        [[ To be removed by the RFC editor before publication as an RFC. ]]
+      </t>
+      <t>
+        -01
+
+        <list style="symbols">
+          <t>
+            Moved all subsection from section 3 to the document root.
+          </t>
+        </list>
+      </t>
+      <t>
+        -00
+
+        <list style="symbols">
+
+          <t>
+            Transitioned from the individual submission draft-hammer-oauth-02 to working group draft.
+          </t>
+          <t>
+            Split draft-hammer-oauth-02 into two drafts, one dealing with web delegation (this draft)
+            and another dealing with authentication draft-ietf-oauth-web-authentication.
+          </t>
+          <t>
+            Updated draft with changes from OAuth Core 1.0 Revision A to fix a session fixation exploit.
+          </t>
+        </list>
+      </t>
+    </appendix>
+
+  </middle>
+
+  <back>
+
+    <references title="Normative References">
+
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html40-19980424.xml"?>
+
+      <reference anchor="draft-ietf-oauth-authentication">
+        <front>
+          <title>The OAuth Protocol: Authentication</title>
+          <author initials="E" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav" role="editor">
+            <organization>
+              Yahoo!
+            </organization>
+            <address>
+              <email>eran@hueniverse.com</email>
+              <uri>http://hueniverse.com</uri>
+            </address>
+          </author>
+        </front>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-oauth-authentication-01.txt" />
+      </reference>
+
+    </references>
+
+    <references title="Informative References">
+      
+      <reference anchor="OAuth Core 1.0 Revision A">
+        <front>
+          <title>OAuth Core 1.0</title>
+          <author initials="OCW" surname="OAuth" fullname="OAuth Core Workgroup">
+            <organization />
+          </author>
+        </front>
+        <format type="HTML" target="http://oauth.net/core/1.0a" />
+      </reference>
+
+    </references>
+  </back>
+
+</rfc>
