@@ -31,7 +31,7 @@
     <abstract>
       <t>
         This document specifies the OAuth protocol web delegation method. OAuth allows clients
-        to access server resources on behalf of another party (such a different client or an end
+        to access server resources on behalf of another party (such as a different client or an end
         user). This document defines a redirection-based user-agent process for end users to authorize
         access to clients by substituting their credentials (typically, a username and password
         pair) with a different set of delegation-specific credentials.
@@ -52,7 +52,7 @@
         For example, a web user (resource owner) can grant a printing service (client) access to
         its private photos stored at a photo sharing service (server), without sharing its
         credentials with the printing service. Instead, the user authenticates directly with
-        the photo sharing service and issue the printing service delegation-specific credentials.
+        the photo sharing service and issues the printing service delegation-specific credentials.
       </t>
       <t>
         OAuth introduces a third role to the traditional client-server authentication model: the
@@ -195,14 +195,14 @@
     <section title="Temporary Credentials" anchor="auth_step1">
       <t>
         The client obtains a set of temporary credentials from the server by making an
-        authenticated request per <xref target="draft-ietf-oauth-authentication" />.
-        The client MUST use the HTTP method advertised by the server. The HTTP POST method is RECOMMENDED.
-        The client constructs a request URI by adding the following parameter to the
-        Temporary Credential Request endpoint URI:
+        authenticated request per <xref target="draft-ietf-oauth-authentication" /> to the Temporary Credential Request endpoint URI.
+				The server SHOULD use the HTTP POST method and the client MUST use the HTTP method
+				advertised by the server. The client constructs a request URI by adding the following
+				parameter to the request:
 
-        <list style="hanging" hangIndent="6">
+				<list style="hanging" hangIndent="6">
           <t hangText="oauth_callback:">
-            An absolute URL to which the server will redirect the resource owner back when the
+            An absolute URI to which the server will redirect the resource owner back when the
             Resource Owner Authorization step (<xref target="auth_step2" />) is completed. If the
             client is unable to receive callbacks or a callback URI has been established via other
             means, the parameter value MUST be set to <spanx style="verb">oob</spanx> (case sensitive),
@@ -337,12 +337,12 @@
     <section title="Token Credentials" anchor="auth_step3">
       <t>
         The client obtains a set of token credentials from the server by making an
-        authenticated request per <xref target="draft-ietf-oauth-authentication" />. The client
-        MUST use the HTTP method advertised by the server. The HTTP POST method is RECOMMENDED.
-        The client constructs a request URI by adding the following parameter to the
-        Token Request endpoint URI:
+        authenticated request per <xref target="draft-ietf-oauth-authentication" /> to the Token Request endpoint URI.
+				The server SHOULD use the HTTP POST method and the client MUST use the HTTP method
+				advertised by the server. The client constructs a request URI by adding the following
+				parameter to the request:
 
-        <list style="hanging" hangIndent="6">
+				<list style="hanging" hangIndent="6">
           <t hangText="oauth_verifier:">
             The verification code received from the server in the previous step.
           </t>
@@ -449,54 +449,25 @@
         </t>
       </section>
 
-      <section title="Entropy of Secrets">
-        <t>
-          Unless a transport-layer security protocol is used, eavesdroppers will have full access
-          to OAuth requests and signatures, and will thus be able to mount offline brute-force
-          attacks to recover the credentials used. Servers should be careful to assign
-          shared-secrets which are long enough, and random enough, to resist such attacks for at
-          least the length of time that the shared-secrets are valid.
-        </t>
-        <t>
-          For example, if shared-secrets are valid for two weeks, servers should ensure that it is
-          not possible to mount a brute force attack that recovers the shared-secret in less than
-          two weeks. Of course, servers are urged to err on the side of caution, and use the longest
-          secrets reasonable.
-        </t>
-        <t>
-          It is equally important that the pseudo-random number generator (PRNG) used to generate
-          these secrets be of sufficiently high quality. Many PRNG implementations generate number
-          sequences that may appear to be random, but which nevertheless exhibit patterns or other
-          weaknesses which make cryptanalysis or brute force attacks easier. Implementers should be
-          careful to use cryptographically secure PRNGs to avoid these problems.
-        </t>
-      </section>
-
       <section title="Denial of Service / Resource Exhaustion Attacks">
-        <t>
-          The OAuth protocol has a number of features which may make resource exhaustion attacks
-          against servers possible. For example, if a server includes a nontrivial amount of
-          entropy in token shared-secrets as recommended above, then an attacker may be able to
-          exhaust the server's entropy pool very quickly by repeatedly obtaining temporary credentials
-          from the server.
-        </t>
-        <t>
-          Similarly, OAuth requires servers to track used nonces. If an attacker is able to use
-          many nonces quickly, the resources required to track them may exhaust available capacity.
-          And again, OAuth can require servers to perform potentially expensive computations in
-          order to verify the signature on incoming requests. An attacker may exploit this to
-          perform a denial of service attack by sending a large number of invalid requests to the
-          server.
-        </t>
-        <t>
-          Resource Exhaustion attacks are by no means specific to OAuth. However, OAuth implementers
-          should be careful to consider the additional avenues of attack that OAuth exposes, and
-          design their implementations accordingly. For example, entropy starvation typically
-          results in either a complete denial of service while the system waits for new entropy or
-          else in weak (easily guessable) secrets. When implementing OAuth, servers should consider
-          which of these presents a more serious risk for their application and design accordingly.
-        </t>
-      </section>
+				<t>
+					The OAuth protocol has a number of features which may make resource exhaustion attacks
+					against servers possible. For example, OAuth requires servers to track used nonces. If an attacker is able to use
+					many nonces quickly, the resources required to track them may exhaust available capacity.
+					And again, OAuth can require servers to perform potentially expensive computations in
+					order to verify the signature on incoming requests. An attacker may exploit this to
+					perform a denial of service attack by sending a large number of invalid requests to the
+					server.
+				</t>
+				<t>
+					Resource Exhaustion attacks are by no means specific to OAuth. However, OAuth implementers
+					should be careful to consider the additional avenues of attack that OAuth exposes, and
+					design their implementations accordingly. For example, entropy starvation typically
+					results in either a complete denial of service while the system waits for new entropy or
+					else in weak (easily guessable) secrets. When implementing OAuth, servers should consider
+					which of these presents a more serious risk for their application and design accordingly.
+				</t>
+			</section>
 
       <section title="Cross-Site Request Forgery (CSRF)">
         <t>
@@ -690,7 +661,7 @@
      oauth_signature="kd94hf93k423kf44%26hdhd0244k9j7ao03",
      oauth_timestamp="1191242092",
      oauth_nonce="dji430splmx33448",
-     oauth_version="1.0"
+     oauth_version="1.0",
      oauth_verifier="hfdp7dh39dks9884"
             </artwork>
           </figure>
@@ -831,14 +802,14 @@
     <appendix title="Acknowledgments">
       <t>
         This specification is directly based on the <xref target="OAuth Core 1.0 Revision A" /> community
-        specification which was the product of the OAuth community. OAuth was modeled after
-        existing proprietary protocols and best practices that have been independently implemented
-        by various web sites. This specification was orignially authored by: Mark Atwood,
-        Dirk Balfanz, Darren Bounds, Richard M. Conlan, Blaine Cook, Leah Culver, Breno de Medeiros,
-        Brian Eaton, Kellan Elliott-McCrea, Larry Halff, Eran Hammer-Lahav, Ben Laurie, Chris Messina,
-        John Panzer, Sam Quigley, David Recordon, Eran Sandler, Jonathan Sergent, Todd Sieling,
-        Brian Slesinsky, and Andy Smith.
-      </t>
+				specification which is the product of the OAuth community. OAuth was modeled after
+				existing proprietary protocols and best practices that have been independently implemented
+				by various web sites. This specification was originally authored by: Mark Atwood,
+				Dirk Balfanz, Darren Bounds, Richard M. Conlan, Blaine Cook, Leah Culver, Breno de Medeiros,
+				Brian Eaton, Kellan Elliott-McCrea, Larry Halff, Eran Hammer-Lahav, Ben Laurie, Chris Messina,
+				John Panzer, Sam Quigley, David Recordon, Eran Sandler, Jonathan Sergent, Todd Sieling,
+				Brian Slesinsky, and Andy Smith.
+			</t>
     </appendix>
 
     <appendix title="Document History">
