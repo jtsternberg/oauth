@@ -31,7 +31,7 @@
     <abstract>
       <t>
         This document specifies the OAuth protocol authentication method. OAuth allows clients
-        to access server resources on behalf of another party (such a different client or an end
+        to access server resources on behalf of another party (such as a different client or an end
         user). This document defines an HTTP authentication method which supports the ability to
         include two sets of credential with each request, one identifying the client and another
         identifying the resource owner on whose behalf the request is made.
@@ -52,7 +52,7 @@
         For example, a web user (resource owner) can grant a printing service (client) access to
         its private photos stored at a photo sharing service (server), without sharing its
         credentials with the printing service. Instead, the user authenticates directly with
-        the photo sharing service and issue the printing service delegation-specific credentials.
+        the photo sharing service and issues the printing service delegation-specific credentials.
       </t>
       <t>
         OAuth introduces a third role to the traditional client-server authentication model: the
@@ -132,7 +132,7 @@
         to make authenticated HTTP requests. Clients using these methods gain access to protected
         resource by using their server credentials (typically a username and password pair), which
         allows the server to verify their authenticity. Using these methods for delegation requires
-        the client to pretend it was the resource owner.
+        the client to pretend it is the resource owner.
       </t>
       <t>
         OAuth provides a method designed to include two sets of credentials with each request, one
@@ -154,7 +154,7 @@
         OAuth provides multiple methods for including protocol parameters in requests
         (<xref target="param_include" />), as well as multiple methods for the client to
         prove its rightful ownership of the credentials used (<xref target="signature" />).
-        The way in which clients discovery the required configuration is outside the scope of
+        The way in which clients discover the required configuration is outside the scope of
         this specification.
       </t>
     </section>
@@ -1036,7 +1036,30 @@
         </t>
       </section>
 
-      <section title="Signature Base String Limitations">
+			<section title="Entropy of Secrets">
+				<t>
+					Unless a transport-layer security protocol is used, eavesdroppers will have full access
+					to OAuth requests and signatures, and will thus be able to mount offline brute-force
+					attacks to recover the credentials used. Servers should be careful to assign
+					shared-secrets which are long enough, and random enough, to resist such attacks for at
+					least the length of time that the shared-secrets are valid.
+				</t>
+				<t>
+					For example, if shared-secrets are valid for two weeks, servers should ensure that it is
+					not possible to mount a brute force attack that recovers the shared-secret in less than
+					two weeks. Of course, servers are urged to err on the side of caution, and use the longest
+					secrets reasonable.
+				</t>
+				<t>
+					It is equally important that the pseudo-random number generator (PRNG) used to generate
+					these secrets be of sufficiently high quality. Many PRNG implementations generate number
+					sequences that may appear to be random, but which nevertheless exhibit patterns or other
+					weaknesses which make cryptanalysis or brute force attacks easier. Implementers should be
+					careful to use cryptographically secure PRNGs to avoid these problems.
+				</t>
+			</section>
+
+			<section title="Signature Base String Limitations">
         <t>
           The signature base string has been designed to support the signature methods defined in
           this specification. When designing additional signature methods, the signature base
@@ -1060,14 +1083,14 @@
     <appendix title="Acknowledgments">
       <t>
         This specification is directly based on the <xref target="OAuth Core 1.0 Revision A" /> community
-        specification which was the product of the OAuth community. OAuth was modeled after
-        existing proprietary protocols and best practices that have been independently implemented
-        by various web sites. This specification was orignially authored by: Mark Atwood,
-        Dirk Balfanz, Darren Bounds, Richard M. Conlan, Blaine Cook, Leah Culver, Breno de Medeiros,
-        Brian Eaton, Kellan Elliott-McCrea, Larry Halff, Eran Hammer-Lahav, Ben Laurie, Chris Messina,
-        John Panzer, Sam Quigley, David Recordon, Eran Sandler, Jonathan Sergent, Todd Sieling,
-        Brian Slesinsky, and Andy Smith.
-      </t>
+				specification which is the product of the OAuth community. OAuth was modeled after
+				existing proprietary protocols and best practices that have been independently implemented
+				by various web sites. This specification was originally authored by: Mark Atwood,
+				Dirk Balfanz, Darren Bounds, Richard M. Conlan, Blaine Cook, Leah Culver, Breno de Medeiros,
+				Brian Eaton, Kellan Elliott-McCrea, Larry Halff, Eran Hammer-Lahav, Ben Laurie, Chris Messina,
+				John Panzer, Sam Quigley, David Recordon, Eran Sandler, Jonathan Sergent, Todd Sieling,
+				Brian Slesinsky, and Andy Smith.
+			</t>
     </appendix>
 
     <appendix title="Document History">
