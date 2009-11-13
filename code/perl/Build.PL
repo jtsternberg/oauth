@@ -17,6 +17,8 @@ my $builder = Module::Build->new(
         'URI::Escape' => '3.28',
         'Class::Accessor' => '0.31',
         'Class::Data::Inheritable' => '0.06',
+        'Digest::SHA1' => '2.12',
+        'Encode' => '2.35',
     },
     add_to_cleanup      => [ 'Net-OAuth-*' ],
     create_makefile_pl => 'passthrough',
