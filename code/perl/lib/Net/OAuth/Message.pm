@@ -103,16 +103,14 @@ sub check {
 sub encode {
     my $str = shift;
     $str = "" unless defined $str;
-    unless($Net::OAuth::SKIP_UTF8_DOUBLE_ENCODE_CHECK) {
-        if ($str =~ /[\x80-\xFF]/) {
-            Encode->require;
-            no strict 'subs';
-            eval {
-                Encode::decode_utf8($str, 1);
-            };
-            unless ($@) {
-                warn "Warning: It looks like you are attempting to encode bytes that are already UTF-8 encoded.  You should probably use decode_utf8() first.  See the Net::OAuth manpage, I18N section";
-            }
+    if ($str =~ /[\x80-\xFF]/) {
+        Encode->require;
+        no strict 'subs';
+        if (Encode::is_utf8($str)) {
+            # Avoid double-encoding UTF-8.
+            # Ideally the caller would have done this already
+            # But perl5 + unicode is very confusing, so try to be helpful..
+            $str = Encode::decode_utf8($str, 1);
         }
     }
     return URI::Escape::uri_escape_utf8($str,'^\w.~-');

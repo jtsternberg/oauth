@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 22;
+use Test::More tests => 18;
 use Encode;
 
 BEGIN {
@@ -35,11 +35,3 @@ is_encoding("\x{00E7}", '%C3%A7');
 is_encoding("ç", '%C3%A7');
 is_encoding("æ", '%C3%A6');
 
-my $warning = '';
-$SIG{__WARN__} = sub {$warning = shift};
-is_encoding(Encode::encode_utf8("\x{00E7}"), '%C3%83%C2%A7');
-ok($warning =~ /^Warning: It looks like you are attempting to encode bytes that are already UTF-8 encoded/);
-$warning = '';
-$Net::OAuth::SKIP_UTF8_DOUBLE_ENCODE_CHECK = 1;
-is_encoding(Encode::encode_utf8("\x{00E7}"), '%C3%83%C2%A7');
-is($warning, '');

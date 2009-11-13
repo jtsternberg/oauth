@@ -5,7 +5,7 @@ use base qw/Net::OAuth::Message/;
 use URI;
 use URI::QueryParam;
 
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 
 __PACKAGE__->mk_classdata(required_message_params => [qw/
     consumer_key
@@ -72,6 +72,7 @@ sub normalized_request_url {
     my $self = shift;
     my $url = $self->request_url;
     Net::OAuth::Message::_ensure_uri_object($url);
+    $url = $url->clone;
     $url->query(undef);
     return $url;
 }

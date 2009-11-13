@@ -66,8 +66,15 @@ Revision history for Net-OAuth
   Fixed https://rt.cpan.org/Public/Bug/Display.html?id=47293 - Message->from_hash was validating using the incorrect class, causing a 'Parameter X not valid for a message of type Y' message on V1.0a messages.  Thanks Jeff Dairiki!
 
 0.18   Thu, 25 Jun 2009 17:18:04 UTC
-    Fixed accidental (though probably harmless) regression in 0.17
+  Fixed accidental (though probably harmless) regression in 0.17
 
 0.19   Fri, 26 Jun 2009 17:30:06 UTC
-    Fixed https://rt.cpan.org/Ticket/Display.html?id=47369 - Don't automatically set oauth_version parameter when message is created via from_hash (or from_url, from_post_body, etc).  Thanks COSIMO!
+  Fixed https://rt.cpan.org/Ticket/Display.html?id=47369 - Don't automatically set oauth_version parameter when message is created via from_hash (or from_url, from_post_body, etc).  Thanks COSIMO!
+
+0.20   Fri, 13 Nov 2009 18:56:55 UTC
+  Fixed http://rt.cpan.org/Public/Bug/Display.html?id=48867 - error in synopsis - thanks Adam Taylor!
+  Removed UTF8 double-encoding warning.  Now Net::OAuth::Message::encode() uses Encode::is_utf8() to determine if the input is already UTF-8 encoded.  If so, it runs decode_utf8() on it before sending it to uri_escape_utf8().  Thanks Hector Garcia Alvarez!
+  Potentially fixed an issue found by Marc Mims, where HMAC_SHA1 was failing to load, breaking some CPAN tests.  Build.PL now explicitly requires Digest::SHA1 and Encode.  Hopefully that fixes it.
+  
+        
     
