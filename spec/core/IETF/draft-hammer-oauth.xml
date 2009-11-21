@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 
-<rfc category="info" ipr="trust200902" docName="draft-hammer-oauth-05">
+<rfc category="info" ipr="trust200902" docName="draft-hammer-oauth-06">
 
   <?rfc strict="yes" ?>
   <?rfc toc="yes" ?>
@@ -23,13 +23,6 @@
         <uri>http://hueniverse.com</uri>
       </address>
     </author>
-    <!-- author initials="B" surname="Cook" fullname="Blaine Cook">
-      <organization />
-      <address>
-        <email>romeda@gmail.com</email>
-        <uri>http://romeda.org/</uri>
-      </address>
-    </author -->
 
     <date year="2009"/>
 
@@ -37,9 +30,9 @@
       <t>
         This document specifies the OAuth Core 1.0 protocol. OAuth provides a method for clients
         to access server resources on behalf of another party (such as a different client or an end
-        user). It also provides a redirection-based user agent process for end users to authorize
-        access to another party by substituting their credentials (typically, a username and password
-        pair) with a different set of delegation-specific credentials.
+        user). It also provides a redirection-based user-agent process for end users to authorize
+        access to another party by using their credentials (typically, a username and password
+        pair) and providing the client with a different set of delegation-specific credentials.
       </t>
     </abstract>
 
@@ -61,10 +54,9 @@
       </t>
       <t>
         OAuth introduces a third role to the traditional client-server authentication model: the
-        resource owner. In the OAuth model, the client requests access to resources hosted by the
-        server but not controlled by the client, but by the resource owner. In addition, OAuth
-        allows the server to verify not only the resource owner's credentials, but also those of
-        the client making the request.
+        resource owner. In the OAuth model, the client requests access to resources controlled by
+        the resource owner and hosted by the server. In addition, OAuth allows the server to verify
+        not only the resource owner's credentials, but also those of the client making the request.
       </t>
       <t>
         In order for the client to access resources, it first has to obtain permission from the
@@ -74,15 +66,15 @@
         resource owner credentials, tokens can be issued with a restricted scope and limited lifetime.
       </t>
       <t>
-        This specification consists of two parts. The first part defines a method for making
-        authenticated HTTP <xref target="RFC2616" /> requests using two sets of credentials, one
-        identifying the client making the request, and a second identifying the resource owner on
-        whose behalf the request is being made.
+        This specification consists of two parts. The first part defines a redirection-based
+        user-agent process for end users to authorize client access to their resources, by
+        authenticating directly with the server and provisioning tokens to the client for use with
+        the authentication method.
       </t>
       <t>
-        The second part defines a redirection-based user agent process for end users to authorize
-        client access to their resources, by authenticating directly with the server and
-        provisioning tokens to the client for use with the authentication method.
+        The second part defines a method for making authenticated HTTP <xref target="RFC2616" />
+        requests using two sets of credentials, one identifying the client making the request, and
+        a second identifying the resource owner on whose behalf the request is being made.
       </t>
       <t>
         The use of OAuth with any other transport protocol than <xref target="RFC2616" /> is
@@ -93,17 +85,14 @@
         variety of websites and other Internet services, who wanted to solve the common problem of
         enabling delegated access to protected resources. The resulting OAuth protocol was
         stabilized at version 1.0 in October 2007 and published at the
-        <eref target="http://oauth.net">oauth.net website</eref>. This specification provides
-        an informational documentation of OAuth Core 1.0 Revision A as finalized in June 2009,
-        incorporating several errata reported since that time, as well as numerous editorial
-        clarifications. It is not an item of the IETF's OAuth Working Group, which at the time
-        of writing is working on an OAuth version that can be appropriate for publication on the
-        standards track.
+        <eref target="http://oauth.net">oauth.net website</eref>.
       </t>
       <t>
-        [[ This draft is not an item of the OAUTH working group. Please discuss this draft on the
-				<eref target="https://www.ietf.org/mailman/listinfo/oauth">oauth@ietf.org</eref> mailing
-				list. ]]
+        This specification provides an informational documentation of OAuth Core 1.0 Revision A as
+        finalized in June 2009, incorporating several errata reported since that time, as well as
+        numerous editorial clarifications. It is not an item of the IETF's OAuth Working Group,
+        which at the time of writing is working on an OAuth version that can be appropriate for
+        publication on the standards track.
       </t>
 
       <section title="Terminology">
@@ -141,7 +130,7 @@
         </t>
         <t>
           The original community specification used a somewhat different terminology which maps to
-          this specifications as follows:
+          this specifications as follows (original community terms provided on left):
           
           <list style="hanging">
             <t hangText="Consumer:">client</t>
@@ -163,18 +152,18 @@
         </t>
         <t>
           However, Jane does not wish to share her username and password with the 'printer.example.com'
-          website, which would need to access the photo in order to print it. In order to provide its
+          website, which needs to access the photo in order to print it. In order to provide its
           users with better service, 'printer.example.com' has signed-up for a set of 'photos.example.net'
           client credentials ahead of time:
 
           <list style="hanging" hangIndent="6">
             <t hangText="Client Identifier">
               <vspace />
-              <spanx style="verb">dpf43f3p2l4k3l03</spanx>
+              dpf43f3p2l4k3l03
             </t>
             <t hangText="Client Shared-Secret:">
               <vspace />
-              <spanx style="verb">kd94hf93k423kf44</spanx>
+              kd94hf93k423kf44
             </t>
           </list>
 
@@ -200,8 +189,8 @@
         <t>
           Before 'printer.example.com' can ask Jane to grant it access to the photos, it must
           first establish a set of temporary credentials with 'photos.example.net' to identify
-          the delegation request. To do so, the client sends the following HTTP request to the
-          server (over a secure TLS channel):
+          the delegation request. To do so, the client sends the following HTTPS
+          <xref target="RFC2818" /> request to the server:
         </t>
         <figure>
           <artwork xml:space="preserve"><![CDATA[
@@ -223,6 +212,9 @@
         </t>
         <figure>
           <artwork xml:space="preserve"><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: application/x-www-form-urlencoded
+
   oauth_token=hh5s93j4hdidpola&oauth_token_secret=hdhd0244k9j7ao03&
   oauth_callback_confirmed=true
 ]]>
@@ -277,6 +269,9 @@
         </t>
         <figure>
           <artwork xml:space="preserve"><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: application/x-www-form-urlencoded
+  
   oauth_token=nnch734d00sl2jdk&oauth_token_secret=pfkkdhi9sl3r4s00
 ]]>
           </artwork>
@@ -326,7 +321,7 @@
       <t>
         There are many ways in which a resource owner can facilitate the provisioning of token
         credentials. This section defines one such way, using HTTP redirections and the resource
-        owner's user agent. This redirection-based authorization method includes three steps:
+        owner's user-agent. This redirection-based authorization method includes three steps:
 
         <list style="numbers">
           <t>
@@ -379,17 +374,21 @@
       </t>
       <t>
         The methods in which the server advertises and documents its three endpoints are beyond the
-        scope of this specification.
+        scope of this specification. Clients should avoid making assumptions about the size of
+        tokens and other server-generated values, which are left undefined by this specification.
+        In addition, protocol parameters MAY include values which require encoding when
+        transmitted. Clients and servers should not make assumptions about the possible range of
+        their values.
       </t>
-
+      
       <section title="Temporary Credentials" anchor="auth_step1">
         <t>
           The client obtains a set of temporary credentials from the server by making an
           <xref target="requests">authenticated</xref> HTTP <spanx style="verb">POST</spanx>
           request to the Temporary Credential Request endpoint (unless the server advertises
           another HTTP request method for the client to use). The client constructs a request URI
-          by adding the following parameter to the request (using the same parameter transmission
-          method used for the other protocol parameters):
+          by adding the following parameter to the request (in addition to the other protocol
+          parameters, using the same parameter transmission method):
 
           <list style="hanging" hangIndent="6">
             <t hangText="oauth_callback:">
@@ -405,9 +404,29 @@
         </t>
         <t>
           When making the request, the client authenticates using only the client credentials. The
-          client MUST omit the <spanx style="verb">oauth_token</spanx> protocol parameter from the
-          request and use an empty string as the token secret value.
+          client MAY omit the empty <spanx style="verb">oauth_token</spanx> protocol parameter
+          from the request and MUST use the empty string as the token secret value.
         </t>
+        <t>
+          Since the request results in the transmission of plain text credentials in the HTTP
+          response, the server SHOULD require the use of a transport-layer mechanisms such as TLS
+          or SSL. This is true regardless of the signature method used by the client.
+        </t>
+        <figure>
+          <preamble>
+            For example, the client makes the following HTTPS request:
+          </preamble>
+          <artwork xml:space="preserve"><![CDATA[
+  POST /request_temp_credentials HTTP/1.1
+  Host: server.example.com
+  Authorization: OAuth realm="http://server.example.com/",
+     oauth_consumer_key="jd83jd92dhsh93js",
+     oauth_signature_method="PLAINTEXT",
+     oauth_callback="http%3A%2F%2Fclient.example.net%2Fcb%3Fx%3D1",
+     oauth_signature="ja893SD9%26"
+]]>
+          </artwork>
+        </figure>
         <t>
           The server MUST <xref target="verify_request">verify</xref> the request and if valid,
           respond back to the client with a set of temporary credentials (in the form of an
@@ -443,7 +462,10 @@
             For example (line breaks are for display purposes only):
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
-  oauth_token=ab3cd9j4ks73hf7g&oauth_token_secret=xyz4992k83j47x0b&
+  HTTP/1.1 200 OK
+  Content-Type: application/x-www-form-urlencoded
+
+  oauth_token=hdk48Djdsa&oauth_token_secret=xyz4992k83j47x0b&
   oauth_callback_confirmed=true
 ]]>
 		      </artwork>
@@ -470,9 +492,20 @@
         </t>
         <t>
           The client directs the resource owner to the constructed URI using an HTTP redirection
-          response, or by other means available to it via the resource owner's user agent. The
+          response, or by other means available to it via the resource owner's user-agent. The
           request MUST use the HTTP <spanx style="verb">GET</spanx> method.
         </t>
+        <figure>
+          <preamble>
+            For example, the client redirects the resource owner's user-agent to make the following
+            HTTP request:
+          </preamble>
+          <artwork xml:space="preserve"><![CDATA[
+  GET /authorize_access?oauth_token=hdk48Djdsa HTTP/1.1
+  Host: server.example.com
+]]>
+          </artwork>
+        </figure>
         <t>
           The way in which the server handles the authorization request is beyond the scope of this
           specification. However, the server MUST first verify the identity of the resource owner.
@@ -510,11 +543,12 @@
         </t>
         <figure>
           <preamble>
-            For example (line breaks are for display purposes only):
+            For example, the server redirects the resource owner's user-agent to make the following
+            HTTP request:
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
-  http://client.example.net/cb?state=1&oauth_token=ab3cd9j4ks73hf7g&
-  oauth_verifier=473829k9302sa
+  GET /cb?x=1&oauth_token=hdk48Djdsa&oauth_verifier=473f82d3 HTTP/1.1
+  Host: client.example.net
 ]]>
 					</artwork>
         </figure>
@@ -532,8 +566,8 @@
           <xref target="requests">authenticated</xref> HTTP <spanx style="verb">POST</spanx>
           request to the Token Request endpoint (unless the server advertises another HTTP
           request method for the client to use). The client constructs a request URI by adding the
-          following parameter to the request (using the same parameter transmission method used for
-          the other protocol parameters):
+          following parameter to the request (in addition to the other protocol parameters, using
+          the same parameter transmission method):
 
           <list style="hanging" hangIndent="6">
             <t hangText="oauth_verifier:">
@@ -544,8 +578,29 @@
         <t>
           When making the request, the client authenticates using the client credentials as well as
           the temporary credentials. The temporary credentials are used as a substitute for token
-          credentials in the authenticated request.
+          credentials in the authenticated request and transmitted using the
+          <spanx style="verb">oauth_token</spanx> parameter.
         </t>
+        <t>
+          Since the request results in the transmission of plain text credentials in the HTTP
+          response, the server SHOULD require the use of a transport-layer mechanisms such as TLS
+          or SSL. This is true regardless of the signature method used by the client.
+        </t>
+        <figure>
+          <preamble>
+            For example, the client makes the following HTTPS request:
+          </preamble>
+          <artwork xml:space="preserve"><![CDATA[
+  POST /request_token HTTP/1.1
+  Host: server.example.com
+  Authorization: OAuth realm="http://server.example.com/",
+     oauth_consumer_key="jd83jd92dhsh93js",
+     oauth_signature_method="PLAINTEXT",
+     oauth_verified="473f82d3",
+     oauth_signature="ja893SD9%26xyz4992k83j47x0b"
+]]>
+          </artwork>
+        </figure>
         <t>
           The server MUST <xref target="verify_request">verify</xref> the validity of the request,
           ensure that the resource owner has authorized the provisioning of token credentials to
@@ -574,6 +629,9 @@
             For example:
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
+  HTTP/1.1 200 OK
+  Content-Type: application/x-www-form-urlencoded
+  
   oauth_token=j49ddk933skd9dks&oauth_token_secret=ll399dj47dskfjdk
 ]]>
           </artwork>
@@ -583,10 +641,10 @@
           other attributes approved by the resource owner.
         </t>
         <t>
-          Once the client receives the token credentials, it can proceed to access protected
-          resources on behalf of the resource owner by making
-          <xref target="requests">authenticated request</xref> using the client credentials and the
-          token credentials received.
+          Once the client receives and stores the token credentials, it can proceed to access
+          protected resources on behalf of the resource owner by making
+          <xref target="requests">authenticated request</xref> using the client credentials
+          together with the token credentials received.
         </t>
       </section>
 
@@ -626,21 +684,56 @@
 
       <section title="Making Requests">
         <t>
-          Clients make authenticated requests by calculating a set of protocol parameters and add
-          them to the HTTP request as follows:
+          An authenticated request includes several protocol parameters. Each parameter name
+          begins with the <spanx style="verb">oauth_</spanx> prefix, and the parameter names and
+          values are case sensitive. Clients make authenticated requests by calculating the values
+          of a set of protocol parameters and adding them to the HTTP request as follows:
 
           <list style="numbers">
             <t>
-              Each of the protocol parameters listed in <xref target="protocol_params" /> except
-              for <spanx style="verb">oauth_signature</spanx> is assigned a value based on its
-              definition. All the parameters MUST be included, except for
-              <spanx style="verb">oauth_version</spanx> which MAY be omitted, and
-              <spanx style="verb">oauth_token</spanx> which MUST be omitted when making a temporary
-              credentials request (<xref target="auth_step1" />).
+              The client assigns value to each of these REQUIRED (unless specified otherwise)
+              protocol parameters:
+
+              <list style="hanging" hangIndent="6">
+                <t hangText="oauth_consumer_key">
+                  <vspace />
+                  The identifier portion of the client credentials (equivalent to a username). The
+                  parameter name reflects a deprecated term (Consumer Key) used in previous
+                  revisions of the specification, and has been retained to maintain backward
+                  compatibility.
+                </t>
+                <t hangText="oauth_token">
+                  <vspace />
+                  The token value used to associate the request with the resource owner. If the
+                  request is not associated with a resource owner (no token available), clients
+                  MAY omit the parameter.
+                </t>
+                <t hangText="oauth_signature_method">
+                  <vspace />
+                  The name of the signature method used by the client to sign the request,
+                  as defined in <xref target="signature" />.
+                </t>
+                <t hangText="oauth_timestamp">
+                  <vspace />
+                  The timestamp value as defined in <xref target="nonce" />. The parameter MAY
+                  be omitted when using the <spanx style="verb">PLAINTEXT</spanx> signature method.
+                </t>
+                <t hangText="oauth_nonce">
+                  <vspace />
+                  The nonce value as defined in <xref target="nonce" />. The parameter MAY be
+                  omitted when using the <spanx style="verb">PLAINTEXT</spanx> signature method.
+                </t>
+                <t hangText="oauth_version">
+                  <vspace />
+                  OPTIONAL. If present, MUST be set to <spanx style="verb">1.0</spanx>. Provides
+                  the version of the authentation process as defined in this specification.
+                </t>
+              </list>
             </t>
             <t>
               The protocol parameters are added to the request using one of the transmission
-              methods listed in <xref target="param_include" />.
+              methods listed in <xref target="param_include" />. Each parameter MUST NOT appear
+              more than once per request.
             </t>
             <t>
               The client calculates and assigns the value of the <spanx style="verb">oauth_signature</spanx>
@@ -724,14 +817,16 @@
 
           <list style="symbols">
             <t>
-              Recalculate the request signature independently as describe in
+              Recalculate the request signature independently as described in
               <xref target="signature" /> and compare it to the value received from the client via
               the <spanx style="verb">oauth_signature</spanx> parameter.
             </t>
             <t>
-              Ensure that the nonce / timestamp / token (if present) combination received from the
-              client has not been used before (the server MAY reject requests with stale
-              timestamps).
+              If using the <spanx style="verb">HMAC-SHA1</spanx> or
+              <spanx style="verb">RSA-SHA1</spanx> signature methods, ensure that the combination
+              of nonce/timestamp/token (if present) received from the client has not been used
+              before in a previous request (the server MAY reject requests with stale timestamps as
+              described in <xref target="nonce" />).
             </t>
             <t>
               If a token is present, verify the scope and status of the client authorization as
@@ -747,123 +842,37 @@
         <t>
           If the request fails verification, the server SHOULD respond with the appropriate HTTP
           response status code. The server MAY include further details about why the request was
-          rejected in the response body. The following status codes SHOULD be used:
-
-          <list style="symbols">
-            <t>
-              400 (Bad Request)
-
-              <list style="symbols">
-                <t>
-                  Unsupported parameters
-                </t>
-                <t>
-                  Unsupported signature method
-                </t>
-                <t>
-                  Missing parameters
-                </t>
-                <t>
-                  Duplicated protocol parameters
-                </t>
-              </list>
-            </t>
-            <t>
-              401 (Unauthorized)
-              <list style="symbols">
-                <t>
-                  Invalid client credentials
-                </t>
-                <t>
-                  Invalid or expired token
-                </t>
-                <t>
-                  Invalid signature
-                </t>
-                <t>
-                  Invalid or used nonce
-                </t>
-              </list>
-            </t>
-          </list>
+          rejected in the response body.
+        </t>
+        <t>
+          The server SHOULD return a 400 (bad request) status code
+          when recieving a request with unsupported parameters, unsupported signature method,
+          missing parameters, or duplicated protocol parameters. The server SHOULD return a 401
+          (unauthorized) status code when receiving a request with invalid client credentials,
+          invalid or expired token, invalid signature, or invalid or used nonce.
         </t>
       </section>
 
-      <section title="Protocol Parameters" anchor="protocol_params">
+      <section title="Nonce and Timestamp" anchor="nonce">
         <t>
-          An OAuth-authenticated request includes several protocol parameters. Each parameter name
-          begins with the <spanx style="verb">oauth_</spanx> prefix, and the parameter names
-          and values are case sensitive. Protocol parameters MUST NOT appear more than once per
-          request. The parameters are:
-
-          <list style="hanging" hangIndent="6">
-            <t hangText="oauth_consumer_key">
-              <vspace />
-              The identifier portion of the client credentials (equivalent to a username). The
-              parameter name reflects a deprecated term (Consumer Key) used in previous revisions
-              of the specification, and has been retained to maintain backward compatibility.
-            </t>
-            <t hangText="oauth_token">
-              <vspace />
-              The token value used to associate the request with the resource owner. If the request
-              is not associated with a resource owner (no token), clients MAY omit the parameter.
-            </t>
-            <t hangText="oauth_signature_method">
-              <vspace />
-              The name of the signature method used by the client to sign the request,
-							as defined in <xref target="signature" />.
-            </t>
-            <t hangText="oauth_signature">
-              <vspace />
-              The signature value as defined in <xref target="signature" />.
-            </t>
-            <t hangText="oauth_timestamp">
-              <vspace />
-              The timestamp value as defined in <xref target="nonce" />.
-            </t>
-            <t hangText="oauth_nonce">
-              <vspace />
-              The nonce value as defined in <xref target="nonce" />.
-            </t>
-            <t hangText="oauth_version">
-              <vspace />
-              OPTIONAL. If present, MUST be set to <spanx style="verb">1.0</spanx>.
-            </t>
-          </list>
+          The timestamp value MUST be a positive integer. Unless otherwise specified by the
+          server's documentation, the timestamp is expressed in the number of seconds since
+          January 1, 1970 00:00:00 GMT.
         </t>
         <t>
-          Server-specific request parameters MUST NOT begin with the
-          <spanx style="verb">oauth_</spanx> prefix.
+          A nonce is a random string, uniquely generated by the client to allow the server to
+          verify that a request has never been made before and helps prevent replay attacks when
+          requests are made over a non-secure channel. The nonce value MUST be unique across all
+          requests with the same timestamp, client credentials, and token combinations.
         </t>
         <t>
-          Clients should avoid making assumptions about the size of tokens and other
-          server-generated values, which are left undefined by this specification. In addition,
-          protocol parameters MAY include values which require encoding when transmitted. Clients
-          and servers should not make assumptions about the possible range of their values.
+          To avoid the need to retain an infinite number of nonce values for future checks, servers
+          MAY choose to restrict the time period after which a request with an old timestamp is
+          rejected. Servers applying such a restriction SHOULD provide a way for the client to sync
+          its clock with the server's clock, which is beyond the scope of this specification.
         </t>
-        
-        <section title="Nonce and Timestamp" anchor="nonce">
-          <t>
-            The timestamp value MUST be a positive integer. Unless otherwise specified by the
-            server's documentation, the timestamp is expressed in the number of seconds since
-            January 1, 1970 00:00:00 GMT.
-          </t>
-          <t>
-            A nonce is a random string, uniquely generated by the client to allow the server to
-            verify that a request has never been made before and helps prevent replay attacks when
-            requests are made over a non-secure channel. The nonce value MUST be unique across all
-            requests with the same timestamp, client credentials, and token combinations.
-          </t>
-          <t>
-            To avoid the need to retain an infinite number of nonce values for future checks, servers
-            MAY choose to restrict the time period after which a request with an old timestamp is
-            rejected. Servers applying such a restriction SHOULD provide a way for the client to sync
-            its clock with the server's clock, which is beyond the scope of this specification.
-          </t>
-        </section>
-        
       </section>
-
+      
       <section title="Signature" anchor="signature">
         <t>
 					OAuth-authenticated requests can have two sets of credentials: those passed via the
@@ -896,7 +905,7 @@
           as specified for each method.
         </t>
         <t>
-          The signature process does not change the request or its parameter, with the exception of
+          The signature process does not change the request or its parameters, with the exception of
           the <spanx style="verb">oauth_signature</spanx> parameter.
         </t>
 
@@ -923,7 +932,7 @@
                 The path and query components of the request resource URI.
               </t>
               <t>
-                The protocol parameters (<xref target="protocol_params" />) excluding the
+                The protocol parameters excluding the
                 <spanx style="verb">oauth_signature</spanx>.
               </t>
               <t>
@@ -1383,9 +1392,11 @@
         <section title="PLAINTEXT">
           <t>
             The <spanx style="verb">PLAINTEXT</spanx> method does not employ a signature algorithm
-            and does not provide any security as it transmits secrets in the clear. It SHOULD only
-            be used with a transport-layer mechanism such as TLS or SSL as explained in
-            <xref target="plain_ssl" />. It does not utilize the signature base string.
+            and does not provide any security on its own as it transmits secrets in the clear. It
+            SHOULD only be used with a transport-layer mechanism such as TLS or SSL as explained in
+            <xref target="plain_ssl" />. It does not utilize the signature base string nor the
+            <spanx style="verb">oauth_timestamp</spanx> and <spanx style="verb">oauth_nonce</spanx>
+            parameters.
           </t>
           <t>
             The <spanx style="verb">oauth_signature</spanx> protocol parameter is set to the
@@ -1476,7 +1487,7 @@
               </t>
               <t>
                 The OPTIONAL <spanx style="verb">realm</spanx> parameter MAY be added and
-                interpreted per <xref target="RFC2617" />, section 1.2.
+                interpreted per <xref target="RFC2617" /> section 1.2.
               </t>
             </list>
           </t>
@@ -1497,7 +1508,7 @@
             </artwork>
           </figure>
           <t>
-            The realm parameter defines a protection realm per <xref target="RFC2617" />,
+            The realm parameter defines a protection realm per <xref target="RFC2617" />
             section 1.2.
           </t>
         </section>
@@ -1570,8 +1581,14 @@
       
       <section title="Percent Encoding" anchor="encoding">
         <t>
-          In order to guarantee identical construction of the signature base string, this
-          specification defines the following method for percent-encoding strings:
+          Existing percent-encoding methods do not guarentee a consistant construction of the
+          signature base string. The following percent-encoding method is not defined to replace
+          the existing encoding methods defined by <xref target="RFC3986" /> and
+          <xref target="W3C.REC-html40-19980424" />. It is used only in the construction of the
+          signature base string and the <xref target="auth_header">authorization header</xref>.
+        </t>
+        <t>
+          This specification defines the following method for percent-encoding strings:
 
           <list style="numbers">
             <t>
@@ -1603,9 +1620,9 @@
           This method is different from the encoding scheme used by the
           <spanx style="verb">application/x-www-form-urlencoded</spanx> content-type (for example,
           it encodes space characters as <spanx style="verb">%20</spanx> and not using the 
-          <spanx style="verb">+</spanx> character). It is often different from the
-          percent-encoding functions provided by many common web development frameworks which
-          vary in which characters are encoded and how.
+          <spanx style="verb">+</spanx> character). It MAY be different from the
+          percent-encoding functions provided by web development frameworks (e.g. encode different
+          characters, user lower case hexadecimal characters).
         </t>
       </section>
 
@@ -1702,9 +1719,9 @@
       <section title="Secrecy of the Client Credentials" anchor="client_cred_sec">
         <t>
           In many cases, the client application will be under the control of potentially untrusted
-          parties. For example, if the client is a freely available desktop application, an
-          attacker may be able to download a copy for analysis. In such cases, attackers will be
-          able to recover the client credentials.
+          parties. For example, if the client is a desktop application with a freely available
+          source code or binary executable, an attacker may be able to download a copy for analysis.
+          In such cases, attackers will be able to recover the client credentials.
         </t>
         <t>
           Accordingly, servers should not use the client credentials alone to verify the identity
@@ -1902,19 +1919,31 @@
             Removed the requirement for timestamps to be equal to or greater than the timestamp
             used in the previous request.
           </t>
+          <t>
+            Changed the nonce and timestamp parameters to OPTIONAL when using the
+            <spanx style="verb">PLAINTEXT</spanx> signature method.
+          </t>
 					<t>
 						Extended signature base string coverage which includes <spanx style="verb">application/x-www-form-urlencoded</spanx>
 						entity-body parameters when the HTTP method used is other than <spanx style="verb">POST</spanx> and URI query
 						parameters when the HTTP method used is other than <spanx style="verb">GET</spanx>.
 					</t>
 					<t>
-						Added requirement to normalize empty request URI paths as <spanx style="verb">/</spanx>.
-					</t>
-					<t>
 						Incorporated corrections to the instructions in each signature method to encode the signature
             value before inserting it into the <spanx style="verb">oauth_signature</spanx> parameter,
             removing errors which would have caused double-encoded values.
 					</t>
+          <t>
+            Allowed omitting the <spanx style="verb">oauth_token</spanx> parameter when empty.
+          </t>
+          <t>
+            Permitted sending requests for temporary credentials with an empty
+            <spanx style="verb">oauth_token</spanx> parameter.
+          </t>
+          <t>
+            Removed the restrictions from defining additional <spanx style="verb">oauth_</spanx>
+            parameters.
+          </t>
 				</list>
 			</t>
 		</appendix>
@@ -1935,13 +1964,34 @@
       <t>
         The editor would like to thank the following individuals for their invaluable contribution
         to the publication of this edition of the protocol: Lisa Dusseault, Justin Hart,
-        Avshalom Houri, Mark Nottingham, and Peter Saint-Andre.
+        Avshalom Houri, Mark Nottingham, Peter Saint-Andre, and Joseph Smarr.
       </t>
     </appendix>
 
     <appendix title="Document History" anchor="history">
       <t>
         [[ To be removed by the RFC editor before publication as an RFC. ]]
+      </t>
+      <t>
+        -06
+
+        <list style="symbols">
+          <t>
+            Moved parameter section into client instructions.
+          </t>
+          <t>
+            Added more examples in the delegation section, including more complete HTTP responses.
+          </t>
+          <t>
+            Removed language about restricting the use of the 'oauth_' prefix.
+          </t>
+          <t>
+            Changed the nonce and timestamp parameters to optional when using PLAINTEXT.
+          </t>
+          <t>
+            Allowed empty token in temporary credentials requests.
+          </t>
+        </list>
       </t>
       <t>
         -05
