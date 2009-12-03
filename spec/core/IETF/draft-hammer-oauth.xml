@@ -765,7 +765,9 @@
         </t>
         <figure>
           <preamble>
-            For example, to make the following HTTP request authenticated:
+            For example, to make the following HTTP request authenticated (the
+            <spanx style="verb">c2&amp;a3=2+q</spanx> string in the following examples is used to
+            illustrate the impact of a form-encoded entity-body) :
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
   GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
@@ -794,7 +796,7 @@
         <figure>
           <preamble>
             The client adds the protocol parameter to the request using the OAuth HTTP
-            Authorization header:
+            Authorization header field:
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
   Authorization: OAuth realm="http://example.com/",
@@ -886,8 +888,10 @@
         <t>
           To avoid the need to retain an infinite number of nonce values for future checks, servers
           MAY choose to restrict the time period after which a request with an old timestamp is
-          rejected. Servers applying such a restriction SHOULD provide a way for the client to sync
-          its clock with the server's clock (or with a trusted time service), which is beyond the
+          rejected. Note that this restriction implies a level of synchronization between the
+          client's and server's clocks. Servers applying such a restriction MAY provide a way for
+          the client to sync with the server's clock; alternatively both systems could synchronize
+          with a trusted time service. Details of clock synchronization strategies are beyond the
           scope of this specification.
         </t>
       </section>
@@ -945,7 +949,7 @@
               </t>
               <t>
                 The authority as declared by the HTTP <spanx style="verb">Host</spanx> request
-                header.
+                header field.
               </t>
               <t>
                 The path and query components of the request resource URI.
@@ -1044,7 +1048,7 @@
                 </t>
                 <t>
                   The host and port values MUST match the content of the HTTP request
-                  <spanx style="verb">Host</spanx> header.
+                  <spanx style="verb">Host</spanx> header field.
                 </t>
                 <t>
                   The port MUST be included if it is not the default port for the scheme, and MUST
@@ -1107,10 +1111,10 @@
                     <xref target="W3C.REC-html40-19980424" /> section 17.13.4.
                   </t>
                   <t>
-                    The OAuth HTTP Authorization header (<xref target="auth_header" />) if present.
-                    The header's content is parsed into a list of name/value pairs excluding the
-                    <spanx style="verb">realm</spanx> parameter if present. The parameter values are
-                    decoded as defined by <xref target="auth_header" />.
+                    The OAuth HTTP Authorization header field (<xref target="auth_header" />) if
+                    present. The header's content is parsed into a list of name/value pairs
+                    excluding the <spanx style="verb">realm</spanx> parameter if present. The
+                    parameter values are decoded as defined by <xref target="auth_header" />.
                   </t>
                   <t>
                     The HTTP request entity-body, but only if all of the following conditions are met:
@@ -1126,7 +1130,7 @@
                       </t>
                       <t>
                         The HTTP request entity-header includes the <spanx style="verb">Content-Type</spanx>
-                        header set to <spanx style="verb">application/x-www-form-urlencoded</spanx>.
+                        header field set to <spanx style="verb">application/x-www-form-urlencoded</spanx>.
                       </t>
                     </list>
 
@@ -1447,7 +1451,7 @@
 
           <list style="numbers">
             <t>
-              The HTTP <spanx style="verb">Authorization</spanx> header as described in
+              The HTTP <spanx style="verb">Authorization</spanx> header field as described in
               <xref target="auth_header" />.
             </t>
             <t>
@@ -1466,7 +1470,7 @@
         <section title="Authorization Header" anchor="auth_header">
           <t>
             Protocol parameters can be transmitted using the HTTP
-            <spanx style="verb">Authorization</spanx> header as defined by <xref target="RFC2617" />
+            <spanx style="verb">Authorization</spanx> header field as defined by <xref target="RFC2617" />
             with the auth-scheme name set to <spanx style="verb">OAuth</spanx> (case-insensitive).
           </t>
           <figure>
@@ -1487,7 +1491,7 @@
           </figure>
           <t>
             Protocol parameters SHALL be included in the <spanx style="verb">Authorization</spanx>
-            header as follows:
+            header field as follows:
 
             <list style="numbers">
               <t>
@@ -1513,9 +1517,9 @@
           <t>
             Servers MAY indicate their support for the <spanx style="verb">OAuth</spanx>
             auth-scheme by returning the HTTP <spanx style="verb">WWW-Authenticate</spanx>
-            response header upon client requests for protected resources. As per
+            response header field upon client requests for protected resources. As per
             <xref target="RFC2617" /> such a response MAY include additional HTTP
-            <spanx style="verb">WWW-Authenticate</spanx> headers:
+            <spanx style="verb">WWW-Authenticate</spanx> header fields:
           </t>
           <figure>
             <preamble>
@@ -1548,7 +1552,7 @@
               </t>
               <t>
                 The HTTP request entity-header includes the <spanx style="verb">Content-Type</spanx>
-                header set to <spanx style="verb">application/x-www-form-urlencoded</spanx>.
+                header field set to <spanx style="verb">application/x-www-form-urlencoded</spanx>.
               </t>
             </list>
 
@@ -1604,7 +1608,7 @@
           signature base string. The following percent-encoding method is not defined to replace
           the existing encoding methods defined by <xref target="RFC3986" /> and
           <xref target="W3C.REC-html40-19980424" />. It is used only in the construction of the
-          signature base string and the <xref target="auth_header">authorization header</xref>.
+          signature base string and the <xref target="auth_header">authorization header field</xref>.
         </t>
         <t>
           This specification defines the following method for percent-encoding strings:
@@ -1706,15 +1710,15 @@
         <t>
           The <xref target="auth_header">HTTP Authorization scheme</xref> is optional. However,
           <xref target="RFC2616" /> relies on the <spanx style="verb">Authorization</spanx> and
-          <spanx style="verb">WWW-Authenticate</spanx> headers to distinguish authenticated content
+          <spanx style="verb">WWW-Authenticate</spanx> header fields to distinguish authenticated content
           so that it can be protected. Proxies and caches, in particular, may fail to adequately
-          protect requests not using these headers.
+          protect requests not using these header fields.
         </t>
         <t>
           For example, private authenticated content may be stored in (and thus retrievable from)
           publicly-accessible caches. Servers not using the
-          <xref target="auth_header">HTTP Authorization header</xref> should take care to use other
-          mechanisms, such as the <spanx style="verb">Cache-Control</spanx> header, to ensure that
+          <xref target="auth_header">HTTP Authorization header field</xref> should take care to use other
+          mechanisms, such as the <spanx style="verb">Cache-Control</spanx> header field, to ensure that
           authenticated content is protected.
         </t>
       </section>
@@ -1949,8 +1953,8 @@
       <t>
         The editor would like to thank the following individuals for their invaluable contribution
         to the publication of this edition of the protocol: Lisa Dusseault, Justin Hart,
-        Avshalom Houri, Chris Messina, Mark Nottingham, Peter Saint-Andre, Joseph Smarr, and
-        Paul Walker.
+        Avshalom Houri, Chris Messina, Mark Nottingham, Tim Polk, Peter Saint-Andre, Joseph Smarr,
+        and Paul Walker.
       </t>
     </section>
     
@@ -2000,6 +2004,23 @@
     <appendix title="Document History" anchor="history">
       <t>
         [[ To be removed by the RFC editor before publication as an RFC. ]]
+      </t>
+      <t>
+        -08
+        <list style="symbols">
+          <t>
+            Adjusted timestamp language to allow use of time servers for clock sync.
+          </t>
+          <t>
+            Revised security language for SHA-1 weakness and applicability.
+          </t>
+          <t>
+            Added link to the community specification.
+          </t>
+          <t>
+            Minor editorial changes.
+          </t>
+        </list>
       </t>
       <t>
         -07
