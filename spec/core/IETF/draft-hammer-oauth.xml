@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 
-<rfc category="info" ipr="trust200902" docName="draft-hammer-oauth-08">
+<rfc category="info" ipr="trust200902" docName="draft-hammer-oauth-09">
 
   <?rfc strict="yes" ?>
   <?rfc toc="yes" ?>
@@ -2006,6 +2006,14 @@
     <appendix title="Document History" anchor="history">
       <t>
         [[ To be removed by the RFC editor before publication as an RFC. ]]
+      </t>
+      <t>
+        -09
+        <list sytle="symbols">
+          <t>
+            Added 'with a 200 status code (OK)' in two places.
+          </t>
+        </list>
       </t>
       <t>
         -08
