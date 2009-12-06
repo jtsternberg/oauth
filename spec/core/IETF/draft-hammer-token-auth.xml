@@ -62,26 +62,27 @@
         While the Basic and Digest schemes can be used to send credentials other than a username
         and password, their wide deployment and well-established behavior in user-agents preclude
         them from being used with other classes of credentials. Extending these schemes to support
-        new classes would require impractical changes to the existing deployment base.
+        new classes would require impractical changes to their existing deployment.
       </t>
       <t>
         The Token Access Authentication scheme provides a method for making authenticated HTTP
         requests using a token - an identifier used to denote an access grant with specific scope,
-        duration, or other limitations. Tokens are typically issued by the server, and may include
-        a shared secret known only to the authorized client.
+        duration, cryptographic properties, and other attributes. Tokens can issued by the server,
+        self-issued by the client, or issued by a third party.
       </t>
       <t>
         The token scheme support an extensible set of credential classes, by enabling the server to
-        declare the classes it supports. It also supports an extensible set of authentication
-        coverage - the elements of the HTTP request (e.g. request URI, entity-body) included in the
-        authentication process.
+        declare the classes it supports. Token classes determine how tokens are obtained and the
+        context in which they can be used. It also supports an extensible set of authentication
+        methods and authentication coverage (the elements of the HTTP request such as the request
+        URI or entity-body included in the authentication process).
       </t>
       <t>
-        This specification defines four token classes to support the most common use cases and
-        describes their security properties. The methods through which clients obtain tokens are
-        beyond the scope of this specification. The OAuth protocol
-        <xref target="I-D.ietf-oauth-web-delegation" /> defines one such set of methods for
-        obtaining token credentials.
+        This specification defines four token authentication methods to support the most common use
+        cases and describes their security properties. The methods through which clients obtain
+        tokens supporting these methods are beyond the scope of this specification. The OAuth
+        protocol <xref target="I-D.ietf-oauth-web-delegation" /> defines one such set of methods
+        for obtaining <spanx style="oauth">oauth</spanx>-class token credentials.
       </t>
 
       <section title="Terminology">
@@ -103,9 +104,17 @@
               and accessible by making a <xref target="requests">Token-authenticated request</xref>.
             </t>
             <t hangText="token credentials">
-              A set of token (unique identifier), an OPTIONAL matching shared secret (symmetric
-              or asymmetric), class, and other attributes, used by the client to make authenticated
+              <vspace />
+              A set of a unique identifier (token) and an authentication method with an OPTIONAL
+              shared secret (symmetric or asymmetric), as well as other attributes (e.g. class,
+              duration, scope), used by the client to make authenticated
               requests.
+            </t>
+            <t hangText="normalized request string">
+              <vspace />
+              A string representing various elements of the HTTP request, normalized and
+              concatanated together. The elements included in the normalize request string are
+              determined by the authentication coverage supported by the server.
             </t>
           </list>
         </t>
@@ -128,31 +137,31 @@
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
   HTTP/1.1 401 Unauthorized
-  WWW-Authenticate: Token realm="generic",
-                          classes="hmac-sha-1 hmac-sha-256",
+  WWW-Authenticate: Token class="oauth",
+                          methods="hmac-sha-1 hmac-sha-256",
                           timestamp="137131190"
 ]]>
           </artwork>
         </figure>
         <t>
-          This means the server is expecting a token issued for the
-          <spanx style="verb">generic</spanx> realm of either class
-          <spanx style="verb">hmac-sha-1</spanx> or <spanx style="verb">hmac-sha-256</spanx>. It
-          also provides it current time to assist the client in synchronizing its clock with the
-          server for the purpose of producing a unique nonce value.
+          This means the server is expecting an <spanx style="verb">oauth</spanx> class token using
+          either the <spanx style="verb">hmac-sha-1</spanx> or <spanx style="verb">hmac-sha-256</spanx>
+          authentication methods. It also provides its current time to assist the client in
+          synchronizing its clock with the server's clock for the purpose of producing a unique
+          nonce value.
         </t>
         <figure>
           <preamble>
-            The client attempts the HTTP request again, this time using a class
-            <spanx style="verb">hmac-sha-1</spanx> token issued by the server earlier to
-            authenticate:
+            The client attempts the HTTP request again, this time using a set of token credentials
+            supporting the <spanx style="verb">hmac-sha-1</spanx> method issued by the server
+            earlier to authenticate:
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
   GET /resource/1 HTTP/1.1
   Host: example.com
-  Authorization: Token realm="generic",
-                       class="hmac-sha-1",
-                       token="h480djs93hd8",
+  Authorization: Token token="h480djs93hd8",
+                       class="oauth",
+                       method="hmac-sha-1",
                        timestamp="137131200",
                        nonce="dj83hs9s",
                        auth="djosJKDKJSD8743243/jdk33klY="
@@ -182,22 +191,38 @@
 
     <section title="Making Requests" anchor="requests">
       <t>
-        The clients makes authenticated requests by calculating the value of a set of attributes
+        The clients makes authenticated requests by calculating the values of a set of attributes
         and adding them to the HTTP request using the <xref target="authz">Authorization header field</xref>.
         Authenticated request can be sent either directly (without first receiving a challenge), or
         in response to an authentication challenge.
       </t>
       <t>
-        To make an authenticated request, the client obtains information about the token classes
-        and authentication coverage supported by the server. This information is provided by the
-        server via the <xref target="authn">WWW-Authenticate header field</xref>. The client SHOULD
-        only send an authenticated request to server without first receiving a challenge when it
-        has prior knowledge of the token classes and other attributes supported by server.
+        To make an authenticated request, the client obtains information about the token classes,
+        authentication methods, and authentication coverage supported by the server. This
+        information is provided by the server via the <xref target="authn">WWW-Authenticate header field</xref>.
+        The client SHOULD only send an authenticated request to server (without first receiving a
+        challenge) when it has prior knowledge of the token classes, methods, and other attributes
+        supported by server.
       </t>
       <t>
-        The client chooses the token class and authentication coverage.
+        The client chooses an available token with the supported class and authentication method,
+        as well as a supported authentication coverage. The methods through which the client
+        obtains a valid token, or the criteria used to choose a token if more than one is available
+        are beyond the scope of this specificaiton.
       </t>
-
+      <figure>
+        <preamble>
+          returns the following authentication challange:
+        </preamble>
+        <artwork xml:space="preserve"><![CDATA[
+  HTTP/1.1 401 Unauthorized
+  WWW-Authenticate: Token realm="generic",
+                          class="oauth",
+                          methods="hmac-sha-1 hmac-sha-256",
+                          timestamp="137131190"
+]]>
+          </artwork>
+      </figure>
       <t>
         The protocol parameters are added to the request.
       </t>
@@ -328,16 +353,18 @@
         <artwork xml:space="preserve"><![CDATA[
  challenge       = "Token" RWS token-challenge
    
- token-challenge = realm
-                   CS class-list
+ token-challenge = class
+                   CS method-list
                    [ CS coverage-list ]
                    [ CS timestamp ]
-   
- class-list      = "class" "=" <"> 1#class-name <">
- class-name      = "hmac-sha-1" /
+ 
+ class           = "class" "=" <"> token <">
+ 
+ method-list     = "method" "=" <"> 1#method-name <">
+ method-name     = "none" /
+                   "hmac-sha-1" /
                    "hmac-sha-256" /
                    "rsassa-pkcs1-v1.5-sha-256" /
-                   "bearer-opaque" /
                    token
 
  coverage-list   = "coverage" "=" <"> 1#coverage-name <">
@@ -352,20 +379,33 @@
         </artwork>
       </figure>
 
-      <section title="The 'realm' attribute">
+      <section title="The 'class' attribute">
         <t>
-          [[ TBD ]]
+          The name of the token class supported by the server. Servers MAY support multiple classes
+          per protected resource by providing multiple challenges, each with a different class.
         </t>
       </section>
 
-      <section title="The 'classes' attribute">
+      <section title="The 'method' attribute">
         <t>
-          The list of token classes names supported by the server, provided as a space-delimited
-          list. Token classes are defined in <xref target="classes" />
+          The list of authentication method names supported by the server, provided as a
+          space-delimited list. Authentication methods are described in <xref target="methods" />.
+        </t>
+      </section>
+
+      <section title="The 'coverage' attribute">
+        <t>
+          The list of authentication coverage names supported by the server, provided as a
+          space-delimited list. If omitted, the attribute defaults to <spanx style="verb">base</spanx>.
+          Authentication coverage is described in <xref target="coversage" />.
         </t>
       </section>
 
       <section title="The 'timestamp' attribute">
+        <t>
+          Signature-based and hash-based authentication methods use timestamps in combination with
+          unique nonce values to protect against replay attacks when used over an unsecure channel.
+        </t>
         <t>
           The timestmap attribute is used by the server to publish its current time, enabling
           clients to synchronize their close with the server. The timestamp value is the current
@@ -373,8 +413,6 @@
           positive integer.
         </t>
         <t>
-          Signature-based and hash-based authentication methods use timestamps in combination with
-          unique nonce values to protect against replay attacks when used over an unsecure channel.
           To avoid the need to retain an infinite number of nonce values for future checks, servers
           MAY choose to restrict the time period after which a request with an old timestamp is
           rejected. Servers applying such a restriction SHOULD provide their current time to the
@@ -400,35 +438,22 @@
         <artwork xml:space="preserve"><![CDATA[
  credentials    = "Token" RWS token-response
    
- token-response = realm
-                  CS token-id
+ token-response = token-id
                   CS class
+                  CS method
                   [ CS coverage ]
                   [ CS nonce ]
                   [ CS timestamp ]
                   [ CS auth ]
 
  token-id         = "token" "=" <"> token <">
- class            = "class" "=" <"> class-name <">
+ method           = "method" "=" <"> method-name <">
  coverage         = "coverage" "=" <"> coverage-name <">
- nonce            = "token" "=" <"> token <">
+ nonce            = "nonce" "=" <"> token <">
  auth             = "auth" "=" <"> token <">
 ]]>
         </artwork>
       </figure>
-
-      <section title="The 'realm' attribute">
-        <t>
-          [[ TBD ]]
-        </t>
-      </section>
-
-      <section title="The 'class' attribute">
-        <t>
-          The name of the token class used by the client to make the request as defined by
-          <xref target="classes" />
-        </t>
-      </section>
 
       <section title="The 'token' attribute">
         <t>
@@ -438,12 +463,24 @@
         </t>
       </section>
 
+      <section title="The 'class' attribute">
+        <t>
+          The name of the token class used by the client to make the request.
+        </t>
+      </section>
+
+      <section title="The 'method' attribute">
+        <t>
+          The name of the authention method used by the client to make the request.
+        </t>
+      </section>
+
       <section title="The 'nonce' attribute">
         <t>
-          A nonce is a random string, uniquely generated by the client to allow the server to
-          verify that a request has never been made before and helps prevent replay attacks when
-          requests are made over a non-secure channel. The nonce value MUST be unique across all
-          requests with the same timestamp and token combinations.
+          A random string, uniquely generated by the client to allow the server to verify that a
+          request has never been made before and helps prevent replay attacks when requests are
+          made over a non-secure channel. The nonce value MUST be unique across all requests with
+          the same timestamp and token combinations.
         </t>
       </section>
 
@@ -484,36 +521,32 @@
  error-code      = "error-code"    "=" <"> token <">
  error-info      = "error-info"    "=" <"> token <">
  error-message   = "error-message" "=" quoted-string
-  ]]>
+]]>
         </artwork>
       </figure>
       
       <section title="The 'error-code' attribute">
         <t>
-
         </t>
       </section>
 
       <section title="The 'error-info' attribute">
         <t>
-
         </t>
       </section>
 
       <section title="The 'error-message' attribute">
         <t>
-
         </t>
       </section>
 
     </section>
 
-    <section title="Token Classes" anchor="classes">
+    <section title="Authentication Methods" anchor="methods">
       <t>
-				In order for the server to
-        verify the authenticity of the request and prevent unauthorized access, the client needs
-        to prove that it is the rightful owner of the credentials. This is accomplished using the
-        shared-secret (or RSA key) part of each set of credentials.
+				In order for the server to verify the authenticity of the request and prevent unauthorized
+        access, the client needs to prove that it is the rightful owner of the credentials. This is
+        accomplished using the shared-secret and authentication method associated with the token.
       </t>
       <t>
         OAuth provides three methods for the client to prove its rightful ownership of the
@@ -535,37 +568,23 @@
         the <spanx style="verb">oauth_signature</spanx> parameter.
       </t>
 
-      <section title="Plain">
+      <section title="The 'none' Method">
         <t>
-          The <spanx style="verb">PLAINTEXT</spanx> method does not employ a signature algorithm
-          and does not provide any security on its own as it transmits secrets in the clear. It
-          SHOULD only be used with a transport-layer mechanism such as TLS or SSL as explained in
-          <xref target="plain_ssl" />. It does not utilize the signature base string nor the
-          <spanx style="verb">oauth_timestamp</spanx> and <spanx style="verb">oauth_nonce</spanx>
-          parameters.
+          The <spanx style="verb">none</spanx> method does not employ a cryptographic algorithm
+          and does not provide any security on its own. Servers utilizing this method use the token
+          identifier as a bearer token, relying solely on the value of the token identifier to
+          authenticate the client.
         </t>
         <t>
-          The <spanx style="verb">oauth_signature</spanx> protocol parameter is set to the
-          concatenated value of:
-
-          <list style="numbers">
-            <t>
-              The client shared-secret, after being <xref target="encoding">encoded</xref>.
-            </t>
-            <t>
-              An <spanx style="verb">&amp;</spanx> character (ASCII code 38), which MUST be
-              included even when either secret is empty.
-            </t>
-            <t>
-              The token shared-secret, after being <xref target="encoding">encoded</xref>.
-            </t>
-          </list>
+          The <spanx style="verb">coverage</spanx>, <spanx style="verb">nonce</spanx>,
+          <spanx style="verb">timestamp</spanx>, and <spanx style="verb">auth</spanx> attributes
+          are not used, and SHOULD NOT be included in authenticated requests.
         </t>
       </section>
 
-      <section title="HMAC">
+      <section title="The 'hmac-sha-1' Method">
         <t>
-          The <spanx style="verb">HMAC-SHA1</spanx> signature method uses the HMAC-SHA1 signature
+          The <spanx style="verb">hmac-sha-1</spanx> authentication method uses the HMAC-SHA1
           algorithm as defined in <xref target="RFC2104" />:
 
           <figure>
@@ -581,46 +600,69 @@
           <list style="hanging" hangIndent="6">
             <t hangText="text">
               <vspace />
-              is set to the value of the signature base string from <xref target="base_string" />.
+              is set to the value of the normalize request string as described in
+              <xref target="coverage" />.
             </t>
             <t hangText="key">
               <vspace />
-              is set to the concatenated values of:
-
-              <list style="numbers">
-                <t>
-                  The client shared-secret, after being <xref target="encoding">encoded</xref>.
-                </t>
-                <t>
-                  An <spanx style="verb">&amp;</spanx> character (ASCII code 38), which MUST be
-                  included even when either secret is empty.
-                </t>
-                <t>
-                  The token shared-secret, after being <xref target="encoding">encoded</xref>.
-                </t>
-              </list>
+              is set to the shared-secret associated with the token.
             </t>
             <t hangText="digest">
               <vspace />
-              is used to set the value of the <spanx style="verb">oauth_signature</spanx>
-              protocol parameter, after the result octet string is base64-encoded per
+              is used to set the value of the <spanx style="verb">auth</spanx>
+              attribute, after the result octet string is base64-encoded per
               <xref target="RFC2045" /> section 6.8.
             </t>
           </list>
         </t>
       </section>
 
-      <section title="RSA">
+      <section title="The 'hmac-sha-256' Method">
         <t>
-          The <spanx style="verb">RSA-SHA1</spanx> signature method uses the RSASSA-PKCS1-v1_5
-          signature algorithm as defined in <xref target="RFC3447" /> section 8.2 (also known as
-          PKCS#1), using SHA-1 as the hash function for EMSA-PKCS1-v1_5. To use this method, the
-          client MUST have established client credentials with the server which included its RSA
-          public key (in a manner which is beyond the scope of this specification).
+          The <spanx style="verb">hmac-sha-256</spanx> authentication method uses the HMAC
+          algorithm as defined in <xref target="RFC2104" /> together with the SHA-256 hash
+          function defined in <xref target="NIST FIPS-180-3" />:
+
+          <figure>
+            <artwork xml:space="preserve"><![CDATA[
+  digest = HMAC-SHA256 (key, text)
+]]>
+            </artwork>
+          </figure>
         </t>
         <t>
-          The signature base string is signed using the client's RSA private key per
-          <xref target="RFC3447" /> section 8.2.1:
+          The HMAC-SHA256 function variables are used in following way:
+
+          <list style="hanging" hangIndent="6">
+            <t hangText="text">
+              <vspace />
+              is set to the value of the normalize request string as described in
+              <xref target="coverage" />.
+            </t>
+            <t hangText="key">
+              <vspace />
+              is set to the shared-secret associated with the token.
+            </t>
+            <t hangText="digest">
+              <vspace />
+              is used to set the value of the <spanx style="verb">auth</spanx>
+              attribute, after the result octet string is base64-encoded per
+              <xref target="RFC2045" /> section 6.8.
+            </t>
+          </list>
+        </t>
+      </section>
+
+      <section title="The 'rsassa-pkcs1-v1.5-sha-256' Method">
+        <t>
+          The <spanx style="verb">rsassa-pkcs1-v1.5-sha-256</spanx> signature method uses the
+          RSASSA-PKCS1-v1_5 signature algorithm as defined in <xref target="RFC3447" /> section 8.2
+          (also known as PKCS#1), using SHA-256 as the hash function as defined in
+          <xref target="NIST FIPS-180-3" /> for EMSA-PKCS1-v1_5.
+        </t>
+        <t>
+          The normalized request string is signed using the RSA private key associated with the
+          token as defined in <xref target="RFC3447" /> section 8.2.1:
 
           <figure>
             <artwork xml:space="preserve"><![CDATA[
@@ -634,16 +676,17 @@
           <list style="hanging" hangIndent="6">
             <t hangText="K">
               <vspace />
-              is set to the client's RSA private key,
+              is set to the RSA private key associated with the token,
             </t>
             <t hangText="M">
               <vspace />
-              is set to the value of the signature base string from <xref target="base_string" />, and
+              is set to the value of the normalized request string described
+              in <xref target="coverage" />, and
             </t>
             <t hangText="S">
               <vspace />
-              is the result signature used to set the value of the <spanx style="verb">oauth_signature</spanx>
-              protocol parameter, after the result octet string is base64-encoded per <xref target="RFC2045" />
+              is the result signature used to set the value of the <spanx style="verb">auth</spanx>
+              attribute, after the result octet string is base64-encoded per <xref target="RFC2045" />
               section 6.8.
             </t>
           </list>
@@ -663,16 +706,17 @@
           <list style="hanging" hangIndent="6">
             <t hangText="(n, e)">
               <vspace />
-              is set to the client's RSA public key,
+              is set to the RSA public key associated with the token,
             </t>
             <t hangText="M">
               <vspace />
-              is set to the value of the signature base string from <xref target="base_string" />, and
+              is set to the value of the normalized request string described
+              in <xref target="coverage" />, and
             </t>
             <t hangText="S">
               <vspace />
-              is set to the octet string value of the <spanx style="verb">oauth_signature</spanx>
-              protocol parameter received from the client.
+              is set to the octet string value of the <spanx style="verb">auth</spanx> attribute
+              received from the client.
             </t>
           </list>
         </t>
@@ -1305,7 +1349,17 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html40-19980424.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-httpbis-p1-messaging-08.xml"?>
-      
+
+      <reference anchor="NIST FIPS-180-3">
+        <front>
+          <title>Secure Hash Standard (SHS). FIPS PUB 180-3, October 2008</title>
+          <author>
+            <organization>National Institute of Standards and Technology</organization>
+          </author>
+        </front>
+        <format type="pdf" target="http://csrc.nist.gov/publications/fips/fips180-3/fips180-3_final.pdf" />
+      </reference>      
+
     </references>
 
     <references title="Informative References">
