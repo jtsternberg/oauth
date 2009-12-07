@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 
@@ -39,15 +39,17 @@
 
     <section title="Introduction">
       <t>
-        [[ This draft is submitted for the consideration of the OAuth Working Group to be adoped as
-        an official working group item per its current charter. Please discuss this draft on the
+        [[ This draft is submitted for the consideration of the OAuth Working Group to be adopted as
+        an official working group item per its current charter. It is presented in its raw form to
+        assist in facilitating a more effective working group conversation and should not be
+        considered a complete proposal. Please discuss this draft on the
         <eref target="https://www.ietf.org/mailman/listinfo/oauth">oauth@ietf.org</eref> mailing
         list. ]]
       </t>
       <t>
         With the growing use of distributed web services and cloud computing, clients need to allow
         other parties access to the resources they control. When granting access, clients should
-        not be required to share their credentials (typically a username and passowrd), and should
+        not be required to share their credentials (typically a username and password), and should
         have the ability to restrict access to a limited subset of the resources they control or
         the access methods supported by these resources. These goals require new classes of
         authentication credentials.
@@ -113,7 +115,7 @@
             <t hangText="normalized request string">
               <vspace />
               A string representing various elements of the HTTP request, normalized and
-              concatanated together. The elements included in the normalize request string are
+              concatenated together. The elements included in the normalize request string are
               determined by the authentication coverage supported by the server.
             </t>
           </list>
@@ -133,7 +135,7 @@
         </figure>
         <figure>
           <preamble>
-            returns the following authentication challange:
+            returns the following authentication challenge:
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
   HTTP/1.1 401 Unauthorized
@@ -191,149 +193,121 @@
 
     <section title="Making Requests" anchor="requests">
       <t>
-        The clients makes authenticated requests by calculating the values of a set of attributes
-        and adding them to the HTTP request using the <xref target="authz">Authorization header field</xref>.
+        The client makes authenticated requests by calculating the values of a set of attributes
+        and adding them to the HTTP request using the <xref target="authz_header">Authorization header field</xref>.
         Authenticated request can be sent either directly (without first receiving a challenge), or
         in response to an authentication challenge.
       </t>
       <t>
-        To make an authenticated request, the client obtains information about the token classes,
-        authentication methods, and authentication coverage supported by the server. This
-        information is provided by the server via the <xref target="authn">WWW-Authenticate header field</xref>.
-        The client SHOULD only send an authenticated request to server (without first receiving a
-        challenge) when it has prior knowledge of the token classes, methods, and other attributes
-        supported by server.
+        To make an authenticated request, the client obtains information about the attributes
+        supported by the server. This information is provided by the server via the
+        <xref target="authn_header">WWW-Authenticate header field</xref>. The client SHOULD only send an
+        authenticated request to the server (without first receiving a challenge) if it has prior
+        knowledge of the attributes supported by server.
       </t>
       <t>
-        The client chooses an available token with the supported class and authentication method,
-        as well as a supported authentication coverage. The methods through which the client
+        The client chooses an available token with the supported class and authentication method.
+        It also chooses a supported authentication coverage. The methods through which the client
         obtains a valid token, or the criteria used to choose a token if more than one is available
-        are beyond the scope of this specificaiton.
-      </t>
-      <figure>
-        <preamble>
-          returns the following authentication challange:
-        </preamble>
-        <artwork xml:space="preserve"><![CDATA[
-  HTTP/1.1 401 Unauthorized
-  WWW-Authenticate: Token realm="generic",
-                          class="oauth",
-                          methods="hmac-sha-1 hmac-sha-256",
-                          timestamp="137131190"
-]]>
-          </artwork>
-      </figure>
-      <t>
-        The protocol parameters are added to the request.
+        are beyond the scope of this specification.
       </t>
       <t>
-        The client calculates and assigns the value of the <spanx style="verb">oauth_signature</spanx>
-        parameter as described in <xref target="methods" /> and adds the parameter to the
-        request using the same method used in the previous step.
-      </t>
-      <t>
-        The client sends the authenticated HTTP request to the server.
-      </t>
-      <figure>
-        <preamble>
-          For example, to make the following HTTP request authenticated:
-        </preamble>
-        <artwork xml:space="preserve"><![CDATA[
-  GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
-  Host: example.com
-  Content-Type: application/x-www-form-urlencoded
+        Once the client selects the appropriate token credentials it proceeds to:
+        
+        <list style="numbers">
+          <t>
+            Assign values based on its selection to the following attributes:
+            
+            <list style="symbols">
+              <t>
+                <spanx style="verb">token</spanx>
+              </t>
+              <t>
+                <spanx style="verb">class</spanx>
+              </t>
+              <t>
+                <spanx style="verb">method</spanx>
+              </t>
+              <t>
+                <spanx style="verb">coverage</spanx>
+              </t>
+            </list>
+          </t>
+          <t>
+            If the client uses a coverage method other than <spanx style="verb">none</spanx> it
+            MUST assign values to the following attributes:
 
-  c2&a3=2+q
-]]>
-        </artwork>
-      </figure>
-      <figure>
-        <preamble>
-          The client assigns values to the following protocol parameters using its client
-          credentials, token credentials, the current timestamp, a uniquely generated nonce, and
-          indicates it will use the <spanx style="verb">HMAC-SHA1</spanx> signature method:
-        </preamble>
-        <artwork xml:space="preserve"><![CDATA[
-  oauth_consumer_key:     9djdj82h48djs9d2
-  oauth_token:            kkk9d7dh3k39sjv7
-  oauth_signature_method: HMAC-SHA1
-  oauth_timestamp:        137131201
-  oauth_nonce:            7d8f3e4a
-]]>
-        </artwork>
-      </figure>
-      <figure>
-        <preamble>
-          The client adds the protocol parameter to the request using the OAuth HTTP
-          Authorization header:
-        </preamble>
-        <artwork xml:space="preserve"><![CDATA[
-  Authorization: OAuth realm="http://example.com/",
-                 oauth_consumer_key="9djdj82h48djs9d2",
-                 oauth_token="kkk9d7dh3k39sjv7",
-                 oauth_signature_method="HMAC-SHA1",
-                 oauth_timestamp="137131201",
-                 oauth_nonce="7d8f3e4a"
-]]>
-        </artwork>
-      </figure>
-      <figure>
-        <preamble>
-          Then calculates the value of the <spanx style="verb">oauth_signature</spanx> parameter,
-          adds it to the request, and sends the HTTP request to the server:
-        </preamble>
-        <artwork xml:space="preserve"><![CDATA[
-  GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
-  Host: example.com
-  Content-Type: application/x-www-form-urlencoded
-  Authorization: OAuth realm="http://example.com/",
-                 oauth_consumer_key="9djdj82h48djs9d2",
-                 oauth_token="kkk9d7dh3k39sjv7",
-                 oauth_signature_method="HMAC-SHA1",
-                 oauth_timestamp="137131201",
-                 oauth_nonce="7d8f3e4a",
-                 oauth_signature="djosJKDKJSD8743243%2Fjdk33klY%3D"
-
-  c2&a3=2+q
-]]>
-        </artwork>
-      </figure>
+            <list style="symbols">
+              <t>
+                <spanx style="verb">nonce</spanx>
+              </t>
+              <t>
+                <spanx style="verb">timestamp</spanx>
+              </t>
+            </list>
+          </t>
+          <t>
+            Assigns value to any additional class-specific, method-specific, or coverage-specific
+            attributes as defined by protocol extensions.
+          </t>
+          <t>
+            If the client uses a coverage method other than <spanx style="verb">none</spanx> it
+            constructs the normalized request string based on the selected coverage as described in
+            <xref target="coverage" />.
+          </t>
+          <t>
+            Calculates the value of the <spanx style="verb">auth</spanx> attribute as defined by
+            the selected authentication method.
+          </t>
+          <t>
+            Adds the assigned attributes to the request via the
+            <xref target="authz_header">Authorization header field</xref>.
+          </t>
+          <t>
+            Sends the authenticated HTTP request to the server.
+          </t>
+        </list>
+      </t>
     </section>
 
     <section title="Verifying Requests" anchor="verify_request">
       <t>
-        Servers receiving an authenticated request MUST validate it by:
+        A servers receiving an authenticated request validates it by performing the following
+        REQUIRED steps:
 
-        <list style="symbols">
+        <list style="numbers">
           <t>
-            Recalculate the request signature independently as described in
+            Verify that the token used by the client as well as the coverage method matches the
+            server's requirements.
+          </t>
+          <t>
+            If the client used a coverage method other than <spanx style="verb">none</spanx>,
+            construct the normalized request string based on the selected coverage as described in
+            <xref target="coverage" />.
+          </t>
+          <t>
+            If the client used an authentication method other than <spanx style="verb">none</spanx>,
+            recalculate the value of the <spanx style="verb">auth</spanx> attribute as described in
             <xref target="methods" /> and compare it to the value received from the client via
-            the <spanx style="verb">oauth_signature</spanx> parameter.
+            the <spanx style="verb">auth</spanx> attribute.
           </t>
           <t>
-            If using the <spanx style="verb">HMAC-SHA1</spanx> or
-            <spanx style="verb">RSA-SHA1</spanx> signature methods, ensure that the combination
-            of nonce/timestamp/token (if present) received from the client has not been used
-            before in a previous request (the server MAY reject requests with stale timestamps).
+            If the client used a coverage method other than <spanx style="verb">none</spanx>,
+            ensure that the combination of nonce, timestamp, and token received from the client has
+            not been used before in a previous request (the server MAY reject requests with stale
+            timestamps; the determination of staleness is left up to the server to define).
           </t>
           <t>
-            If a token is present, verify the scope and status of the client authorization as
-            represented by the token (the server MAY choose to restrict token usage to the client
-            to which it was issued).
+            Verify the scope and status of the client credentials as represented by the token.
           </t>
         </list>
       </t>
       <t>
-        If the request fails verification, the server SHOULD respond with the appropriate HTTP
-        response status code. The server MAY include further details about why the request was
-        rejected in the response body.
-      </t>
-      <t>
-        The server SHOULD return a 400 (bad request) status code
-        when receiving a request with unsupported parameters, unsupported signature method,
-        missing parameters, or duplicated protocol parameters. The server SHOULD return a 401
-        (unauthorized) status code when receiving a request with invalid client credentials,
-        invalid or expired token, invalid signature, or invalid or used nonce.
+        If the request fails verification, the server SHOULD respond with an HTTP 401 (unauthorized)
+        status code, and SHOULD include a token scheme authentication challenge using the
+        <xref target="error_header">WWW-Authenticate header field</xref>. The server MAY include
+        further details about why the request was rejected using the
+        <xref target="error_header">Authorization-Error header field</xref>.
       </t>
     </section>
 
@@ -368,7 +342,8 @@
                    token
 
  coverage-list   = "coverage" "=" <"> 1#coverage-name <">
- coverage-name   = "base" /
+ coverage-name   = "none" /
+                   "base" /
                    "base+body-sha-256" /
                    token
 
@@ -379,35 +354,35 @@
         </artwork>
       </figure>
 
-      <section title="The 'class' attribute">
+      <section title="The 'class' Attribute">
         <t>
           The name of the token class supported by the server. Servers MAY support multiple classes
           per protected resource by providing multiple challenges, each with a different class.
         </t>
       </section>
 
-      <section title="The 'method' attribute">
+      <section title="The 'method' Attribute">
         <t>
           The list of authentication method names supported by the server, provided as a
           space-delimited list. Authentication methods are described in <xref target="methods" />.
         </t>
       </section>
 
-      <section title="The 'coverage' attribute">
+      <section title="The 'coverage' Attribute">
         <t>
           The list of authentication coverage names supported by the server, provided as a
           space-delimited list. If omitted, the attribute defaults to <spanx style="verb">base</spanx>.
-          Authentication coverage is described in <xref target="coversage" />.
+          Authentication coverage is described in <xref target="coverage" />.
         </t>
       </section>
 
-      <section title="The 'timestamp' attribute">
+      <section title="The 'timestamp' Attribute">
         <t>
           Signature-based and hash-based authentication methods use timestamps in combination with
           unique nonce values to protect against replay attacks when used over an unsecure channel.
         </t>
         <t>
-          The timestmap attribute is used by the server to publish its current time, enabling
+          The timestamp attribute is used by the server to publish its current time, enabling
           clients to synchronize their close with the server. The timestamp value is the current
           time expressed in the number of seconds since January 1, 1970 00:00:00 GMT, and MUST be a
           positive integer.
@@ -455,7 +430,7 @@
         </artwork>
       </figure>
 
-      <section title="The 'token' attribute">
+      <section title="The 'token' Attribute">
         <t>
           The value used to identify the set of token credentials used by the client to
           authenticate. The token identifier can be an opaque string or use a well-defined internal
@@ -463,19 +438,26 @@
         </t>
       </section>
 
-      <section title="The 'class' attribute">
+      <section title="The 'class' Attribute">
         <t>
           The name of the token class used by the client to make the request.
         </t>
       </section>
 
-      <section title="The 'method' attribute">
+      <section title="The 'method' Attribute">
         <t>
-          The name of the authention method used by the client to make the request.
+          The name of the authentication method used by the client to make the request.
         </t>
       </section>
 
-      <section title="The 'nonce' attribute">
+      <section title="The 'coverage' Attribute">
+        <t>
+          The name of the authentication coverage method used by the client to make the request.
+          If the attribute is omitted, its value defaults to <spanx style="verb">base</spanx>.
+        </t>
+      </section>
+
+      <section title="The 'nonce' Attribute">
         <t>
           A random string, uniquely generated by the client to allow the server to verify that a
           request has never been made before and helps prevent replay attacks when requests are
@@ -484,16 +466,17 @@
         </t>
       </section>
 
-      <section title="The 'timestamp' attribute">
+      <section title="The 'timestamp' Attribute">
         <t>
           The timestamp value is the current time expressed in the number of seconds since
           January 1, 1970 00:00:00 GMT, and MUST be a positive integer.
         </t>
       </section>
 
-      <section title="The 'auth' attribute">
+      <section title="The 'auth' Attribute">
         <t>
-
+          The output of the authentication method function after applying it to the selected
+          coverage as described in <xref target="methods" />.
         </t>
       </section>
 
@@ -511,7 +494,8 @@
       </t>
       <figure>
         <artwork xml:space="preserve"><![CDATA[
- Authentication-Error   = "Authentication-Error" ":" OWS #1error-param
+ Authentication-Error   = "Authentication-Error" ":"
+                          OWS #1error-param
                       
  error-param            = error-code /
                           error-info /
@@ -545,27 +529,19 @@
     <section title="Authentication Methods" anchor="methods">
       <t>
 				In order for the server to verify the authenticity of the request and prevent unauthorized
-        access, the client needs to prove that it is the rightful owner of the credentials. This is
-        accomplished using the shared-secret and authentication method associated with the token.
+        access, the client must prove it is the rightful owner of the credentials. This is
+        accomplished using the authentication method associated with the token.
       </t>
       <t>
-        OAuth provides three methods for the client to prove its rightful ownership of the
-        credentials: <spanx style="verb">HMAC-SHA1</spanx>, <spanx style="verb">RSA-SHA1</spanx>,
-        and <spanx style="verb">PLAINTEXT</spanx>. These methods are generally referred to as
-        signature methods, even though <spanx style="verb">PLAINTEXT</spanx> does not involve a
-        signature. In addition, <spanx style="verb">RSA-SHA1</spanx> utilizes an RSA key instead
-        of the shared-secrets associated with the client credentials.
+        This specification provides three methods for the client to prove its rightful ownership of
+        the credentials: <spanx style="verb">hmac-sha-1</spanx>, <spanx style="verb">hmac-sha-256</spanx>,
+        and <spanx style="verb">rsassa-pkcs1-v1.5-sha-256</spanx>. In addition, the
+        <spanx style="verb">none</spanx> method is defined to allow the use of bearer token which
+        does not utilizes any cryptographic means.
       </t>
       <t>
-        The client declares which signature method is used via the
-        <spanx style="verb">oauth_signature_method</spanx> parameter. It then generates a signature
-        (or a string of an equivalent value), and includes it in the
-        <spanx style="verb">oauth_signature</spanx> parameter. The server verifies the signature
-        as specified for each method.
-      </t>
-      <t>
-        The signature process does not change the request or its parameters, with the exception of
-        the <spanx style="verb">oauth_signature</spanx> parameter.
+        The authentication process does not change the request or its parameters, with the exception
+        of the <spanx style="verb">auth</spanx> attribute.
       </t>
 
       <section title="The 'none' Method">
@@ -576,9 +552,12 @@
           authenticate the client.
         </t>
         <t>
-          The <spanx style="verb">coverage</spanx>, <spanx style="verb">nonce</spanx>,
-          <spanx style="verb">timestamp</spanx>, and <spanx style="verb">auth</spanx> attributes
-          are not used, and SHOULD NOT be included in authenticated requests.
+          The <spanx style="verb">nonce</spanx>, <spanx style="verb">timestamp</spanx>, and
+          <spanx style="verb">auth</spanx> attributes are not used, and SHOULD NOT be included in
+          authenticated requests. The <spanx style="verb">coverage</spanx> attribute MUST be set to
+          <spanx style="verb">none</spanx> but MAY be omitted from the request. Nevertheless, these
+          attributes MUST be included in the normalized request string together with any other
+          authentication attributes.
         </t>
       </section>
 
@@ -723,450 +702,135 @@
       </section>
 
     </section>
-    
-    <section title="Signature Base String">
+
+    <section title="Coverage Methods" anchor="coverage">
       <t>
-        The signature base string is a consistent, reproducible concatenation of several
+        The normalized request string is a consistent, reproducible concatenation of several
         of the HTTP request elements into a single string. The string is used as an input to
-        the <spanx style="verb">HMAC-SHA1</spanx> and <spanx style="verb">RSA-SHA1</spanx>
-        signature methods.
+        the authentication methods with the exception of <spanx style="verb">none</spanx>.
       </t>
-      <t>
-        The signature base string includes the following components of the HTTP request:
-
-        <list style="symbols">
-          <t>
-            The HTTP request method (e.g. <spanx style="verb">GET</spanx>,
-            <spanx style="verb">POST</spanx>, etc.).
-          </t>
-          <t>
-            The authority as declared by the HTTP <spanx style="verb">Host</spanx> request
-            header.
-          </t>
-          <t>
-            The path and query components of the request resource URI.
-          </t>
-          <t>
-            The protocol parameters excluding the
-            <spanx style="verb">oauth_signature</spanx>.
-          </t>
-          <t>
-            Parameters included in the request entity-body if they comply with the strict
-            restrictions defined in <xref target="collect_param" />.
-          </t>
-        </list>
-      </t>
-      <t>
-        The signature base string does not cover the entire HTTP request. Most notably, it
-        does not include the entity-body in most requests, nor does it include most HTTP
-        entity-headers. It is important to note that the server cannot verify the authenticity
-        of the excluded request components without using additional protections such as SSL/TLS or
-        other methods.
-      </t>
-
-      <section title="String Construction" anchor="base_string">
+      
+      <section title="The 'base' Method">
         <t>
-          The signature base string is constructed by concatenating together, in order, the
-          following HTTP request elements:
+          When using the <spanx style="verb">base</spanx> method, the normalized request string
+          includes the following components of the HTTP request:
 
-          <list style="numbers">
+          <list style="symbols">
             <t>
-              The HTTP request method in uppercase. For example: <spanx style="verb">HEAD</spanx>,
-              <spanx style="verb">GET</spanx>, <spanx style="verb">POST</spanx>, etc. If the
-              request uses a custom HTTP method, it MUST be <xref target="encoding">encoded</xref>.
+              The HTTP request method (e.g. <spanx style="verb">GET</spanx>,
+              <spanx style="verb">POST</spanx>, etc.).
             </t>
             <t>
-              An <spanx style="verb">&amp;</spanx> character (ASCII code 38).
+              The authority as declared by the HTTP <spanx style="verb">Host</spanx> request
+              header.
             </t>
             <t>
-              The base string URI from <xref target="sig_uri" />, after being
-              <xref target="encoding">encoded</xref>.
+              The request resource URI.
             </t>
             <t>
-              An <spanx style="verb">&amp;</spanx> character (ASCII code 38).
-            </t>
-            <t>
-              The request parameters as normalized in <xref target="sig_norm_param" />, after
-              being <xref target="encoding">encoded</xref>.
+              The <xref target="authz_header">Authorization header field</xref> attributes, with the
+              exception of the <spanx style="verb">auth</spanx> attribute.
             </t>
           </list>
         </t>
-        <figure>
-          <preamble>
-            For example, the HTTP request:
-          </preamble>
-          <artwork xml:space="preserve"><![CDATA[
-  GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
-  Host: example.com
-  Content-Type: application/x-www-form-urlencoded
-  Authorization: OAuth realm="http://example.com/",
-                 oauth_consumer_key="9djdj82h48djs9d2",
-                 oauth_token="kkk9d7dh3k39sjv7",
-                 oauth_signature_method="HMAC-SHA1",
-                 oauth_timestamp="137131201",
-                 oauth_nonce="7d8f3e4a",
-                 oauth_signature="djosJKDKJSD8743243%2Fjdk33klY%3D"
-
-  c2&a3=2+q
-]]>
-            </artwork>
-        </figure>
-        <figure>
-          <preamble>
-            Is represented by the following signature base string (line breaks are for display
-            purposes only):
-          </preamble>
-          <artwork xml:space="preserve"><![CDATA[
-  GET&http%3A%2F%2Fexample.com%2Frequest&a2%3Dr%2520b%26a3%3D2%2520q%
-  26a3%3Da%26b5%3D%253D%25253D%26c%2540%3D%26c2%3D%26oauth_consumer_k
-  ey%3D9djdj82h48djs9d2%26oauth_nonce%3D7d8f3e4a%26oauth_signature_me
-  thod%3DHMAC-SHA1%26oauth_timestamp%3D137131201%26oauth_token%3Dkkk9
-  d7dh3k39sjv7
-]]>
-            </artwork>
-        </figure>
-      </section>
-
-      <section title="Base String URI" anchor="sig_uri">
         <t>
-          The scheme, authority, and path of the request resource URI <xref target="RFC3986" />
-          are included by constructing an <spanx style="verb">http</spanx> or
-          <spanx style="verb">https</spanx> URI representing the request resource (without the
-          query or fragment) as follows:
-
-          <list style="numbers">
-            <t>
-              The scheme and host MUST be in lowercase.
-            </t>
-            <t>
-              The host and port values MUST match the content of the HTTP request
-              <spanx style="verb">Host</spanx> header.
-            </t>
-            <t>
-              The port MUST be included if it is not the default port for the scheme, and MUST
-              be excluded if it is the default. Specifically, the port MUST be excluded when
-              making an HTTP request <xref target="RFC2616" /> to port 80 or when making an
-              HTTPS request <xref target="RFC2818" /> to port 443. All other non-default port
-              numbers MUST be included.
-            </t>
-          </list>
-        </t>
-        <figure>
-          <preamble>
-            For example, the HTTP request:
-          </preamble>
-          <artwork xml:space="preserve"><![CDATA[
-  GET /r%20v/X?id=123 HTTP/1.1
-  Host: EXAMPLE.COM:80
-]]>
-            </artwork>
-          <postamble>
-            is represented by the base string URI:
-            <spanx style="verb">http://example.com/r%20v/X</spanx>.
-          </postamble>
-        </figure>
-        <figure>
-          <preamble>
-            In another example, the HTTPS request:
-          </preamble>
-          <artwork xml:space="preserve"><![CDATA[
-  GET /?q=1 HTTP/1.1
-  Host: www.example.net:8080
-]]>
-            </artwork>
-          <postamble>
-            is represented by the base string URI:
-            <spanx style="verb">https://www.example.net:8080/</spanx>.
-          </postamble>
-        </figure>
-      </section>
-
-      <section title="Request Parameters" anchor="collect_param">
-        <t>
-          In order to guarantee a consistent and reproducible representation of the request
-          parameters, the parameters are collected and decoded to their original decoded form.
-          They are then sorted and encoded in a particular manner which is often different from
-          their original encoding scheme, and concatenated into a single string.
+          The <spanx style="verb">base</spanx> normalized request string does not cover the entire
+          HTTP request. Most notably, it does not include the entity-body or most HTTP
+          entity-headers. It is important to note that the server cannot verify the authenticity
+          of the excluded request elements without using additional protections such as SSL/TLS or
+          other methods.
         </t>
 
-        <section title="Parameter Sources">
+        <section title="String Construction" anchor="base_string">
           <t>
-            The parameters from the following sources are collected into a single list of
-            name/value pairs:
-
-            <list style="symbols">
-              <t>
-                The query component of the HTTP request URI as defined by <xref target="RFC3986" />
-                section 3.4. The query component is parsed into a list of name/value pairs by
-                treating it as an <spanx style="verb">application/x-www-form-urlencoded</spanx>
-                string, separating the names and values and decoding them as defined by
-                <xref target="W3C.REC-html40-19980424" /> section 17.13.4.
-              </t>
-              <t>
-                The OAuth HTTP Authorization header if present.
-                The header's content is parsed into a list of name/value pairs excluding the
-                <spanx style="verb">realm</spanx> parameter if present. The parameter values are
-                decoded.
-              </t>
-              <t>
-                The HTTP request entity-body, but only if all of the following conditions are met:
-
-                <list style="symbols">
-                  <t>
-                    The entity-body is single-part.
-                  </t>
-                  <t>
-                    The entity-body follows the encoding requirements of the
-                    <spanx style="verb">application/x-www-form-urlencoded</spanx> content-type as
-                    defined by <xref target="W3C.REC-html40-19980424" />.
-                  </t>
-                  <t>
-                    The HTTP request entity-header includes the <spanx style="verb">Content-Type</spanx>
-                    header set to <spanx style="verb">application/x-www-form-urlencoded</spanx>.
-                  </t>
-                </list>
-
-                The entity-body is parsed into a list of decoded name/value pairs as described in
-                <xref target="W3C.REC-html40-19980424" /> section 17.13.4.
-              </t>
-            </list>
-          </t>
-          <t>
-            The <spanx style="verb">oauth_signature</spanx> parameter MUST be excluded from the
-            signature base string if present. Parameters not explicitly included in the request
-            MUST be excluded from the signature base string (e.g. the
-            <spanx style="verb">oauth_version</spanx> parameter when omitted).
-          </t>
-          <figure>
-            <preamble>
-              For example, the HTTP request:
-            </preamble>
-            <artwork xml:space="preserve"><![CDATA[
-    GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
-    Host: example.com
-    Content-Type: application/x-www-form-urlencoded
-    Authorization: OAuth realm="http://example.com/",
-                   oauth_consumer_key="9djdj82h48djs9d2",
-                   oauth_token="kkk9d7dh3k39sjv7",
-                   oauth_signature_method="HMAC-SHA1",
-                   oauth_timestamp="137131201",
-                   oauth_nonce="7d8f3e4a",
-                   oauth_signature="djosJKDKJSD8743243%2Fjdk33klY%3D"
-
-    c2&a3=2+q
-]]>
-              </artwork>
-            <postamble>
-              Contains the following (fully decoded) parameters used in the signature base
-              sting:
-            </postamble>
-          </figure>
-          <texttable>
-            <ttcol align='center'>Name</ttcol>
-            <ttcol align='center'>Value</ttcol>
-            <c>b5</c>
-            <c>=%3D</c>
-            <c>a3</c>
-            <c>a</c>
-            <c>c@</c>
-            <c></c>
-            <c>a2</c>
-            <c>r b</c>
-            <c>oauth_consumer_key</c>
-            <c>9djdj82h48djs9d2</c>
-            <c>oauth_token</c>
-            <c>kkk9d7dh3k39sjv7</c>
-            <c>oauth_signature_method</c>
-            <c>HMAC-SHA1</c>
-            <c>oauth_timestamp</c>
-            <c>137131201</c>
-            <c>oauth_nonce</c>
-            <c>7d8f3e4a</c>
-            <c>c2</c>
-            <c></c>
-            <c>a3</c>
-            <c>2 q</c>
-          </texttable>
-          <t>
-            Note that the value of <spanx style="verb">b5</spanx> is <spanx style="verb">=%3D</spanx>
-            and not <spanx style="verb">==</spanx>. Both <spanx style="verb">c@</spanx> and
-            <spanx style="verb">c2</spanx> have empty values. While the encoding rules
-            specified in this specification for the purpose of constructing the signature base
-            string exclude the use of a <spanx style="verb">+</spanx> character (ASCII code 43)
-            to represent an encoded space character (ASCII code 32), this practice is widely
-            used in <spanx style="verb">application/x-www-form-urlencoded</spanx> encoded
-            values, and MUST be properly decoded, as demonstrated by one of the
-            <spanx style="verb">a3</spanx> parameter instances (the <spanx style="verb">a3</spanx>
-            parameter is used twice in this request).
-          </t>
-        </section>
-
-        <section title="Parameters Normalization" anchor="sig_norm_param">
-          <t>
-            The parameters collected in <xref target="collect_param" /> are normalized into a
-            single string as follows:
+            The normalized request string is constructed by concatenating together, in order, the
+            following HTTP request elements:
 
             <list style="numbers">
               <t>
-                First, the name and value of each parameter are <xref target="encoding">encoded</xref>.
+                The HTTP request method in uppercase. For example: <spanx style="verb">HEAD</spanx>,
+                <spanx style="verb">GET</spanx>, <spanx style="verb">POST</spanx>, etc.
               </t>
               <t>
-                The parameters are sorted by name, using ascending byte value ordering. If
-                two or more parameters share the same name, they are sorted by their value.
+                A <spanx style="verb">,</spanx> character (ASCII code 44).
               </t>
               <t>
-                The name of each parameter is concatenated to its corresponding value using an
-                <spanx style="verb">=</spanx> character (ASCII code 61) as separator, even if the
-                value is empty.
+                The hostname, colon-separated (ASCII code 58) from the TCP port used to make the
+                request as included in the HTTP request <spanx style="verb">Host</spanx> header
+                field. The port MUST be included even if it is not included in the
+                <spanx style="verb">Host</spanx> header field (i.e. the default port for the
+                scheme).
               </t>
               <t>
-                The sorted name/value pairs are concatenated together into a single string by
-                using an <spanx style="verb">&amp;</spanx> character (ASCII code 38) as separator.
+                A <spanx style="verb">,</spanx> character (ASCII code 44).
+              </t>
+              <t>
+                Any authentication attribute, with the exception of the <spanx style="verb">auth</spanx>,
+                which is assigned a value (including default values), are added to the normalized
+                request string as follows:
+
+                <list style="numbers">
+                  <t>
+                    The name of each parameter is concatenated to its corresponding value using an
+                    <spanx style="verb">=</spanx> character (ASCII code 61) as separator, even if the
+                    value is empty.
+                  </t>
+                  <t>
+                    The name/value pairs are sorted using ascending byte value ordering.
+                  </t>
+                  <t>
+                    The sorted name/value pairs are concatenated together into a single string by
+                    using a <spanx style="verb">,</spanx> character (ASCII code 44) as separator.
+                  </t>
+                </list>
+              </t>
+              <t>
+                A <spanx style="verb">,</spanx> character (ASCII code 44).
+              </t>
+              <t>
+                The request resource URI.
               </t>
             </list>
           </t>
-          <t>
-            For example, the list of parameters from the previous section would be normalized as
-            follows:
-          </t>
-          <texttable>
-            <preamble>
-              Encoded:
-            </preamble>
-            <ttcol align='center'>Name</ttcol>
-            <ttcol align='center'>Value</ttcol>
-            <c>b5</c>
-            <c>%3D%253D</c>
-            <c>a3</c>
-            <c>a</c>
-            <c>c%40</c>
-            <c></c>
-            <c>a2</c>
-            <c>r%20b</c>
-            <c>oauth_consumer_key</c>
-            <c>9djdj82h48djs9d2</c>
-            <c>oauth_token</c>
-            <c>kkk9d7dh3k39sjv7</c>
-            <c>oauth_signature_method</c>
-            <c>HMAC-SHA1</c>
-            <c>oauth_timestamp</c>
-            <c>137131201</c>
-            <c>oauth_nonce</c>
-            <c>7d8f3e4a</c>
-            <c>c2</c>
-            <c></c>
-            <c>a3</c>
-            <c>2%20q</c>
-          </texttable>
-          <texttable>
-            <preamble>
-              Sorted:
-            </preamble>
-            <ttcol align='center'>Name</ttcol>
-            <ttcol align='center'>Value</ttcol>
-            <c>a2</c>
-            <c>r%20b</c>
-            <c>a3</c>
-            <c>2%20q</c>
-            <c>a3</c>
-            <c>a</c>
-            <c>b5</c>
-            <c>%3D%253D</c>
-            <c>c%40</c>
-            <c></c>
-            <c>c2</c>
-            <c></c>
-            <c>oauth_consumer_key</c>
-            <c>9djdj82h48djs9d2</c>
-            <c>oauth_nonce</c>
-            <c>7d8f3e4a</c>
-            <c>oauth_signature_method</c>
-            <c>HMAC-SHA1</c>
-            <c>oauth_timestamp</c>
-            <c>137131201</c>
-            <c>oauth_token</c>
-            <c>kkk9d7dh3k39sjv7</c>
-          </texttable>
-          <texttable>
-            <preamble>
-              Concatenated Pairs:
-            </preamble>
-            <ttcol align='center'>Name=Value</ttcol>
-            <c>a2=r%20b</c>
-            <c>a3=2%20q</c>
-            <c>a3=a</c>
-            <c>b5=%3D%253D</c>
-            <c>c%40=</c>
-            <c>c2=</c>
-            <c>oauth_consumer_key=9djdj82h48djs9d2</c>
-            <c>oauth_nonce=7d8f3e4a</c>
-            <c>oauth_signature_method=HMAC-SHA1</c>
-            <c>oauth_timestamp=137131201</c>
-            <c>oauth_token=kkk9d7dh3k39sjv7</c>
-          </texttable>
-          <figure>
-            <preamble>
-              And concatenated together into a single string (line breaks are for display
-              purposes only):
-            </preamble>
-            <artwork xml:space="preserve"><![CDATA[
-  a2=r%20b&a3=2%20q&a3=a&b5=%3D%253D&c%40=&c2=&oauth_consumer_key=9dj
-  dj82h48djs9d2&oauth_nonce=7d8f3e4a&oauth_signature_method=HMAC-SHA1
-  &oauth_timestamp=137131201&oauth_token=kkk9d7dh3k39sjv7
-]]>
-              </artwork>
-          </figure>
         </section>
 
       </section>
 
-      <section title="Percent Encoding" anchor="encoding">
+      <section title="The 'base+body-hmac-sha-256' Method">
         <t>
-          Existing percent-encoding methods do not guarantee a consistent construction of the
-          signature base string. The following percent-encoding method is not defined to replace
-          the existing encoding methods defined by <xref target="RFC3986" /> and
-          <xref target="W3C.REC-html40-19980424" />. It is used only in the construction of the
-          signature base string.
+          The <spanx style="verb">base+body-hmac-sha-256</spanx> method added the request entity-body
+          to the elements included in the normalized request string. It does not include the
+          entity-body directly in the normalized string. Instead, it calculates the hash value of
+          the entity-body using the SHA-256 hash function defined in <xref target="NIST FIPS-180-3" />.
         </t>
         <t>
-          This specification defines the following method for percent-encoding strings:
-
-          <list style="numbers">
+          The normalized request string is constructed following the same process defined in
+          <xref target="base_string" />, with the following addition:
+          
+          <list style="symbols">
             <t>
-              Text values are first encoded as UTF-8 octets per <xref target="RFC3629" /> if they are
-              not already. This does not include binary values which are not intended for human
-              consumption.
+              Before constructing the string, the entity-body hash is calculated by applying the
+              SHA-256 hash function on the raw entity-body content.
             </t>
             <t>
-              The values are then escaped using the <xref target="RFC3986" /> percent-encoding
-              (%XX) mechanism as follows:
-
-              <list style="symbols">
-                <t>
-                  Characters in the unreserved character set as defined by <xref target="RFC3986" />
-                  section 2.3 (ALPHA, DIGIT, "-", ".", "_", "~") MUST NOT be encoded.
-                </t>
-                <t>
-                  All other characters MUST be encoded.
-                </t>
-                <t>
-                  The two hexadecimal characters used to represent encoded characters MUST be
-                  upper case.
-                </t>
-              </list>
+              The hash value is added to the list of authentication attributes by assigning its
+              value to the <spanx style="verb">body-hash</spanx> attribute name. This is done
+              prior to the attributes being sorted and added to the string.
+            </t>
+            <t>
+              The <spanx style="verb">body-hash</spanx> attribute is only included in the
+              normalized request string and is not added to the
+              <xref target="authz_header">Authorization header field</xref>.
             </t>
           </list>
         </t>
-        <t>
-          This method is different from the encoding scheme used by the
-          <spanx style="verb">application/x-www-form-urlencoded</spanx> content-type (for example,
-          it encodes space characters as <spanx style="verb">%20</spanx> and not using the
-          <spanx style="verb">+</spanx> character). It MAY be different from the
-          percent-encoding functions provided by web development frameworks (e.g. encode different
-          characters, use lower case hexadecimal characters).
-        </t>
       </section>
+      
+    </section>
 
+    <section title="Scheme Extensions">
+      <t>
+      </t>
     </section>
 
     <section title="Security Considerations" anchor="Security">
@@ -1178,19 +842,9 @@
 
       <section title="Credentials Transmission">
         <t>
-          This specification does not describe any mechanism for obtaining or transmitting tokens.
-          Methods used to obtain tokens should ensure that these transmissions are protected using
-          transport-layer mechanisms such as TLS or SSL.
-        </t>
-      </section>
-
-      <section title="Plain Method" anchor="plain_ssl">
-        <t>
-          When used with the <spanx style="verb">Plain</spanx> method, the protocol makes no
-          attempt to protect credentials from eavesdroppers or man-in-the-middle attacks. The
-          <spanx style="verb">Plain</spanx> method is only intended to be used in conjunction
-          with a transport-layer security mechanism such as TLS or SSL which does provide such
-          protection, or in combination with other security mechanisms.
+          This specification does not describe any mechanism for obtaining or transmitting raw
+          tokens credentials. Methods used to obtain tokens should ensure that these transmissions
+          are protected using transport-layer mechanisms such as TLS or SSL.
         </t>
       </section>
 
@@ -1217,10 +871,11 @@
 
       <section title="Plaintext Storage of Credentials">
         <t>
-          The token shared-secret function the same way passwords do in traditional authentication
-          systems. In order to compute the signatures used in methods, the server must have access
-          to these secrets in plaintext form. This is in contrast, for example, to modern operating
-          systems, which store only a one-way hash of user credentials.
+          When used with a symmetric shared-secret authentication method, the token shared-secret
+          function the same way passwords do in traditional authentication systems. In order to
+          compute the signatures used in methods, the server must have access to these secrets in
+          plaintext form. This is in contrast, for example, to modern operating systems, which
+          store only a one-way hash of user credentials.
         </t>
         <t>
           If an attacker were to gain access to these secrets - or worse, to the server's database
@@ -1290,16 +945,13 @@
         </t>
       </section>
 
-      <section title="Signature Base String Limitations">
+      <section title="Coverage Limitations">
         <t>
-          The signature base string has been designed to support the signature methods defined in
-          this specification. Those designing additional signature methods, should evaluated the
-          compatibility of the signature base string with their security requirements.
-        </t>
-        <t>
-          Since the signature base string does not cover the entire HTTP request, such as most
-          request entity-body, most entity-headers, and the order in which parameters are sent,
-          servers should employ additional mechanisms to protect such elements.
+          The normalized request string has been designed to support the authentication methods
+          defined in this specification. Those designing additional methods, should evaluated the
+          compatibility of the normalized request string with their security requirements.
+          Since the normalized request string does not cover the entire HTTP request, servers
+          should employ additional mechanisms to protect such elements.
         </t>
       </section>
 
@@ -1307,13 +959,14 @@
 
     <section title="IANA Considerations" anchor="IANA">
       <t>
-        This memo includes no request to IANA.
       </t>
     </section>
 
     <section title="Acknowledgments">
       <t>
-        Richard Barnes, Breno de Medeiros, Brian Eaton, Ben Laurie, Mark Nottingham, John Panzer, Peter Saint-Andre
+        The author would like to thank Richard Barnes, Breno de Medeiros, Brian Eaton, Ben Laurie,
+        Mark Nottingham, John Panzer, and Peter Saint-Andre for their suggestions, feedback, and
+        continued support.
       </t>
     </section>
 
@@ -1326,7 +979,7 @@
 
         <list style="symbols">
           <t>
-            Initial draft.
+            Initial (incomplete) draft.
           </t>
         </list>
       </t>
@@ -1343,11 +996,7 @@
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2818.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3447.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3629.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3986.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-html40-19980424.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.draft-ietf-httpbis-p1-messaging-08.xml"?>
 
       <reference anchor="NIST FIPS-180-3">
