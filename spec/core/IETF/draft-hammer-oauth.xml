@@ -270,7 +270,7 @@
      oauth_signature_method="HMAC-SHA1",
      oauth_timestamp="137131201",
      oauth_nonce="walatlh",
-     oauth_verifier="hfdp7dh39dks9884"
+     oauth_verifier="hfdp7dh39dks9884",
      oauth_signature="gKgrFCywp7rO0OXSjdot%2FIHF7IU%3D"
 ]]>
           </artwork>
@@ -2012,6 +2012,9 @@
         <list sytle="symbols">
           <t>
             Added 'with a 200 status code (OK)' in two places.
+          </t>
+          <t>
+            Missing comma in example.
           </t>
         </list>
       </t>
