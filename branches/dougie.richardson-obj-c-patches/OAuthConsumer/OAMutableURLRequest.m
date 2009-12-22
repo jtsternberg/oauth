@@ -120,11 +120,23 @@ signatureProvider:(id<OASignatureProviding, NSObject>)aProvider
 	[signatureProvider release];
 	[timestamp release];
 	[nonce release];
+	[extraOAuthParameters release];
 	[super dealloc];
 }
 
 #pragma mark -
 #pragma mark Public
+
+- (void)setOAuthParameterName:(NSString*)parameterName withValue:(NSString*)parameterValue
+{
+	assert(parameterName && parameterValue);
+	
+	if (extraOAuthParameters == nil) {
+		extraOAuthParameters = [NSMutableDictionary new];
+	}
+	
+	[extraOAuthParameters setObject:parameterValue forKey:parameterName];
+}
 
 - (void)prepare 
 {
@@ -142,15 +154,25 @@ signatureProvider:(id<OASignatureProviding, NSObject>)aProvider
         oauthToken = @""; // not used on Request Token transactions
     else
         oauthToken = [NSString stringWithFormat:@"oauth_token=\"%@\", ", [token.key URLEncodedString]];
+	
+	NSMutableString *extraParameters = [NSMutableString string];
+	
+	for(NSString *parameterName in extraOAuthParameters)
+	{
+		[extraParameters appendFormat:@", %@=\"%@\", ",
+		 [parameterName URLEncodedString],
+		 [[extraOAuthParameters objectForKey:parameterName] URLEncodedString]];
+	}	
     
-    NSString *oauthHeader = [NSString stringWithFormat:@"OAuth realm=\"%@\", oauth_consumer_key=\"%@\", %@oauth_signature_method=\"%@\", oauth_signature=\"%@\", oauth_timestamp=\"%@\", oauth_nonce=\"%@\", oauth_version=\"1.0\"",
+    NSString *oauthHeader = [NSString stringWithFormat:@"OAuth realm=\"%@\", oauth_consumer_key=\"%@\", %@oauth_signature_method=\"%@\", oauth_signature=\"%@\", oauth_timestamp=\"%@\", oauth_nonce=\"%@\", oauth_version=\"1.0\"%@",
                              [realm URLEncodedString],
                              [consumer.key URLEncodedString],
                              oauthToken,
                              [[signatureProvider name] URLEncodedString],
                              [signature URLEncodedString],
                              timestamp,
-                             nonce];
+                             nonce,
+							 extraParameters];
 	
     [self setValue:oauthHeader forHTTPHeaderField:@"Authorization"];
 }
