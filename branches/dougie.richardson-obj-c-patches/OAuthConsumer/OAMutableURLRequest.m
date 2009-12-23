@@ -157,9 +157,10 @@ signatureProvider:(id<OASignatureProviding, NSObject>)aProvider
 	
 	NSMutableString *extraParameters = [NSMutableString string];
 	
-	for(NSString *parameterName in extraOAuthParameters)
+	// Adding the optional parameters in sorted order isn't required by the OAuth spec, but it makes it possible to hard-code expected values in the unit tests.
+	for(NSString *parameterName in [[extraOAuthParameters allKeys] sortedArrayUsingSelector:@selector(compare:)])
 	{
-		[extraParameters appendFormat:@", %@=\"%@\", ",
+		[extraParameters appendFormat:@", %@=\"%@\"",
 		 [parameterName URLEncodedString],
 		 [[extraOAuthParameters objectForKey:parameterName] URLEncodedString]];
 	}	
