@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 
@@ -14,7 +14,7 @@
 
   <front>
     
-    <title abbrev="OAuth 1.0">The OAuth Core 1.0 Protocol</title>
+    <title abbrev="OAuth 1.0">The OAuth 1.0 Protocol</title>
 
     <author initials="E" surname="Hammer-Lahav" fullname="Eran Hammer-Lahav" role="editor">
       <organization />
@@ -24,7 +24,7 @@
       </address>
     </author>
 
-    <date year="2009"/>
+    <date year="2010"/>
 
     <abstract>
       <t>
@@ -39,6 +39,20 @@
   <middle>
 
     <section title="Introduction">
+      <t>
+        The OAuth protocol was originally created by a small community of web developers from a
+        variety of websites and other Internet services, who wanted to solve the common problem of
+        enabling delegated access to protected resources.  The resulting OAuth protocol was
+        stabilized at version 1.0 in October 2007, revised in June 2009, and published as
+        <xref target="OAuth Core 1.0 Revision A" />.
+      </t>
+      <t>
+        This specification provides an informational documentation of the OAuth 1.0 protocol as
+        revised in <xref target="OAuth Core 1.0 Revision A" />, and includes several errata
+        reported since that time, as well as numerous editorial clarifications. The publication
+        of this specification represents the transfer of change control from the community to the
+        IETF by the authors of the original work.
+      </t>
       <t>
         In the traditional client-server authentication model, the client uses its credentials to
         access its resources hosted by the server. With the increasing use of distributed web
@@ -84,21 +98,6 @@
         The use of OAuth with any other transport protocol than <xref target="RFC2616" /> is
         undefined.
       </t>
-      <t>
-        The OAuth protocol was originally created by a small community of web developers from a
-        variety of websites and other Internet services, who wanted to solve the common problem of
-        enabling delegated access to protected resources.  The resulting OAuth protocol was
-        stabilized at version 1.0 in October 2007, and revised in June 2009 and published as
-        <xref target="OAuth Core 1.0 Revision A" />.
-      </t>
-      <t>
-        This specification provides an informational documentation of OAuth Core 1.0 Revision A,
-        addressing several errata reported since that time, as well as numerous editorial
-        clarifications.  While this specification is not an item of the IETF's OAuth Working Group,
-        which at the time of writing is working on an OAuth version that can be appropriate for
-        publication on the standards track, it has been transferred to the IETF for change control
-        by the authors of the original work.
-      </t>
 
       <section title="Terminology">
         <t>
@@ -115,8 +114,8 @@
             </t>
             <t hangText="protected resource">
               <vspace />
-              An access-restricted resource (per <xref target="RFC2616" />) which can be obtained
-              from the server using an <xref target="requests">OAuth-authenticated request</xref>.
+              An access-restricted resource which can be obtained from the server using an
+              <xref target="requests">OAuth-authenticated request</xref>.
             </t>
             <t hangText="resource owner">
               <vspace />
@@ -124,6 +123,7 @@
               to authenticate with the server.
             </t>
             <t hangText="credentials">
+              <vspace />
               Credentials are a pair of a unique identifier and a matching shared secret. OAuth
               defines three classes of credentials: client, temporary, and token, used to identify
               and authenticate the client making the request, the authorization request, and the
@@ -306,7 +306,7 @@
           </artwork>
         </figure>
         <t>
-          The 'photos.example.net' sever validates the request and responds with the requested
+          The 'photos.example.net' server validates the request and responds with the requested
           photo. 'printer.example.com' is able to continue accessing Jane's private photos using
           the same set of token credentials for the duration of Jane's authorization, or until
           Jane revokes access.
@@ -422,8 +422,8 @@
         </t>
         <t>
           Since the request results in the transmission of plain text credentials in the HTTP
-          response, the server SHOULD require the use of a transport-layer mechanisms such as TLS
-          or SSL. This is true regardless of the signature method used by the client.
+          response, the server MUST require the use of a transport-layer mechanisms such as TLS
+          or SSL (or a secure channel with equivalent protections).
         </t>
         <figure>
           <preamble>
@@ -601,8 +601,8 @@
         </t>
         <t>
           Since the request results in the transmission of plain text credentials in the HTTP
-          response, the server SHOULD require the use of a transport-layer mechanisms such as TLS
-          or SSL. This is true regardless of the signature method used by the client.
+          response, the server MUST require the use of a transport-layer mechanisms such as TLS
+          or SSL (or a secure channel with equivalent protections).
         </t>
         <figure>
           <preamble>
@@ -663,7 +663,7 @@
         <t>
           Once the client receives and stores the token credentials, it can proceed to access
           protected resources on behalf of the resource owner by making
-          <xref target="requests">authenticated request</xref> using the client credentials
+          <xref target="requests">authenticated requests</xref> using the client credentials
           together with the token credentials received.
         </t>
       </section>
@@ -797,7 +797,7 @@
         </figure>
         <figure>
           <preamble>
-            The client adds the protocol parameter to the request using the OAuth HTTP
+            The client adds the protocol parameters to the request using the OAuth HTTP
             Authorization header field:
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
@@ -1416,11 +1416,10 @@
 
         <section title="PLAINTEXT">
           <t>
-            The <spanx style="verb">PLAINTEXT</spanx> method does not employ a signature algorithm
-            and does not provide any security on its own as it transmits secrets in the clear. It
-            SHOULD only be used with a transport-layer mechanism such as TLS or SSL as explained in
-            <xref target="plain_ssl" />. It does not utilize the signature base string nor the
-            <spanx style="verb">oauth_timestamp</spanx> and <spanx style="verb">oauth_nonce</spanx>
+            The <spanx style="verb">PLAINTEXT</spanx> method does not employ a signature algorithm.
+            It MUST be used with a transport-layer mechanism such as TLS or SSL (or sent over a secure
+            channel with equivalent protections). It does not utilize the signature base string nor
+            the <spanx style="verb">oauth_timestamp</spanx> and <spanx style="verb">oauth_nonce</spanx>
             parameters.
           </t>
           <t>
@@ -1660,30 +1659,11 @@
         are strongly encouraged to assess how this protocol addresses their security requirements.
       </t>
 
-      <section title="Credentials Transmission">
-        <t>
-          This specification does not describe any mechanism for protecting tokens and
-          shared-secrets from eavesdroppers when they are transmitted from the server to the
-          client during the authorization phase. Servers should ensure that these transmissions are
-          protected using transport-layer mechanisms such as TLS or SSL.
-        </t>
-      </section>
-
       <section title="RSA-SHA1 Signature Method">
         <t>
           Authenticated requests made with <spanx style="verb">RSA-SHA1</spanx> signatures do not
           use the token shared-secret, or any provisioned client shared-secret. This means the request
           relies completely on the secrecy of the private key used by the client to sign requests.
-        </t>
-      </section>
-
-      <section title="PLAINTEXT Signature Method" anchor="plain_ssl">
-        <t>
-          When used with the <spanx style="verb">PLAINTEXT</spanx> method, the protocol makes no
-          attempt to protect credentials from eavesdroppers or man-in-the-middle attacks. The
-          <spanx style="verb">PLAINTEXT</spanx> method is only intended to be used in conjunction
-          with a transport-layer security mechanism such as TLS or SSL which can provide such
-          protection.
         </t>
       </section>
 
@@ -1967,7 +1947,13 @@
         identified since the document has been published:
 				
 				<list style="symbols">
-					<t>
+          <t>
+            Changed using TLS/SSL when sending or requesting plain text credentials from SHOULD
+            to MUST. This change affects any use of the <spanx style="verb">PLAINTEXT</spanx>
+            signature method, as well as <xref target="auth_step1">requesting temporary credentials</xref>
+            and <xref target="auth_step3">obtaining token credentials</xref>.
+          </t>
+          <t>
 						Adjusted nonce language to indicate it is unique per token/timestamp/client combination.
 					</t>
           <t>
@@ -2009,12 +1995,21 @@
       </t>
       <t>
         -09
-        <list sytle="symbols">
+        <list style="symbols">
           <t>
             Added 'with a 200 status code (OK)' in two places.
           </t>
           <t>
             Missing comma in example.
+          </t>
+          <t>
+            Corrected typos.
+          </t>
+          <t>
+            Changed the use of TLS/SSL when sending or receiving plain text credentials to a MUST.
+          </t>
+          <t>
+            Clarified text about change control moving from the community to the IETF.
           </t>
         </list>
       </t>
