@@ -2,7 +2,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 <?xml-stylesheet type="text/xsl" href="rfc2629.xslt" ?>
 
-<rfc category="info" ipr="trust200902" docName="draft-hammer-oauth-09">
+<rfc category="info" ipr="trust200902" docName="draft-hammer-oauth-10">
 
   <?rfc strict="yes" ?>
   <?rfc toc="yes" ?>
@@ -208,7 +208,7 @@
           <artwork xml:space="preserve"><![CDATA[
   POST /initiate HTTP/1.1
   Host: photos.example.net
-  Authorization: OAuth realm="http://photos.example.net/",
+  Authorization: OAuth realm="Photos",
      oauth_consumer_key="dpf43f3p2l4k3l03",
      oauth_signature_method="HMAC-SHA1",
      oauth_timestamp="137131200",
@@ -264,7 +264,7 @@
           <artwork xml:space="preserve"><![CDATA[
   POST /token HTTP/1.1
   Host: photos.example.net
-  Authorization: OAuth realm="http://photos.example.net/",
+  Authorization: OAuth realm="Photos",
      oauth_consumer_key="dpf43f3p2l4k3l03",
      oauth_token="hh5s93j4hdidpola",
      oauth_signature_method="HMAC-SHA1",
@@ -295,7 +295,7 @@
           <artwork xml:space="preserve"><![CDATA[
   GET /photos?file=vacation.jpg&size=original HTTP/1.1
   Host: photos.example.net
-  Authorization: OAuth realm="http://photos.example.net/",
+  Authorization: OAuth realm="Photos",
      oauth_consumer_key="dpf43f3p2l4k3l03",
      oauth_token="nnch734d00sl2jdk",
      oauth_signature_method="HMAC-SHA1",
@@ -432,7 +432,7 @@
           <artwork xml:space="preserve"><![CDATA[
   POST /request_temp_credentials HTTP/1.1
   Host: server.example.com
-  Authorization: OAuth realm="http://server.example.com/",
+  Authorization: OAuth realm="Example",
      oauth_consumer_key="jd83jd92dhsh93js",
      oauth_signature_method="PLAINTEXT",
      oauth_callback="http%3A%2F%2Fclient.example.net%2Fcb%3Fx%3D1",
@@ -611,8 +611,9 @@
           <artwork xml:space="preserve"><![CDATA[
   POST /request_token HTTP/1.1
   Host: server.example.com
-  Authorization: OAuth realm="http://server.example.com/",
+  Authorization: OAuth realm="Example",
      oauth_consumer_key="jd83jd92dhsh93js",
+     oauth_token="hdk48Djdsa",
      oauth_signature_method="PLAINTEXT",
      oauth_verifier="473f82d3",
      oauth_signature="ja893SD9%26xyz4992k83j47x0b"
@@ -801,7 +802,7 @@
             Authorization header field:
           </preamble>
           <artwork xml:space="preserve"><![CDATA[
-  Authorization: OAuth realm="http://example.com/",
+  Authorization: OAuth realm="Example",
                  oauth_consumer_key="9djdj82h48djs9d2",
                  oauth_token="kkk9d7dh3k39sjv7",
                  oauth_signature_method="HMAC-SHA1",
@@ -819,7 +820,7 @@
   GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
   Host: example.com
   Content-Type: application/x-www-form-urlencoded
-  Authorization: OAuth realm="http://example.com/",
+  Authorization: OAuth realm="Example",
                  oauth_consumer_key="9djdj82h48djs9d2",
                  oauth_token="kkk9d7dh3k39sjv7",
                  oauth_signature_method="HMAC-SHA1",
@@ -1009,7 +1010,7 @@
   GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
   Host: example.com
   Content-Type: application/x-www-form-urlencoded
-  Authorization: OAuth realm="http://example.com/",
+  Authorization: OAuth realm="Example",
                  oauth_consumer_key="9djdj82h48djs9d2",
                  oauth_token="kkk9d7dh3k39sjv7",
                  oauth_signature_method="HMAC-SHA1",
@@ -1155,7 +1156,7 @@
     GET /request?b5=%3D%253D&a3=a&c%40=&a2=r%20b HTTP/1.1
     Host: example.com
     Content-Type: application/x-www-form-urlencoded
-    Authorization: OAuth realm="http://example.com/",
+    Authorization: OAuth realm="Example",
                    oauth_consumer_key="9djdj82h48djs9d2",
                    oauth_token="kkk9d7dh3k39sjv7",
                    oauth_signature_method="HMAC-SHA1",
@@ -1479,7 +1480,7 @@
               For example:
             </preamble>
             <artwork xml:space="preserve"><![CDATA[
-  Authorization: OAuth realm="http://server.example.com/",
+  Authorization: OAuth realm="Example",
      oauth_consumer_key="0685bd9184jfhq22",
      oauth_token="ad180jjd733klru7",
      oauth_signature_method="HMAC-SHA1",
@@ -1992,6 +1993,18 @@
     <appendix title="Document History" anchor="history">
       <t>
         [[ To be removed by the RFC editor before publication as an RFC. ]]
+      </t>
+      <t>
+        -10
+        <list style="symbols">
+          <t>
+            Added missing 'oauth_token' in exmaple.
+          </t>
+          <t>
+            Changed realm values from URI to string to make them more generic (since
+            the protocol does not define any internal structure for them).
+          </t>
+        </list>
       </t>
       <t>
         -09
