@@ -75,6 +75,9 @@ Revision history for Net-OAuth
   Fixed http://rt.cpan.org/Public/Bug/Display.html?id=48867 - error in synopsis - thanks Adam Taylor!
   Removed UTF8 double-encoding warning.  Now Net::OAuth::Message::encode() uses Encode::is_utf8() to determine if the input is already UTF-8 encoded.  If so, it runs decode_utf8() on it before sending it to uri_escape_utf8().  Thanks Hector Garcia Alvarez!
   Potentially fixed an issue found by Marc Mims, where HMAC_SHA1 was failing to load, breaking some CPAN tests.  Build.PL now explicitly requires Digest::SHA1 and Encode.  Hopefully that fixes it.
+
+0.21   Wed, 10 Mar 2010 22:20:49 UTC
+  Added xAuth support with xAuthAccessTokenRequest (thanks Masayoshi Sekimura and Simon Wistow)
+  Added performance patch to decrease stat() system calls when requiring modules (thanks Brad Whitaker)
   
-        
     
