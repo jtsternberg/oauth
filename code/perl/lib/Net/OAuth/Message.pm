@@ -3,7 +3,6 @@ use warnings;
 use strict;
 use base qw/Class::Data::Inheritable Class::Accessor/;
 use URI::Escape;
-use UNIVERSAL::require;
 use Net::OAuth;
 use URI;
 use URI::QueryParam;
@@ -65,9 +64,7 @@ sub get_versioned_class {
     my $protocol_version = $params->{protocol_version} || $Net::OAuth::PROTOCOL_VERSION;
     if (defined $protocol_version and $protocol_version == Net::OAuth::PROTOCOL_VERSION_1_0A and $class !~ /\::V1_0A\::/) {
         (my $versioned_class = $class) =~ s/::(\w+)$/::V1_0A::$1/;
-        if ($versioned_class->require) {
-            return $versioned_class;
-        }
+        return $versioned_class if Net::OAuth::smart_require($versioned_class);
     }
     return $class;
 }
@@ -104,7 +101,7 @@ sub encode {
     my $str = shift;
     $str = "" unless defined $str;
     if ($str =~ /[\x80-\xFF]/) {
-        Encode->require;
+        Net::OAuth::smart_require('Encode');
         no strict 'subs';
         if (Encode::is_utf8($str)) {
             # Avoid double-encoding UTF-8.
@@ -184,9 +181,9 @@ sub verify {
 sub _signature_method_class {
     my $self = shift;
     (my $signature_method = $self->signature_method) =~ s/\W+/_/g;
-    my $klass = 'Net::OAuth::SignatureMethod::' . $signature_method;
-    $klass->require or die "Unable to load $signature_method plugin";
-    return $klass;
+    my $sm_class = 'Net::OAuth::SignatureMethod::' . $signature_method;
+    die "Unable to load $signature_method plugin" unless Net::OAuth::smart_require($sm_class);
+    return $sm_class;
 }
 
 sub to_authorization_header {

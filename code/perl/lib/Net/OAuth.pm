@@ -8,7 +8,7 @@ sub PROTOCOL_VERSION_1_0A() {1.001}
 
 sub OAUTH_VERSION() {'1.0'}
 
-our $VERSION = '0.20';
+our $VERSION = '0.21';
 our $SKIP_UTF8_DOUBLE_ENCODE_CHECK = 0; # this is not actually used any more
 our $PROTOCOL_VERSION = PROTOCOL_VERSION_1_0;
 
@@ -29,7 +29,7 @@ sub message {
     my $base_class = ref $self || $self;
     my $type = camel(shift);
     my $class = $base_class . '::' . $type;
-    $class->require;
+    smart_require($class);
     return $class;
 }
 
@@ -42,6 +42,16 @@ sub camel {
         }
     }
     my $name = join('', map("\u$_", @words));
+}
+
+our %ALREADY_REQUIRED = (); # class_name => rv of ->require
+
+sub smart_require {
+    my $required_class = shift;
+    unless (exists $ALREADY_REQUIRED{$required_class}) {
+        $ALREADY_REQUIRED{$required_class} = $required_class->require;
+    }
+    return $ALREADY_REQUIRED{$required_class};
 }
 
 =head1 NAME
