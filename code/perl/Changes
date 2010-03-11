@@ -79,5 +79,8 @@ Revision history for Net-OAuth
 0.21   Wed, 10 Mar 2010 22:20:49 UTC
   Added xAuth support with xAuthAccessTokenRequest (thanks Masayoshi Sekimura and Simon Wistow)
   Added performance patch to decrease stat() system calls when requiring modules (thanks Brad Whitaker)
-  
+
+0.22   Thu, 11 Mar 2010 00:21:26 UTC
+  Renamed xAuthAccessTokenRequest to XauthAccessTokenRequest for CamelCaseConsistency
+  Added a couple tests for XauthAccessTokenRequest
     
