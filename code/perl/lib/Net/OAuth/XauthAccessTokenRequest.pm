@@ -1,4 +1,4 @@
-package Net::OAuth::xAuthAccessTokenRequest;
+package Net::OAuth::XauthAccessTokenRequest;
 use warnings;
 use strict;
 use base 'Net::OAuth::Request';
