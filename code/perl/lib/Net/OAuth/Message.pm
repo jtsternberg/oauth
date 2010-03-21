@@ -6,6 +6,7 @@ use URI::Escape;
 use Net::OAuth;
 use URI;
 use URI::QueryParam;
+use Carp;
 
 use constant OAUTH_PREFIX => 'oauth_';
 
@@ -85,13 +86,13 @@ sub check {
     my $self = shift;
     foreach my $k (@{$self->required_message_params}, @{$self->required_api_params}) {
         if (not defined $self->{$k}) {
-            die "Missing required parameter '$k'";
+            croak "Missing required parameter '$k'";
         }
     }
     if ($self->{extra_params} and $self->allow_extra_params) {
         foreach my $k (keys %{$self->{extra_params}}) {
             if ($k =~ $OAUTH_PREFIX_RE) {
-                die "Parameter '$k' not allowed in arbitrary params"
+                croak "Parameter '$k' not allowed in arbitrary params"
             }
         }
     }
@@ -101,7 +102,7 @@ sub encode {
     my $str = shift;
     $str = "" unless defined $str;
     if ($str =~ /[\x80-\xFF]/) {
-        Net::OAuth::smart_require('Encode');
+        Net::OAuth::smart_require('Encode', 1);
         no strict 'subs';
         if (Encode::is_utf8($str)) {
             # Avoid double-encoding UTF-8.
@@ -182,7 +183,7 @@ sub _signature_method_class {
     my $self = shift;
     (my $signature_method = $self->signature_method) =~ s/\W+/_/g;
     my $sm_class = 'Net::OAuth::SignatureMethod::' . $signature_method;
-    die "Unable to load $signature_method plugin" unless Net::OAuth::smart_require($sm_class);
+    croak "Unable to load $signature_method plugin" unless Net::OAuth::smart_require($sm_class);
     return $sm_class;
 }
 
@@ -204,7 +205,7 @@ sub from_authorization_header {
     my $proto = shift;
     my $header = shift;
     my $class = ref $proto || $proto;
-    die "Header must start with \"OAuth \"" unless $header =~ s/OAuth //;
+    croak "Header must start with \"OAuth \"" unless $header =~ s/OAuth //;
     my @header = split /[\s]*,[\s]*/, $header;
     shift @header if $header[0] =~ /^realm=/i;
     return $class->_from_pairs(\@header, @_)
@@ -214,7 +215,7 @@ sub _from_pairs() {
 	my $class = shift;
 	my $pairs = shift;
 	if (ref $pairs ne 'ARRAY') {
-		die 'Expected an array!';
+		croak 'Expected an array!';
 	}
 	my %params;
 	foreach my $pair (@$pairs) {
@@ -233,7 +234,7 @@ sub from_hash {
     my $class = ref $proto || $proto;
     my $hash = shift;
 	if (ref $hash ne 'HASH') {
-		die 'Expected a hash!';
+		croak 'Expected a hash!';
 	}
     my %api_params = @_;
     # need to do this earlier than Message->new because
@@ -244,7 +245,7 @@ sub from_hash {
     foreach my $k (keys %$hash) {
         if ($k =~ s/$OAUTH_PREFIX_RE//) {
             if (!grep ($_ eq $k, @{$class->all_message_params})) {
-               die "Parameter ". OAUTH_PREFIX ."$k not valid for a message of type $class\n";
+               croak "Parameter ". OAUTH_PREFIX ."$k not valid for a message of type $class";
             }
             else {
                 $msg_params{$k} = $hash->{OAUTH_PREFIX . $k};
@@ -252,7 +253,7 @@ sub from_hash {
         }
         elsif ($class->is_extension_param($k)) {
             if (!grep ($_ eq $k, @{$class->all_message_params})) {
-                die "Parameter $k not valid for a message of type $class\n";
+                croak "Parameter $k not valid for a message of type $class";
             }
             else {
                 $msg_params{$k} = $hash->{$k};
