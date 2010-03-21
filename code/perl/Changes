@@ -84,3 +84,10 @@ Revision history for Net-OAuth
   Renamed xAuthAccessTokenRequest to XauthAccessTokenRequest for CamelCaseConsistency
   Added a couple tests for XauthAccessTokenRequest
     
+0.23   Thu, 18 Mar 2010 17:23:36 UTC
+  Removed UNIVERSAL::require dependency
+  Net::OAuth->request constructor now dies if module fails to load (thanks Mike Schleif)
+  Fixed https://rt.cpan.org/Ticket/Display.html?id=55635 Incorrect dependencies (thanks Jens Rehsack)
+  Replaced die() with croak()
+  
+  

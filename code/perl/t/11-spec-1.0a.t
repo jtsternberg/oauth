@@ -3,6 +3,8 @@
 use strict;
 use warnings;
 use Test::More tests => 28;
+use Carp 'confess';
+$SIG{__DIE__} = \&confess;
 
 BEGIN {
     use Net::OAuth;

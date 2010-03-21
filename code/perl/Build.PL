@@ -12,14 +12,15 @@ my $builder = Module::Build->new(
     dist_abstract       => 'An implementation of the OAuth protocol',
     build_requires => {
         'Test::More' => '0.66',
-        'UNIVERSAL::require' => '0.10',
+    },
+    requires => {
         'Digest::HMAC_SHA1' => '1.01',
         'URI::Escape' => '3.28',
         'Class::Accessor' => '0.31',
         'Class::Data::Inheritable' => '0.06',
         'Digest::SHA1' => '2.12',
         'Encode' => '2.35',
-    },
+    },    
     add_to_cleanup      => [ 'Net-OAuth-*' ],
     create_makefile_pl => 'passthrough',
 );

@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More tests => 12;
 
 BEGIN {
     use Net::OAuth;
@@ -92,3 +92,9 @@ $request->consumer_key('foo');
 is($request->consumer_key, 'foo');
 
 is($request->signature_base_string, 'GET&http%3A%2F%2Fphotos.example.net%2Fphotos&file%3Dvacation.jpg%26oauth_consumer_key%3Dfoo%26oauth_nonce%3Dkllo9940pd9333jh%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1191242096%26oauth_token%3Dnnch734d00sl2jdk%26oauth_version%3D1.0%26size%3Doriginal');
+
+eval {
+    Net::OAuth->request('Foo Bar'); 
+};
+
+ok($@, 'should die');

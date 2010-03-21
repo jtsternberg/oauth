@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 use Test::More tests => 2;
-use UNIVERSAL::require;
 
 use Net::OAuth::ProtectedResourceRequest;
 
@@ -15,7 +14,7 @@ sub slurp {
 
 SKIP: {
 
-    skip "Crypt::OpenSSL::RSA not installed", 2 unless Crypt::OpenSSL::RSA->require;
+    skip "Crypt::OpenSSL::RSA not installed", 2 unless eval 'require Crypt::OpenSSL::RSA';
 
     my $publickey;
     my $privkey;
