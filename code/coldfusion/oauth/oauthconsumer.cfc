@@ -50,7 +50,7 @@ limitations under the License.
 	</cffunction>
 	<cffunction name="setKey" access="public" returntype="void">
 		<cfargument name="sKey" type="string" required="yes">
-		<cfset variables.sKey = arguments.sKey>
+		<cfset variables.sKey = trim(arguments.sKey)>
 	</cffunction>
 
 	<cffunction name="getSecret" access="public" returntype="string">
@@ -58,7 +58,7 @@ limitations under the License.
 	</cffunction>
 	<cffunction name="setSecret" access="public" returntype="void">
 		<cfargument name="sSecret" type="string" required="yes">
-		<cfset variables.sSecret = arguments.sSecret>
+		<cfset variables.sSecret = trim(arguments.sSecret)>
 	</cffunction>
 
 	<cffunction name="getCallbackURL" access="public" returntype="string">

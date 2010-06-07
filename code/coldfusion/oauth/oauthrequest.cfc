@@ -60,7 +60,6 @@ History:
 
 		<cfif StructKeyExists(arguments.stParameters, "oauth_version")>
 			<cfset setVersion(arguments.stParameters.oauth_version)>
-			<cfset setParameter(sKey = "oauth_version", sValue = arguments.stParameters.oauth_version)>
 			<cfset bVersionParameterSupplied = true>
 		<!--- check for the oauth_version parameters in the array --->
 		<cfelseif ArrayLen(arguments.aParameterKeys) GT 0 AND ArrayLen(arguments.aParameterKeys) EQ ArrayLen(arguments.aParameterValues)>
@@ -77,7 +76,6 @@ History:
 		<!--- set default oauth_version value --->
 		<cfif NOT bVersionParameterSupplied>
 			<cfset setVersion(arguments.sOAuthVersion)>
-			<cfset setParameter(sKey = "oauth_version", sValue = arguments.sOAuthVersion)>
 		</cfif>
 
 		<cfreturn this>
@@ -134,7 +132,7 @@ History:
 	<cffunction name="setParameter" access="public" returntype="void" hint="sets parameter value">
 		<cfargument name="sKey" type="string" required="true" hint="parameter name">
 		<cfargument name="sValue" type="string" required="true" hint="parameter value">
-		<cfset ArrayAppend(variables.stParameters["paramKeys"], arguments.sKey)>
+		<cfset ArrayAppend(variables.stParameters["paramKeys"], lcase(arguments.sKey))>
 		<cfset ArrayAppend(variables.stParameters["paramValues"], arguments.sValue)>
 	</cffunction>
 	<cffunction name="getParameter" access="public" returntype="any" hint="retrieves paramater value">
