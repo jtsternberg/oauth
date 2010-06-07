@@ -35,7 +35,7 @@ History:
 	</cffunction>
 
 	<!--- builds a SHA-1 signature --->
-	<cffunction name="buildSignature" access="public" returntype="string">
+	<cffunction name="buildSignature" access="public" returntype="string" output="false">
 		<cfargument name="oRequest"		required="true" type="oauthrequest">
 		<cfargument name="oConsumer"	required="true" type="oauthconsumer">
 		<cfargument name="oToken"		required="true" type="oauthtoken">
@@ -54,7 +54,7 @@ History:
 		<cfset ArrayAppend(	aSignature,
 							encoder.encodePercent(arguments.oRequest.getSignableParameters()) )>
 
-		<cfset sKey = arguments.oConsumer.getSecret() & "&" & arguments.oToken.getSecret()>
+		<cfset sKey = urlencodedformat(arguments.oConsumer.getSecret()) & "&" & urlencodedformat(arguments.oToken.getSecret())>
 		<cfset sResult = ArrayToList(aSignature, "&")>
 
 		<cfset sHashed = hmac_sha1(
