@@ -90,4 +90,11 @@ Revision history for Net-OAuth
   Fixed https://rt.cpan.org/Ticket/Display.html?id=55635 Incorrect dependencies (thanks Jens Rehsack)
   Replaced die() with croak()
   
-  
+0.24   Sun, 21 Mar 2010 03:39:40 UTC
+  Fix test breakage in 0.23
+
+0.25   Sun, 21 Mar 2010 03:50:40 UTC
+  Gah, $VERSION lameness
+
+0.26   Wed, 16 Jun 2010 19:59:04 UTC
+  Message::encode no longer tries fix potential 'double-encoding' (in any case it appeared to be doing it wrong).  Now it just complains if you try to pass in undecoded strings.
