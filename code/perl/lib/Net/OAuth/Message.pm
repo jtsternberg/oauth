@@ -101,16 +101,11 @@ sub check {
 sub encode {
     my $str = shift;
     $str = "" unless defined $str;
-    if ($str =~ /[\x80-\xFF]/) {
-        Net::OAuth::smart_require('Encode', 1);
-        no strict 'subs';
-        if (Encode::is_utf8($str)) {
-            # Avoid double-encoding UTF-8.
-            # Ideally the caller would have done this already
-            # But perl5 + unicode is very confusing, so try to be helpful..
-            $str = Encode::decode_utf8($str, 1);
+    unless($Net::OAuth::SKIP_UTF8_DOUBLE_ENCODE_CHECK) {
+        if ($str =~ /[\x80-\xFF]/ and !utf8::is_utf8($str)) {
+            warn "Net::OAuth warning: your OAuth message appears to contain some multi-byte characters that need to be decoded via Encode.pm or a PerlIO layer first.  This may result in an incorrect signature.";
         }
-    }
+    }    
     return URI::Escape::uri_escape_utf8($str,'^\w.~-');
 }
 

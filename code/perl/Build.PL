@@ -12,6 +12,7 @@ my $builder = Module::Build->new(
     dist_abstract       => 'An implementation of the OAuth protocol',
     build_requires => {
         'Test::More' => '0.66',
+        'Test::Warn' => '0.21',
     },
     requires => {
         'Digest::HMAC_SHA1' => '1.01',

@@ -8,8 +8,8 @@ sub PROTOCOL_VERSION_1_0A() {1.001}
 
 sub OAUTH_VERSION() {'1.0'}
 
-our $VERSION = '0.23';
-our $SKIP_UTF8_DOUBLE_ENCODE_CHECK = 0; # this is not actually used any more
+our $VERSION = '0.26';
+our $SKIP_UTF8_DOUBLE_ENCODE_CHECK = 0;
 our $PROTOCOL_VERSION = PROTOCOL_VERSION_1_0;
 
 sub request {
