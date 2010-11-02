@@ -1,6 +1,4 @@
 <!---
-$HeadURL$
-$Id$
 Description:
 ============
 	OAuth test
@@ -27,7 +25,7 @@ limitations under the License.
 	<cfset variables.oTestRequestToken = 0>
 	<cfset variables.oTestAccessToken = 0>
 	<cfset variables.sNonce = "">
-	<cfset variables.bUseSuper = true>
+	<cfset variables.bUseSuper = false>
 
 	<cffunction name="init" access="public" returntype="oauthtest">
 		<cfargument name="sDataSource" 	type="string" 	required="true">

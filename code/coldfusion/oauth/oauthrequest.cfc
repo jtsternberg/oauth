@@ -1,6 +1,4 @@
 <!---
-$HeadURL$
-$Id$
 Description:
 ============
 	OAuth request
@@ -118,6 +116,10 @@ History:
 			<cfloop from="1" to="#ArrayLen(arguments.stParameters['paramKeys'])#" index="i">
 				<cfset setParameter(sKey = arguments.stParameters['paramKeys'][i], sValue = arguments.stParameters['paramValues'][i])>
 			</cfloop>
+		<cfelseif structCount(stParameters) AND  ArrayLen(arguments.aParameterKeys) IS 0 AND ArrayLen(arguments.aParameterValues) IS 0>
+			<cfloop collection="#arguments.stParameters#" item="i">
+				<cfset setParameter(sKey = i, sValue = arguments.stParameters[i])>
+			</cfloop>
 		<cfelseif ArrayLen(arguments.aParameterKeys) IS 0 AND ArrayLen(arguments.aParameterValues) IS 0>
 			<cfset aTempKeys = StructKeyArray(arguments.stParameters)>
 			<cfloop from="1" to="#ArrayLen(aTempKeys)#" index="i">
@@ -203,6 +205,7 @@ History:
 	<cffunction name="setVersion" access="public" returntype="void">
 		<cfargument name="sOAuthVersion" type="string" required="yes">
 		<cfset variables.sOAuthVersion = arguments.sOAuthVersion>
+		<cfset setParameter(sKey = "oauth_version", sValue = arguments.sOAuthVersion)>
 	</cffunction>
 
 	<cffunction name="isEmpty" access="public" returntype="boolean">
@@ -262,6 +265,8 @@ History:
 			<cfif variables.sHttpMethod EQ "GET">
 				<cfset stRequestParameters = URL>
 			<cfelseif variables.sHttpMethod EQ "POST">
+				<!--- delete formfields from form-struct --->
+				<cfset form = structDelete(form,"fieldnames")>
 				<cfset stRequestParameters = FORM>
 			</cfif>
 
@@ -270,9 +275,8 @@ History:
 			<cfset StructAppend(stTempParameters, stRequestParameters)>
 			<cfset oResultRequest = CreateObject("component","oauthrequest").init(
 				sHttpMethod = variables.sHttpMethod,
-				sHttpURL = variableshttpURL,
-				stParamaters = stTempParameters)>
-
+				sHttpURL = variables.sHttpURL,
+				stParameters = stTempParameters)>
 		<cfelseif variables.sHttpMethod EQ "GET">
     		<cfset oResultRequest = CreateObject("component","oauthrequest").init(
 				sHttpMethod = variables.sHttpMethod,
@@ -489,7 +493,9 @@ History:
 		<cfset var aValues = getParameterValues()>
 
 		<!--- optional realm parameter --->
-		<cfset sResult = """Authorization: OAuth realm=""" & sRealm & """,">
+		<cfif len(arguments.sHeaderRealm)>
+			<cfset ArrayAppend(aTotal,"""OAuth realm=""" & sRealm & """")>
+		</cfif>
 
 		<cfloop from="1" to="#ArrayLen(aKeys)#" index="i">
 			<cfif Left(aKeys[i], 5) EQ "oauth">
@@ -498,7 +504,7 @@ History:
 			</cfif>
 		</cfloop>
 
-		<cfset sResult = sResult & ArrayToList(aTotal, ",")>
+		<cfset sResult = ArrayToList(aTotal, ",")>
 		<cfreturn sResult>
 	</cffunction>
 
@@ -566,13 +572,11 @@ History:
     	<cfset var sParam = "">
 
 		<cfset aHeaderParts = ListToArray(arguments.sHeader, ",")>
-
-		<cfloop collection="#aHeaderParts#" item="sParam">
+		<cfloop array="#aHeaderParts#" index="sParam">
 			<cfset sParam = LTrim(sParam)>
-
 		    <cfif Left(sParam, 5) EQ "oauth">
 			    <cfset aParameterParts = ListToArray(sParam, "=")>
-			    <cfset stResult[aParameterParts[1]] = variables.oUtil.decodePercent(aParameterParts[2])>
+			    <cfset stResult[aParameterParts[1]] = variables.oUtil.decodePercent(replace(aParameterParts[2],'"','',"ALL"))>
 		    </cfif>
 		</cfloop>
 

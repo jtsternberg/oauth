@@ -1,6 +1,4 @@
 <!---
-$HeadURL$
-$Id$
 Description:
 ============
 	oauth.oauthserver testcase
@@ -182,7 +180,9 @@ limitations under the License.
 		</cfif>
 		<cfset variables.oRequest.setParameter("oauth_key", oAccToken.getKey())>
 		<cfset variables.oRequest.setParameter("oauth_timestamp", getTickCount())>
-		<cfset assertTrue(IsArray(variables.oServer.verifyRequest(variables.oRequest)))>
+		<cfset variables.oRequest.signRequest(variables.oSig, variables.oConsumer, oAccToken)>
+
+		<cfset assertTrue(variables.oServer.verifyRequest(variables.oRequest))>
 	</cffunction>
 
 	<cffunction name="testgetSupportedSignatureMethods" returntype="void" access="public" output="false">

@@ -1,6 +1,4 @@
 <!---
-$HeadURL$
-$Id$
 Description:
 ============
 	OAuth datastore
@@ -22,7 +20,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent displayname="oauthdatastore">
+<cfcomponent displayname="oauthdata">
 	<cfset variables.sDataSource = "">
 
 	<cffunction name="init" returntype="oauthdatastore" access="public" output="false">
@@ -226,7 +224,7 @@ limitations under the License.
 			sSecret = sGeneratedSecret)>
 
 		<!--- consumerkey replaced tokenkey --->
-		<cftransaction>
+		<cftransaction isolation="READ_COMMITTED">
 			<cftry>
 				<cfset oDAO = CreateObject("component", "oauthtokendao").init(variables.sDataSource)>
 
@@ -278,7 +276,7 @@ limitations under the License.
 		<cfset var oDAO = 0>
 		<cfset var sErrorMsg = "">
 
-		<cftransaction>
+		<cftransaction isolation="READ_COMMITTED">
 			<cftry>
 				<cfset oDAO = CreateObject("component", "oauthtokendao").init(variables.sDataSource)>
 				<cfset oDAO.delete(sTokenType = arguments.sTokenType, sTokenKey = arguments.sTokenKey)>

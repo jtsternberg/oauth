@@ -1,6 +1,4 @@
 <!---
-$HeadURL$
-$Id$
 Description:
 ============
 	OAuth signaturemethod
@@ -22,5 +20,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 --->
 
-<cfcomponent displayname="OAuthSignatureMethod" hint="signature method">
+<cfcomponent displayname="oauthsignaturemethod" hint="signature method">
 </cfcomponent>

@@ -1,6 +1,4 @@
 <!---
-$HeadURL$
-$Id$
 Description:
 ============
 	OAuth server
@@ -24,7 +22,7 @@ limitations under the License.
 
 <cfcomponent displayname="oauthserver">
 
-	<cfset variables.iTimestampThreshold = 600000>
+	<cfset variables.iTimestampThreshold = 7200>
 	<cfset variables.sOAuthVersion = "1.0">
 	<cfset variables.stSignatureMethods = StructNew()>
 	<cfset variables.oDataStore = 0>
@@ -92,21 +90,30 @@ limitations under the License.
   	</cffunction>
 
 	<!--- verify an api call, checks all the parameters --->
-	<cffunction name="verifyRequest" access="public" returntype="array">
+	<cffunction name="verifyRequest" access="public" returntype="boolean">
 		<cfargument name="oRequest" required="true" type="oauthrequest">
 
 		<cfset var oConsumer = 0>
 		<cfset var oToken = 0>
 		<cfset var aResult = ArrayNew(1)>
+		<cfset var sOriginalSig = oRequest.getParameter("oauth_signature")  />
+		<cfset var sRequestSig = "">
 
 		<cfset getVersion(arguments.oRequest)>
 		<cfset oConsumer = getConsumer(arguments.oRequest)>
 		<cfset oToken = getOAuthToken(arguments.oRequest, oConsumer, "ACCESS")>
-		<cfset checkSignature(arguments.oRequest, oConsumer, oToken)>
-		<cfset ArrayAppend(aResult, oConsumer)>
-		<cfset ArrayAppend(aResult, oToken)>
+		<cftry>
+			<cfset sRequestSig = checkSignature(arguments.oRequest, oConsumer, oToken)>
+			<cfset checkTimestamp(arguments.oRequest.getParameter("oauth_timestamp"))>
+			<cfset checkNonce(oConsumer,oToken,arguments.oRequest.getParameter("oauth_nonce"),oRequest.getParameter("oauth_timestamp"))>
+			<cfset ArrayAppend(aResult, oConsumer)>
+			<cfset ArrayAppend(aResult, oToken)>
+		<cfcatch>
+			<cfreturn false>
+		</cfcatch>
+		</cftry>
 
-		<cfreturn aResult>
+		<cfreturn (compare(sOriginalSig,sRequestSig) is 0)>
 	</cffunction>
 
 	<!--- *********** private functions *********** --->
@@ -232,6 +239,7 @@ limitations under the License.
 
 		<cfset sBuilt = oSignatureMethod.buildSignature(arguments.oRequest, arguments.oConsumer, arguments.oToken)>
 		<!--- $todo: check the signature generation $todo --->
+		<cfreturn sBuilt>
 	</cffunction>
 
 	<!--- check that the timestamp is new enough - verify that timestamp is recentish --->
@@ -243,6 +251,7 @@ limitations under the License.
 		<cfset var iDiff = 0>
 
 		<cfset iDiff = iNow - arguments.iTimestamp>
+
 		<cfif iDiff GT variables.iTimestampThreshold>
 			<cfset sErrorMsg = "Expired timestamp, yours [" & arguments.iTimestamp & "], ours [" & iNow
 				& "], threshold=[" & variables.iTimestampThreshold & "], diff=[" & iDiff & "].">

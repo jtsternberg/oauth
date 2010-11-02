@@ -176,7 +176,7 @@
 		<cfset var sTempSigned = "">
 
 		<cfset AssertTrue(	ArrayLen(aParams) EQ ArrayLen(aNormalized),
-							"Both arrays must have same length! aParams = #ArrayLen(aParams)#, aNormalized = #ArrayLen(aNormalized)#" )>
+							"Both arrays must have the same length! aParams = #ArrayLen(aParams)#, aNormalized = #ArrayLen(aNormalized)#" )>
 
 		<cfloop from="1" to="#ArrayLen(aParams)#" index="i">
 			<cfset aKeys = ArrayNew(1)>
