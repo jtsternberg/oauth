@@ -1,6 +1,4 @@
 <!---
-$HeadURL$
-$Id$
 Description:
 ============
 	Data Access Object for OAuth tokens
@@ -45,7 +43,7 @@ limitations under the License.
 				<cfqueryparam value="#stData.tokenkey#"		cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value="#stData.tokensecret#"	cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value="#stData.tokentype#" 	cfsqltype="CF_SQL_VARCHAR">,
-				<cfqueryparam value="#stData.consumerid#"	cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value="#stData.consumerid#"	cfsqltype="CF_SQL_INTEGER">,
 				<cfqueryparam value="#stData.nonce#" 		cfsqltype="CF_SQL_VARCHAR">,
 				CURRENT_TIMESTAMP
 			)

@@ -22,8 +22,8 @@ limitations under the License.
 <cfcomponent
 	name="oauth.oauthrequest testcase"
 	extends="org.cfcunit.framework.TestCase"
-	output="false"
-	hint="oauth.oauthrequest testcase">
+	hint="oauth.oauthrequest testcase"
+	output="false">
 
 	<cffunction name="setUp" returntype="void" access="private" output="false" hint="test fixture">
 		<cfset variables.oUtil = CreateObject("component", "oauth.oauthutil").init()>
@@ -78,7 +78,7 @@ limitations under the License.
 	</cffunction>
 
 	<cffunction name="testtoHeader" returntype="void" access="public" output="false">
-		<cfset var sTemp = """Authorization: OAuth realm=""""," & variables.oUtil.encodePercent("oauth_version") & "=""" & variables.oUtil.encodePercent(variables.sOAuthVersion) & """"/>
+		<cfset var sTemp = variables.oUtil.encodePercent("oauth_version") & "=""" & variables.oUtil.encodePercent(variables.sOAuthVersion) & """"/>
 		<cfset assertEqualsString(sTemp, variables.oRequest.toHeader())>
 	</cffunction>
 
@@ -131,7 +131,7 @@ limitations under the License.
 		<cfset assertEqualsString("new_value", variables.oRequest.getParameter("new_parameter"))>
 	</cffunction>
 
-	<cffunction name="testbuildSignature" returntype="void" access="public" output="false">
+	<cffunction name="testbuildSignature" returntype="void" access="public" output="true">
 		<cfset var oTempSig = CreateObject("component", "oauth.oauthsignaturemethod_plaintext")>
 		<cfset var sResult = oTempSig.buildSignature(variables.oRequest, variables.oConsumer, variables.oToken)>
 		<cfset var sTemp = variables.sConsumerSecret & variables.oUtil.encodePercent("&") & variables.sTokenSecret>
