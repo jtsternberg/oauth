@@ -35,7 +35,7 @@ limitations under the License.
 		<cfset var qLookUpConsumer = 0>
 		<cfset var oResult = "">
 
-		<cfquery name="qLookUpConsumer" datasource="#variables.sDataSource#">
+		<cfquery name="qLookUpConsumer" datasource="#variables.sDataSource#" maxrows="1">
 			SELECT	consumer_id, name, ckey, csecret
 			FROM	oauth_consumers
 			WHERE	ckey = <cfqueryparam value="#arguments.sConsumerKey#" cfsqltype="CF_SQL_VARCHAR">
@@ -58,7 +58,7 @@ limitations under the License.
 		<cfset var qLookUpConsumer = 0>
 		<cfset var iResult = 0/>
 
-		<cfquery name="qLookUpConsumer" datasource="#variables.sDataSource#">
+		<cfquery name="qLookUpConsumer" datasource="#variables.sDataSource#" maxrows="1">
 			SELECT	consumer_id
 			FROM	oauth_consumers
 			WHERE	ckey = <cfqueryparam value="#arguments.sConsumerKey#" cfsqltype="CF_SQL_VARCHAR">
@@ -76,7 +76,7 @@ limitations under the License.
 		<cfset var qLookUpConsumer = 0>
 		<cfset var iResult = 0/>
 
-		<cfquery name="qLookUpConsumer" datasource="#variables.sDataSource#">
+		<cfquery name="qLookUpConsumer" datasource="#variables.sDataSource#" maxrows="1">
 			SELECT	editor_id
 			FROM	oauth_consumers
 			WHERE	ckey = <cfqueryparam value="#arguments.sConsumerKey#" cfsqltype="CF_SQL_VARCHAR">
