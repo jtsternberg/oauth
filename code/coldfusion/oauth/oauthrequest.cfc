@@ -65,7 +65,6 @@ History:
 				<cfif arguments.aParameterKeys[iParamCounter] EQ "oauth_version"
 						AND Len(arguments.aParameterValues[iParamCounter])>
 					<cfset setVersion(arguments.aParameterValues[iParamCounter])>
-					<cfset setParameter(sKey = "oauth_version", sValue = arguments.aParameterValues[iParamCounter])>
 					<cfset bVersionParameterSupplied = true>
 					<cfbreak>
 				</cfif>
@@ -74,6 +73,7 @@ History:
 		<!--- set default oauth_version value --->
 		<cfif NOT bVersionParameterSupplied>
 			<cfset setVersion(arguments.sOAuthVersion)>
+			<cfset setParameter(sKey = "oauth_version", sValue = arguments.sOAuthVersion)>
 		</cfif>
 
 		<cfreturn this>
@@ -205,7 +205,6 @@ History:
 	<cffunction name="setVersion" access="public" returntype="void">
 		<cfargument name="sOAuthVersion" type="string" required="yes">
 		<cfset variables.sOAuthVersion = arguments.sOAuthVersion>
-		<cfset setParameter(sKey = "oauth_version", sValue = arguments.sOAuthVersion)>
 	</cffunction>
 
 	<cffunction name="isEmpty" access="public" returntype="boolean">
