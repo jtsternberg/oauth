@@ -1,9 +1,0 @@
----
-base_url: "http://twitter.local"
-consumer_secret: ""
-consumer_key: ""
-# You probably dont need to change anything past this point
-request_token_endpoint: "http://twitter.com/oauth/request_token"
-access_token_endpoint: "http://twitter.com/oauth/access_token"
-user_auth_endpoint: "http://twitter.com/oauth/authorize"
-resource_url: "http://twitter.com/account/verify_credentials.xml"
