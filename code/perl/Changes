@@ -97,4 +97,7 @@ Revision history for Net-OAuth
   Gah, $VERSION lameness
 
 0.26   Wed, 16 Jun 2010 19:59:04 UTC
-  Message::encode no longer tries fix potential 'double-encoding' (in any case it appeared to be doing it wrong).  Now it just complains if you try to pass in undecoded strings.
+  Message::encode no longer tries fix potential 'double-encoding' (in any case it appeared to be doing it wrong).  Now it just complains if you try to pass in undecoded strings. (thanks Daisuke Maki and KATOU Akira)
+  
+0.27   Wed, 16 Jun 2010 20:39:59 UTC
+    Added class for Yahoo! access token refresh request (thanks Marc Mims)
