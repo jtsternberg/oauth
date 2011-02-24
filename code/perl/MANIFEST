@@ -40,6 +40,7 @@ lib/Net/OAuth/V1_0A/RequestTokenRequest.pm
 lib/Net/OAuth/V1_0A/RequestTokenResponse.pm
 lib/Net/OAuth/V1_0A/UserAuthResponse.pm
 lib/Net/OAuth/XauthAccessTokenRequest.pm
+lib/Net/OAuth/YahooAccessTokenRefreshRequest.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
