@@ -28,6 +28,7 @@ sub request {
 }
 
 sub _parse_oauth_response {
+  my $self = shift;
   my $do_what = shift;
   my $http_res = shift;
   my $msg = "Unable to $do_what: Request for " . $http_res->request->uri . " failed";
@@ -58,7 +59,7 @@ sub _parse_url_encoding {
   my $str = shift;
   my @pairs = split '&', $str;
   my %params;
-	foreach my $pair (@$pairs) {
+	foreach my $pair (@pairs) {
         my ($k,$v) = split /=/, $pair;
         if (defined $k and defined $v) {
             $v =~ s/(^"|"$)//g;
@@ -83,7 +84,7 @@ sub get_request_token {
   my $http_res = $self->request(HTTP::Request->new(
     $self->request_token_method => $oauth_req->to_url
   ));
-  my $oauth_res = _parse_oauth_response('get a request token', $http_res);
+  my $oauth_res = $self->_parse_oauth_response('get a request token', $http_res);
   $self->is_v1a(0) unless defined $oauth_res->{callback_confirmed};
   return $oauth_res;
 }
@@ -93,7 +94,7 @@ sub authorize_url {
   my %params = @_;
   # allow user to get request token their own way
   unless (defined $params{token} and defined $params{token_secret}) {
-    my $request_token = 
+    my $request_token = $self->get_request_token;
     $params{token} = $request_token->token;
     $params{token_secret} = $request_token->token_secret;
   }
@@ -123,7 +124,7 @@ sub get_access_token {
     $self->access_token_method => $oauth_req->to_url
   ));
 
-  my $oauth_res = _parse_oauth_response('get an access token', $http_res);
+  my $oauth_res = $self->_parse_oauth_response('get an access token', $http_res);
   
   return Net::OAuth2::AccessToken->new(%$oauth_res);
 }

@@ -13,15 +13,14 @@ sub new {
 
 sub request {
   my $self = shift;
-  my ($method, $uri, $header, $content) = @_;
-  my $req = ;
+  my ($method, $uri, $header, $content, %params) = @_;
   my $oauth_req = $self->client->_make_request(
     'protected resource', 
     request_method => $method,
     request_uri => $self->client->site_url($uri),
     token => $self->token,
     token_secret => $self->token_secret,
-    %params
+    %params,
   );
   $oauth_req->sign;
 
