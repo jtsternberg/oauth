@@ -491,9 +491,10 @@ History:
 		<cfset var aKeys = getParameterKeys()>
 		<cfset var aValues = getParameterValues()>
 
+		
 		<!--- optional realm parameter --->
 		<cfif len(arguments.sHeaderRealm)>
-			<cfset ArrayAppend(aTotal,"""OAuth realm=""" & sRealm & """")>
+			<cfset ArrayAppend(aTotal,"""realm=""" & sRealm & """")>
 		</cfif>
 
 		<cfloop from="1" to="#ArrayLen(aKeys)#" index="i">
@@ -504,6 +505,7 @@ History:
 		</cfloop>
 
 		<cfset sResult = ArrayToList(aTotal, ",")>
+		<cfset sResult = "OAuth #sResult#"> 
 		<cfreturn sResult>
 	</cffunction>
 
