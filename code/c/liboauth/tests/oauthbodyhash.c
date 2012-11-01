@@ -3,7 +3,7 @@
  *  @file oauthbodysign.c
  *  @author Robin Gareus <robin@gareus.org>
  *
- * Copyright 2009 Robin Gareus <robin@gareus.org>
+ * Copyright 2009, 2012 Robin Gareus <robin@gareus.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ int my_data_post(char *url, char *data) {
 
   bh=oauth_body_hash_data(strlen(data), data);
   uh = (char*) malloc((strlen(url)+strlen(bh)+2) * sizeof(char));
-  if (!uh) return NULL;
+  if (!uh) return -1;
 
   strcat(uh, url);
   strcat(uh, "?");
