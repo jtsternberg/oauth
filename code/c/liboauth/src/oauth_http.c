@@ -42,7 +42,6 @@
 
 #ifdef HAVE_CURL /* HTTP requests via libcurl */
 #include <curl/curl.h>
-#include <sys/stat.h>
 
 # define GLOBAL_CURL_ENVIROMENT_OPTIONS \
   if (getenv("CURLOPT_PROXYAUTH")){ \
@@ -180,7 +179,10 @@ char *oauth_curl_get (const char *u, const char *q, const char *customheader) {
   chunk.size = 0;
 
   curl = curl_easy_init();
-  if(!curl) return NULL;
+  if(!curl) {
+    xfree(t1);
+    return NULL;
+  }
   curl_easy_setopt(curl, CURLOPT_URL, q?t1:u);
   curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&chunk);
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
@@ -202,7 +204,7 @@ char *oauth_curl_get (const char *u, const char *q, const char *customheader) {
   GLOBAL_CURL_ENVIROMENT_OPTIONS;
   res = curl_easy_perform(curl);
   curl_slist_free_all(slist);
-  if (q) xfree(t1);
+  xfree(t1);
   curl_easy_cleanup(curl);
 
   if (res) {
@@ -216,9 +218,10 @@ char *oauth_curl_get (const char *u, const char *q, const char *customheader) {
  * the returned string needs to be freed by the caller
  *
  * @param u url to retrieve
- * @param fn filename of the file to post along
+ * @param fn filename of the file to post along (max 2GB)
  * @param len length of the file in bytes. set to '0' for autodetection
  * @param customheader specify custom HTTP header (or NULL for default)
+ *        the default header adds "Content-Type: image/jpeg;"
  * @return returned HTTP or NULL on error
  */
 char *oauth_curl_post_file (const char *u, const char *fn, size_t len, const char *customheader) {
@@ -227,6 +230,7 @@ char *oauth_curl_post_file (const char *u, const char *fn, size_t len, const cha
   struct curl_slist *slist=NULL;
   struct MemoryStruct chunk;
   FILE *f;
+  long filelen;
 
   chunk.data=NULL;
   chunk.size=0;
@@ -234,19 +238,24 @@ char *oauth_curl_post_file (const char *u, const char *fn, size_t len, const cha
   if (customheader)
     slist = curl_slist_append(slist, customheader);
   else
-    slist = curl_slist_append(slist, "Content-Type: image/jpeg;");
-
-  if (!len) {
-    struct stat statbuf;
-    if (stat(fn, &statbuf) == -1) return(NULL);
-    len = statbuf.st_size;
-  }
+    slist = curl_slist_append(slist, "Content-Type: image/jpeg;"); // good guess :)
 
   f = fopen(fn,"r");
   if (!f) return NULL;
 
+  fseek(f, 0L, SEEK_END);
+  filelen = ftell(f);
+  fseek(f, 0L, SEEK_SET);
+
+  if (!len || len > filelen) {
+    len = filelen;
+  }
+
   curl = curl_easy_init();
-  if(!curl) return NULL;
+  if(!curl) {
+    fclose(f);
+    return NULL;
+  }
   curl_easy_setopt(curl, CURLOPT_URL, u);
   curl_easy_setopt(curl, CURLOPT_POST, 1);
   curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, len);
@@ -262,11 +271,11 @@ char *oauth_curl_post_file (const char *u, const char *fn, size_t len, const cha
   GLOBAL_CURL_ENVIROMENT_OPTIONS;
   res = curl_easy_perform(curl);
   curl_slist_free_all(slist);
+  fclose(f);
   if (res) {
     // error
     return NULL;
   }
-  fclose(f);
 
   curl_easy_cleanup(curl);
   return (chunk.data);
@@ -282,6 +291,7 @@ char *oauth_curl_post_file (const char *u, const char *fn, size_t len, const cha
  * @param data data to post along
  * @param len length of the file in bytes. set to '0' for autodetection
  * @param customheader specify custom HTTP header (or NULL for default)
+ *        the default header adds "Content-Type: image/jpeg;"
  * @param callback specify the callback function
  * @param callback_data specify data to pass to the callback function
  * @return returned HTTP reply or NULL on error
@@ -551,6 +561,7 @@ char *oauth_exec_get (const char *u, const char *q) {
   t1=strstr(cmdtpl, "%u");
   if (!t1) {
     fprintf(stderr, "\nliboauth: invalid HTTP command. set the '%s' environment variable.\n\n",_OAUTH_ENV_HTTPGET);
+    xfree(cmdtpl);
     return(NULL);
   }
   *(++t1)= 's';

@@ -285,7 +285,7 @@ char *oauth_url_unescape(const char *string, size_t *olen) {
  * @return signature string
  */
 char *oauth_sign_plaintext (const char *m, const char *k) {
-  return(strdup(k));
+  return(xstrdup(k));
 }
 
 /**
@@ -314,7 +314,7 @@ char *oauth_catenc(int len, ...) {
     enc = oauth_url_escape(arg);
     if(!enc) break;
     len = strlen(enc) + 1 + ((i>0)?1:0);
-    if(rv) len+=strlen(rv);
+    len+=strlen(rv);
     rv=(char*) xrealloc(rv,len*sizeof(char));
 
     if(i>0) strcat(rv, "&");
@@ -442,7 +442,7 @@ char *oauth_serialize_url_sep (int argc, int start, char **argv, char *sep, int 
     if ((mod&1)==1 && (strncmp(argv[i],"oauth_",6) == 0 || strncmp(argv[i],"x_oauth_",8) == 0) ) continue;
     if ((mod&2)==2 && (strncmp(argv[i],"oauth_",6) != 0 && strncmp(argv[i],"x_oauth_",8) != 0) && i!=0) continue;
 
-    if (query) len+=strlen(query);
+    len+=strlen(query);
 
     if (i==start && i==0 && strstr(argv[i], ":/")) {
       tmp=xstrdup(argv[i]);
@@ -588,6 +588,7 @@ int oauth_cmpstringp(const void *p1, const void *p2) {
   char *v1,*v2;
   char *t1,*t2;
   int rv;
+  if (!p1 || !p2) return 0;
   // TODO: this is not fast - we should escape the 
   // array elements (once) before sorting.
   v1=oauth_url_escape(* (char * const *)p1);
@@ -603,9 +604,9 @@ int oauth_cmpstringp(const void *p1, const void *p2) {
 
   // compare parameter names
   rv=strcmp(v1,v2);
-  if (rv!=0) {
-    if (v1) xfree(v1);
-    if (v2) xfree(v2);
+  if (rv != 0) {
+    xfree(v1);
+    xfree(v2);
     return rv;
   }
 
@@ -617,8 +618,8 @@ int oauth_cmpstringp(const void *p1, const void *p2) {
   else if (!t1)        rv=-1;
   else                 rv=1;
 
-  if (v1) xfree(v1);
-  if (v2) xfree(v2);
+  xfree(v1);
+  xfree(v2);
   return rv;
 }
 
